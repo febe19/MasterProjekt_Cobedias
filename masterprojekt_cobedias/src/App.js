@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Route, HashRouter} from "react-router-dom";
+import 'typeface-roboto';
 import Home from "./Home";
 import Familienanamnese from "./Familienanamnese/Familienanamnese";
 import Sozialanamnese from "./Sozialanamnese/Sozialanamnese";

@@ -40,16 +40,6 @@ ul.header li a {
   background-color: darkgrey;
 }
 
-.StartButton {
-  margin: 0;
-  background-color: #111;
-  color: #FFF;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 20px;
-  display: inline-block;
-}
-
 .SozialanamneseContent {
   list-style-type: none;
   margin: 0;

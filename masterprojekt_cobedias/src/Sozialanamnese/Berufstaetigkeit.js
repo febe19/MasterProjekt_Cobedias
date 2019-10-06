@@ -6,6 +6,7 @@ class Berufstaetigkeit extends Component {
             <div>
                 <h2>Berufstätigkeit</h2>
                 <p>Geben Sie hier Ihre Berunfstätigkeit ein</p>
+
             </div>
         );
     }

@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
+import Button from '@material-ui/core/Button';
+
 
 class Home extends Component {
     render() {
@@ -15,10 +17,10 @@ class Home extends Component {
 
 
                     <NavLink exact to="/Sozialanamnese">
-                        <button className="StartButton">Sozialanamnese</button>
+                        <Button variant="contained" color="primary">Sozialanamnese</Button>
                     </NavLink>
                     <NavLink exact to="/Familienanamnese">
-                        <button className="StartButton">Familienanamnese</button>
+                        <Button variant="contained" color="primary">Familienanamnese</Button>
                     </NavLink>
                 </div>
             </div>
