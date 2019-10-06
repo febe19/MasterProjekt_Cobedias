@@ -3,11 +3,8 @@ import React, { Component } from "react";
 class Familienanamnese extends Component {
     render() {
         return (
-            <div>
-                <h2>GOT QUESTIONS?</h2>
-                <p>The easiest thing to do is post on
-                    our <a href="http://forum.kirupa.com">forums</a>.
-                </p>
+            <div className="Titel">
+                <h1>Cobedias 2.0 - Familienanamnese</h1>
             </div>
         );
     }

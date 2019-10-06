@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Route, NavLink} from "react-router-dom";
-import Home from ".././Home";
+import Erklaerung from "./Erklaerung";
 import Berufstaetigkeit from ".././Sozialanamnese/Berufstaetigkeit";
 import Hobbies from "../Sozialanamnese/Hobbies";
 import Militaerdienst from "./Militaerdienst";
@@ -12,7 +12,7 @@ class Sozialanamnese extends Component {
     render() {
         return (
             <div>
-                <div className="App">
+                <div className="Titel">
                     <h1>Cobedias 2.0 - Sozialanamnese</h1>
                 </div>
 
@@ -26,8 +26,8 @@ class Sozialanamnese extends Component {
                         <li><NavLink exact to="/Sozialanamnese/Bemerkungen">Bemerkungen</NavLink></li>
                     </ul>
                 </div>
-                <div className="content">
-                    <Route exact path="/" component={Home}/>
+                <div className="SozialanamneseContent">
+                    <Route exact path="/Sozialanamnese" component={Erklaerung}/>
                     <Route exact path="/Sozialanamnese/Berufstaetigkeit" component={Berufstaetigkeit}/>
                     <Route exact path="/Sozialanamnese/Hobbies" component={Hobbies}/>
                     <Route exact path="/Sozialanamnese/Militaerdienst" component={Militaerdienst}/>

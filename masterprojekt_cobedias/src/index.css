@@ -1,39 +1,69 @@
 body {
-  background-color: lightyellow;
-  padding: 20px;
+  background-color: white;
+  color: black;
+
   margin: 0;
 }
 h1, h2, p, ul, li {
   font-family: sans-serif;
+  margin: 0;
 }
+
+/* header bar*/
+ul.header {
+  background-color: dimgrey;
+}
+
+/*Header Item*/
 ul.header li {
   display: inline;
   list-style-type: none;
   margin: 0;
 }
-ul.header {
-  background-color: #111;
-  padding: 0;
+
+/*Header Item hover*/
+ul.header li :hover {
+  color: cornflowerblue;
+  background-color: lightgrey;
 }
+
 ul.header li a {
+  text-align: left;
+  color: #FFF;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 15px;
+  display: inline-block;
+}
+
+.active {
+  background-color: darkgrey;
+}
+
+.StartButton {
+  margin: 0;
+  background-color: #111;
   color: #FFF;
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
   display: inline-block;
 }
-.content {
-  background-color: #FFF;
-  padding: 20px;
-}
-.content h2 {
-  padding: 0;
+
+.SozialanamneseContent {
+  list-style-type: none;
   margin: 0;
-}
-.content li {
-  margin-bottom: 10px;
+  background-color: white;
+  color: black;
+  padding: 20px;
+
 }
 
-.active {
-  background-color: #0099FF;
+.Titel {
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #111111;
+  color: white;
 }
+

@@ -8,7 +8,7 @@ import Sozialanamnese from "./Sozialanamnese/Sozialanamnese";
 function App() {
     return (
         <HashRouter>
-            <div className="content">
+            <div>
                 <Route exact path="/" component={Home}/>
                 <Route path="/Familienanamnese" component={Familienanamnese}/>
                 <Route path="/Sozialanamnese" component={Sozialanamnese}/>
