@@ -100,7 +100,7 @@ public/
 **/*.backup.*
 **/*.back.*
 
-node_modules
+node_modules/
 bower_componets
 
 *.sublime*
