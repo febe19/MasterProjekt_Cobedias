@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 
 
 class Home extends Component {
@@ -17,10 +17,10 @@ class Home extends Component {
 
 
                     <NavLink exact to="/Sozialanamnese">
-                        <Button variant="contained" color="primary">Sozialanamnese</Button>
+                        <Button>Sozialanamnese</Button>
                     </NavLink>
                     <NavLink exact to="/Familienanamnese">
-                        <Button variant="contained" color="primary">Familienanamnese</Button>
+                        <Button>Familienanamnese</Button>
                     </NavLink>
                 </div>
             </div>
