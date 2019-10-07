@@ -8,6 +8,7 @@ class Berufstaetigkeit extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
 
+        //Define the state of this component.
         this.state = {
             gelernterBeruf: '',
             aktuellerBeruf: ''
@@ -15,10 +16,12 @@ class Berufstaetigkeit extends Component {
         console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_");
     }
 
+    //write the Change to the state.
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value});
     };
 
+    //Try to fetch the already inserted values fro the localStorage
     componentDidMount() {
         this.setState({
             gelernterBeruf: localStorage.get('gelernterBeruf'),
@@ -26,6 +29,7 @@ class Berufstaetigkeit extends Component {
         })
     }
 
+    //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
         localStorage.set('gelernterBeruf', this.state.gelernterBeruf);
         localStorage.set('aktuellerBeruf', this.state.aktuellerBeruf);
@@ -35,7 +39,7 @@ class Berufstaetigkeit extends Component {
         return (
             <div>
                 <TextField
-                    label="Gelernte Berufstätigkeit"
+                    label="Gelernter Beruf"
                     margin="normal"
                     variant="outlined"
                     name="gelernterBeruf"
@@ -44,7 +48,7 @@ class Berufstaetigkeit extends Component {
                 />
 
                 <TextField
-                    label="Aktuelle Berufstätigkeit"
+                    label="Aktueller Beruf"
                     margin="normal"
                     variant="outlined"
                     name="aktuellerBeruf"
