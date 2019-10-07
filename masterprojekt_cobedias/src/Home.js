@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
-import { Button } from '@material-ui/core';
+import {Button} from '@material-ui/core';
 import localStorage from 'local-storage'
 
 
@@ -8,8 +8,16 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-        console.log(new Date().toLocaleTimeString() + " _Home_ Cleared Local Storage");
+        this.deleteLocalStorage = this.deleteLocalStorage.bind(this);
+    }
+
+    deleteLocalStorage() {
         localStorage.clear();
+        console.log("-  " + new Date().toLocaleTimeString() + " _Home_ Local Storage Cleared");
+    }
+
+    componentDidMount() {
+        console.log("-  " + new Date().toLocaleTimeString() + " _Home_ ");
     }
 
     render() {
@@ -30,6 +38,9 @@ class Home extends Component {
                     <NavLink exact to="/Familienanamnese">
                         <Button>Familienanamnese</Button>
                     </NavLink>
+                    <Button onClick={this.deleteLocalStorage}>
+                        Clear Local Storage
+                    </Button>
                 </div>
 
                 <div>

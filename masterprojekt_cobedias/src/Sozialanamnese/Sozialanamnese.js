@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, NavLink} from "react-router-dom";
+import {Route, Switch, NavLink} from "react-router-dom";
 import Erklaerung from "./Erklaerung";
 import Berufstaetigkeit from ".././Sozialanamnese/Berufstaetigkeit";
 import Hobbies from "../Sozialanamnese/Hobbies";
@@ -9,6 +9,11 @@ import Zivilstand from "./Zivilstand";
 import Bemerkungen from "./Bemerkungen";
 
 class Sozialanamnese extends Component {
+    constructor(props) {
+        super(props);
+        console.log("-  " + new Date().toLocaleTimeString() + " _SozialanamneseStart_");
+    }
+
 
     render() {
         return (
@@ -28,13 +33,16 @@ class Sozialanamnese extends Component {
                     </ul>
                 </div>
                 <div className="SozialanamneseContent">
-                    <Route exact path="/Sozialanamnese" component={Erklaerung}/>
-                    <Route exact path="/Sozialanamnese/Berufstaetigkeit" component={Berufstaetigkeit}/>
-                    <Route exact path="/Sozialanamnese/Hobbies" component={Hobbies}/>
-                    <Route exact path="/Sozialanamnese/Militaerdienst" component={Militaerdienst}/>
-                    <Route exact path="/Sozialanamnese/Wohnsituation" component={Wohnsituation}/>
-                    <Route exact path="/Sozialanamnese/Zivilstand" component={Zivilstand}/>
-                    <Route exact path="/Sozialanamnese/Bemerkungen" component={Bemerkungen}/>
+                    <Switch>
+                        <Route exact path="/Sozialanamnese" component={Erklaerung}/>
+                        <Route exact path="/Sozialanamnese/Berufstaetigkeit" component={Berufstaetigkeit}/>
+                        <Route exact path="/Sozialanamnese/Hobbies" component={Hobbies}/>
+                        <Route exact path="/Sozialanamnese/Militaerdienst" component={Militaerdienst}/>
+                        <Route exact path="/Sozialanamnese/Wohnsituation" component={Wohnsituation}/>
+                        <Route exact path="/Sozialanamnese/Zivilstand" component={Zivilstand}/>
+                        <Route exact path="/Sozialanamnese/Bemerkungen" component={Bemerkungen}/>
+                        <Route exact path="/Sozialanamnese/*" component={Erklaerung}/>
+                    </Switch>
                 </div>
             </div>
         );

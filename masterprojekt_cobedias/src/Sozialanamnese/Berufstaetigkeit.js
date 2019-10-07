@@ -12,8 +12,7 @@ class Berufstaetigkeit extends Component {
             gelernterBeruf: '',
             aktuellerBeruf: ''
         };
-
-        console.log("Constructor Berufstätigkeit: " + new Date().toLocaleTimeString());
+        console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_");
     }
 
     handleChange = () => event => {
@@ -28,8 +27,6 @@ class Berufstaetigkeit extends Component {
     }
 
     componentWillUnmount() {
-        console.log("Gelernte Berufstätigkeit: " + this.state.gelernterBeruf);
-        console.log("Aktueller Berufstätigkeit: " + this.state.aktuellerBeruf);
         localStorage.set('gelernterBeruf', this.state.gelernterBeruf);
         localStorage.set('aktuellerBeruf', this.state.aktuellerBeruf);
     }
@@ -37,8 +34,6 @@ class Berufstaetigkeit extends Component {
     render() {
         return (
             <div>
-                <h2>Berufstätigkeit</h2>
-
                 <TextField
                     label="Gelernte Berufstätigkeit"
                     margin="normal"

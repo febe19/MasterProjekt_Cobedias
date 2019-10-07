@@ -5,6 +5,7 @@ class Erklaerung extends Component {
         return (
             <div>
                 <p>Hier können Sie die Angaben zu Ihrere Person eingeben.</p>
+                <p>Bitte mit Berufstätigkeit starten.</p>
             </div>
         );
     }
