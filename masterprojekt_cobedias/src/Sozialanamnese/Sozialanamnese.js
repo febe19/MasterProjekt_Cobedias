@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {Route, NavLink} from "react-router-dom";
 import Erklaerung from "./Erklaerung";
 import Berufstaetigkeit from ".././Sozialanamnese/Berufstaetigkeit";
@@ -9,6 +9,7 @@ import Zivilstand from "./Zivilstand";
 import Bemerkungen from "./Bemerkungen";
 
 class Sozialanamnese extends Component {
+
     render() {
         return (
             <div>
