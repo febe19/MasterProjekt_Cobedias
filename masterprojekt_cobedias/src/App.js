@@ -13,6 +13,9 @@ function App() {
                 <Route exact path="/" component={Home}/>
                 <Route path="/Familienanamnese" component={Familienanamnese}/>
                 <Route path="/Sozialanamnese" component={Sozialanamnese}/>
+                <div>
+                    Currently using React {React.version}
+                </div>
             </div>
         </HashRouter>
     );
