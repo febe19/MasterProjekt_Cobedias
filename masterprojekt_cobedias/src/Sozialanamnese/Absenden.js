@@ -7,7 +7,7 @@ class Absenden extends Component {
     render() {
         return (
             <div>
-                <p>Im richtigen System würde hier die daten gesendet werden.</p>
+                <p>Im richtigen System würde hier die Daten gesendet werden.</p>
                 <p>Bei Uns bitte das PDF herunterladen und wenn möglich ausgedruckt mitbringen.</p>
 
                 <div hidden={false}>
@@ -41,6 +41,9 @@ const CobediasDocument = () => (
         <Page size="A4" style={PDFstyles.page}>
             <Text>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
             <Text>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
+            <Text>Hobbies: {localStorage.get('hobbies')}</Text>
+            <Text>Militaerdienst wurde gemacht: {localStorage.get('MilitaerdienstGemacht')}</Text>
+            <Text>Grund für Untauglichkeit: {localStorage.get('untauglichkeitsGrund')}</Text>
         </Page>
     </Document>
 );
