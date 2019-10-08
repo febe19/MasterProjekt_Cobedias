@@ -18,7 +18,11 @@ class Berufstaetigkeit extends Component {
 
     //write the Change to the state.
     handleChange = () => event => {
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({[event.target.name]: event.target.value}, () => {
+
+            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+        });
     };
 
     //Try to fetch the already inserted values fro the localStorage
@@ -26,13 +30,20 @@ class Berufstaetigkeit extends Component {
         this.setState({
             gelernterBeruf: localStorage.get('gelernterBeruf'),
             aktuellerBeruf: localStorage.get('aktuellerBeruf'),
-        })
+        });
+        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+    }
+
+    // completeness der textfelder wird überprüft
+    checkComponentCompleteness() {
+        return (this.state.gelernterBeruf !== '' && this.state.aktuellerBeruf !== '' && this.state.gelernterBeruf !== null && this.state.aktuellerBeruf !== null);
     }
 
     //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
         localStorage.set('gelernterBeruf', this.state.gelernterBeruf);
         localStorage.set('aktuellerBeruf', this.state.aktuellerBeruf);
+        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
     render() {

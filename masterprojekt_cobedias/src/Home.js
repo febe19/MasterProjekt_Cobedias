@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
 import {Button} from '@material-ui/core';
 import localStorage from 'local-storage'
-import {PDFDownloadLink, Page, Text, View, Document, StyleSheet} from '@react-pdf/renderer';
+import {PDFDownloadLink, Page, Text, Document, StyleSheet} from '@react-pdf/renderer';
 
 class Home extends Component {
     constructor(props) {
@@ -80,7 +80,7 @@ const CobediasDocument = () => (
     <Document>
         <Page size="A4" style={PDFstyles.page}>
             <Text>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
-            <Text>Gelernter Beruf: {localStorage.get('aktuellerBeruf')}</Text>
+            <Text>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
         </Page>
     </Document>
 );
