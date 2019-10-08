@@ -1,59 +1,69 @@
 body {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 
-  margin: 0;
+    margin: 0;
 }
+
 h1, h2, p, ul, li {
-  font-family: sans-serif;
-  margin: 0;
+    font-family: sans-serif;
+    margin: 0;
 }
 
 /* header bar*/
 ul.header {
-  background-color: dimgrey;
+    background-color: dimgrey;
 }
 
 /*Header Item*/
 ul.header li {
-  display: inline;
-  list-style-type: none;
-  margin: 0;
+    display: inline;
+    list-style-type: none;
+    margin: 0;
 }
 
 /*Header Item hover*/
 ul.header li :hover {
-  color: cornflowerblue;
-  background-color: lightgrey;
+    color: cornflowerblue;
+    background-color: lightgrey;
 }
 
 ul.header li a {
-  text-align: left;
-  color: #FFF;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 15px;
-  display: inline-block;
+    text-align: left;
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 15px;
+    display: inline-block;
 }
 
 .active {
-  background-color: darkgrey;
-}
-
-.SozialanamneseContent {
-  list-style-type: none;
-  margin: 0;
-  background-color: white;
-  color: black;
-  padding: 20px;
-
+    background-color: darkgrey;
 }
 
 .Titel {
-  padding-left: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: #111111;
-  color: white;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #111111;
+    color: white;
+}
+
+.SozialanamneseContent {
+    padding: 20px;
+    list-style-type: none;
+    margin: auto;
+    width: 80%;
+    background-color: white;
+    left: 50%;
+    color: black;
+}
+
+.SozialanamneseNavigationsButton {
+    position: fixed;
+    left: 50%;
+    bottom: 5%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
 }
 

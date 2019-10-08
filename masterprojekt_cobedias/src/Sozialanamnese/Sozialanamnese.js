@@ -146,41 +146,44 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
             <div className="Titel">
                 <h1>Cobedias 2.0 - Sozialanamnese</h1>
             </div>
-
-            <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                {steps.map((label, index) => {
-                    const stepProps = {};
-                    return (
-                        <Step key={label} {...stepProps}>
-                            <StepButton
-                                onClick={handleStep(index)} completed={completed[index]}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    );
-                })}
-            </Stepper>
-            <div>
+            <div className='SozialanamneseContent'>
+                <Stepper alternativeLabel nonLinear activeStep={activeStep}>
+                    {steps.map((label, index) => {
+                        const stepProps = {};
+                        return (
+                            <Step key={label} {...stepProps}>
+                                <StepButton
+                                    onClick={handleStep(index)} completed={completed[index]}>
+                                    {label}
+                                </StepButton>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
                 <div>
-                    <Typography className={classes.instructions}>
-                        {getStepContent(activeStep)}
-                    </Typography>
                     <div>
-                        <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            className={classes.button}
-                        >
-                            Zurück
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                            className={classes.button}
-                        >
-                            Weiter
-                        </Button>
+                        <Typography className={classes.instructions}>
+                            {getStepContent(activeStep)}
+                        </Typography>
+
+                        <div className="SozialanamneseNavigationsButton">
+                            <Button
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                className={classes.button}
+                            >
+                                Zurück
+                            </Button>
+                            <Button
+                                disabled={activeStep === 6}
+                                variant="contained"
+                                color="primary"
+                                onClick={handleNext}
+                                className={classes.button}
+                            >
+                                Weiter
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

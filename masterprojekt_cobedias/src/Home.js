@@ -28,7 +28,7 @@ class Home extends Component {
                     <h1>Cobedias 2.0 - Willkommen</h1>
                 </div>
 
-                <div className="SozialanamneseContent">
+                <div>
                     <p>Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu testen.</p>
                     <p>Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf "Familienanamnese" drücken.</p>
 

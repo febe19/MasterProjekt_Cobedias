@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {Document, Page, PDFDownloadLink, StyleSheet, Text} from "@react-pdf/renderer";
 import localStorage from "local-storage";
+import Button from "@material-ui/core/Button";
 
 class Absenden extends Component {
     render() {
@@ -8,9 +9,12 @@ class Absenden extends Component {
             <div>
                 <p>Im richtigen System würde hier die daten gesendet werden.</p>
                 <p>Bei Uns bitte das PDF herunterladen und wenn möglich ausgedruckt mitbringen.</p>
-                <PDFDownloadLink document={<CobediasDocument />} fileName="Cobedias.pdf">
-                    {({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
-                </PDFDownloadLink>
+
+                <div hidden={false}>
+                    <PDFDownloadLink document={<CobediasDocument/>} fileName="Cobedias.pdf">
+                        {({loading}) => (loading ? 'Loading document...' : 'Download now!')}
+                    </PDFDownloadLink>
+                </div>
             </div>
         );
     }
