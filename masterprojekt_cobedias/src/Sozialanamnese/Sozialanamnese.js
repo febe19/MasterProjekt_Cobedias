@@ -7,6 +7,7 @@ import Militaerdienst from "./Militaerdienst";
 import Wohnsituation from "./Wohnsituation";
 import Zivilstand from "./Zivilstand";
 import Bemerkungen from "./Bemerkungen";
+import Absenden from "./Absenden";
 
 import {makeStyles} from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -15,8 +16,6 @@ import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import localStorage from "local-storage";
-import Absenden from "./Absenden";
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -74,25 +73,25 @@ function getStepContent(step) {
     switch (step) {
         case 0:
             console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_ Anfangen");
-            return <Route component={Berufstaetigkeit}/>;
+            return <Berufstaetigkeit />;
         case 1:
             console.log("-  " + new Date().toLocaleTimeString() + " _Hobbies_ Anfangen");
-            return <Route component={Hobbies}/>;
+            return <Hobbies />;
         case 2:
             console.log("-  " + new Date().toLocaleTimeString() + " _Militaerdienst_ Anfangen");
-            return <Route component={Militaerdienst}/>;
+            return <Militaerdienst />;
         case 3:
             console.log("-  " + new Date().toLocaleTimeString() + " _Wohnsituation_ Anfangen");
-            return <Route component={Wohnsituation}/>;
+            return <Wohnsituation />;
         case 4:
             console.log("-  " + new Date().toLocaleTimeString() + " _Zivilstand_ Anfangen");
-            return <Route component={Zivilstand}/>;
+            return <Zivilstand />;
         case 5:
             console.log("-  " + new Date().toLocaleTimeString() + " _Bemerkungen_ Anfangen");
-            return <Route component={Bemerkungen}/>;
+            return <Bemerkungen />;
         case 6:
             console.log("-  " + new Date().toLocaleTimeString() + " _Absenden_ Anfangen");
-            return <Route component={Absenden}/>;
+            return <Absenden />;
         default:
             return "Unknown step";
     }
