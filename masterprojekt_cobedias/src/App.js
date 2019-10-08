@@ -6,16 +6,21 @@ import Home from "./Home";
 import Familienanamnese from "./Familienanamnese/Familienanamnese";
 import Sozialanamnese from "./Sozialanamnese/Sozialanamnese";
 
+import Startmenü from "./components/Startmenü";
+import Stammbaum from "./components/Stammbaum";
+
 function App() {
     return (
         <HashRouter>
-            <div>
+            <div style={{width:"100%"}}>
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route path="/Familienanamnese" component={Familienanamnese}/>
                     <Route path="/Sozialanamnese" component={Sozialanamnese}/>
                     <Route exact path="*" component={Home}/>
                 </Switch>
+        
+            <Stammbaum/>
             </div>
         </HashRouter>
     );
