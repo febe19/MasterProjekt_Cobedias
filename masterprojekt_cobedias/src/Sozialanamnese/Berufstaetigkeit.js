@@ -49,6 +49,7 @@ class Berufstaetigkeit extends Component {
     render() {
         return (
             <div>
+
                 <TextField
                     label="Gelernter Beruf"
                     margin="normal"
@@ -56,6 +57,8 @@ class Berufstaetigkeit extends Component {
                     name="gelernterBeruf"
                     value={this.state.gelernterBeruf}
                     onChange={this.handleChange("gelernterBeruf")}
+                    fullWidth
+                    placeholder="Geben Sie hier Ihren gelernten Beruf ein"
                 />
 
                 <TextField
@@ -65,7 +68,10 @@ class Berufstaetigkeit extends Component {
                     name="aktuellerBeruf"
                     value={this.state.aktuellerBeruf}
                     onChange={this.handleChange("aktuellerBeruf")}
+                    fullWidth
+                    placeholder="Geben Sie hier Ihren aktuellen Beruf ein"
                 />
+
             </div>
         );
     }

@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Document, Page, PDFDownloadLink, StyleSheet, Text} from "@react-pdf/renderer";
 import localStorage from "local-storage";
-import Button from "@material-ui/core/Button";
 
 class Absenden extends Component {
     render() {

@@ -120,6 +120,11 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
         }
     }
 
+    //Anzahl Steps
+    const totalSteps = () => {
+        return getSteps().length;
+    };
+
     // "Weiter" Button
     const handleNext = () => {
         updateStepCompleteness(activeStep);
@@ -166,23 +171,38 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                             {getStepContent(activeStep)}
                         </Typography>
 
-                        <div className="SozialanamneseNavigationsButton">
+                        <div hidden={activeStep !== totalSteps() - 1} className="SozialanamneseSendButton">
                             <Button
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                className={classes.button}
-                            >
-                                Zurück
-                            </Button>
-                            <Button
-                                disabled={activeStep === 6}
+                                size="medium"
                                 variant="contained"
                                 color="primary"
-                                onClick={handleNext}
-                                className={classes.button}
                             >
-                                Weiter
+                                Daten an Arzt/Ärztin senden
                             </Button>
+                        </div>
+
+                        <div className="SozialanamneseNavigationsButton">
+                            <div>
+                                <Button
+                                    size="large"
+                                    variant="outlined"
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    className={classes.button}
+                                >
+                                    Zurück
+                                </Button>
+                                <Button
+                                    disabled={activeStep === (totalSteps() - 1)}
+                                    size="large"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleNext}
+                                    className={classes.button}
+                                >
+                                    Weiter
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
