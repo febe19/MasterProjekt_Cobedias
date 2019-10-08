@@ -43,11 +43,6 @@ class Home extends Component {
                     <Button onClick={this.deleteLocalStorage}>
                         Clear Local Storage
                     </Button>
-
-                    <PDFDownloadLink document={<CobediasDocument />} fileName="somename.pdf">
-                        {({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
-                    </PDFDownloadLink>
-
                 </div>
 
                 <div>
@@ -61,26 +56,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-const PDFstyles = StyleSheet.create({
-    page: {
-        flexDirection: 'row',
-        backgroundColor: '#E4E4E4'
-    },
-    section: {
-        margin: 10,
-        padding: 10,
-        flexGrow: 1
-    }
-});
-
-
-//Document which will be downloaded when clicking the blue Link. Here all Local storage variables need to be listed.
-const CobediasDocument = () => (
-    <Document>
-        <Page size="A4" style={PDFstyles.page}>
-            <Text>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
-            <Text>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
-        </Page>
-    </Document>
-);

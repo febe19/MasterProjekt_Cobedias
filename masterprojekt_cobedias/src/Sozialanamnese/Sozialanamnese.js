@@ -15,6 +15,7 @@ import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import localStorage from "local-storage";
+import Absenden from "./Absenden";
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,27 +36,33 @@ const useStyles = makeStyles(theme => ({
 
 // Namen der Stepps werden hier definiert
 function getSteps() {
-    return ["Berufstätigkeiten", "Hobbies", "Militärdienst", "Wohnsituation", "Zivilstand", "Bemerkungen", "Abschliessen"];
+    return ["Berufstätigkeiten", "Hobbies", "Militärdienst", "Wohnsituation", "Zivilstand", "Bemerkungen", "Absenden"];
 }
 
 // prüft ob ein spezifischer Component "complete" ist
 function componentCompleted(step) {
     switch (step) {
         case 0:
-            console.log("case 0 " + localStorage.get('BerufstaetigkeitKomplett'));
+            console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_ Fertig");
             return localStorage.get('BerufstaetigkeitKomplett');
         case 1:
-            return <Route component={Hobbies}/>;
+            console.log("-  " + new Date().toLocaleTimeString() + " _Hobbies_ Fertig");
+            return localStorage.get('HobbiesKomplett');
         case 2:
-            return <Route component={Militaerdienst}/>;
+            console.log("-  " + new Date().toLocaleTimeString() + " _Militaerdienst_ Fertig");
+            return localStorage.get('MilitaerdienstKomplett');
         case 3:
-            return <Route component={Wohnsituation}/>;
+            console.log("-  " + new Date().toLocaleTimeString() + " _Wohnsituation_ Fertig");
+            return localStorage.get('WohnsituationKomplett');
         case 4:
-            return <Route component={Zivilstand}/>;
+            console.log("-  " + new Date().toLocaleTimeString() + " _Zivilstand_ Fertig");
+            return localStorage.get('ZivilstandKomplett');
         case 5:
-            return <Route component={Bemerkungen}/>;
+            console.log("-  " + new Date().toLocaleTimeString() + " _Bemerkungen_ Fertig");
+            return localStorage.get('BemerkungenKomplett');
         case 6:
-            return <Route component={Erklaerung}/>; //TODO: Hier noch den Component anpassen.
+            console.log("-  " + new Date().toLocaleTimeString() + " _Absenden_ Fertig");
+            return localStorage.get('AbsendenKomplett');
         default:
             console.log("case default")
             return false;
@@ -66,19 +73,26 @@ function componentCompleted(step) {
 function getStepContent(step) {
     switch (step) {
         case 0:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_ Anfangen");
             return <Route component={Berufstaetigkeit}/>;
         case 1:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Hobbies_ Anfangen");
             return <Route component={Hobbies}/>;
         case 2:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Militaerdienst_ Anfangen");
             return <Route component={Militaerdienst}/>;
         case 3:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Wohnsituation_ Anfangen");
             return <Route component={Wohnsituation}/>;
         case 4:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Zivilstand_ Anfangen");
             return <Route component={Zivilstand}/>;
         case 5:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Bemerkungen_ Anfangen");
             return <Route component={Bemerkungen}/>;
         case 6:
-            return <Route component={Erklaerung}/>; //TODO: Hier noch den Component anpassen.
+            console.log("-  " + new Date().toLocaleTimeString() + " _Absenden_ Anfangen");
+            return <Route component={Absenden}/>;
         default:
             return "Unknown step";
     }
@@ -102,7 +116,7 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
             const newCompleted = completed;
             newCompleted[step] = false;
             setCompleted(newCompleted);
-            alert("Nicht alle Felder ausgefüllt!");
+            //alert("Nicht alle Felder ausgefüllt!"); //TODO: Enable alert
         }
     }
 
