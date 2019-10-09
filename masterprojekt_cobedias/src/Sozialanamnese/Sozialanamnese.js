@@ -73,25 +73,25 @@ function getStepContent(step) {
     switch (step) {
         case 0:
             console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_ Anfangen");
-            return <Berufstaetigkeit />;
+            return <Berufstaetigkeit/>;
         case 1:
             console.log("-  " + new Date().toLocaleTimeString() + " _Hobbies_ Anfangen");
-            return <Hobbies />;
+            return <Hobbies/>;
         case 2:
             console.log("-  " + new Date().toLocaleTimeString() + " _Militaerdienst_ Anfangen");
-            return <Militaerdienst />;
+            return <Militaerdienst/>;
         case 3:
             console.log("-  " + new Date().toLocaleTimeString() + " _Wohnsituation_ Anfangen");
-            return <Wohnsituation />;
+            return <Wohnsituation/>;
         case 4:
             console.log("-  " + new Date().toLocaleTimeString() + " _Zivilstand_ Anfangen");
-            return <Zivilstand />;
+            return <Zivilstand/>;
         case 5:
             console.log("-  " + new Date().toLocaleTimeString() + " _Bemerkungen_ Anfangen");
-            return <Bemerkungen />;
+            return <Bemerkungen/>;
         case 6:
             console.log("-  " + new Date().toLocaleTimeString() + " _Absenden_ Anfangen");
-            return <Absenden />;
+            return <Absenden/>;
         default:
             return "Unknown step";
     }
@@ -166,9 +166,11 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                 </Stepper>
                 <div>
                     <div>
-                        <Typography className={classes.instructions}>
-                            {getStepContent(activeStep)}
-                        </Typography>
+                        <div className="StepContent">
+                            <Typography className={classes.instructions}>
+                                {getStepContent(activeStep)}
+                            </Typography>
+                        </div>
 
                         <div hidden={activeStep !== totalSteps() - 1} className="SozialanamneseSendButton">
                             <Button
