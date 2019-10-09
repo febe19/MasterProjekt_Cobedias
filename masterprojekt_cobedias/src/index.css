@@ -54,7 +54,6 @@ ul.header li a {
     list-style-type: none;
     margin: auto;
     width: 80%;
-    background-color: white;
     left: 50%;
     color: black;
 }
@@ -63,6 +62,14 @@ ul.header li a {
     position: fixed;
     left: 50%;
     bottom: 5%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+.SozialanamneseSendButton {
+    position: fixed;
+    left: 50%;
+    bottom: 12%;
     transform: translate(-50%, -50%);
     margin: 0 auto;
 }

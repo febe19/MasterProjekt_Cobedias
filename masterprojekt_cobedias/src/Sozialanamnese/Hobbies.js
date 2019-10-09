@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import localStorage from "local-storage";
 import TextField from '@material-ui/core/TextField';
 
@@ -30,6 +30,7 @@ class Hobbies extends Component {
         });
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
+
     // completeness der textfelder wird überprüft
     checkComponentCompleteness() {
         return (this.state.hobbies !== '' && this.state.hobbies !== null);
@@ -44,8 +45,6 @@ class Hobbies extends Component {
     render() {
         return (
             <div>
-
-                <p>Geben Sie hier Ihre Hobbies ein</p>
                 <TextField
                     id="outlined-multiline-static"
                     label="Hobbies"
@@ -56,7 +55,10 @@ class Hobbies extends Component {
                     value={this.state.hobbies}
                     name="hobbies"
                     onChange={this.handleChange("hobbies")}
+                    fullWidth
+                    placeholder="Geben Sie hier Ihre Hobbies ein"
                 />
+
             </div>
         );
     }
