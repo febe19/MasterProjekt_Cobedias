@@ -12,10 +12,10 @@ export class Stammbaum extends Component {
           p={1}
           bgcolor="background.paper"
         >
-          <Box p={1} bgcolor="grey.300">
+          <Box p={1}>
             <img
-              src={require("./images/logo_cobedias.png")}
-              style={{ width: "20%" }}
+              src={require("../components/images/logo_cobedias.png")}
+              style={{ width: "40%" }}
               m={1}
               p={1}
             />
@@ -30,44 +30,44 @@ export class Stammbaum extends Component {
           p={1}
           bgcolor="background.paper"
         >
-          <Box p={1} bgcolor="grey.300">
+          <Box p={1}>
             <img
-              src={require("./images/weiblich_hinz.png")}
+              src={require("../components/images/weiblich_hinz.png")}
               style={{ width: "40%" }}
               m={1}
               p={1}
             />
             <img
-              src={require("./images/mänlich_hinz.png")}
+              src={require("../components/images/mänlich_hinz.png")}
               style={{ width: "45%" }}
               m={1}
               p={1}
             />
           </Box>
-          <Box p={1} bgcolor="grey.300">
+          <Box p={1}>
             <img
-              src={require("./images/weiblich_hinz.png")}
+              src={require("../components/images/weiblich_hinz.png")}
               style={{ width: "40%" }}
               m={1}
               p={1}
             />
             <img
-              src={require("./images/mänlich_hinz.png")}
+              src={require("../components/images/mänlich_hinz.png")}
               style={{ width: "45%" }}
               m={1}
               p={1}
             />
           </Box>
-          <Box p={1} bgcolor="grey.300">
+          <Box p={1}>
             <img
-              src={require("./images/andere.png")}
+              src={require("../components/images/andere.png")}
               title="Halb"
               style={{ width: "30%" }}
               m={2}
               p={2}
             />
             <img
-              src={require("./images/andere.png")}
+              src={require("../components/images/andere.png")}
               style={{ width: "30%" }}
               m={2}
               p={2}

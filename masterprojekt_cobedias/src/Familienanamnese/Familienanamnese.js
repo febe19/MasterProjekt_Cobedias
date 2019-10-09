@@ -1,19 +1,17 @@
 import React, { Component } from "react";
+import Stammbaum from "./Stammbaum";
+import FA_anfang from "./FA_anfang";
+import PersonAngaben from "./PersonAngaben";
 
 class Familienanamnese extends Component {
-    render() {
-        return (
-            <div>
-                <div className="Titel">
-                    <h1>Cobedias 2.0 - Familienanamnese</h1>
-                </div>
-                <div>
-                    <p>Hier können Sie einene Stammbaum mit irhren direkten Verwandten erstellen</p>
-                </div>
-            </div>
-
-        );
-    }
+  render() {
+    return (
+      <div>
+        <FA_anfang />
+        <PersonAngaben />
+      </div>
+    );
+  }
 }
 
 export default Familienanamnese;
