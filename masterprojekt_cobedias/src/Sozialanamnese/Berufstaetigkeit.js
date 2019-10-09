@@ -4,6 +4,13 @@ import localStorage from 'local-storage'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 class Berufstaetigkeit extends Component {
@@ -19,7 +26,7 @@ class Berufstaetigkeit extends Component {
 
         //Define the state of this component.
         this.state = {
-            gelernterBeruf: 'okkkk',
+            gelernterBeruf: '',
             aktuellerBeruf: '',
 
             normalArbeitsfaehig: false,
@@ -28,20 +35,28 @@ class Berufstaetigkeit extends Component {
             iVRente: false,
             arbeitsunfaehig: false,
 
-            arbeitspensum: 100
+            arbeitspensum: 100,
+            dateArbeitslosigkeit: new Date('2019-10-01T01:01:01')
         };
         console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_");
     }
 
     //write the Change of "aktueller Beruf" / "gelernter beruf" to the state.
     handleChange = () => event => {
-        //console.log("event : " + [event]+ "-"+[event.target.name] + " event value: " + [event.target.value]);
         this.setState({[event.target.name]: event.target.value}, () => {
 
             // completeness aller textfelder wird überprüft, sobald sich ein input ändert
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
-            //console.log("slider state: " + this.state.arbeitspensum);
-            //console.log("local Storage Pensum: " + localStorage.get('arbeitspensum'))
+        });
+    };
+
+    //write the Change of "arbeitslosigkeit date picker" to the state.
+    handleArbeitlosigkeitDateChange = () => event => {
+        this.setState({["dateArbeitslosigkeit"]: event}, () => {
+
+            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            localStorage.set('dateArbeitslosigkeit', this.state.dateArbeitslosigkeit);
+            localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
 
@@ -90,6 +105,7 @@ class Berufstaetigkeit extends Component {
             this.setState({pensioniert: false});
             this.setState({iVRente: false});
             this.setState({arbeitsunfaehig: false});
+
 
             //nachdem alle "Arbeitszustände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
@@ -168,6 +184,11 @@ class Berufstaetigkeit extends Component {
             arbeitsunfaehig: localStorage.get('arbeitsunfaehig'),
             arbeitspensum: localStorage.get('arbeitspensum'),
         });
+        if (localStorage.get('dateArbeitslosigkeit') !== null) {
+            this.setState({
+                dateArbeitslosigkeit: localStorage.get('dateArbeitslosigkeit'),
+            });
+        }
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
@@ -179,11 +200,15 @@ class Berufstaetigkeit extends Component {
     //Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist
     arbeitszustandGewaehltUndAusgefuellt() {
         if (localStorage.get('normalArbeitsfaehig')) {
-            // TODO: checken ob Arbeitspensum eingegeben wurde
             return true;
         } else if (localStorage.get('arbeitlos')) {
-            // TODO: checken ob Zeitpunkt der Arbeitslosigkeit eingegeben wurde
-            return true;
+
+            if (localStorage.get('dateArbeitslosigkeit') == null || new Date(localStorage.get('dateArbeitslosigkeit')) == "Tue Oct 01 2019 01:01:01 GMT+0200 (Mitteleuropäische Sommerzeit)") {
+                //alert("Sie haben kein Datum eingegeben!");
+                return false;
+            } else {
+                return true;
+            }
         } else if (localStorage.get('pensioniert')) {
             // TODO: checken ob Zeitpunkt der Pensionierung eingegeben wurde
             return true;
@@ -209,11 +234,13 @@ class Berufstaetigkeit extends Component {
         localStorage.set('pensioniert', this.state.pensioniert);
         localStorage.set('iVRente', this.state.iVRente);
         localStorage.set('arbeitsunfaehig', this.state.arbeitsunfaehig);
-        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
-        console.log("check: " + this.state.arbeitspensum + " - " + (this.state.arbeitspensum === null) + " -- " + (this.state.arbeitspensum == null));
-        console.log("check 2: " + (this.state.normalArbeitsfaehig && (this.state.arbeitspensum == null)));
-        localStorage.set('arbeitspensum', this.state.arbeitspensum);
+        localStorage.set('dateArbeitslosigkeit', this.state.dateArbeitslosigkeit);
 
+        if (this.state.arbeitspensum !== null) {
+            localStorage.set('arbeitspensum', this.state.arbeitspensum);
+        }
+
+        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
     // zeigt "Arbeitspensum" Textbox nur an, wenn "normal arbeitsfähig" Button ausgewählt ist
@@ -230,7 +257,6 @@ class Berufstaetigkeit extends Component {
                             defaultValue={100}
                             name="arbeitspensum"
                             value={this.state.arbeitspensum}
-                            //onChange={this.handleChange(this.state.arbeitspensum)}
                             onChange={(event, value) => this.changeSlider(event, value)}
                             aria-labelledby="discrete-slider-always"
                             step={5}
@@ -255,7 +281,32 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie an seit wann Sie arbeitslos sind:</p>
-                </div>)
+
+                    <div className="DatePicker">
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container justify="space-around">
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="dateArbeitslosigkeit"
+                                    name="dateArbeitslosigkeit"
+                                    label="Datum auswählen"
+
+                                    value={this.state.dateArbeitslosigkeit}
+                                    onChange={this.handleArbeitlosigkeitDateChange("dateArbeitslosigkeit")}
+
+                                    //value={selectedDate}
+                                    //onChange={handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
+                    </div>
+                </div>
+            )
             //TODO: Auswahlmöglichkeit für Start der Arbeitslosigkeit erstellen
         }
     }
