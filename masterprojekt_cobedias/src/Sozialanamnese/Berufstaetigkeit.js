@@ -2,12 +2,15 @@ import React, {Component} from "react";
 import TextField from '@material-ui/core/TextField';
 import localStorage from 'local-storage'
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+
 
 class Berufstaetigkeit extends Component {
 
     constructor(props) {
         super(props);
-        this.handleChangeBeruf = this.handleChangeBeruf.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleNormalArbeitsfaehig = this.handleNormalArbeitsfaehig.bind(this);
         this.handleArbeitslos = this.handleArbeitslos.bind(this);
         this.handlePensioniert = this.handlePensioniert.bind(this);
@@ -16,25 +19,35 @@ class Berufstaetigkeit extends Component {
 
         //Define the state of this component.
         this.state = {
-            gelernterBeruf: '',
+            gelernterBeruf: 'okkkk',
             aktuellerBeruf: '',
 
             normalArbeitsfaehig: false,
             arbeitlos: false,
             pensioniert: false,
             iVRente: false,
-            arbeitsunfaehig: false
+            arbeitsunfaehig: false,
+
+            arbeitspensum: 100
         };
         console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_");
     }
 
-    //write the Change of "aktueller Beruf" or "gelernter beruf" to the state.
-    handleChangeBeruf = () => event => {
+    //write the Change of "aktueller Beruf" / "gelernter beruf" to the state.
+    handleChange = () => event => {
+        //console.log("event : " + [event]+ "-"+[event.target.name] + " event value: " + [event.target.value]);
         this.setState({[event.target.name]: event.target.value}, () => {
 
             // completeness aller textfelder wird überprüft, sobald sich ein input ändert
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+            //console.log("slider state: " + this.state.arbeitspensum);
+            //console.log("local Storage Pensum: " + localStorage.get('arbeitspensum'))
         });
+    };
+
+    //write the "Arbeitspensum Slider Change"to the state.
+    changeSlider(event, value) {
+        this.setState({["arbeitspensum"]: value});
     };
 
     //write the Change of the "normalArbeitsfaehig" Button to the state.
@@ -51,12 +64,17 @@ class Berufstaetigkeit extends Component {
             this.setState({pensioniert: false});
             this.setState({iVRente: false});
             this.setState({arbeitsunfaehig: false});
+            /* falls der User "normal arbeitsfähig" zum ersten Mal anwählt und den slider nicht verschiebt
+               (weil er bspw. den defaultvon 100% belassen will) so bleibt der state auf null. Dieser Fall wird in der
+               folgenden IF-Schleife abgefangen, sodass die 100% in den localstorage geschrieben werden.  */
+            if (this.state.arbeitspensum == null) {
+                localStorage.set('arbeitspensum', 100);
+            }
 
             //nachdem alle "Arbeitszustände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
-
 
     //write the Change of the "arbeitlos" Button to the state.
     handleArbeitslos = () => {
@@ -77,7 +95,6 @@ class Berufstaetigkeit extends Component {
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
-
 
     //write the Change of the "pensioniert" Button to the state.
     handlePensioniert = () => {
@@ -119,7 +136,6 @@ class Berufstaetigkeit extends Component {
         });
     };
 
-
     //write the Change of the "arbeitsunfaehig" Button to the state.
     handleArbeitsunfaehig = () => {
         this.setState({arbeitsunfaehig: true}, () => {
@@ -150,6 +166,7 @@ class Berufstaetigkeit extends Component {
             pensioniert: localStorage.get('pensioniert'),
             iVRente: localStorage.get('iVRente'),
             arbeitsunfaehig: localStorage.get('arbeitsunfaehig'),
+            arbeitspensum: localStorage.get('arbeitspensum'),
         });
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
@@ -193,16 +210,42 @@ class Berufstaetigkeit extends Component {
         localStorage.set('iVRente', this.state.iVRente);
         localStorage.set('arbeitsunfaehig', this.state.arbeitsunfaehig);
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+        console.log("check: " + this.state.arbeitspensum + " - " + (this.state.arbeitspensum === null) + " -- " + (this.state.arbeitspensum == null));
+        console.log("check 2: " + (this.state.normalArbeitsfaehig && (this.state.arbeitspensum == null)));
+        localStorage.set('arbeitspensum', this.state.arbeitspensum);
+
     }
 
     // zeigt "Arbeitspensum" Textbox nur an, wenn "normal arbeitsfähig" Button ausgewählt ist
     showNormalArbeitsfaehig() {
+        //TODO: Slider für Arbeitspensum erstellen
         if (this.state.normalArbeitsfaehig) {
             return (
-                <div>
+                <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie Ihr aktuelles Arbeitspensum an:</p>
-                </div>)
-            //TODO: Slider für Arbeitspensum erstellen
+                    <div className="ArbeitspensumSlider">
+                        <Typography id="discrete-slider-always" gutterBottom>
+                        </Typography>
+                        <Slider
+                            defaultValue={100}
+                            name="arbeitspensum"
+                            value={this.state.arbeitspensum}
+                            //onChange={this.handleChange(this.state.arbeitspensum)}
+                            onChange={(event, value) => this.changeSlider(event, value)}
+                            aria-labelledby="discrete-slider-always"
+                            step={5}
+                            marks={[
+                                {value: 0, label: '0%',},
+                                {value: 20, label: '20°C',},
+                                {value: 50, label: '50%',},
+                                {value: 80, label: '80%',},
+                                {value: 100, label: '100%',},
+                            ]}
+                            valueLabelDisplay="on"
+                        />
+                    </div>
+                </div>
+            )
         }
     }
 
@@ -210,7 +253,7 @@ class Berufstaetigkeit extends Component {
     showArbeitslos() {
         if (this.state.arbeitlos) {
             return (
-                <div>
+                <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie an seit wann Sie arbeitslos sind:</p>
                 </div>)
             //TODO: Auswahlmöglichkeit für Start der Arbeitslosigkeit erstellen
@@ -221,7 +264,7 @@ class Berufstaetigkeit extends Component {
     showPensioniert() {
         if (this.state.pensioniert) {
             return (
-                <div>
+                <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie an seit wann Sie pensioniert sind:</p>
                 </div>)
             //TODO: Auswahlmöglichkeit für Start der Pensionierung erstellen
@@ -232,7 +275,7 @@ class Berufstaetigkeit extends Component {
     showIVRente() {
         if (this.state.iVRente) {
             return (
-                <div>
+                <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie an seit wann Sie eine IV-Rente beziehen:</p>
                 </div>)
             //TODO: Auswahlmöglichkeit für Start des IV-Renten-Bezugs erstellen
@@ -243,7 +286,7 @@ class Berufstaetigkeit extends Component {
     showArbeitsunfaehig() {
         if (this.state.arbeitsunfaehig) {
             return (
-                <div>
+                <div className="ArbeitszustandEingeblendetesDiv">
                     <p>Bitte geben Sie an seit wann Sie arbeitsunfaehig sind:</p>
                 </div>)
             //TODO: Auswahlmöglichkeit für Start der Arbeitsunfähigkeit erstellen
@@ -272,7 +315,7 @@ class Berufstaetigkeit extends Component {
                         variant="outlined"
                         name="gelernterBeruf"
                         value={this.state.gelernterBeruf}
-                        onChange={this.handleChangeBeruf("gelernterBeruf")}
+                        onChange={this.handleChange("gelernterBeruf")}
                         fullWidth
                         placeholder="Geben Sie hier Ihren gelernten Beruf ein"
                     />
@@ -283,7 +326,7 @@ class Berufstaetigkeit extends Component {
                         variant="outlined"
                         name="aktuellerBeruf"
                         value={this.state.aktuellerBeruf}
-                        onChange={this.handleChangeBeruf("aktuellerBeruf")}
+                        onChange={this.handleChange("aktuellerBeruf")}
                         fullWidth
                         placeholder="Geben Sie hier Ihren aktuellen Beruf ein"
                     />
@@ -317,7 +360,6 @@ class Berufstaetigkeit extends Component {
                         </Button>
                     </div>
                 </div>
-                // Die folgenden DIVs werden nur angezeigt, wenn der entsprechende Button ausgewählt wurde
                 <div>{this.showNormalArbeitsfaehig()}</div>
                 <div>{this.showArbeitslos()}</div>
                 <div>{this.showPensioniert()}</div>
