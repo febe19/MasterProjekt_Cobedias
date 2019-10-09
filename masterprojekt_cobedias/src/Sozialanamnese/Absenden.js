@@ -35,6 +35,7 @@ const PDFstyles = StyleSheet.create({
 
 
 //Document which will be downloaded when clicking the blue Link. Here all Local storage variables need to be listed.
+//TODO: improve design of downloaded PDF (e.g. insert line breaks, set title...)
 const CobediasDocument = () => (
     <Document>
         <Page size="A4" style={PDFstyles.page}>

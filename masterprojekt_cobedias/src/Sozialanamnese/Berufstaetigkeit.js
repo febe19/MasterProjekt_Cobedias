@@ -555,10 +555,7 @@ class Berufstaetigkeit extends Component {
                             valueLabelDisplay="on"
                         />
                     </div>
-
-
                 </div>)
-            //TODO: Auswahlmöglichkeit für Start der Arbeitsunfähigkeit erstellen
         }
     }
 
