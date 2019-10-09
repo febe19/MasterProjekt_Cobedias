@@ -37,7 +37,7 @@ const PDFstyles = StyleSheet.create({
 //Document which will be downloaded when clicking the blue Link. Here all Local storage variables need to be listed.
 const CobediasDocument = () => (
     <Document>
-        <Page size="A4" style={PDFstyles.page}>
+        <Page size="A4" style={PDFstyles.page}> // TODO: insert line breaks
             <Text>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
             <Text>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
             <Text>Hobbies: {localStorage.get('hobbies')}</Text>

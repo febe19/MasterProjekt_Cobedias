@@ -84,9 +84,31 @@ class Militaerdienst extends Component {
         return (!this.state.militaerdienstGemacht && localStorage.get('MilitaerdienstKomplett'))
     }
 
+    // zeigt "Grund für Untauglichkeit" Textbox nur an, wenn "Nein" Button ausgewählt ist
+    showUntauglichkeit() {
+        if (!this.state.militaerdienstGemacht) {
+            return (
+                <div>
+                    <p>Falls Sie als dienstuntauglich eingestuft wurden, so geben Sie hier bitte den Grund an. Ansonsten
+                        lassen Sie dieses Feld leer:</p>
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Grund der Dienstuntauglichkeit"
+                        multiline
+                        rows="8"
+                        margin="normal"
+                        variant="outlined"
+                        name="untauglichkeitsGrund"
+                        fullWidth
+                        value={this.state.untauglichkeitsGrund}
+                        placeholder="Geben Sie hier den Grund Ihrer Dienstuntauglichkeit ein"
+                        onChange={this.handleChange("untauglichkeitsGrund")}
+                    />
+                </div>)
+        }
+    }
+
     render() {
-        // zeigt "Grund für Untauglichkeit" Texbox nur an, wenn "Nein" ausgewählt Button ist
-        const styleUntauglichkeit = this.state.militaerdienstGemacht ? {display: 'none'} : {};
         const styleYesButton = (this.colorYesButton()) ? {background: '#BBC2E5'} : {};
         const styleNoButton = (this.colorNoButton()) ? {background: '#BBC2E5'} : {};
 
@@ -102,21 +124,7 @@ class Militaerdienst extends Component {
                         </ButtonGroup>
                     </Grid>
                 </div>
-                <div style={styleUntauglichkeit}>
-                    <p>Falls Sie als dienstuntauglich eingestuft wurden, so geben Sie hier bitte den Grund an. Ansonsten
-                        lassen Sie dieses Feld leer:</p>
-                    <TextField
-                        id="outlined-multiline-static"
-                        label="Grund der Dienstuntauglichkeit"
-                        multiline
-                        rows="8"
-                        margin="normal"
-                        variant="outlined"
-                        name="untauglichkeitsGrund"
-                        value={this.state.untauglichkeitsGrund}
-                        onChange={this.handleChange("untauglichkeitsGrund")}
-                    />
-                </div>
+                <div>{this.showUntauglichkeit()}</div>
             </div>
         );
     }
