@@ -16,7 +16,7 @@ class Home extends Component {
         localStorage.clear();
     }
 
-    //Log when the User comes to HOME.
+    //Log when the User comes to HOME.git
     componentDidMount() {
         console.log("-  " + new Date().toLocaleTimeString() + " _Home_ ");
     }
