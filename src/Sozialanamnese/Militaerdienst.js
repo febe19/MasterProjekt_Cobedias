@@ -112,7 +112,6 @@ class Militaerdienst extends Component {
 
         return (
             <div>
-                <h2>Militärdienst</h2>
                 <p>Haben Sie Militärdienst geleistet?</p>
                 <div className="MilitaerdienstButtons">
                     <Button variant="outlined" size="small" color="primary"
