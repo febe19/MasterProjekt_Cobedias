@@ -1,6 +1,4 @@
 import React from "react";
-import {Route} from "react-router-dom";
-import Erklaerung from "./Erklaerung";
 import Berufstaetigkeit from ".././Sozialanamnese/Berufstaetigkeit";
 import Hobbies from "../Sozialanamnese/Hobbies";
 import Militaerdienst from "./Militaerdienst";
