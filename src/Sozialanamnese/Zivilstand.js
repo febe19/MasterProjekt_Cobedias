@@ -6,6 +6,7 @@ class Zivilstand extends Component {
             <div>
                 <h2>Zivilstand</h2>
                 <p>Geben Sie hier Ihren Zivilstand ein</p>
+                <p>Geben Sie hier Ihren Test-Zivilstand ein</p>
             </div>
         );
     }
