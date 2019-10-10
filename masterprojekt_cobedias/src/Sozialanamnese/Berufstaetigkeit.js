@@ -356,11 +356,49 @@ class Berufstaetigkeit extends Component {
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
+    //Show Textfield "Gelernter Beruf"
+    showGelernterBeruf() {
+        return (
+            <TextField
+                label="Gelernter Beruf"
+                margin="normal"
+                variant="outlined"
+                name="gelernterBeruf"
+                value={this.state.gelernterBeruf}
+                onChange={this.handleChange("gelernterBeruf")}
+                fullWidth
+                placeholder="Geben Sie hier Ihren gelernten Beruf ein"
+            />
+        )
+    }
+
+    //Show Textfield "Aktueller Beruf"
+    showAktuellerBeruf() {
+        return (
+            <TextField
+                label="Aktueller Beruf"
+                margin="normal"
+                variant="outlined"
+                name="aktuellerBeruf"
+                value={this.state.aktuellerBeruf}
+                onChange={this.handleChange("aktuellerBeruf")}
+                fullWidth
+                placeholder="Geben Sie hier Ihren aktuellen Beruf ein"
+            />
+        )
+    }
+
     // zeigt "Arbeitspensum" Textbox nur an, wenn "normal arbeitsfähig" Button ausgewählt ist
     showNormalArbeitsfaehig() {
         if (this.state.normalArbeitsfaehig) {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
+
+                    <div className="Berufeingabe">
+                        <div>{this.showGelernterBeruf()}</div>
+                        <div>{this.showAktuellerBeruf()}</div>
+                    </div>
+
                     <p>Bitte geben Sie Ihr aktuelles Arbeitspensum an:</p>
                     <div className="ArbeitspensumSlider">
                         <Typography id="discrete-slider-always" gutterBottom>
@@ -392,6 +430,11 @@ class Berufstaetigkeit extends Component {
         if (this.state.arbeitlos) {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
+
+                    <div className="Berufeingabe">
+                        <div>{this.showGelernterBeruf()}</div>
+                    </div>
+
                     <p>Bitte geben Sie an seit wann Sie arbeitslos sind:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -422,6 +465,11 @@ class Berufstaetigkeit extends Component {
         if (this.state.pensioniert) {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
+
+                    <div className="Berufeingabe">
+                        <div>{this.showGelernterBeruf()}</div>
+                    </div>
+
                     <p>Bitte geben Sie an seit wann Sie pensioniert sind:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -451,6 +499,11 @@ class Berufstaetigkeit extends Component {
         if (this.state.iVRente) {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
+
+                    <div className="Berufeingabe">
+                        <div>{this.showGelernterBeruf()}</div>
+                    </div>
+
                     <p>Bitte geben Sie an seit wann Sie eine IV-Rente beziehen:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -480,6 +533,13 @@ class Berufstaetigkeit extends Component {
         if (this.state.arbeitsunfaehig) {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
+
+                    <div className="Berufeingabe">
+                        <div>{this.showGelernterBeruf()}</div>
+                        <div>{this.showAktuellerBeruf()}</div>
+                    </div>
+
+
                     <p>Bitte geben Sie die Art Ihrer Arbeitsunfähigkeit an:</p>
                     <TextField
                         label="Art der Erkrankung"
@@ -575,56 +635,34 @@ class Berufstaetigkeit extends Component {
             <div>
                 <div>
 
-                    <TextField
-                        label="Gelernter Beruf"
-                        margin="normal"
-                        variant="outlined"
-                        name="gelernterBeruf"
-                        value={this.state.gelernterBeruf}
-                        onChange={this.handleChange("gelernterBeruf")}
-                        fullWidth
-                        placeholder="Geben Sie hier Ihren gelernten Beruf ein"
-                    />
+                    <div className="Berufstaetigkeit">
+                        <div>Bitte wählen Sie Ihren aktuellen Arbeitszustand:
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleNormalArbeitsfaehig} onClick={this.handleChangeNormalArbeitsfaehig}>normal
+                                arbeitsfähig</Button>
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleArbeitlos} onClick={this.handleChangeArbeitslos}>arbeitslos</Button>
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={stylePensioniert} onClick={this.handleChangePensioniert}>pensioniert</Button>
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleIVRente} onClick={this.handleChangeIVRente}>IV-Rente</Button>
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary" style={styleArbeitsunfaehig}
+                                    onClick={this.handleChangeArbeitsunfaehig}>
+                                krankheits-halber arbeitsunfähig
+                            </Button>
+                        </div>
+                    </div>
 
-                    <TextField
-                        label="Aktueller Beruf"
-                        margin="normal"
-                        variant="outlined"
-                        name="aktuellerBeruf"
-                        value={this.state.aktuellerBeruf}
-                        onChange={this.handleChange("aktuellerBeruf")}
-                        fullWidth
-                        placeholder="Geben Sie hier Ihren aktuellen Beruf ein"
-                    />
-
-                </div>
-                <div className="Berufstaetigkeit">
-                    <div>Bitte wählen sie Ihren aktuellen Arbeitszustand:
-                    </div>
-                    <div className="BerufstaetigkeitButtonsLeft">
-                        <Button variant="outlined" size="small" color="primary"
-                                style={styleNormalArbeitsfaehig} onClick={this.handleChangeNormalArbeitsfaehig}>normal
-                            arbeitsfähig</Button>
-                    </div>
-                    <div className="BerufstaetigkeitButtonsLeft">
-                        <Button variant="outlined" size="small" color="primary"
-                                style={styleArbeitlos} onClick={this.handleChangeArbeitslos}>arbeitslos</Button>
-                    </div>
-                    <div className="BerufstaetigkeitButtonsLeft">
-                        <Button variant="outlined" size="small" color="primary"
-                                style={stylePensioniert} onClick={this.handleChangePensioniert}>pensioniert</Button>
-                    </div>
-                    <div className="BerufstaetigkeitButtonsLeft">
-                        <Button variant="outlined" size="small" color="primary"
-                                style={styleIVRente} onClick={this.handleChangeIVRente}>IV-Rente</Button>
-                    </div>
-                    <div className="BerufstaetigkeitButtonRight">
-                        <Button variant="outlined" size="small" color="primary" style={styleArbeitsunfaehig}
-                                onClick={this.handleChangeArbeitsunfaehig}>
-                            krankheits-halber
-                            <br></br>arbeitsunfähig
-                        </Button>
-                    </div>
                 </div>
                 <div>{this.showNormalArbeitsfaehig()}</div>
                 <div>{this.showArbeitslos()}</div>

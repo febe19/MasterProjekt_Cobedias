@@ -89,8 +89,6 @@ class Militaerdienst extends Component {
         if (!this.state.militaerdienstGemacht) {
             return (
                 <div>
-                    <p>Falls Sie als dienstuntauglich eingestuft wurden, so geben Sie hier bitte den Grund an. Ansonsten
-                        lassen Sie dieses Feld leer:</p>
                     <TextField
                         id="outlined-multiline-static"
                         label="Grund der Dienstuntauglichkeit"
@@ -115,7 +113,7 @@ class Militaerdienst extends Component {
         return (
             <div>
                 <h2>Militärdienst</h2>
-                <p>Haben sie Militärdienst geleistet?</p>
+                <p>Haben Sie Militärdienst geleistet?</p>
                 <div className="MilitaerdienstButtons">
                     <Grid direction="column" alignItems="left">
                         <ButtonGroup size="large" mt={5} color="primary" aria-label="outlined primary button group">
