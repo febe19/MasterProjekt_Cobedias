@@ -2,6 +2,16 @@ import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
 
 export class Stammbaum extends Component {
+  continue = e => {
+    e.preventDefault();
+    this.props.nextStep();
+  };
+
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
+  };
+
   render() {
     return (
       <div style={{ width: "100%" }}>
