@@ -118,6 +118,7 @@ class Berufstaetigkeit extends Component {
     handleChangeSliderArbeitsunfaehigkeit(event, value) {
         this.setState({["arbeitsunfaehigkeitInProzent"]: value}, () => {
             localStorage.set('arbeitsunfaehigkeitInProzent', this.state.arbeitsunfaehigkeitInProzent);
+            localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
 
@@ -164,8 +165,6 @@ class Berufstaetigkeit extends Component {
 
 
             //nachdem alle "Arbeitszustände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
-            console.log("nochmals ein check: " + this.checkComponentCompleteness());
-            console.log("check finito");
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
@@ -279,13 +278,9 @@ class Berufstaetigkeit extends Component {
     }
 
     // completeness der textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
-    checkComponentCompleteness() {
-        return (this.arbeitszustandGewaehltUndAusgefuellt());
-    }
-
     // Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist. Je nachdem welcher Button ausgewählt
     // ist, wird zusätzlich geprüft ob die weiteren Eingeblendeten Elemente befüllt sind
-    arbeitszustandGewaehltUndAusgefuellt() {
+    checkComponentCompleteness() {
         if (localStorage.get('normalArbeitsfaehig')) {
             if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null) {
                 return false;
@@ -313,8 +308,7 @@ class Berufstaetigkeit extends Component {
             }
         } else if (localStorage.get('arbeitsunfaehig')) {
             // prüft, ob das Feld "Art der Erkrankung" ausgefüllt wurde, ob ein "Von" und ein "Bis" Date angegeben wurden und ob aktueller resp. gelernter Beruf ausgefüllt wurden.
-            // Der Slider wird nicht geprüft
-            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
+            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || this.state.arbeitsunfaehigkeitInProzent == 0 || this.state.arbeitsunfaehigkeitInProzent == null) {
                 return false;
             } else {
                 return true;
@@ -325,6 +319,7 @@ class Berufstaetigkeit extends Component {
             return false;
         }
     }
+
 
     //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
