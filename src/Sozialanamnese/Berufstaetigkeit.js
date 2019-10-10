@@ -36,11 +36,11 @@ class Berufstaetigkeit extends Component {
             arbeitsunfaehig: false,
 
             arbeitspensum: 100,
-            dateArbeitslosigkeit: new Date('2019-11-01T01:01:01'),
-            datePensioniert: new Date('2019-11-01T01:01:01'),
-            dateIVRente: new Date('2019-11-01T01:01:01'),
-            dateArbeitsunfaehigkeitVon: new Date('2019-11-01T01:01:01'),
-            dateArbeitsunfaehigkeitBis: new Date('2019-11-01T01:01:01'),
+            dateArbeitslosigkeit: null,
+            datePensioniert: null,
+            dateIVRente: null,
+            dateArbeitsunfaehigkeitVon: null,
+            dateArbeitsunfaehigkeitBis: null,
             erkrankung: '',
             arbeitsunfaehigkeitInProzent: 0,
 
@@ -280,45 +280,41 @@ class Berufstaetigkeit extends Component {
 
     // completeness der textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
     checkComponentCompleteness() {
-        return (this.state.gelernterBeruf !== '' && this.state.aktuellerBeruf !== '' && this.state.gelernterBeruf !== null && this.state.aktuellerBeruf !== null && this.arbeitszustandGewaehltUndAusgefuellt());
+        return (this.arbeitszustandGewaehltUndAusgefuellt());
     }
 
     // Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist. Je nachdem welcher Button ausgewählt
     // ist, wird zusätzlich geprüft ob die weiteren Eingeblendeten Elemente befüllt sind
     arbeitszustandGewaehltUndAusgefuellt() {
-        console.log("arbeitslos: " + localStorage.get('arbeitlos'));
         if (localStorage.get('normalArbeitsfaehig')) {
-            console.log("test1");
-            //default Pensum von 100% ist sehr gut möglich, aus diesem Grund wird hier nicht extra geprüft, ob der Slider verschoben wurde
-            return true;
+            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null) {
+                return false;
+            } else {
+                //default Pensum von 100% ist sehr gut möglich, aus diesem Grund wird hier nicht extra geprüft, ob der Slider verschoben wurde
+                return true;
+            }
         } else if (localStorage.get('arbeitlos')) {
-            // prüft, ob ein Datum eingegeben wurde, das heisst: wenn das Default Datum eingegeben ist, gilt es als nicht ausgefüllt.
-            if (localStorage.get('dateArbeitslosigkeit') == null || new Date(localStorage.get('dateArbeitslosigkeit')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitslosigkeit')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
-                //alert("Sie haben kein Datum eingegeben!");
+            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('dateArbeitslosigkeit') == null || new Date(localStorage.get('dateArbeitslosigkeit')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitslosigkeit')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('pensioniert')) {
-            // prüft, ob ein Datum eingegeben wurde, das heisst: wenn das Default Datum eingegeben ist, gilt es als nicht ausgefüllt.
-            if (localStorage.get('datePensioniert') == null || new Date(localStorage.get('datePensioniert')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('datePensioniert')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
-                //alert("Sie haben kein Datum eingegeben!");
+            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('datePensioniert') == null || new Date(localStorage.get('datePensioniert')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('datePensioniert')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('iVRente')) {
-            // prüft, ob ein Datum eingegeben wurde, das heisst: wenn das Default Datum eingegeben ist, gilt es als nicht ausgefüllt.
-            if (localStorage.get('dateIVRente') == null || new Date(localStorage.get('dateIVRente')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateIVRente')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
-                //alert("Sie haben kein Datum eingegeben!");
+            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('dateIVRente') == null || new Date(localStorage.get('dateIVRente')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateIVRente')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('arbeitsunfaehig')) {
-            // prüft, ob das Feld "Art der Erkrankung" ausgefüllt wurde, ob ein "Von" und ein "Bis" Date angegeben wurden.
+            // prüft, ob das Feld "Art der Erkrankung" ausgefüllt wurde, ob ein "Von" und ein "Bis" Date angegeben wurden und ob aktueller resp. gelernter Beruf ausgefüllt wurden.
             // Der Slider wird nicht geprüft
-            if (this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
+            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
@@ -441,7 +437,7 @@ class Berufstaetigkeit extends Component {
                             <Grid>
                                 <KeyboardDatePicker
                                     disableToolbar
-                                    format="MM/yyyy"
+                                    format="dd/MM/yyyy"
                                     margin="normal"
                                     id="dateArbeitslosigkeit"
                                     name="dateArbeitslosigkeit"
@@ -476,7 +472,7 @@ class Berufstaetigkeit extends Component {
                             <Grid>
                                 <KeyboardDatePicker
                                     disableToolbar
-                                    format="MM/yyyy"
+                                    format="dd/MM/yyyy"
                                     margin="normal"
                                     id="datePensioniert"
                                     name="datePensioniert"
@@ -510,7 +506,7 @@ class Berufstaetigkeit extends Component {
                             <Grid>
                                 <KeyboardDatePicker
                                     disableToolbar
-                                    format="MM/yyyy"
+                                    format="dd/MM/yyyy"
                                     margin="normal"
                                     id="dateIVRente"
                                     name="dateIVRente"
@@ -558,7 +554,7 @@ class Berufstaetigkeit extends Component {
                                 <Grid>
                                     <KeyboardDatePicker
                                         disableToolbar
-                                        format="MM/yyyy"
+                                        format="dd/MM/yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitVon"
                                         name="dateArbeitsunfaehigkeitVon"
@@ -577,7 +573,7 @@ class Berufstaetigkeit extends Component {
                                 <Grid>
                                     <KeyboardDatePicker
                                         disableToolbar
-                                        format="MM/yyyy"
+                                        format="dd/MM/yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitBis"
                                         name="dateArbeitsunfaehigkeitBis"
@@ -599,7 +595,7 @@ class Berufstaetigkeit extends Component {
                         <Typography id="discrete-slider-always" gutterBottom>
                         </Typography>
                         <Slider
-                            defaultValue={100}
+                            defaultValue={0}
                             name="arbeitsunfaehigkeitInProzent"
                             value={this.state.arbeitsunfaehigkeitInProzent}
                             onChange={(event, value) => this.handleChangeSliderArbeitsunfaehigkeit(event, value)}
