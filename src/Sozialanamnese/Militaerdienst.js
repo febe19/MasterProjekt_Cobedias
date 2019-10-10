@@ -115,12 +115,12 @@ class Militaerdienst extends Component {
                 <h2>Militärdienst</h2>
                 <p>Haben Sie Militärdienst geleistet?</p>
                 <div className="MilitaerdienstButtons">
-                    <Grid direction="column" alignItems="left">
-                        <ButtonGroup size="large" mt={5} color="primary" aria-label="outlined primary button group">
-                            <Button style={styleYesButton} onClick={this.handleYesButtonChange}> Ja </Button>
-                            <Button style={styleNoButton} onClick={this.handleNoButtonChange}> Nein </Button>
-                        </ButtonGroup>
-                    </Grid>
+                    <Button variant="outlined" size="small" color="primary"
+                            style={styleYesButton} onClick={this.handleYesButtonChange}> Ja </Button>
+                </div>
+                <div className="MilitaerdienstButtons">
+                    <Button variant="outlined" size="small" color="primary" style={styleNoButton}
+                            onClick={this.handleNoButtonChange}> Nein </Button>
                 </div>
                 <div>{this.showUntauglichkeit()}</div>
             </div>
