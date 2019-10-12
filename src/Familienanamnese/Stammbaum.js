@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
+import FamilyTree from './FamilyTreeComponent'
 
 export class Stammbaum extends Component {
   continue = e => {
@@ -22,6 +23,7 @@ export class Stammbaum extends Component {
           p={1}
           bgcolor="background.paper"
         >
+          <FamilyTree />>
           <Box p={1}>
             <img
               src={require("../components/images/logo_cobedias.png")}
