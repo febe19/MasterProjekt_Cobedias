@@ -52,7 +52,7 @@ class Berufstaetigkeit extends Component {
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value}, () => {
 
-            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            // completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
         });
     };
@@ -277,9 +277,9 @@ class Berufstaetigkeit extends Component {
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
-    // completeness der textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
+    // completeness der Textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
     // Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist. Je nachdem welcher Button ausgewählt
-    // ist, wird zusätzlich geprüft ob die weiteren Eingeblendeten Elemente befüllt sind
+    // ist, wird zusätzlich geprüft, ob die weiteren eingeblendeten Elemente befüllt sind
     checkComponentCompleteness() {
         if (localStorage.get('normalArbeitsfaehig')) {
             if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null) {
@@ -314,7 +314,7 @@ class Berufstaetigkeit extends Component {
                 return true;
             }
         } else {
-            // TODO: Find a way so that this alert is only executed, when needed (e.g. when "Zurück" / "Weiter" Button is clicked. Otherwise the alert pops up everytime anything changes on the page (Given that no Berufstätigkeit is selected yet).
+            // TODO: Find a way so that this alert is only executed, when needed (e.g. when "Zurück" / "Weiter" Button is clicked. Otherwise the alert pops up every time anything changes on the page (Given that no Berufstätigkeit is selected yet).
             //alert("Achtung: Der Arbeitszustand wurde nicht ausgewählt")
             return false;
         }
@@ -389,7 +389,7 @@ class Berufstaetigkeit extends Component {
                         <div>{this.showGelernterBeruf()}</div>
                         <div>{this.showAktuellerBeruf()}</div>
                     </div>
-
+                    <br />
                     <p>Bitte geben Sie Ihr aktuelles Arbeitspensum an:</p>
                     <div className="ArbeitspensumSlider">
                         <Typography id="discrete-slider-always" gutterBottom>
@@ -530,7 +530,7 @@ class Berufstaetigkeit extends Component {
                         <div>{this.showAktuellerBeruf()}</div>
                     </div>
 
-
+                    <br />
                     <p>Bitte geben Sie die Art Ihrer Arbeitsunfähigkeit an:</p>
                     <TextField
                         label="Art der Erkrankung"
@@ -617,13 +617,15 @@ class Berufstaetigkeit extends Component {
         const styleArbeitlos = (this.state.arbeitlos) ? {background: '#BBC2E5'} : {};
         // markiert den "pensioniert" button blau sobald dieser angewählt wurde
         const stylePensioniert = (this.state.pensioniert) ? {background: '#BBC2E5'} : {};
-        // markiert den "iV-Rente" button blau sobald dieser angewählt wurde
+        // markiert den "IV-Rente" button blau sobald dieser angewählt wurde
         const styleIVRente = (this.state.iVRente) ? {background: '#BBC2E5'} : {};
         // markiert den "arbeitsunfaehig" button blau sobald dieser angewählt wurde
         const styleArbeitsunfaehig = (this.state.arbeitsunfaehig) ? {background: '#BBC2E5'} : {};
 
         return (
             <div>
+                <h2>Berufstätigkeit</h2>
+                <br />
                 <div>
 
                     <div className="Berufstaetigkeit">
@@ -631,25 +633,37 @@ class Berufstaetigkeit extends Component {
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
-                                    style={styleNormalArbeitsfaehig} onClick={this.handleChangeNormalArbeitsfaehig}>normal
-                                arbeitsfähig</Button>
+                                    style={styleNormalArbeitsfaehig}
+                                    onClick={this.handleChangeNormalArbeitsfaehig}>
+                                    normal arbeitsfähig
+                            </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
-                                    style={styleArbeitlos} onClick={this.handleChangeArbeitslos}>arbeitslos</Button>
+                                    style={styleArbeitlos}
+                                    onClick={this.handleChangeArbeitslos}>
+                                    arbeitslos
+                            </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
-                                    style={stylePensioniert} onClick={this.handleChangePensioniert}>pensioniert</Button>
+                                    style={stylePensioniert}
+                                    onClick={this.handleChangePensioniert}>
+                                    pensioniert
+                            </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
-                                    style={styleIVRente} onClick={this.handleChangeIVRente}>IV-Rente</Button>
+                                    style={styleIVRente}
+                                    onClick={this.handleChangeIVRente}>
+                                    IV-Rente
+                            </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
-                            <Button variant="outlined" size="small" color="primary" style={styleArbeitsunfaehig}
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleArbeitsunfaehig}
                                     onClick={this.handleChangeArbeitsunfaehig}>
-                                krankheits-halber arbeitsunfähig
+                                    krankheits-halber arbeitsunfähig
                             </Button>
                         </div>
                     </div>

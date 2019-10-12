@@ -18,7 +18,7 @@ class Hobbies extends Component {
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value}, () => {
 
-            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
             localStorage.set('HobbiesKomplett', this.checkComponentCompleteness());
         });
     };
@@ -28,10 +28,10 @@ class Hobbies extends Component {
         this.setState({
             hobbies: localStorage.get('hobbies')
         });
-        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+        localStorage.set('HobbiesKomplett', this.checkComponentCompleteness());
     }
 
-    // completeness der textfelder wird überprüft
+    // completeness der Textfelder wird überprüft
     checkComponentCompleteness() {
         return (this.state.hobbies !== '' && this.state.hobbies !== null);
     }
@@ -39,7 +39,7 @@ class Hobbies extends Component {
     //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
         localStorage.set('hobbies', this.state.hobbies);
-        localStorage.set("HobbiesKomplett", this.checkComponentCompleteness())
+        localStorage.set('HobbiesKomplett', this.checkComponentCompleteness());
     }
 
     render() {
