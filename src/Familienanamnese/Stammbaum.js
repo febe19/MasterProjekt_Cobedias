@@ -23,7 +23,6 @@ export class Stammbaum extends Component {
           p={1}
           bgcolor="background.paper"
         >
-          <FamilyTree />>
           <Box p={1}>
             <img
               src={require("../components/images/logo_cobedias.png")}
@@ -33,6 +32,11 @@ export class Stammbaum extends Component {
             />
           </Box>
         </Box>
+
+        <div >
+          <FamilyTree />
+        </div>
+
         <Box
           display="flex"
           justifyContent="flex-end"

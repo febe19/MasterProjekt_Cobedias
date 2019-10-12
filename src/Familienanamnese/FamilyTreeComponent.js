@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {IFamilyNode, IFamilyExtNode} from 'relatives-tree';
 import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from './FamilyNode';
@@ -8,19 +8,18 @@ import nodes from './FamilyData';
 
 const myID = 'kuVISwh7w';
 
-const WIDTH = 100;
-const HEIGHT = 100;
+const WIDTH = 40;
+const HEIGHT = 40;
 
 
 function FamilyTree() {
     const [rootId, setRootId] = useState(myID);
-    const onResetClick = useCallback(() => setRootId(myID), []);
 
     return (
         <div className={styles.root}>
             <p>Hello</p>
             <ReactFamilyTree
-                nodes={nodes} as IFamilyNode
+                nodes={(nodes: IFamilyNode)}
                 rootId={rootId}
                 width={WIDTH}
                 height={HEIGHT}
@@ -39,14 +38,6 @@ function FamilyTree() {
                     />
                 )}
             />
-            {rootId !== myID && (
-                <div className={styles.reset} onClick={onResetClick}>
-                    Reset
-                </div>
-            )}
-            <div>
-                Currently using React {React.version}
-            </div>
         </div>
     );
 }
