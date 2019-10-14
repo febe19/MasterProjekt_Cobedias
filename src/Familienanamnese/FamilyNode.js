@@ -1,14 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {IFamilyExtNode} from 'relatives-tree';
 import styles from './FamilyNode.module.css';
-
-interface Props {
-    node: IFamilyExtNode;
-    isRoot: boolean;
-    onSubClick: (id: string) => void;
-    style?: React.CSSProperties;
-}
 
 
 function FamilyNode({node, isRoot, onSubClick, style}) {
