@@ -20,7 +20,7 @@ function FamilyNode({node, isRoot, onSubClick, style}) {
                     styles[node.gender],
                     isRoot && styles.isRoot,
                 )}
-            >{node.name}</div>
+            >{node.id}</div>
         </div>
     );
 }

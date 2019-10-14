@@ -40,32 +40,29 @@ export class Familienanamnese extends Component {
         const values = {vorName, nachName};
 
         switch (step) {
-            case 1:
-                return (
-                    <FA_anfang
-                        nextStep={this.nextStep}
-                        handleChange={this.handleChange}
-                        values={values}
-                    />
-                );
-            case 2:
-                return (
-                    <PersonAngaben
-                        nextStep={this.nextStep}
-                        handleChange={this.handleChange}
-                        values={values}
-                    />
-                );
-
-            case 3:
+            /*           case 1:
+                           return (
+                               <FA_anfang
+                                   nextStep={this.nextStep}
+                                   handleChange={this.handleChange}
+                                   values={values}
+                               />
+                           );
+                       case 2:
+                           return (
+                               <PersonAngaben
+                                   nextStep={this.nextStep}
+                                   handleChange={this.handleChange}
+                                   values={values}
+                               />
+                           );
+           */
+            case 1: //TODO: Change Step back to 1
                 return (<Stammbaum nextStep={this.nextStep}
                                    handleChange={this.handleChange}
                                    values={values}
                     />
                 );
-
-            case 4:
-                return <h1> Stammbaum</h1>;
         }
     }
 }

@@ -6,18 +6,17 @@ import styles from './FamilyTree.module.css';
 
 import nodes from './FamilyData';
 
-const myID = 'kuVISwh7w';
+const myID = '0';
 
-const WIDTH = 40;
-const HEIGHT = 40;
+const WIDTH = 100;
+const HEIGHT = 100;
 
 
 function FamilyTree() {
-    const [rootId, setRootId] = useState(myID);
+    const [rootId] = useState(myID);
 
     return (
-        <div className={styles.root}>
-            <p>Hello</p>
+        <div>
             <ReactFamilyTree
                 nodes={(nodes: IFamilyNode)}
                 rootId={rootId}
@@ -29,10 +28,9 @@ function FamilyTree() {
                         key={node.id}
                         node={node}
                         isRoot={node.id === rootId}
-                        onSubClick={setRootId}
                         style={{
-                            width: WIDTH,
-                            height: HEIGHT,
+                            width: WIDTH * 0.8,
+                            height: HEIGHT * 0.8,
                             transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
                         }}
                     />
