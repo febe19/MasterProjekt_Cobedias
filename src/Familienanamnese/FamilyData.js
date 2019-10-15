@@ -97,9 +97,21 @@ const familyHelpers = {
         return false;
     },
 
+    //get Highest index of Siblings --> Currently only 9 siblings are allowed
+    getHighestIndexOfSiblings: function() {
+        let highestIndex = 0;
+        for (let i = 0; i <= myFamilyData.length - 1; i++) {
+            if (myFamilyData[i].id.substring(0, 7) === 'sibling') {
+                highestIndex = myFamilyData[i].id.slice(-1);
+            }
+        }
+        return (parseInt(highestIndex, 10)+1);
+    },
+
     //This allows adding an all new family Member with check if they already exist
     addFamilyMember: function (id, gender, parents, siblings, spouses, children) {
-        if (!this.checkExistingFamilyMember(id)) {
+        //if (!this.checkExistingFamilyMember(id)) {
+        if (true) {
             myFamilyData.push(
                 {
                     "id": id,
@@ -111,9 +123,9 @@ const familyHelpers = {
                 }
             );
 
+            //add Child to Parents
             for (let i = 0; i <= parents.length - 1; i++) {
                 let currentParent = this.getFamilyMemberByID(parents[i].id);
-                console.log("__  Current Parent: " + JSON.stringify(this.getFamilyMemberByID(parents[i].id)));
 
                 if (currentParent !== false) {
                     currentParent.children.push(
@@ -121,11 +133,12 @@ const familyHelpers = {
                             "id" : id,
                             "type": "blood"
                         }
-                    )
+                    );
                     this.updateFamilyMemberByID(currentParent.id, currentParent.gender, currentParent.parents, currentParent.siblings, currentParent.spouses, currentParent.children);
                 }
             }
 
+            //Add sibling to siblings
             for (let i = 0; i <= siblings.length - 1; i++) {
                 let currentSibling = this.getFamilyMemberByID(siblings[i].id);
                 console.log("__  Current Sibling: " + JSON.stringify(this.getFamilyMemberByID(siblings[i].id)));
@@ -136,7 +149,7 @@ const familyHelpers = {
                             "id" : id,
                             "type": "blood"
                         }
-                    )
+                    );
                     this.updateFamilyMemberByID(currentSibling.id, currentSibling.gender, currentSibling.parents, currentSibling.siblings, currentSibling.spouses, currentSibling.children);
                 }
             }
@@ -159,36 +172,35 @@ const familyHelpers = {
 
                 //Update Gender
                 if (gender !== "" && myFamilyData[i].gender !== gender) {
-                    console.log("__  Update gender of " + myFamilyData[i].id + " from " + myFamilyData[i].gender + " to " + gender);
+                    //console.log("__  Update gender of " + myFamilyData[i].id + " from " + myFamilyData[i].gender + " to " + gender);
                     myFamilyData[i].gender = gender;
                 }
 
                 //Update parents
                 if (parents.length !== 0 && myFamilyData[i].parents !== parents) {
-                    console.log(parents);
-                    console.log("__  Update Parents of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].parents) + " to " + JSON.stringify(parents));
+                    //console.log("__  Update Parents of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].parents) + " to " + JSON.stringify(parents));
                     myFamilyData[i].parents = parents;
                 }
 
                 //Update siblings
                 if (siblings.length !== 0 && myFamilyData[i].siblings !== siblings) {
-                    console.log("__  Update siblings of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].siblings) + " to " + JSON.stringify(siblings));
+                    //console.log("__  Update siblings of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].siblings) + " to " + JSON.stringify(siblings));
                     myFamilyData[i].siblings = siblings;
                 }
 
                 //Update spouse
                 if (spouses.length !== 0 && myFamilyData[i].spouses !== spouses) {
-                    console.log("__  Update spouse of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].spouses) + " to " + JSON.stringify(spouses));
+                    //console.log("__  Update spouse of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].spouses) + " to " + JSON.stringify(spouses));
                     myFamilyData[i].spouses = spouses;
                 }
 
                 //Update children
-                if (children.length !== 0 && myFamilyData[i].children == children) {
-                    console.log("__  Update children of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].children) + " to " + JSON.stringify(children));
+                if (children.length !== 0 && myFamilyData[i].children !== children) {
+                    //console.log("__  Update children of " + myFamilyData[i].id + " from " + JSON.stringify(myFamilyData[i].children) + " to " + JSON.stringify(children));
                     myFamilyData[i].children = children;
                 }
 
-                //console.log("__  Update of " + myFamilyData[i].id + ": "+ JSON.stringify(myFamilyData[i]));
+                console.log("__  Update of " + myFamilyData[i].id + ": "+ JSON.stringify(myFamilyData[i]));
             }
         }
     }

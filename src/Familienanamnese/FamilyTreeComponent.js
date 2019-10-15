@@ -15,13 +15,6 @@ const HEIGHT = 100;
 
 function familyTreeWorker() {
 
-    const meAsSibling = [
-        {
-            "id": "me",
-            "type": "blood"
-        }
-    ]
-
     familyHelpers.updateFamilyMemberByID = familyHelpers.updateFamilyMemberByID.bind(this);
 
     //Write Data to Local Storage
@@ -66,23 +59,31 @@ class FamilyTree extends Component {
         this.state = {
             FamilyDataState: familyHelpers.getFamilyData()
         };
+
+        console.log("Starting Family Data: " + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
+    meAsSibling = [
+        {
+            "id": "me",
+            "type": "blood"
+        }
+    ];
 
     addSibling = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
         if (e === 'addSister') {
             console.log("New Sister will be added");
-            familyHelpers.addFamilyMember("sister1", "female", me.parents, me.siblings, [], []);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, me.siblings, [], []);
         } else {
             console.log("New Brother will be added");
-            familyHelpers.addFamilyMember("brother1", "male", me.parents, me.siblings, [], []);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, me.siblings, [], []);
         }
-        
+
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
-    }
+    };
 
 
     render() {
