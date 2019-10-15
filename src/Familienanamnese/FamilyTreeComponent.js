@@ -46,6 +46,7 @@ class FamilyTree extends Component {
             siblings.push(me.siblings[i]);
         }
 
+        //Change between add sister or add brother.
         if (e === 'addSister') {
             familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], []);
         } else {
@@ -91,8 +92,12 @@ class FamilyTree extends Component {
             meAsAParent.push(me.spouses)
         }
 
-        familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, [], [], []);
-
+        if (e === 'addDaughter') {
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, [], [], []);
+        } else {
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, [], [], []);
+        }
+        
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
@@ -128,7 +133,8 @@ class FamilyTree extends Component {
                 <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
                 <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
                 <Button id="addSpouse" onClick={() => this.addSpouse('addSpouse')}>Add Spouse</Button>
-                <Button id="addChildren" onClick={() => this.addChildren('addChildren')}>Add Child</Button>
+                <Button id="addDaughter" onClick={() => this.addChildren('addDaughter')}>Add Daughter</Button>
+                <Button id="addSon" onClick={() => this.addChildren('addSon')}>Add Son</Button>
             </div>
         );
     }
