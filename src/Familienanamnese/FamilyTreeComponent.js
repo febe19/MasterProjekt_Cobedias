@@ -13,43 +13,6 @@ const myID = 'me';
 const WIDTH = 100;
 const HEIGHT = 100;
 
-function familyTreeWorker() {
-
-    familyHelpers.updateFamilyMemberByID = familyHelpers.updateFamilyMemberByID.bind(this);
-
-    //Write Data to Local Storage
-    //localStorage.set('myFamilyData', familyHelpers.getFamilyData());
-
-    //Get number of Family Members
-    familyHelpers.getNumberFamilyMember();
-
-    //Adding of other family members with check if they already exist.
-//    familyHelpers.addFamilyMember("myMother", "female", [], [], [],[]);
-
-    //Get ID of the last family member
-//    let data = familyHelpers.getLastFamilyMember();
-//    console.log("ID of last added Family Member: " + data.id);
-
-    //Get a Family Member by its ID.
-//    console.log("Get FamilyMemberByID: "+ JSON.stringify(familyHelpers.getFamilyMemberByID("myMother")));
-
-    //Update a Family Member
-    let me = familyHelpers.getFamilyMemberByID("me");
-    //familyHelpers.updateFamilyMemberByID("me", "female", [], me.siblings, me.spouses, me.children);
-    //console.log("Family Data " + JSON.stringify(familyHelpers.getFamilyData()));
-
-    //add sister1 for example
-    //familyHelpers.addFamilyMember("sister1", "female", me.parents, me.siblings, [], []);
-    familyHelpers.addFamilyMember("brother1", "male", me.parents, me.siblings, [], []);
-
-    familyHelpers.getLastFamilyMember();
-
-
-    //localStorage.set('myFamilyData', familyHelpers.getFamilyData());
-
-}
-
-
 class FamilyTree extends Component {
 
     constructor(props) {
@@ -60,30 +23,82 @@ class FamilyTree extends Component {
             FamilyDataState: familyHelpers.getFamilyData()
         };
 
-        console.log("Starting Family Data: " + JSON.stringify(familyHelpers.getFamilyData()));
-    }
+        //Only for test reasons how it looks when starting with a female me.
+        //let me = familyHelpers.getFamilyMemberByID("me");
+        //familyHelpers.updateFamilyMemberByID(me.id, "female", me.parents, me.siblings, [], [])
 
-    meAsSibling = [
-        {
-            "id": "me",
-            "type": "blood"
-        }
-    ];
+        console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
+    }
 
     addSibling = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
+
+        //Take me as Sibling
+        let siblings = [
+            {
+                "id": "me",
+                "type": "blood"
+            },
+        ];
+
+        //Add other siblings I have
+        for (let i = 0; i < me.siblings.length; i++) {
+            siblings.push(me.siblings[i]);
+        }
+
         if (e === 'addSister') {
-            console.log("New Sister will be added");
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, me.siblings, [], []);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], []);
         } else {
-            console.log("New Brother will be added");
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, me.siblings, [], []);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], []);
         }
 
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
     };
+
+    addSpouse = (e) => {
+        let me = familyHelpers.getFamilyMemberByID("me");
+
+        if (me.gender === 'female') {
+            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
+                "id": "me",
+                "type": "married"
+            }], me.children);
+        } else {
+            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
+                "id": "me",
+                "type": "married"
+            }], me.children);
+        }
+
+        this.setState(
+            {FamilyDataState: familyHelpers.getFamilyData()}
+        )
+    };
+
+    addChildren = (e) => {
+        let me = familyHelpers.getFamilyMemberByID("me");
+        let meAsAParent = [
+            {
+                "id": "me",
+                "type": "blood"
+            }
+        ];
+
+        //TODO: Add a selection from which Spouse the child is.
+        if (me.spouses.length === 1) {
+            meAsAParent.push(me.spouses)
+        }
+
+        familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, [], [], []);
+
+        this.setState(
+            {FamilyDataState: familyHelpers.getFamilyData()}
+        )
+    };
+
+    //TODO: Write Family Data into local storeage such that a refresh will not loose all data.
 
 
     render() {
@@ -112,6 +127,8 @@ class FamilyTree extends Component {
                 </div>
                 <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
                 <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
+                <Button id="addSpouse" onClick={() => this.addSpouse('addSpouse')}>Add Spouse</Button>
+                <Button id="addChildren" onClick={() => this.addChildren('addChildren')}>Add Child</Button>
             </div>
         );
     }
