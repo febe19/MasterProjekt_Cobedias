@@ -69,9 +69,16 @@ class FamilyTree extends Component {
     }
 
 
-    addSister = () => {
+    addSibling = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
-        familyHelpers.addFamilyMember("sister1", "female", me.parents, me.siblings, [], []);
+        if (e === 'addSister') {
+            console.log("New Sister will be added");
+            familyHelpers.addFamilyMember("sister1", "female", me.parents, me.siblings, [], []);
+        } else {
+            console.log("New Brother will be added");
+            familyHelpers.addFamilyMember("brother1", "male", me.parents, me.siblings, [], []);
+        }
+        
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
@@ -102,7 +109,8 @@ class FamilyTree extends Component {
                         )}
                     />
                 </div>
-                <Button onClick={this.addSister}>Add Sister</Button>
+                <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
+                <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
             </div>
         );
     }
