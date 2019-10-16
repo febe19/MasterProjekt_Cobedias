@@ -24,6 +24,12 @@ class Zivilstand extends Component {
         this.handleChangeGeschieden = this.handleChangeGeschieden.bind(this);
         this.handleChangeAndere = this.handleChangeAndere.bind(this);
 
+        this.handleChangePatVerfuegungJa = this.handleChangePatVerfuegungJa.bind(this);
+        this.handleChangePatVerfuegungNein = this.handleChangePatVerfuegungNein.bind(this);
+
+        this.handleChangeVorsorgeauftragJa = this.handleChangeVorsorgeauftragJa.bind(this);
+        this.handleChangeVorsorgeauftragNein = this.handleChangeVorsorgeauftragNein.bind(this);
+
         //Define the state of this component.
         this.state = {
             ledig: false,
@@ -31,8 +37,17 @@ class Zivilstand extends Component {
             verwitwet: false,
             geschieden: false,
             andere: false,
-
             andereText: '',
+
+            nahePersonen: '',
+
+            patVerfuegungJa: false,
+            patVerfuegungNein: false,
+            patVerfuegungBei: '',
+
+            vorsorgeauftragJa: false,
+            vorsorgeauftragNein: false,
+            vorsorgeauftragBei: '',
 
         };
         console.log("-  " + new Date().toLocaleTimeString() + " _Bezugspersonen_"); //muss ev. zu Zivilstand geaendert werden (aber vl okay)
@@ -148,6 +163,62 @@ class Zivilstand extends Component {
         });
     };
 
+    //write the Change of the "patVerfuegungJa" Button to the state.
+    handleChangePatVerfuegungJa = () => {
+        this.setState({patVerfuegungJa: true}, () => {
+
+            // da der Button "Ja" ausgewählt wurde, wir dieser auf true gesetzt. "Nein" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('patVerfuegungJa', true);
+            localStorage.set('patVerfuegungNein', false);
+            this.setState({patVerfuegungNein: false});
+
+            //nachdem alle "Zivilstände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
+            localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
+        });
+    };
+
+    //write the Change of the "patVerfuegungNein" Button to the state.
+    handleChangePatVerfuegungNein = () => {
+        this.setState({patVerfuegungNein: true}, () => {
+
+            // da der Button "Nein" ausgewählt wurde, wir dieser auf true gesetzt. "Ja" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('patVerfuegungJa', false);
+            localStorage.set('patVerfuegungNein', true);
+            this.setState({patVerfuegungJa: false});
+
+            //nachdem alle "Zivilstände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
+            localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
+        });
+    };
+
+    //write the Change of the "vorsorgeauftragJa" Button to the state.
+    handleChangeVorsorgeauftragJa = () => {
+        this.setState({vorsorgeauftragJa: true}, () => {
+
+            // da der Button "Ja" ausgewählt wurde, wir dieser auf true gesetzt. "Nein" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('vorsorgeauftragJa', true);
+            localStorage.set('vorsorgeauftragNein', false);
+            this.setState({vorsorgeauftragNein: false});
+
+            //nachdem alle "Zivilstände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
+            localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
+        });
+    };
+
+    //write the Change of the "vorsorgeauftragNein" Button to the state.
+    handleChangeVorsorgeauftragNein = () => {
+        this.setState({vorsorgeauftragNein: true}, () => {
+
+            // da der Button "Nein" ausgewählt wurde, wir dieser auf true gesetzt. "Ja" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('vorsorgeauftragJa', false);
+            localStorage.set('vorsorgeauftragNein', true);
+            this.setState({vorsorgeauftragJa: false});
+
+            //nachdem alle "Zivilstände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
+            localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
+        });
+    };
+
     //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
@@ -157,26 +228,64 @@ class Zivilstand extends Component {
             geschieden: localStorage.get('geschieden'),
             andere: localStorage.get('andere'),
             andereText: localStorage.get('andereText'),
+
+            nahePersonen: localStorage.get('nahePersonen'),
+
+            patVerfuegungJa: localStorage.get('patVerfuegungJa'),
+            patVerfuegungNein: localStorage.get('patVerfuegungNein'),
+            patVerfuegungBei: localStorage.get('patVerfuegungBei'),
+
+            vorsorgeauftragJa: localStorage.get('vorsorgeauftragJa'),
+            vorsorgeauftragNein: localStorage.get('vorsorgeauftragNein'),
+            vorsorgeauftragBei: localStorage.get('vorsorgeauftragBei'),
         });
 
         localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
     }
 
-    // completeness der Textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
-    // Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist. Je nachdem welcher Button ausgewählt
-    // ist, wird zusätzlich geprüft, ob die weiteren eingeblendeten Elemente befüllt sind
+    // Completeness des Textfelds (nahestehende Personen) und der Zivilstand-, Patientenverfuegung- und
+    // Vorsorgeauftrag-Buttons wird überprüft. Je nachdem welcher Button ausgewählt ist, wird zusätzlich geprüft,
+    // ob die weiteren eingeblendeten Elemente befüllt sind. Insgesamt muessen 4 Buttons bzw. Buttons + Felder gewaehlt/ausgefuellt sein -> check counter == 4
     checkComponentCompleteness() {
+        let counter;
+        counter = 0;
         if (localStorage.get('ledig') || localStorage.get('verheiratet') || localStorage.get('verwitwet') || localStorage.get('geschieden')) {
-            return true;
+            counter++;
         } else if (localStorage.get('andere')) {
-            if (this.state.andereText == '') {
+            if (this.state.andereText == '' || this.state.andereText == null) {
                 return false;
             } else {
-                return true;
+                counter++;
             }
+        }
+        if (this.state.nahePersonen == '' || this.state.nahePersonen == null){
+            return false;
+        } else {
+            counter++;
+        }
+        if (localStorage.get('patVerfuegungJa')){
+            if (this.state.patVerfuegungBei == '' || this.state.patVerfuegungBei == null){
+                return false;
+            } else {
+                counter++;
+            }
+        } else if (localStorage.get('patVerfuegungNein')){
+            counter++;
+        }
+        if (localStorage.get('vorsorgeauftragJa')){
+            if (localStorage.get('vorsorgeauftragBei') == '' || localStorage.get('vorsorgeauftragBei') == null){
+                return false;
+            } else {
+                counter++;
+            }
+        } else if (localStorage.get('vorsorgeauftragNein')){
+            counter++;
+        }
+        if (counter == 4) {
+            return true;
         } else { //not sure if this else is needed
             // TODO: Find a way so that this alert is only executed when needed (e.g. when "Zurück" / "Weiter" Button is clicked. Otherwise the alert pops up every time anything changes on the page (Given that no Berufstätigkeit is selected yet).
-            //alert("Achtung: Der Zivilstand wurde nicht ausgewählt.")
+            //alert("Achtung: Ein Feld wurde nicht ausgewählt.")
             return false;
         }
     }
@@ -191,6 +300,16 @@ class Zivilstand extends Component {
         localStorage.set('andere', this.state.andere);
         localStorage.set('andereText', this.state.andereText);
 
+        localStorage.set('nahePersonen', this.state.nahePersonen);
+
+        localStorage.set('patVerfuegungJa', this.state.patVerfuegungJa);
+        localStorage.set('patVerfuegungNein', this.state.patVerfuegungNein);
+        localStorage.set('patVerfuegungBei', this.state.patVerfuegungBei);
+
+        localStorage.set('vorsorgeauftragJa', this.state.vorsorgeauftragJa);
+        localStorage.set('vorsorgeauftragNein', this.state.vorsorgeauftragNein);
+        localStorage.set('vorsorgeauftragBei', this.state.vorsorgeauftragBei);
+
         localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
     }
 
@@ -199,8 +318,6 @@ class Zivilstand extends Component {
         if (this.state.andere) {
             return (
                 <div className="ZivilstandEingeblendetesDiv">
-                    <br />
-                    <br />
                     <br />
                     <p>Bitte geben Sie Ihren Zivilstand an:</p>
                     <TextField
@@ -218,6 +335,52 @@ class Zivilstand extends Component {
         }
     }
 
+    // zeigt "patVerfuegungBei" Textbox nur an, wenn "patVerfuegungJa" Button ausgewählt ist
+    showPatVerfuegungBeiTextbox() {
+        if (this.state.patVerfuegungJa) {
+            return (
+                <div className="PatVerfuegungEingeblendetesDiv">
+                    <br />
+                    <p>Bei wem ist die Patientenverfügung hinterlegt?</p>
+                    <TextField
+                        label="Patientenverfügung bei"
+                        margin="normal"
+                        variant="outlined"
+                        name="patVerfuegungBei"
+                        value={this.state.patVerfuegungBei}
+                        onChange={this.handleChange("patVerfuegungBei")}
+                        fullWidth
+                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei der die Patientenverfügung hinterlegt ist."
+                    />
+                </div>
+            )
+        }
+    }
+
+    // zeigt "vorsorgeauftragBei" Textbox nur an, wenn "vorsorgeauftragJa" Button ausgewählt ist
+    showVorsorgeauftragBeiTextbox() {
+        if (this.state.vorsorgeauftragJa) {
+            return (
+                <div className="VorsorgeauftragEingeblendetesDiv">
+                    <br />
+                    <br />
+                    <br />
+                    <p>Bei wem ist der Vorsorgeauftrag hinterlegt?</p>
+                    <TextField
+                        label="Vorsorgeauftrag bei"
+                        margin="normal"
+                        variant="outlined"
+                        name="vorsorgeauftragBei"
+                        value={this.state.vorsorgeauftragBei}
+                        onChange={this.handleChange("vorsorgeauftragBei")}
+                        fullWidth
+                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei der der Vorsorgeauftrag hinterlegt ist."
+                    />
+                </div>
+            )
+        }
+    }
+
     render() {
         // markiert den "ledig" button blau sobald dieser angewählt wurde
         const styleLedig = (this.state.ledig) ? {background: '#BBC2E5'} : {};
@@ -229,13 +392,20 @@ class Zivilstand extends Component {
         const styleGeschieden = (this.state.geschieden) ? {background: '#BBC2E5'} : {};
         // markiert den "andere" button blau sobald dieser angewählt wurde
         const styleAndere = (this.state.andere) ? {background: '#BBC2E5'} : {};
+        // markiert den "patVerfuegungJa" button blau sobald dieser angewählt wurde
+        const stylePatVerfuegungJa = (this.state.patVerfuegungJa) ? {background: '#BBC2E5'} : {};
+        // markiert den "patVerfuegungNein" button blau sobald dieser angewählt wurde
+        const stylePatVerfuegungNein = (this.state.patVerfuegungNein) ? {background: '#BBC2E5'} : {};
+        // markiert den "vorsorgeauftragJa" button blau sobald dieser angewählt wurde
+        const styleVorsorgeauftragJa = (this.state.vorsorgeauftragJa) ? {background: '#BBC2E5'} : {};
+        // markiert den "vorsorgeauftragNein" button blau sobald dieser angewählt wurde
+        const styleVorsorgeauftragNein = (this.state.vorsorgeauftragNein) ? {background: '#BBC2E5'} : {};
 
         return (
             <div>
                 <h2>Bezugspersonen</h2>
                 <br />
                 <div>
-
                     <div className="Berufstaetigkeit">
                         <div>Bitte wählen Sie Ihren aktuellen Zivilstand:
                         </div>
@@ -265,24 +435,73 @@ class Zivilstand extends Component {
                             </Button>
                         </div>
                     </div>
-
+                    <br /><br />
+                    <div>{this.showAndereTextbox()}</div>
                 </div>
-                <div>{this.showAndereTextbox()}</div>
+                <div>
+                    <div className={"Berufstaetigkeit"}>
+                        <br />
+                        <div>Bitte geben Sie eine oder mehrere Ihnen nahestehende Person(en) an:</div>
+                        <div>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Nahestehende Person(en)"
+                                multiline
+                                rows="1"
+                                margin="normal"
+                                variant="outlined"
+                                value={this.state.nahePersonen}
+                                name="nahePersonen"
+                                onChange={this.handleChange("nahePersonen")}
+                                fullWidth
+                                placeholder="Name(n) der Ihnen nahestehenden Person(en)"
+                            />
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div className="Berufstaetigkeit">
+                        <br />
+                        <div>Ist eine Patientenverfügung vorhanden?
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={stylePatVerfuegungJa} onClick={this.handleChangePatVerfuegungJa}>Ja
+                            </Button>
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={stylePatVerfuegungNein} onClick={this.handleChangePatVerfuegungNein}>Nein
+                            </Button>
+                        </div>
+                        <br /><br />
+                    </div>
+                </div>
+                <div>{this.showPatVerfuegungBeiTextbox()}</div>
+                <div>
+                    <div className="Berufstaetigkeit">
+                        <br />
+                        <div>Ist ein Vorsorgeauftrag vorhanden?
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleVorsorgeauftragJa} onClick={this.handleChangeVorsorgeauftragJa}>Ja
+                            </Button>
+
+                        </div>
+                        <div className="BerufstaetigkeitButtons">
+                            <Button variant="outlined" size="small" color="primary"
+                                    style={styleVorsorgeauftragNein} onClick={this.handleChangeVorsorgeauftragNein}>Nein
+                            </Button>
+                        </div>
+                        <div>{this.showVorsorgeauftragBeiTextbox()}</div>
+                    </div>
+                </div>
             </div>
+
         );
     }
 }
-
-/*class Zivilstand extends Component {
-    render() {
-        return (
-            <div>
-                <h2>Bezugspersonen</h2>
-                <br />
-                <p>Bitte wählen Sie Ihren aktuellen Zivilstand:</p>
-            </div>
-        );
-    }
-}*/
 
 export default Zivilstand;
