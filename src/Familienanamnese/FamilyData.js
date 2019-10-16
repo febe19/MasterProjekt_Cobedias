@@ -131,7 +131,7 @@ const familyHelpers = {
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname) {
 
         if (!this.checkExistingFamilyMember(id)) {
 
@@ -153,7 +153,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -179,7 +182,10 @@ const familyHelpers = {
                     "parents": parents,
                     "siblings": sibling,
                     "spouses": spouses,
-                    "children": children
+                    "children": children,
+                    "spitzname": spitzname,
+                    "vorname": vorname,
+                    "nachname": nachname,
                 }
             );
 
