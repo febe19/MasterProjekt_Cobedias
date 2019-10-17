@@ -219,6 +219,8 @@ class FamilyTree extends Component {
             </div>)
     }
 
+    // TODO: create popup to modify existing family members
+
     render() {
         return (
             <div style={{margin: '0 auto'}}>
