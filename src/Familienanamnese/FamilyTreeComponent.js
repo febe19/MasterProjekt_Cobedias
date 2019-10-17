@@ -60,10 +60,12 @@ class FamilyTree extends Component {
         });
     };
 
+    // opens Popup when new family member is added
     handlePopupOpen = () => {
         this.setState({popupOpen: true});
     };
 
+    // closes Popup when new family member is added with button "hinzufügen"
     handlePopupClose = e => {
         this.addSibling(e.currentTarget.value);
         this.setState({popupOpen: false});
@@ -72,6 +74,7 @@ class FamilyTree extends Component {
         this.setState({nachname: ''});
     };
 
+    // closes Popup when adding new family member is canceled with button "abbrechen"
     handlePopupCancel = e => {
         this.setState({popupOpen: false});
         this.setState({spitzname: ''});
@@ -164,6 +167,7 @@ class FamilyTree extends Component {
 
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
+    // popup to add a new family member
     addFamilyMemberPopup(familyMember, buttonLabel) {
         return (
             <div>
