@@ -42,7 +42,6 @@ class FamilyTree extends Component {
             nachname: '',
         };
 
-
         //Only for test reasons how it looks when starting with a female me.
         //let me = familyHelpers.getFamilyMemberByID("me");
         //familyHelpers.updateFamilyMemberByID(me.id, "female", me.parents, me.siblings, [], [])
@@ -50,6 +49,8 @@ class FamilyTree extends Component {
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
+
+    //OnClick function ot add Siblings of me
     //write the Change of "vorname" / "nachname" to the state.
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value}, () => {
@@ -78,10 +79,9 @@ class FamilyTree extends Component {
         this.setState({nachname: ''});
     };
 
-
+    //OnClick function ot add Siblings of me
     addSibling = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
-
 
         //Take me as Sibling
         let siblings = [
@@ -108,6 +108,7 @@ class FamilyTree extends Component {
         )
     };
 
+    //OnClick Function to add a Spouse
     addSpouse = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
 
@@ -128,8 +129,10 @@ class FamilyTree extends Component {
         )
     };
 
+    //OnClick Function to add Children
     addChildren = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
+        let meChildren = [];
         let meAsAParent = [
             {
                 "id": "me",
@@ -137,15 +140,21 @@ class FamilyTree extends Component {
             }
         ];
 
-        //TODO: Add a selection from which Spouse the child is.
+        //TODO: Add a selection from which Spouse the child is and then push it to the meAsAParent Array.
         if (me.spouses.length === 1) {
             meAsAParent.push(me.spouses)
         }
 
+        if (me.children !== [] && me.children.length !== 0) {
+            for (let i = 0; i < me.children.length; i++) {
+                meChildren.push(me.children[i]);
+            }
+        }
+
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, [], [], []);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], []);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, [], [], []);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], []);
         }
 
         this.setState(
@@ -153,7 +162,7 @@ class FamilyTree extends Component {
         )
     };
 
-    //TODO: Write Family Data into local storeage such that a refresh will not loose all data.
+    //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
     addFamilyMemberPopup(familyMember, buttonLabel) {
         return (
