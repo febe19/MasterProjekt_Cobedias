@@ -1,5 +1,5 @@
 //TODO: Get gender for "me" from input form
-const myFamilyData =
+let myFamilyData =
     [
         {
             "id": "me",
@@ -141,7 +141,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -168,7 +171,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -180,7 +186,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(children[i].id).parents.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -211,9 +220,48 @@ const familyHelpers = {
         }
     },
 
-    //This should delete certain Family members. It is only allowed to delete spouses, siblings or children
-    deleteFamilyMember: function (id, gender, parents, sibling, spouses, children) {
+    //This delete certain Family members. It is only allowed to delete spouses, siblings or children
+    deleteFamilyMember: function (id) {
+        for (let i = 0; i < myFamilyData.length; i++) {
 
+            console.log("Check Family Member " + myFamilyData[i].id);
+            for (let j = 0; j < myFamilyData[i].siblings.length; j++) {
+                if (myFamilyData[i].siblings[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".siblings " + JSON.stringify(myFamilyData[i].siblings));
+                    myFamilyData[i].siblings.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].parents.length; j++) {
+                if (myFamilyData[i].parents[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".parents " + JSON.stringify(myFamilyData[i].parents));
+                    myFamilyData[i].parents.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].spouses.length; j++) {
+                if (myFamilyData[i].spouses[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".spouses " + JSON.stringify(myFamilyData[i].spouses));
+                    myFamilyData[i].spouses.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].children.length; j++) {
+                if (myFamilyData[i].children[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".children " + JSON.stringify(myFamilyData[i].children));
+                    myFamilyData[i].children.splice(j, 1);
+                }
+            }
+        }
+        for (let i = 0; i < myFamilyData.length; i++) {
+            if (myFamilyData[i].id === id) {
+                console.log("   Delete Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
+                myFamilyData.splice(i, 1);
+
+            }
+        }
+
+        console.log("Deleted member " + id + " from FamilyData: \n" + JSON.stringify(myFamilyData));
     }
 
 };
