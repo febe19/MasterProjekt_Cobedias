@@ -100,7 +100,7 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
-            addingOfFamilyMember: ''
+            addingOfFamilyMember: '',
             gesundheitszustand: '',
             activeStep: 0,
             //  setActiveStep: 0,
@@ -340,7 +340,6 @@ class FamilyTree extends Component {
     showPopup() {
         return (
             <div>
-                <Button variant="outlined" color="primary" onClick={this.handlePopupOpen}>{buttonLabel}</Button>
                 <Dialog open={this.state.popupOpen}
                         aria-labelledby="form-dialog-title">
                     <div className="dialogContentDiv">
@@ -451,41 +450,37 @@ class FamilyTree extends Component {
                     })}
                 </Stepper>
                 <div>
-                    <div>
-                        <div className="FamilyTreeStepContent">
-                            <Typography className={classes.instructions}>
-                                {this.getStepContent(this.state.activeStep)}
-                            </Typography>
-                        </div>
-                        <div className="FamilyTreeNavigationsButton">
-                            <div>
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    disabled={this.state.activeStep === 0}
-                                    onClick={this.handleBack}
-                                    className={classes.button}
-                                >
-                                    Zurück
-                                </Button>
-                                <Button
-                                    disabled={this.state.activeStep === (this.totalSteps() - 1)}
-                                    size="large"
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={this.handleNext}
-                                    className={classes.button}
-                                >
-                                    Weiter
-                                </Button>
-                            </div>
+                    <div className="FamilyTreeStepContent">
+                        <Typography className={classes.instructions}>
+                            {this.getStepContent(this.state.activeStep)}
+                        </Typography>
+                    </div>
+                    <div className="FamilyTreeNavigationsButton">
+                        <div>
+                            <Button
+                                size="large"
+                                variant="outlined"
+                                disabled={this.state.activeStep === 0}
+                                onClick={this.handleBack}
+                                className={classes.button}
+                            >
+                                Zurück
+                            </Button>
+                            <Button
+                                disabled={this.state.activeStep === (this.totalSteps() - 1)}
+                                size="large"
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleNext}
+                                className={classes.button}
+                            >
+                                Weiter
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
-
         )
-
     }
 
 
