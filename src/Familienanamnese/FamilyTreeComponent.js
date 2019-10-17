@@ -27,7 +27,6 @@ class FamilyTree extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.handlePopupOpen = this.handlePopupOpen.bind(this);
         this.handlePopupClose = this.handlePopupClose.bind(this);
 
 
@@ -40,6 +39,7 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
+            addingOfFamilyMember: ''
         };
 
         //Only for test reasons how it looks when starting with a female me.
@@ -60,26 +60,36 @@ class FamilyTree extends Component {
         });
     };
 
-    // opens Popup when new family member is added
-    handlePopupOpen = () => {
-        this.setState({popupOpen: true});
-    };
-
     // closes Popup when new family member is added with button "hinzufügen"
     handlePopupClose = e => {
-        this.addSibling(e.currentTarget.value);
-        this.setState({popupOpen: false});
-        this.setState({spitzname: ''});
-        this.setState({vorname: ''});
-        this.setState({nachname: ''});
+        if (e.currentTarget.value === 'addDaughter') {
+            this.addChildren('addDaughter');
+        } else if (e.currentTarget.value === 'addSon') {
+            this.addChildren('addSon');
+        } else if (e.currentTarget.value === 'addSpouse') {
+            this.addSpouse("addSpouse");
+        } else if (e.currentTarget.value === 'addBrother') {
+            this.addSibling('addBrother');
+        } else if (e.currentTarget.value === 'addSister') {
+            this.addSibling("addSister")
+        }
+
+        this.setState({
+            popupOpen: false,
+            spitzname: '',
+            vorname: '',
+            nachname: ''
+        });
     };
 
     // closes Popup when adding new family member is canceled with button "abbrechen"
     handlePopupCancel = e => {
-        this.setState({popupOpen: false});
-        this.setState({spitzname: ''});
-        this.setState({vorname: ''});
-        this.setState({nachname: ''});
+        this.setState({
+            popupOpen: false,
+            spitzname: '',
+            vorname: '',
+            nachname: ''
+        });
     };
 
     //OnClick function ot add Siblings of me
@@ -180,12 +190,16 @@ class FamilyTree extends Component {
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
     // popup to add a new family member
-    addFamilyMemberPopup(familyMember, buttonLabel) {
+    addFamilyMemberPopup = (fm) => {
+        console.log("__Adding of Family Member: " + fm);
+        this.setState({popupOpen: true, addingOfFamilyMember: fm});
+    };
+
+    //Show Popup,if state == true
+    showPopup() {
         return (
             <div>
-                <Button variant="outlined" color="primary" onClick={this.handlePopupOpen}>{buttonLabel}</Button>
-                <Dialog open={this.state.popupOpen}
-                        aria-labelledby="form-dialog-title">
+                <Dialog open={this.state.popupOpen} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Bitte füllen Sie aus:</DialogTitle>
                     <DialogContent>
                         <TextField
@@ -220,10 +234,11 @@ class FamilyTree extends Component {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handlePopupCancel} value={familyMember} color="primary">
+                        <Button onClick={this.handlePopupCancel} value={this.state.addingOfFamilyMember}
+                                color="primary">
                             Abbrechen
                         </Button>
-                        <Button onClick={this.handlePopupClose} value={familyMember} color="primary">
+                        <Button onClick={this.handlePopupClose} value={this.state.addingOfFamilyMember} color="primary">
                             Hinzufügen
                         </Button>
                     </DialogActions>
@@ -234,14 +249,26 @@ class FamilyTree extends Component {
     render() {
         return (
             <div style={{margin: '0 auto'}}>
-                <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
-                <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
-                <Button id="addSpouse" onClick={() => this.addSpouse('addSpouse')}>Add Spouse</Button>
-                <Button id="addDaughter" onClick={() => this.addChildren('addDaughter')}>Add Daughter</Button>
-                <Button id="addSon" onClick={() => this.addChildren('addSon')}>Add Son</Button>
                 <Button id="deleteFamilyMember" onClick={() => this.deleteFamilyMember('deleteChild')}>Delete
                     Child</Button>
-                <div>{this.addFamilyMemberPopup('addSister', 'Schwester hinzufügen')}</div>
+                <div>
+                    <Button id="addSister" variant="outlined" color="primary"
+                            onClick={() => this.addFamilyMemberPopup('addSister')}>Schwester
+                        Hinzufügen</Button>
+                    <Button id="addBrother" variant="outlined" color="primary"
+                            onClick={() => this.addFamilyMemberPopup('addBrother')}>Bruder
+                        Hinzufügen</Button>
+                    <Button id="addSpouse" variant="outlined" color="primary"
+                            onClick={() => this.addFamilyMemberPopup('addSpouse')}>Partner
+                        Hinzufügen</Button>
+                    <Button id="addDaughter" variant="outlined" color="primary"
+                            onClick={() => this.addFamilyMemberPopup('addDaughter')}>Tochter
+                        Hinzufügen</Button>
+                    <Button id="addSon" variant="outlined" color="primary"
+                            onClick={() => this.addFamilyMemberPopup('addSon')}>Sohn
+                        Hinzufügen</Button>
+                    <div>{this.showPopup()}</div>
+                </div>
                 <div>
                     <ReactFamilyTree
                         nodes={this.state.FamilyDataState}
