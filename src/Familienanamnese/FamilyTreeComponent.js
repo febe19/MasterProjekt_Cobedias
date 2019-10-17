@@ -165,6 +165,18 @@ class FamilyTree extends Component {
         )
     };
 
+    //onclick Function to delete Family Member
+    deleteFamilyMember = (e) => {
+        console.log("--> " + e);
+
+        //TODO: Currently only child one is deletable. This id should be selectable from the UI
+        familyHelpers.deleteFamilyMember("child1");
+
+        this.setState(
+            {FamilyDataState: familyHelpers.getFamilyData()}
+        )
+    }
+
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
     // popup to add a new family member
@@ -222,6 +234,14 @@ class FamilyTree extends Component {
     render() {
         return (
             <div style={{margin: '0 auto'}}>
+                <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
+                <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
+                <Button id="addSpouse" onClick={() => this.addSpouse('addSpouse')}>Add Spouse</Button>
+                <Button id="addDaughter" onClick={() => this.addChildren('addDaughter')}>Add Daughter</Button>
+                <Button id="addSon" onClick={() => this.addChildren('addSon')}>Add Son</Button>
+                <Button id="deleteFamilyMember" onClick={() => this.deleteFamilyMember('deleteChild')}>Delete
+                    Child</Button>
+                <div>{this.addFamilyMemberPopup('addSister', 'Schwester hinzufügen')}</div>
                 <div>
                     <ReactFamilyTree
                         nodes={this.state.FamilyDataState}
@@ -243,12 +263,6 @@ class FamilyTree extends Component {
                         )}
                     />
                 </div>
-                <Button id="addSister" onClick={() => this.addSibling('addSister')}>Add Sister</Button>
-                <Button id="addBrother" onClick={() => this.addSibling('addBrother')}>Add Brother</Button>
-                <Button id="addSpouse" onClick={() => this.addSpouse('addSpouse')}>Add Spouse</Button>
-                <Button id="addDaughter" onClick={() => this.addChildren('addDaughter')}>Add Daughter</Button>
-                <Button id="addSon" onClick={() => this.addChildren('addSon')}>Add Son</Button>
-                <div>{this.addFamilyMemberPopup('addSister', 'Schwester hinzufügen')}</div>
             </div>
         );
     }
