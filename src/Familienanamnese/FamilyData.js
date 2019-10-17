@@ -149,6 +149,8 @@ const familyHelpers = {
 
             //Add sibling to siblings
             for (let i = 0; i <= sibling.length - 1; i++) {
+                console.log("Check:  "+ this.getFamilyMemberByID(sibling[i].id).id + " !== " + id + " ---> ");
+                console.log(this.getFamilyMemberByID(sibling[i].id).id !== id);
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
@@ -174,7 +176,6 @@ const familyHelpers = {
             //Add Parent to already existing children
             for (let i = 0; i <= children.length - 1; i++) {
                 if (this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== null) {
-                    console.log("Push "+ id + " to " + children[i].id);
                     this.getFamilyMemberByID(children[i].id).parents.push(
                         {
                             "id": id,

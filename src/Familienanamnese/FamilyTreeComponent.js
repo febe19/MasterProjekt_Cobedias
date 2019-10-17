@@ -80,6 +80,7 @@ class FamilyTree extends Component {
 
     addChildren = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
+        let meChildren = [];
         let meAsAParent = [
             {
                 "id": "me",
@@ -87,17 +88,23 @@ class FamilyTree extends Component {
             }
         ];
 
-        //TODO: Add a selection from which Spouse the child is.
+        //TODO: Add a selection from which Spouse the child is and then push it to the meAsAParent Array.
         if (me.spouses.length === 1) {
             meAsAParent.push(me.spouses)
         }
 
-        if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, [], [], []);
-        } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, [], [], []);
+        if (me.children !== [] && me.children.length !== 0) {
+            for (let i = 0; i < me.children.length; i++) {
+                meChildren.push(me.children[i]);
+            }
         }
-        
+
+        if (e === 'addDaughter') {
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], []);
+        } else {
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], []);
+        }
+
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
