@@ -30,6 +30,7 @@ class FamilyTree extends Component {
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
+    //OnClick function ot add Siblings of me
     addSibling = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
 
@@ -58,6 +59,7 @@ class FamilyTree extends Component {
         )
     };
 
+    //OnClick Function to add a Spouse
     addSpouse = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
 
@@ -78,6 +80,7 @@ class FamilyTree extends Component {
         )
     };
 
+    //OnClick Function to add Children
     addChildren = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
         let meChildren = [];
@@ -110,7 +113,7 @@ class FamilyTree extends Component {
         )
     };
 
-    //TODO: Write Family Data into local storeage such that a refresh will not loose all data.
+    //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
 
     render() {

@@ -147,10 +147,8 @@ const familyHelpers = {
                 }
             }
 
-            //Add sibling to siblings
+            //Add sibling to siblings or to children of me depending on the input
             for (let i = 0; i <= sibling.length - 1; i++) {
-                console.log("Check:  "+ this.getFamilyMemberByID(sibling[i].id).id + " !== " + id + " ---> ");
-                console.log(this.getFamilyMemberByID(sibling[i].id).id !== id);
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
@@ -201,10 +199,15 @@ const familyHelpers = {
             console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
-            //New mmeber already exists
+            //New mmeber already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
+    },
+
+    //This should delete certain Family members. It is only allowed to delete spouses, siblings or children
+    deleteFamilyMember: function (id, gender, parents, sibling, spouses, children) {
+
     }
 
 };
