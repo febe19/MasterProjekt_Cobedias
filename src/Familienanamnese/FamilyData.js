@@ -171,6 +171,19 @@ const familyHelpers = {
                 }
             }
 
+            //Add Parent to already existing children
+            for (let i = 0; i <= children.length - 1; i++) {
+                if (this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== null) {
+                    console.log("Push "+ id + " to " + children[i].id);
+                    this.getFamilyMemberByID(children[i].id).parents.push(
+                        {
+                            "id": id,
+                            "type": "blood"
+                        }
+                    );
+                }
+            }
+
             //Push Data to familyData.
             myFamilyData.push(
                 {
