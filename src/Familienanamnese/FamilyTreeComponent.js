@@ -14,6 +14,24 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
+import Berufstaetigkeit from "../Sozialanamnese/Berufstaetigkeit";
+import Hobbies from "../Sozialanamnese/Hobbies";
+import Militaerdienst from "../Sozialanamnese/Militaerdienst";
+import Wohnsituation from "../Sozialanamnese/Wohnsituation";
+import Zivilstand from "../Sozialanamnese/Zivilstand";
+import Bemerkungen from "../Sozialanamnese/Bemerkungen";
+import Absenden from "../Sozialanamnese/Absenden";
+
+
+import {makeStyles} from "@material-ui/core/styles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepButton from "@material-ui/core/StepButton";
+import Typography from "@material-ui/core/Typography";
+
+import Fab from '@material-ui/core/Fab';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 //My ID is always 0.
@@ -21,6 +39,49 @@ const myID = 'me';
 
 const WIDTH = 100;
 const HEIGHT = 100;
+
+
+const classes = makeStyles(theme => ({
+    root: {
+        width: "100%"
+    },
+    button: {
+        marginRight: theme.spacing(1)
+    },
+    backButton: {
+        marginRight: theme.spacing(1)
+    },
+    instructions: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1)
+    }
+}));
+
+
+const steps = getSteps();
+
+
+// Namen der Stepps werden hier definiert
+function getSteps() {
+    return ["Angaben", "Gesundheitszustand"];
+}
+
+
+// prüft ob ein spezifischer Component "complete" ist
+function componentCompleted(step) {
+    switch (step) {
+        case 0:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Fertig");
+            return localStorage.get('AngabenKomplett');
+        case 1:
+            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Gesundheitszustand_ Fertig");
+            return localStorage.get('GesundheitszustandKomplett');
+        default:
+            console.log("case default");
+            return false;
+    }
+}
+
 
 class FamilyTree extends Component {
 
@@ -40,6 +101,13 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
+            gesundheitszustand: '',
+            activeStep: 0,
+            //  setActiveStep: 0,
+            completed: {},
+            //   setCompleted: {},
+
+
         };
 
         //Only for test reasons how it looks when starting with a female me.
@@ -48,6 +116,77 @@ class FamilyTree extends Component {
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
+
+
+// zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
+    getStepContent(step) {
+        switch (step) {
+            case 0:
+                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Anfangen");
+                //return <Angaben/>;
+                return this.showAngaben();
+            case 1:
+                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Gesundheitszustand_ Anfangen");
+                //return <Gesundheitszustand/>;
+                return this.showGesundheitszustand();
+            default:
+                return "Unknown step";
+        }
+    }
+
+
+// prüft, ob alle Felder in diesem Step ausgefüllt sind
+    updateStepCompleteness(step) {
+        console.log("check completeness for: " + step);
+        // alle ausgefüllt --> Häckchen wird gesetzt
+        if (componentCompleted(step) === true) {
+            const newCompleted = this.state.completed;
+            newCompleted[step] = true;
+            this.setState({completed: newCompleted});
+            // setCompleted(newCompleted);
+        } else {
+            // Nicht alle ausgefüllt --> Häckchen wird entfernt
+            const newCompleted = this.state.completed;
+            newCompleted[step] = false;
+            this.setState({completed: newCompleted});
+            // TODO: Enable alert (evtl. mit zwei Buttons --> möchten Sie wirklich weiter? Ja/Nein)
+            // TODO: Alert-Vorgehen überdenken: nur einfacher Alert oder unterschiedlicher Alert für jeden Case?
+            // TODO: Sollen nicht ausgefüllte textfelder rot markiert werden?
+            //alert("Nicht alle Felder ausgefüllt!");
+        }
+    }
+
+
+//Anzahl Steps
+    totalSteps = () => {
+        return getSteps().length;
+    };
+
+
+// "Weiter" Button
+    handleNext = () => {
+        this.updateStepCompleteness(this.state.activeStep);
+        const newActiveStep = this.state.activeStep + 1;
+        this.setState({activeStep: newActiveStep});
+        //setActiveStep(newActiveStep);
+    };
+
+
+// "Zurück" Button
+    handleBack = () => {
+        this.updateStepCompleteness(this.state.activeStep);
+        this.setState({activeStep: this.state.activeStep - 1});
+
+        // setActiveStep(prevActiveStep => prevActiveStep - 1);
+    };
+
+// Direkter Sprung zu einem Stepp in oberer Leiste (Stepp Button)
+    handleStep = step => () => {
+        this.updateStepCompleteness(this.state.activeStep);
+        this.setState({activeStep: step});
+
+        //setActiveStep(step);
+    };
 
 
     //OnClick function ot add Siblings of me
@@ -72,6 +211,7 @@ class FamilyTree extends Component {
         this.setState({spitzname: ''});
         this.setState({vorname: ''});
         this.setState({nachname: ''});
+        this.setState({gesundheitszustand: ''});
     };
 
     // closes Popup when adding new family member is canceled with button "abbrechen"
@@ -80,6 +220,7 @@ class FamilyTree extends Component {
         this.setState({spitzname: ''});
         this.setState({vorname: ''});
         this.setState({nachname: ''});
+        this.setState({gesundheitszustand: ''});
     };
 
     //OnClick function ot add Siblings of me
@@ -167,6 +308,7 @@ class FamilyTree extends Component {
 
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
+
     // popup to add a new family member
     addFamilyMemberPopup(familyMember, buttonLabel) {
         return (
@@ -174,50 +316,151 @@ class FamilyTree extends Component {
                 <Button variant="outlined" color="primary" onClick={this.handlePopupOpen}>{buttonLabel}</Button>
                 <Dialog open={this.state.popupOpen}
                         aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Bitte füllen Sie aus:</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            label="Spitzname"
-                            margin="normal"
-                            variant="outlined"
-                            name="spitzname"
-                            value={this.state.spitzname}
-                            onChange={this.handleChange("spitzname")}
-                            fullWidth
-                            placeholder="Geben Sie hier den Spitznamen ein"
-                        />
-                        <TextField
-                            label="Vorname"
-                            margin="normal"
-                            variant="outlined"
-                            name="vorname"
-                            value={this.state.vorname}
-                            onChange={this.handleChange("vorname")}
-                            fullWidth
-                            placeholder="Geben Sie hier den Vornamen ein"
-                        />
-                        <TextField
-                            label="Nachname"
-                            margin="normal"
-                            variant="outlined"
-                            name="nachname"
-                            value={this.state.nachname}
-                            onChange={this.handleChange("nachname")}
-                            fullWidth
-                            placeholder="Geben Sie hier den Nachnamen ein"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handlePopupCancel} value={familyMember} color="primary">
-                            Abbrechen
-                        </Button>
-                        <Button onClick={this.handlePopupClose} value={familyMember} color="primary">
-                            Hinzufügen
-                        </Button>
-                    </DialogActions>
+                    <div className="dialogContentDiv">
+                        <DialogTitle id="form-dialog-title">Bitte füllen Sie aus:</DialogTitle>
+                        <DialogContent>
+
+                            <div>{this.showStepperInPopup()}</div>
+
+                        </DialogContent>
+                        <DialogActions style={{margin: '0 auto'}}>
+                            <Fab style={{background: 'red', margin: '0 auto', height: '100px', width: '100px'}}
+                                 onClick={this.handlePopupCancel}
+                                 value={familyMember} color='primary' fontSize='large'>
+                                <CancelIcon/>
+                            </Fab>
+                            <Fab style={{
+                                background: 'green',
+                                margin: '0 auto',
+                                height: '100px',
+                                width: '100px',
+                                bottom: '0px'
+                            }}
+                                 onClick={this.handlePopupClose}
+                                 value={familyMember}
+                                 color='primary' fontSize='small'>
+                                <CheckCircleIcon/>
+                            </Fab>
+                        </DialogActions>
+                    </div>
                 </Dialog>
+
             </div>)
     }
+
+
+    // popup to add a new family member
+    showAngaben() {
+        return (
+            <div>
+                <TextField
+                    label="Spitzname"
+                    margin="normal"
+                    variant="outlined"
+                    name="spitzname"
+                    value={this.state.spitzname}
+                    onChange={this.handleChange("spitzname")}
+                    fullWidth
+                    placeholder="Geben Sie hier den Spitznamen ein"
+                />
+                <TextField
+                    label="Vorname"
+                    margin="normal"
+                    variant="outlined"
+                    name="vorname"
+                    value={this.state.vorname}
+                    onChange={this.handleChange("vorname")}
+                    fullWidth
+                    placeholder="Geben Sie hier den Vornamen ein"
+                />
+                <TextField
+                    label="Nachname"
+                    margin="normal"
+                    variant="outlined"
+                    name="nachname"
+                    value={this.state.nachname}
+                    onChange={this.handleChange("nachname")}
+                    fullWidth
+                    placeholder="Geben Sie hier den Nachnamen ein"
+                />
+            </div>
+        )
+    }
+
+    // popup to add a new family member
+    showGesundheitszustand() {
+        return (
+            <div>
+                <TextField
+                    label="Gesundheitszustand"
+                    margin="normal"
+                    variant="outlined"
+                    name="gesundheitszustand"
+                    value={this.state.gesundheitszustand}
+                    onChange={this.handleChange("gesundheitszustand")}
+                    fullWidth
+                    multiline
+                    rows="8"
+                    placeholder="Geben Sie hier den Gesundheitszustand ein"
+                />
+            </div>
+        )
+    }
+
+    showStepperInPopup() {
+        return (
+            <div className='FamilyTreeContent'>
+                <Stepper alternativeLabel nonLinear activeStep={this.state.activeStep}>
+                    {steps.map((label, index) => {
+                        const stepProps = {};
+                        return (
+                            <Step key={label} {...stepProps}>
+                                <StepButton
+                                    onClick={this.handleStep(index)}>
+                                    {label}
+                                </StepButton>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                <div>
+                    <div>
+                        <div className="FamilyTreeStepContent">
+                            <Typography className={classes.instructions}>
+                                {this.getStepContent(this.state.activeStep)}
+                            </Typography>
+                        </div>
+                        <div className="FamilyTreeNavigationsButton">
+                            <div>
+                                <Button
+                                    size="large"
+                                    variant="outlined"
+                                    disabled={this.state.activeStep === 0}
+                                    onClick={this.handleBack}
+                                    className={classes.button}
+                                >
+                                    Zurück
+                                </Button>
+                                <Button
+                                    disabled={this.state.activeStep === (this.totalSteps() - 1)}
+                                    size="large"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.handleNext}
+                                    className={classes.button}
+                                >
+                                    Weiter
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        )
+
+    }
+
 
     // TODO: create popup to modify existing family members
 

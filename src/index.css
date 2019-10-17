@@ -158,3 +158,46 @@ ul.header li a {
 .Berufeingabe {
     margin-top: 7%;
 }
+
+
+.FamilyTreeContent {
+    padding: 20px;
+    list-style-type: none;
+    margin: auto;
+    width: 80%;
+    left: 50%;
+    color: black;
+
+}
+
+.FamilyTreeStepContent {
+    max-height: calc(100vh - 320px);
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.FamilyTreeStepContent::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.FamilyTreeStepContent::-webkit-scrollbar:vertical {
+    width: 17px;
+}
+
+
+.FamilyTreeStepContent::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.FamilyTreeNavigationsButton {
+    float: left;
+    left: 0%;
+    margin: 0 auto;
+}
+
+.dialogContentDiv {
+    height: 90vh;
+    width: 70vh;
+}
