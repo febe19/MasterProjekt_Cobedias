@@ -141,7 +141,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -168,7 +171,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }
@@ -180,7 +186,10 @@ const familyHelpers = {
                     this.getFamilyMemberByID(children[i].id).parents.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                            "spitzname": spitzname,
+                            "vorname": vorname,
+                            "nachname": nachname,
                         }
                     );
                 }

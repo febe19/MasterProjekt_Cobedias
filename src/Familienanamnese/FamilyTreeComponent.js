@@ -129,12 +129,12 @@ class FamilyTree extends Component {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children);
+            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname);
         } else {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children);
+            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname);
         }
 
         this.setState(
@@ -165,9 +165,9 @@ class FamilyTree extends Component {
         }
 
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], []);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], []);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
         }
 
         this.setState(
