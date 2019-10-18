@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
 import FamilyTree from "./FamilyTreeComponent";
 import styles from "./FamilyTree.module.css";
+import Tutorial_1 from "./Tutorial_1";
 
 export class Stammbaum extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      color: "white",
+      showComponent: false,
+      panels: []
+    };
+    this._onButtonClick = this._onButtonClick.bind(this);
   }
-
-  state = {
-    color: "white"
-  };
 
   continue = e => {
     e.preventDefault();
@@ -22,15 +25,17 @@ export class Stammbaum extends Component {
     this.props.prevStep();
   };
 
-  changeimgcolor = e => {
+  _onButtonClick() {
+    const nextId = this.state.panels.length + 1;
     this.setState({
-      color: "rgba(105,105,105,0.5)"
+      showComponent: true,
+      panels: this.state.panels.concat([nextId])
     });
-  };
+  }
 
   render() {
     return (
-      <div style={{ backgroundColor: this.state.color, width: "100%" }}>
+      <div style={{ backgroundColor: this.state.color }}>
         <Box display="flex" justifyContent="flex-start" m={1} p={1}>
           <Box p={1}>
             <img
@@ -99,8 +104,11 @@ export class Stammbaum extends Component {
               src={require("../components/images/question.png")}
               m={2}
               p={2}
-              onClick={this.changeimgcolor}
+              onClick={this._onButtonClick}
             />
+            {this.state.panels.map(panelID => (
+              <Tutorial_1 />
+            ))}
           </Box>
         </Box>
       </div>
