@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
 import FamilyTree from "./FamilyTreeComponent";
 import styles from "./FamilyTree.module.css";
-import Tutorial_1 from "./Tutorial_1";
+import Toggle from "./Tutorial_1";
 
 export class Stammbaum extends Component {
   constructor(props) {
@@ -107,7 +107,7 @@ export class Stammbaum extends Component {
               onClick={this._onButtonClick}
             />
             {this.state.panels.map(panelID => (
-              <Tutorial_1 />
+              <Toggle />
             ))}
           </Box>
         </Box>

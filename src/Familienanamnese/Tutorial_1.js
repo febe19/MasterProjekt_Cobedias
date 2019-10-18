@@ -1,47 +1,35 @@
 import React, { Component } from "react";
-import Box from "@material-ui/core/Box";
-import FamilyTree from "./FamilyTreeComponent";
 
-export class Tutorial_1 extends Component {
+class Toggle extends Component {
   constructor(props) {
     super(props);
+    this.state = { isToggle: false };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  state = {
-    color: "rgba(105,105,105,0.5)"
-  };
-
-  continue = e => {
-    e.preventDefault();
-    this.props.nextStep();
-  };
-
-  back = e => {
-    e.preventDefault();
-    this.props.prevStep();
-  };
-
-  changeimgcolor = e => {
-    this.setState({
-      color: "rgba(105,105,105,0.5)"
-    });
-  };
+  handleClick(e) {
+    this.setState({ isToggle: !this.state.isToggle });
+  }
 
   render() {
     return (
-      <div style={{ backgroundColor: this.state.color }}>
-        <Box display="flex" justifyContent="flex-start" m={1} p={1}>
-          <img
-            src={require("../components/images/logo_cobedias.png")}
-            style={{ width: "20%" }}
-            m={1}
-            p={1}
-          />
-        </Box>
-        <FamilyTree />
+      <div
+        style={{ display: this.state.isToggle ? "block" : "none" }}
+        className="container"
+      >
+        <h1 className="text-xs-center">List of items:</h1>
+        <button className="btn btn-primary" onClick={this.handleClick}>
+          Toggle
+        </button>
+        <div>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+          <li>Item 4</li>
+        </div>
       </div>
     );
   }
 }
 
-export default Tutorial_1;
+export default Toggle;
