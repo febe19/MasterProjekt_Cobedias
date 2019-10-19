@@ -1,35 +1,96 @@
 import React, { Component } from "react";
+import Box from "@material-ui/core/Box";
+import FamilyTree from "./FamilyTreeComponent";
+import "../App.css";
+import Stammbaum from "./Stammbaum";
 
-class Toggle extends Component {
+export class Tutorial_1 extends Component {
   constructor(props) {
     super(props);
-    this.state = { isToggle: false };
-    this.handleClick = this.handleClick.bind(this);
+    this._onButtonClick = this._onButtonClick.bind(this);
   }
 
-  handleClick(e) {
-    this.setState({ isToggle: !this.state.isToggle });
+  state = {
+    color: "rgba(105,105,105,0.5)",
+    showComponent: false,
+    panels: []
+  };
+
+  continue = e => {
+    e.preventDefault();
+    this.props.nextStep();
+  };
+
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
+  };
+
+  _onButtonClick() {
+    const nextId = this.state.panels.length + 1;
+    this.setState({
+      showComponent: true,
+      panels: this.state.panels.concat([nextId])
+    });
   }
 
   render() {
     return (
-      <div
-        style={{ display: this.state.isToggle ? "block" : "none" }}
-        className="container"
-      >
-        <h1 className="text-xs-center">List of items:</h1>
-        <button className="btn btn-primary" onClick={this.handleClick}>
-          Toggle
-        </button>
-        <div>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
-          <li>Item 4</li>
-        </div>
+      <div className="App" style={{ backgroundColor: this.state.color }}>
+        {this.state.showComponent ? <Stammbaum /> : null}
+        <Box flexDirection="row">
+          <Box display="flex" justifyContent="flex-start" m={1} p={1}>
+            <img
+              src={require("../components/images/logo_cobedias.png")}
+              style={{ width: "10%" }}
+              m={1}
+              p={1}
+            />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            m={1}
+            p={1}
+            alignItems="flex-end"
+            flexDirection="column"
+          >
+            <img
+              src={require("../components/images/Schliessen.png")}
+              style={{ width: "5%" }}
+              m={1}
+              p={1}
+              onClick={this._onButtonClick}
+            />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            m={2}
+            p={0}
+            alignItems="flex-end"
+          >
+            <p>Schliessen</p>
+          </Box>
+        </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          m={1}
+          p={1}
+          alignItems="center"
+          flexDirection="column"
+        >
+          <h3>
+            In diesem Familienstammbaum können sämtliche Familienmitglieder
+            erfasst werden. Klicken Sie sich durch dieses Beispiel.
+          </h3>
+
+          <FamilyTree />
+        </Box>
       </div>
     );
   }
 }
 
-export default Toggle;
+export default Tutorial_1;

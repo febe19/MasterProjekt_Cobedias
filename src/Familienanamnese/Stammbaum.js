@@ -1,8 +1,13 @@
 import React, { Component } from "react";
+import "../App.css";
 import Box from "@material-ui/core/Box";
 import FamilyTree from "./FamilyTreeComponent";
 import styles from "./FamilyTree.module.css";
-import Toggle from "./Tutorial_1";
+import Toggle, { Tutorial_1 } from "./Tutorial_1";
+
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import RaisedButton from "material-ui/RaisedButton";
+import { StylesContext } from "@material-ui/styles/StylesProvider";
 
 export class Stammbaum extends Component {
   constructor(props) {
@@ -35,83 +40,54 @@ export class Stammbaum extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: this.state.color }}>
-        <Box display="flex" justifyContent="flex-start" m={1} p={1}>
-          <Box p={1}>
-            <img
-              src={require("../components/images/logo_cobedias.png")}
-              style={{ width: "40%" }}
-              m={1}
-              p={1}
-            />
-          </Box>
-        </Box>
+      <MuiThemeProvider>
+        <React.Fragment>
+          <div className="App" style={{ backgroundColor: this.state.color }}>
+            {this.state.showComponent ? <Tutorial_1 /> : null}
+            <Box display="flex" justifyContent="flex-start" m={1} p={1}>
+              <Box p={1}>
+                <img
+                  src={require("../components/images/logo_cobedias.png")}
+                  style={{ width: "40%" }}
+                  m={1}
+                  p={1}
+                />
+                <FamilyTree />
+              </Box>
+            </Box>
 
-        <FamilyTree />
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              flexDirection="column"
+              alignItems="flex-end"
+              m={1}
+              p={1}
+            >
+              <img
+                src={require("../components/images/question.png")}
+                m={2}
+                p={2}
+                onClick={this._onButtonClick}
+              />
+            </Box>
 
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          flexDirection="column"
-          alignItems="flex-end"
-          m={1}
-          p={1}
-        >
-          <Box p={1}>
-            <img
-              src={require("../components/images/weiblich_hinz.png")}
-              style={{ width: "40%" }}
-              m={1}
-              p={1}
-            />
-            <img
-              src={require("../components/images/mänlich_hinz.png")}
-              style={{ width: "45%" }}
-              m={1}
-              p={1}
-            />
-          </Box>
-          <Box p={1}>
-            <img
-              src={require("../components/images/weiblich_hinz.png")}
-              style={{ width: "40%" }}
-              m={1}
-              p={1}
-            />
-            <img
-              src={require("../components/images/mänlich_hinz.png")}
-              style={{ width: "45%" }}
-              m={1}
-              p={1}
-            />
-          </Box>
-          <Box p={1}>
-            <img
-              src={require("../components/images/andere.png")}
-              title="Halb"
-              style={{ width: "30%" }}
-              m={2}
-              p={2}
-            />
-            <img
-              src={require("../components/images/andere.png")}
-              style={{ width: "30%" }}
-              m={2}
-              p={2}
+            <RaisedButton
+              label="Weiter"
+              primary={true}
+              style={StylesContext.button}
+              onClick={this.continue}
             />
 
-            <img
-              src={require("../components/images/question.png")}
-              m={2}
-              p={2}
-              onClick={this._onButtonClick}
+            <RaisedButton
+              label="Zurück"
+              primary={true}
+              style={StylesContext.button}
+              onClick={this.back}
             />
-            {this.state.panels.map(panelID => (
-              <Toggle />
-            ))}
-          </Box>
-        </Box>
-      </div>
+          </div>
+        </React.Fragment>
+      </MuiThemeProvider>
     );
   }
 }
