@@ -27,7 +27,7 @@ class Militaerdienst extends Component {
     handleYesButtonChange = () => {
         this.setState({militaerdienstGemacht: true}, () => {
 
-            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
             localStorage.set('MilitaerdienstKomplett', true);
             localStorage.set('militaerdienstGemacht', true);
             this.setState({MilitaerdienstKomplett: true});
@@ -54,11 +54,12 @@ class Militaerdienst extends Component {
     componentDidMount() {
         this.setState({
             untauglichkeitsGrund: localStorage.get('untauglichkeitsGrund'),
+            militaerdienstGemacht: localStorage.get('militaerdienstGemacht'),
         });
         localStorage.set('MilitaerdienstKomplett', this.checkComponentCompleteness());
     }
 
-    // completeness der textfelder wird überprüft
+    // Completeness der Textfelder wird überprüft
     checkComponentCompleteness() {
         if (localStorage.get('MilitaerdienstKomplett') === null) {
             return false;
