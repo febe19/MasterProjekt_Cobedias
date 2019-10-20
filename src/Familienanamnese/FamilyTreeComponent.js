@@ -197,7 +197,9 @@ class FamilyTree extends Component {
         } else if (e.currentTarget.value === 'addSister') {
             this.addSibling('addSister')
         } else {
-            console.log("__Handle Popup Close for: "+ e.currentTarget.value + " Should start Edit");
+            console.log("__Handle Popup Close for: " + e.currentTarget.value + " Should start Edit");
+            let currentData = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.siblings, currentData.spouses, currentData.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         }
 
         this.setState({
@@ -488,8 +490,6 @@ class FamilyTree extends Component {
     render() {
         return (
             <div style={{margin: '0 auto'}}>
-                <Button id="deleteFamilyMember" onClick={() => this.deleteFamilyMember('deleteChild')}>Delete
-                    Child</Button>
                 <div>
                     <Button id="addSister" variant="outlined" color="primary"
                             onClick={() => this.popUpFamilyMember('addSister')}>Schwester

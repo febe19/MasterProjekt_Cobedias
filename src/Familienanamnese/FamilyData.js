@@ -130,6 +130,45 @@ const familyHelpers = {
         return (parseInt(highestIndex, 10) + 1);
     },
 
+    //Edit of an existing family member
+        editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+        if (this.getFamilyMemberByID(id)) {
+            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
+
+            for (let i = 0; i < myFamilyData.length; i++) {
+                if (myFamilyData[i].id === id) {
+                    console.log(" Edit --> Delete Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
+                    myFamilyData.splice(i, 1);
+
+                }
+            }
+
+            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
+
+            console.log(" Edit --> push Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
+
+            myFamilyData.push(
+                {
+                    "id": id,
+                    "gender": gender,
+                    "parents": parents,
+                    "siblings": sibling,
+                    "spouses": spouses,
+                    "children": children,
+                    "spitzname": spitzname,
+                    "vorname": vorname,
+                    "nachname": nachname,
+                    "gesundheitszustand": gesundheitszustand,
+                }
+            );
+
+            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
+
+        } else {
+            console.log("No Family member found with id: " + id);
+        }
+    },
+
     //This allows adding an all new family Member with check if they already exist
     addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
 
