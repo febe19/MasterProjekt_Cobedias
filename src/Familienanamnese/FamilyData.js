@@ -131,22 +131,18 @@ const familyHelpers = {
     },
 
     //Edit of an existing family member
-        editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+    editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
         if (this.getFamilyMemberByID(id)) {
-            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
+            console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
+            //delete Existing Entry form member
             for (let i = 0; i < myFamilyData.length; i++) {
                 if (myFamilyData[i].id === id) {
-                    console.log(" Edit --> Delete Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
                     myFamilyData.splice(i, 1);
-
                 }
             }
 
-            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
-
-            console.log(" Edit --> push Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
-
+            //Create new entry for member
             myFamilyData.push(
                 {
                     "id": id,
@@ -161,8 +157,6 @@ const familyHelpers = {
                     "gesundheitszustand": gesundheitszustand,
                 }
             );
-
-            console.log(" Edit --> \n" + JSON.stringify(this.getFamilyData()));
 
         } else {
             console.log("No Family member found with id: " + id);

@@ -150,7 +150,6 @@ class FamilyTree extends Component {
         this.updateStepCompleteness(this.state.activeStep);
         const newActiveStep = this.state.activeStep + 1;
         this.setState({activeStep: newActiveStep});
-        //setActiveStep(newActiveStep);
     };
 
 
@@ -158,28 +157,19 @@ class FamilyTree extends Component {
     handleBack = () => {
         this.updateStepCompleteness(this.state.activeStep);
         this.setState({activeStep: this.state.activeStep - 1});
-
-        // setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
 // Direkter Sprung zu einem Stepp in oberer Leiste (Stepp Button)
     handleStep = step => () => {
         this.updateStepCompleteness(this.state.activeStep);
         this.setState({activeStep: step});
-
-        //setActiveStep(step);
     };
 
 
     //OnClick function ot add Siblings of me
-    //write the Change of "vorname" / "nachname" to the state.
+    //write the Change of "vorname" / "nachname" and so on to the state.
     handleChange = () => event => {
-        console.log("_Handle Change: " + event.target.name + "  --> " + event.target.value);
-        this.setState({[event.target.name]: event.target.value}, () => {
-
-            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
-            //localStorage.set('popupKomplett', this.checkComponentCompleteness());
-        });
+        this.setState({[event.target.name]: event.target.value});
     };
 
     // closes Popup when new family member is added with button "hinzufügen"
@@ -197,7 +187,7 @@ class FamilyTree extends Component {
         } else if (e.currentTarget.value === 'addSister') {
             this.addSibling('addSister')
         } else {
-            console.log("__Handle Popup Close for: " + e.currentTarget.value + " Should start Edit");
+            console.log("__Handle Popup Close for: " + e.currentTarget.value + " --> Edit of data");
             let currentData = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
             familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.siblings, currentData.spouses, currentData.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         }
@@ -207,7 +197,8 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
-            gesundheitszustand: ''
+            gesundheitszustand: '',
+            activeStep: 0
         });
     };
 
@@ -218,7 +209,8 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
-            gesundheitszustand: ''
+            gesundheitszustand: '',
+            activeStep: 0
         });
     };
 
