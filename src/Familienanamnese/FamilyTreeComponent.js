@@ -106,11 +106,9 @@ class FamilyTree extends Component {
     getStepContent(step) {
         switch (step) {
             case 0:
-                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Anfangen");
                 //return <Angaben/>;
                 return this.showAngaben();
             case 1:
-                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Gesundheitszustand_ Anfangen");
                 //return <Gesundheitszustand/>;
                 return this.showGesundheitszustand();
             default:
@@ -312,6 +310,15 @@ class FamilyTree extends Component {
         )
     }
 
+    //edit of already existiong Family members
+    editFamilyMember = (e) => {
+        console.log("Edit FamiliyMember --> " + e);
+
+        this.setState(
+            {FamilyDataState: familyHelpers.getFamilyData()}
+        )
+    }
+
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
     // popup to add a new family member
@@ -505,7 +512,8 @@ class FamilyTree extends Component {
                                 key={node.id}
                                 node={node}
                                 isRoot={node.id === myID}
-                                func={this.deleteFamilyMember}
+                                deleteFunction={this.deleteFamilyMember}
+                                editFunction={this.editFamilyMember}
                                 style={{
                                     width: WIDTH * 0.8,
                                     height: HEIGHT * 0.8,
