@@ -37,8 +37,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 //My ID is always 0.
 const myID = 'me';
 
-const WIDTH = 100;
-const HEIGHT = 100;
+const WIDTH = 150;
+const HEIGHT = 150;
 
 
 const classes = makeStyles(theme => ({
@@ -524,7 +524,7 @@ class FamilyTree extends Component {
                                 style={{
                                     width: WIDTH * 0.8,
                                     height: HEIGHT * 0.8,
-                                    transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                    transform: `translate(${node.left * (WIDTH / 1.9)}px, ${node.top * (HEIGHT / 1.9)}px)`,
                                 }}
                             />
                         )}
