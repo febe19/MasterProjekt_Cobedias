@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {IFamilyExtNode} from 'relatives-tree';
 import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from './FamilyNode';
@@ -10,17 +10,9 @@ import familyHelpers from "./FamilyData.js";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
-import Berufstaetigkeit from "../Sozialanamnese/Berufstaetigkeit";
-import Hobbies from "../Sozialanamnese/Hobbies";
-import Militaerdienst from "../Sozialanamnese/Militaerdienst";
-import Wohnsituation from "../Sozialanamnese/Wohnsituation";
-import Zivilstand from "../Sozialanamnese/Zivilstand";
-import Bemerkungen from "../Sozialanamnese/Bemerkungen";
-import Absenden from "../Sozialanamnese/Absenden";
 
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -103,16 +95,8 @@ class FamilyTree extends Component {
             addingOfFamilyMember: '',
             gesundheitszustand: '',
             activeStep: 0,
-            //  setActiveStep: 0,
             completed: {},
-            //   setCompleted: {},
-
-
         };
-
-        //Only for test reasons how it looks when starting with a female me.
-        //let me = familyHelpers.getFamilyMemberByID("me");
-        //familyHelpers.updateFamilyMemberByID(me.id, "female", me.parents, me.siblings, [], [])
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
@@ -318,10 +302,10 @@ class FamilyTree extends Component {
 
     //onclick Function to delete Family Member
     deleteFamilyMember = (e) => {
-        console.log("--> " + e);
+        console.log("Delete FamiliyMember --> " + e);
 
         //TODO: Currently only child one is deletable. This id should be selectable from the UI
-        familyHelpers.deleteFamilyMember("child1");
+        familyHelpers.deleteFamilyMember(e);
 
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
@@ -521,6 +505,7 @@ class FamilyTree extends Component {
                                 key={node.id}
                                 node={node}
                                 isRoot={node.id === myID}
+                                func={this.deleteFamilyMember}
                                 style={{
                                     width: WIDTH * 0.8,
                                     height: HEIGHT * 0.8,
