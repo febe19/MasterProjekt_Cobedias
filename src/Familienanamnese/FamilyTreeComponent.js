@@ -92,8 +92,8 @@ class FamilyTree extends Component {
             spitzname: '',
             vorname: '',
             nachname: '',
-            addingOfFamilyMember: '',
             gesundheitszustand: '',
+            currentSelectedFamilyMember: '',
             activeStep: 0,
             completed: {},
         };
@@ -174,6 +174,7 @@ class FamilyTree extends Component {
     //OnClick function ot add Siblings of me
     //write the Change of "vorname" / "nachname" to the state.
     handleChange = () => event => {
+        console.log("_Handle Change: " + event.target.name + "  --> " + event.target.value);
         this.setState({[event.target.name]: event.target.value}, () => {
 
             // completeness aller textfelder wird überprüft, sobald sich ein input ändert
@@ -183,16 +184,20 @@ class FamilyTree extends Component {
 
     // closes Popup when new family member is added with button "hinzufügen"
     handlePopupClose = e => {
+
+        //First try to add a new Member if the value starts with add, else a current member needs to be edited.
         if (e.currentTarget.value === 'addDaughter') {
             this.addChildren('addDaughter');
         } else if (e.currentTarget.value === 'addSon') {
             this.addChildren('addSon');
         } else if (e.currentTarget.value === 'addSpouse') {
-            this.addSpouse("addSpouse");
+            this.addSpouse('addSpouse');
         } else if (e.currentTarget.value === 'addBrother') {
             this.addSibling('addBrother');
         } else if (e.currentTarget.value === 'addSister') {
-            this.addSibling("addSister")
+            this.addSibling('addSister')
+        } else {
+            console.log("__Handle Popup Close for: "+ e.currentTarget.value + " Should start Edit");
         }
 
         this.setState({
@@ -234,9 +239,9 @@ class FamilyTree extends Component {
 
         //Change between add sister or add brother.
         if (e === 'addSister') {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -252,12 +257,12 @@ class FamilyTree extends Component {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname);
+            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         } else {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname);
+            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -288,9 +293,9 @@ class FamilyTree extends Component {
         }
 
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -302,29 +307,34 @@ class FamilyTree extends Component {
     deleteFamilyMember = (e) => {
         console.log("Delete FamiliyMember --> " + e);
 
-        //TODO: Currently only child one is deletable. This id should be selectable from the UI
         familyHelpers.deleteFamilyMember(e);
 
         this.setState(
             {FamilyDataState: familyHelpers.getFamilyData()}
         )
-    }
+    };
 
-    //edit of already existiong Family members
+    //edit of already existing Family members
     editFamilyMember = (e) => {
-        console.log("Edit FamiliyMember --> " + e);
+        console.log("Edit Familiy Member --> " + e);
 
-        this.setState(
-            {FamilyDataState: familyHelpers.getFamilyData()}
-        )
-    }
+        this.setState({
+            spitzname: familyHelpers.getFamilyMemberByID(e).spitzname,
+            vorname: familyHelpers.getFamilyMemberByID(e).vorname,
+            nachname: familyHelpers.getFamilyMemberByID(e).nachname,
+            gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand
+        });
+
+        //Open Popup
+        this.popUpFamilyMember(e);
+    };
 
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
 
     // popup to add a new family member
-    addFamilyMemberPopup = (fm) => {
-        console.log("__Adding of Family Member: " + fm);
-        this.setState({popupOpen: true, addingOfFamilyMember: fm});
+    popUpFamilyMember = (fm) => {
+        console.log("__PopUp for Family Member: " + fm);
+        this.setState({popupOpen: true, currentSelectedFamilyMember: fm});
     };
 
     //Show Popup,if state == true
@@ -343,7 +353,7 @@ class FamilyTree extends Component {
                         <DialogActions style={{margin: '0 auto'}}>
                             <Fab style={{background: 'red', margin: '0 auto', height: '100px', width: '100px'}}
                                  onClick={this.handlePopupCancel}
-                                 value={this.state.addingOfFamilyMember} color='primary' fontSize='large'>
+                                 value={this.state.currentSelectedFamilyMember} color='primary' fontSize='large'>
                                 <CancelIcon/>
                             </Fab>
                             <Fab style={{
@@ -354,7 +364,7 @@ class FamilyTree extends Component {
                                 bottom: '0px'
                             }}
                                  onClick={this.handlePopupClose}
-                                 value={this.state.addingOfFamilyMember}
+                                 value={this.state.currentSelectedFamilyMember}
                                  color='primary' fontSize='small'>
                                 <CheckCircleIcon/>
                             </Fab>
@@ -475,8 +485,6 @@ class FamilyTree extends Component {
     }
 
 
-    // TODO: create popup to modify existing family members
-
     render() {
         return (
             <div style={{margin: '0 auto'}}>
@@ -484,19 +492,19 @@ class FamilyTree extends Component {
                     Child</Button>
                 <div>
                     <Button id="addSister" variant="outlined" color="primary"
-                            onClick={() => this.addFamilyMemberPopup('addSister')}>Schwester
+                            onClick={() => this.popUpFamilyMember('addSister')}>Schwester
                         Hinzufügen</Button>
                     <Button id="addBrother" variant="outlined" color="primary"
-                            onClick={() => this.addFamilyMemberPopup('addBrother')}>Bruder
+                            onClick={() => this.popUpFamilyMember('addBrother')}>Bruder
                         Hinzufügen</Button>
                     <Button id="addSpouse" variant="outlined" color="primary"
-                            onClick={() => this.addFamilyMemberPopup('addSpouse')}>Partner
+                            onClick={() => this.popUpFamilyMember('addSpouse')}>Partner
                         Hinzufügen</Button>
                     <Button id="addDaughter" variant="outlined" color="primary"
-                            onClick={() => this.addFamilyMemberPopup('addDaughter')}>Tochter
+                            onClick={() => this.popUpFamilyMember('addDaughter')}>Tochter
                         Hinzufügen</Button>
                     <Button id="addSon" variant="outlined" color="primary"
-                            onClick={() => this.addFamilyMemberPopup('addSon')}>Sohn
+                            onClick={() => this.popUpFamilyMember('addSon')}>Sohn
                         Hinzufügen</Button>
                     <div>{this.showPopup()}</div>
                 </div>

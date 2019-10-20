@@ -131,7 +131,7 @@ const familyHelpers = {
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
 
@@ -142,9 +142,6 @@ const familyHelpers = {
                         {
                             "id": id,
                             "type": "blood",
-                            "spitzname": spitzname,
-                            "vorname": vorname,
-                            "nachname": nachname,
                         }
                     );
                 }
@@ -157,9 +154,6 @@ const familyHelpers = {
                         {
                             "id": id,
                             "type": "blood",
-                            "spitzname": spitzname,
-                            "vorname": vorname,
-                            "nachname": nachname,
                         }
                     );
                 }
@@ -172,9 +166,6 @@ const familyHelpers = {
                         {
                             "id": id,
                             "type": "blood",
-                            "spitzname": spitzname,
-                            "vorname": vorname,
-                            "nachname": nachname,
                         }
                     );
                 }
@@ -187,9 +178,6 @@ const familyHelpers = {
                         {
                             "id": id,
                             "type": "blood",
-                            "spitzname": spitzname,
-                            "vorname": vorname,
-                            "nachname": nachname,
                         }
                     );
                 }
@@ -207,6 +195,7 @@ const familyHelpers = {
                     "spitzname": spitzname,
                     "vorname": vorname,
                     "nachname": nachname,
+                    "gesundheitszustand": gesundheitszustand,
                 }
             );
 
