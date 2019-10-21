@@ -70,7 +70,7 @@ export class Tutorial_1 extends Component {
             p={0}
             alignItems="flex-end"
           >
-            <p>Schliessen</p>
+            <h3 className="h3">Schliessen</h3>
           </Box>
         </Box>
         <Box
@@ -81,9 +81,11 @@ export class Tutorial_1 extends Component {
           alignItems="center"
           flexDirection="column"
         >
-          <h3>
+          <h3 className="h3">
             In diesem Familienstammbaum können sämtliche Familienmitglieder
-            erfasst werden. Klicken Sie sich durch dieses Beispiel.
+            erfasst werden. Weibliche Familienmitglieder werden Rosa angezeigt,
+            männliche hellblau. Die Verwandschaftsverhältnisse sind über Linien
+            dargestellt.
           </h3>
 
           <FamilyTree />

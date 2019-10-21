@@ -62,6 +62,7 @@ export class Familienanamnese extends Component {
         return (
           <Stammbaum
             nextStep={this.nextStep}
+            prevStep={this.prevStep}
             handleChange={this.handleChange}
             values={values}
           />

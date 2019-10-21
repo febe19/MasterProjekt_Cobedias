@@ -58,9 +58,9 @@ export class Stammbaum extends Component {
 
             <Box
               display="flex"
-              justifyContent="flex-end"
+              justifyContent="flex-start"
               flexDirection="column"
-              alignItems="flex-end"
+              alignItems="flex-start"
               m={1}
               p={1}
             >
@@ -71,20 +71,25 @@ export class Stammbaum extends Component {
                 onClick={this._onButtonClick}
               />
             </Box>
+            <Box display="flex" justifyContent="center">
+              <RaisedButton
+                p={2}
+                m={2}
+                label="Weiter"
+                primary={true}
+                style={StylesContext.button}
+                onClick={this.continue}
+              />
 
-            <RaisedButton
-              label="Weiter"
-              primary={true}
-              style={StylesContext.button}
-              onClick={this.continue}
-            />
-
-            <RaisedButton
-              label="Zurück"
-              primary={true}
-              style={StylesContext.button}
-              onClick={this.back}
-            />
+              <RaisedButton
+                p={2}
+                m={2}
+                label="Zurück"
+                primary={true}
+                style={StylesContext.button}
+                onClick={this.back}
+              />
+            </Box>
           </div>
         </React.Fragment>
       </MuiThemeProvider>

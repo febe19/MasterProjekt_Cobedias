@@ -1,4 +1,9 @@
 .App {
   height: 100vh;
+
   background-size: cover;
+}
+
+.h3 {
+  color: whitesmoke;
 }
