@@ -86,7 +86,7 @@ class Zivilstand extends Component {
     handleChangeVerheiratet = () => {
         this.setState({verheiratet: true}, () => {
 
-            // da der Button "arbeitlos" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            // da der Button "verheiratet" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', true);
             localStorage.set('verwitwet', false);
@@ -127,7 +127,7 @@ class Zivilstand extends Component {
     handleChangeGeschieden = () => {
         this.setState({geschieden: true}, () => {
 
-            // da der Button "iVRente" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            // da der Button "geschieden" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', false);
             localStorage.set('verwitwet', false);
@@ -139,7 +139,7 @@ class Zivilstand extends Component {
             this.setState({andere: false});
 
             //nachdem alle "Zivilstände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
-            localStorage.set('ZivilKomplett', this.checkComponentCompleteness());
+            localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
         });
     };
 

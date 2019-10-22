@@ -45,6 +45,9 @@ class Hobbies extends Component {
     render() {
         return (
             <div>
+                <h2>Hobbies</h2>
+                <br />
+                <div>Bitte geben Sie hier Ihre Hobbies ein:</div>
                 <TextField
                     id="outlined-multiline-static"
                     label="Hobbies"
