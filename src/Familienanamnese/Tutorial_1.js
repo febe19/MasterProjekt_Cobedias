@@ -11,7 +11,7 @@ export class Tutorial_1 extends Component {
   }
 
   state = {
-    color: "rgba(105,105,105,0.5)",
+    color: "rgba(0, 0, 0, 0.8)",
     showComponent: false,
     panels: []
   };
@@ -35,63 +35,66 @@ export class Tutorial_1 extends Component {
   }
 
   render() {
-    return (
-      <div className="App" style={{ backgroundColor: this.state.color }}>
-        {this.state.showComponent ? <Stammbaum /> : null}
-        <Box flexDirection="row">
-          <Box display="flex" justifyContent="flex-start" m={1} p={1}>
-            <img
-              src={require("../components/images/logo_cobedias.png")}
-              style={{ width: "10%" }}
+    if (this.state.showComponent) {
+      return <Stammbaum />;
+    } else {
+      return (
+        <div className="App" style={{ backgroundColor: this.state.color }}>
+          <Box flexDirection="row">
+            <Box display="flex" justifyContent="flex-start" m={1} p={1}>
+              <img
+                src={require("../components/images/logo_cobedias.png")}
+                style={{ width: "10%" }}
+                m={1}
+                p={1}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
               m={1}
               p={1}
-            />
+              alignItems="flex-end"
+              flexDirection="column"
+            >
+              <img
+                src={require("../components/images/Schliessen.png")}
+                style={{ width: "5%" }}
+                m={1}
+                p={1}
+                onClick={this._onButtonClick}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              m={2}
+              p={0}
+              alignItems="flex-end"
+            >
+              <h3 className="h3">Schliessen</h3>
+            </Box>
           </Box>
           <Box
             display="flex"
-            justifyContent="flex-end"
+            justifyContent="center"
             m={1}
             p={1}
-            alignItems="flex-end"
+            alignItems="center"
             flexDirection="column"
           >
-            <img
-              src={require("../components/images/Schliessen.png")}
-              style={{ width: "5%" }}
-              m={1}
-              p={1}
-              onClick={this._onButtonClick}
-            />
+            <FamilyTree />
+            <br />
+            <h3 className="h3">
+              In diesem Familienstammbaum können sämtliche Familienmitglieder
+              erfasst werden. Weibliche Familienmitglieder werden Rosa
+              angezeigt, männliche hellblau. Die Verwandschaftsverhältnisse sind
+              über Linien dargestellt.
+            </h3>
           </Box>
-          <Box
-            display="flex"
-            justifyContent="flex-end"
-            m={2}
-            p={0}
-            alignItems="flex-end"
-          >
-            <h3 className="h3">Schliessen</h3>
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          m={1}
-          p={1}
-          alignItems="center"
-          flexDirection="column"
-        >
-          <h3 className="h3">
-            In diesem Familienstammbaum können sämtliche Familienmitglieder
-            erfasst werden. Weibliche Familienmitglieder werden Rosa angezeigt,
-            männliche hellblau. Die Verwandschaftsverhältnisse sind über Linien
-            dargestellt.
-          </h3>
-
-          <FamilyTree />
-        </Box>
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 

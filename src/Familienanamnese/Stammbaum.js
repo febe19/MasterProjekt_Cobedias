@@ -39,61 +39,64 @@ export class Stammbaum extends Component {
   }
 
   render() {
-    return (
-      <MuiThemeProvider>
-        <React.Fragment>
-          <div className="App" style={{ backgroundColor: this.state.color }}>
-            {this.state.showComponent ? <Tutorial_1 /> : null}
-            <Box display="flex" justifyContent="flex-start" m={1} p={1}>
-              <Box p={1}>
-                <img
-                  src={require("../components/images/logo_cobedias.png")}
-                  style={{ width: "40%" }}
-                  m={1}
-                  p={1}
-                />
-                <FamilyTree />
+    if (this.state.showComponent) {
+      return <Tutorial_1 />;
+    } else {
+      return (
+        <MuiThemeProvider>
+          <React.Fragment>
+            <div className="App" style={{ backgroundColor: this.state.color }}>
+              <Box display="flex" justifyContent="flex-start" m={1} p={1}>
+                <Box p={1}>
+                  <img
+                    src={require("../components/images/logo_cobedias.png")}
+                    style={{ width: "40%" }}
+                    m={1}
+                    p={1}
+                  />
+                  <FamilyTree />
+                </Box>
               </Box>
-            </Box>
 
-            <Box
-              display="flex"
-              justifyContent="flex-start"
-              flexDirection="column"
-              alignItems="flex-start"
-              m={1}
-              p={1}
-            >
-              <img
-                src={require("../components/images/question.png")}
-                m={2}
-                p={2}
-                onClick={this._onButtonClick}
-              />
-            </Box>
-            <Box display="flex" justifyContent="center">
-              <RaisedButton
-                p={2}
-                m={2}
-                label="Weiter"
-                primary={true}
-                style={StylesContext.button}
-                onClick={this.continue}
-              />
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                flexDirection="column"
+                alignItems="flex-start"
+                m={1}
+                p={1}
+              >
+                <img
+                  src={require("../components/images/question.png")}
+                  m={2}
+                  p={2}
+                  onClick={this._onButtonClick}
+                />
+              </Box>
+              <Box display="flex" justifyContent="center">
+                <RaisedButton
+                  p={2}
+                  m={2}
+                  label="Weiter"
+                  primary={true}
+                  style={StylesContext.button}
+                  onClick={this.continue}
+                />
 
-              <RaisedButton
-                p={2}
-                m={2}
-                label="Zurück"
-                primary={true}
-                style={StylesContext.button}
-                onClick={this.back}
-              />
-            </Box>
-          </div>
-        </React.Fragment>
-      </MuiThemeProvider>
-    );
+                <RaisedButton
+                  p={2}
+                  m={2}
+                  label="Zurück"
+                  primary={true}
+                  style={StylesContext.button}
+                  onClick={this.back}
+                />
+              </Box>
+            </div>
+          </React.Fragment>
+        </MuiThemeProvider>
+      );
+    }
   }
 }
 
