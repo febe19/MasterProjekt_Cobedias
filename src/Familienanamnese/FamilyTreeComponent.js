@@ -420,8 +420,8 @@ class FamilyTree extends Component {
                             value={this.state.currentSelectedFamilyMember}
                             style={{
                                 margin: '0 auto',
-                                height: '30px',
-                                width: '10px',
+                                height: '60px',
+                                width: '30px',
                                 position: 'absolute',
                                 top: '0%',
                                 right: '0%',
@@ -432,8 +432,8 @@ class FamilyTree extends Component {
                         <CancelIcon style={{
                             position: 'absolute',
                             margin: '0 auto',
-                            height: '15px',
-                            width: '15px',
+                            height: '30px',
+                            width: '30px',
                         }}/>
                     </Button>
                 </div>
