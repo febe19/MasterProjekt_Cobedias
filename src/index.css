@@ -193,7 +193,10 @@ ul.header li a {
 
 .FamilyTreeNavigationsButton {
     float: left;
-    left: 0%;
+    position: fixed;
+    left: 50%;
+    bottom: 7%;
+    transform: translate(-50%, -50%);
     margin: 0 auto;
 }
 

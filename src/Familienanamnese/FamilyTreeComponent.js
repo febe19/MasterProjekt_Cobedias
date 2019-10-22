@@ -146,17 +146,24 @@ class FamilyTree extends Component {
 
 
 // "Weiter" Button
-    handleNext = () => {
+    handleNext = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
-        const newActiveStep = this.state.activeStep + 1;
-        this.setState({activeStep: newActiveStep});
+        if (this.state.activeStep === this.totalSteps() - 1) {
+            this.handlePopupClose(e);
+        } else {
+            this.setState({activeStep: this.state.activeStep + 1});
+        }
     };
 
 
 // "Zurück" Button
-    handleBack = () => {
+    handleBack = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
-        this.setState({activeStep: this.state.activeStep - 1});
+        if (this.state.activeStep === 0) {
+            this.handlePopupCancel(e);
+        } else {
+            this.setState({activeStep: this.state.activeStep - 1});
+        }
     };
 
 // Direkter Sprung zu einem Stepp in oberer Leiste (Stepp Button)
@@ -344,28 +351,8 @@ class FamilyTree extends Component {
                             <div>{this.showStepperInPopup()}</div>
 
                         </DialogContent>
-                        <DialogActions style={{margin: '0 auto'}}>
-                            <Fab style={{background: 'red', margin: '0 auto', height: '100px', width: '100px'}}
-                                 onClick={this.handlePopupCancel}
-                                 value={this.state.currentSelectedFamilyMember} color='primary' fontSize='large'>
-                                <CancelIcon/>
-                            </Fab>
-                            <Fab style={{
-                                background: 'green',
-                                margin: '0 auto',
-                                height: '100px',
-                                width: '100px',
-                                bottom: '0px'
-                            }}
-                                 onClick={this.handlePopupClose}
-                                 value={this.state.currentSelectedFamilyMember}
-                                 color='primary' fontSize='small'>
-                                <CheckCircleIcon/>
-                            </Fab>
-                        </DialogActions>
                     </div>
                 </Dialog>
-
             </div>)
     }
 
@@ -451,27 +438,27 @@ class FamilyTree extends Component {
                         </Typography>
                     </div>
                     <div className="FamilyTreeNavigationsButton">
-                        <div>
                             <Button
                                 size="large"
                                 variant="outlined"
-                                disabled={this.state.activeStep === 0}
                                 onClick={this.handleBack}
+                                value={this.state.currentSelectedFamilyMember}
                                 className={classes.button}
+                                style={{width: '100px', margin: '3px'}}
                             >
-                                Zurück
+                                {this.state.activeStep === 0 ? 'Abbrechen' : 'Zurück'}
                             </Button>
                             <Button
-                                disabled={this.state.activeStep === (this.totalSteps() - 1)}
                                 size="large"
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleNext}
+                                value={this.state.currentSelectedFamilyMember}
                                 className={classes.button}
+                                style={{width: '100px', margin: '3px'}}
                             >
-                                Weiter
+                                {this.state.activeStep === this.totalSteps() - 1 ? 'Fertig' : 'Weiter'}
                             </Button>
-                        </div>
                     </div>
                 </div>
             </div>
