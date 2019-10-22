@@ -50,15 +50,19 @@ const classes = makeStyles(theme => ({
     }
 }));
 
-
-const steps = getSteps();
-
-
 // Namen der Stepps werden hier definiert
-function getSteps() {
-    return ["Angaben", "Gesundheitszustand"];
+function getSteps(member) {
+    if (verwandtschaftAbfragenNeeded(member)) {
+        return ["Angaben", "Gesundheitszustand", "Verwandtschaft"];
+    } else {
+        return ["Angaben", "Gesundheitszustand"];
+    }
 }
 
+//Function to determine if Verwandtschaft needs to be displayed for a current person.
+function verwandtschaftAbfragenNeeded(member) {
+    return !(member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling');
+}
 
 // prüft ob ein spezifischer Component "complete" ist
 function componentCompleted(step) {
@@ -75,14 +79,12 @@ function componentCompleted(step) {
     }
 }
 
-
 class FamilyTree extends Component {
 
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handlePopupClose = this.handlePopupClose.bind(this);
-
 
         //Define the state of this component.
         this.state = {
@@ -102,21 +104,19 @@ class FamilyTree extends Component {
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
-
 // zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
     getStepContent(step) {
         switch (step) {
             case 0:
-                //return <Angaben/>;
                 return this.showAngaben();
             case 1:
-                //return <Gesundheitszustand/>;
                 return this.showGesundheitszustand();
+            case 2:
+                return this.showVerwandtschaft();
             default:
                 return "Unknown step";
         }
     }
-
 
 // prüft, ob alle Felder in diesem Step ausgefüllt sind
     updateStepCompleteness(step) {
@@ -139,23 +139,15 @@ class FamilyTree extends Component {
         }
     }
 
-
-//Anzahl Steps
-    totalSteps = () => {
-        return getSteps().length;
-    };
-
-
 // "Weiter" Button
     handleNext = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
-        if (this.state.activeStep === this.totalSteps() - 1) {
+        if (this.state.activeStep === getSteps(this.state.currentSelectedFamilyMember).length - 1) {
             this.handlePopupClose(e);
         } else {
             this.setState({activeStep: this.state.activeStep + 1});
         }
     };
-
 
 // "Zurück" Button
     handleBack = (e) => {
@@ -172,7 +164,6 @@ class FamilyTree extends Component {
         this.updateStepCompleteness(this.state.activeStep);
         this.setState({activeStep: step});
     };
-
 
     //OnClick function ot add Siblings of me
     //write the Change of "vorname" / "nachname" and so on to the state.
@@ -343,20 +334,16 @@ class FamilyTree extends Component {
     showPopup() {
         return (
             <div>
-                <Dialog open={this.state.popupOpen}
-                        aria-labelledby="form-dialog-title">
+                <Dialog open={this.state.popupOpen}>
                     <div className="dialogContentDiv">
-                        <DialogTitle id="form-dialog-title">Bitte füllen Sie aus:</DialogTitle>
-                        <DialogContent>
-
+                        <DialogTitle>Bitte füllen Sie aus:</DialogTitle>
+                        <DialogContent style={{padding: '0'}}>
                             <div>{this.showStepperInPopup()}</div>
-
                         </DialogContent>
                     </div>
                 </Dialog>
             </div>)
     }
-
 
     // popup to add a new family member
     showAngaben() {
@@ -416,27 +403,34 @@ class FamilyTree extends Component {
         )
     }
 
+    showVerwandtschaft() {
+        return (
+            <div>
+                <p>Here you can enter your Verwandtschaft</p>
+            </div>
+        )
+    }
+
     showStepperInPopup() {
         return (
             <div className='FamilyTreeContent'>
                 <div>
                     <Button color="primary" aria-label="edit"
-                         onClick={this.handlePopupCancel}
-                         value={this.state.currentSelectedFamilyMember}
-                         style={{
-                             margin: '0 auto',
-                             height: '30px',
-                             width: '15px',
-                             position: 'absolute',
-                             top: '0%',
-                             right: '-5%',
-                             background: 'red',
-                             color: 'white',
-                             borderRadius: '0 0 0 10px',
-                         }}>
+                            onClick={this.handlePopupCancel}
+                            value={this.state.currentSelectedFamilyMember}
+                            style={{
+                                margin: '0 auto',
+                                height: '30px',
+                                width: '10px',
+                                position: 'absolute',
+                                top: '0%',
+                                right: '0%',
+                                background: 'red',
+                                color: 'white',
+                                borderRadius: '0 0 0 10px',
+                            }}>
                         <CancelIcon style={{
                             position: 'absolute',
-                            left: '15%',
                             margin: '0 auto',
                             height: '15px',
                             width: '15px',
@@ -444,7 +438,7 @@ class FamilyTree extends Component {
                     </Button>
                 </div>
                 <Stepper alternativeLabel nonLinear activeStep={this.state.activeStep}>
-                    {steps.map((label, index) => {
+                    {getSteps(this.state.currentSelectedFamilyMember).map((label, index) => {
                         const stepProps = {};
                         return (
                             <Step key={label} {...stepProps}>
@@ -463,33 +457,32 @@ class FamilyTree extends Component {
                         </Typography>
                     </div>
                     <div className="FamilyTreeNavigationsButton">
-                            <Button
-                                size="large"
-                                variant="outlined"
-                                onClick={this.handleBack}
-                                value={this.state.currentSelectedFamilyMember}
-                                className={classes.button}
-                                style={{width: '100px', margin: '3px'}}
-                            >
-                                {this.state.activeStep === 0 ? 'Abbrechen' : 'Zurück'}
-                            </Button>
-                            <Button
-                                size="large"
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handleNext}
-                                value={this.state.currentSelectedFamilyMember}
-                                className={classes.button}
-                                style={{width: '100px', margin: '3px'}}
-                            >
-                                {this.state.activeStep === this.totalSteps() - 1 ? 'Fertig' : 'Weiter'}
-                            </Button>
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            onClick={this.handleBack}
+                            value={this.state.currentSelectedFamilyMember}
+                            className={classes.button}
+                            style={{width: '100px', margin: '3px'}}
+                        >
+                            {this.state.activeStep === 0 ? 'Abbrechen' : 'Zurück'}
+                        </Button>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleNext}
+                            value={this.state.currentSelectedFamilyMember}
+                            className={classes.button}
+                            style={{width: '100px', margin: '3px'}}
+                        >
+                            {this.state.activeStep === getSteps(this.state.currentSelectedFamilyMember).length - 1 ? 'Fertig' : 'Weiter'}
+                        </Button>
                     </div>
                 </div>
             </div>
         )
     }
-
 
     render() {
         return (

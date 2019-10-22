@@ -164,7 +164,7 @@ ul.header li a {
     padding: 20px;
     list-style-type: none;
     margin: auto;
-    width: 80%;
+    width: 90%;
     left: 50%;
     color: black;
 }
@@ -202,4 +202,5 @@ ul.header li a {
 .dialogContentDiv {
     height: 90vh;
     width: 70vh;
+    overflow: hidden;
 }
