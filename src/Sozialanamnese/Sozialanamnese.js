@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 // Namen der Stepps werden hier definiert
 function getSteps() {
-    return ["Berufstätigkeiten", "Hobbies", "Militärdienst", "Wohnsituation", "Zivilstand", "Bemerkungen", "Absenden"];
+    return ["Berufstätigkeit", "Hobbies", "Militärdienst", "Wohnsituation", "Bezugspersonen", "Bemerkungen", "Absenden"];
 }
 
 // prüft ob ein spezifischer Component "complete" ist

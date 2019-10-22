@@ -1,5 +1,5 @@
 //TODO: Get gender for "me" from input form
-const myFamilyData =
+let myFamilyData =
     [
         {
             "id": "me",
@@ -130,8 +130,41 @@ const familyHelpers = {
         return (parseInt(highestIndex, 10) + 1);
     },
 
+    //Edit of an existing family member
+    editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+        if (this.getFamilyMemberByID(id)) {
+            console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
+
+            //delete Existing Entry form member
+            for (let i = 0; i < myFamilyData.length; i++) {
+                if (myFamilyData[i].id === id) {
+                    myFamilyData.splice(i, 1);
+                }
+            }
+
+            //Create new entry for member
+            myFamilyData.push(
+                {
+                    "id": id,
+                    "gender": gender,
+                    "parents": parents,
+                    "siblings": sibling,
+                    "spouses": spouses,
+                    "children": children,
+                    "spitzname": spitzname,
+                    "vorname": vorname,
+                    "nachname": nachname,
+                    "gesundheitszustand": gesundheitszustand,
+                }
+            );
+
+        } else {
+            console.log("No Family member found with id: " + id);
+        }
+    },
+
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
 
@@ -141,19 +174,19 @@ const familyHelpers = {
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
                         }
                     );
                 }
             }
 
-            //Add sibling to siblings
+            //Add sibling to siblings or to children of me depending on the input
             for (let i = 0; i <= sibling.length - 1; i++) {
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
                         }
                     );
                 }
@@ -165,7 +198,19 @@ const familyHelpers = {
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
                             "id": id,
-                            "type": "blood"
+                            "type": "blood",
+                        }
+                    );
+                }
+            }
+
+            //Add Parent to already existing children
+            for (let i = 0; i <= children.length - 1; i++) {
+                if (this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== null) {
+                    this.getFamilyMemberByID(children[i].id).parents.push(
+                        {
+                            "id": id,
+                            "type": "blood",
                         }
                     );
                 }
@@ -179,7 +224,11 @@ const familyHelpers = {
                     "parents": parents,
                     "siblings": sibling,
                     "spouses": spouses,
-                    "children": children
+                    "children": children,
+                    "spitzname": spitzname,
+                    "vorname": vorname,
+                    "nachname": nachname,
+                    "gesundheitszustand": gesundheitszustand,
                 }
             );
 
@@ -187,10 +236,54 @@ const familyHelpers = {
             console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
-            //New mmeber already exists
+            //New mmeber already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
+    },
+
+    //This delete certain Family members. It is only allowed to delete spouses, siblings or children
+    deleteFamilyMember: function (id) {
+        for (let i = 0; i < myFamilyData.length; i++) {
+
+            console.log("Check Family Member " + myFamilyData[i].id);
+            for (let j = 0; j < myFamilyData[i].siblings.length; j++) {
+                if (myFamilyData[i].siblings[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".siblings " + JSON.stringify(myFamilyData[i].siblings));
+                    myFamilyData[i].siblings.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].parents.length; j++) {
+                if (myFamilyData[i].parents[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".parents " + JSON.stringify(myFamilyData[i].parents));
+                    myFamilyData[i].parents.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].spouses.length; j++) {
+                if (myFamilyData[i].spouses[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".spouses " + JSON.stringify(myFamilyData[i].spouses));
+                    myFamilyData[i].spouses.splice(j, 1);
+                }
+            }
+
+            for (let j = 0; j < myFamilyData[i].children.length; j++) {
+                if (myFamilyData[i].children[j].id === id) {
+                    console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".children " + JSON.stringify(myFamilyData[i].children));
+                    myFamilyData[i].children.splice(j, 1);
+                }
+            }
+        }
+        for (let i = 0; i < myFamilyData.length; i++) {
+            if (myFamilyData[i].id === id) {
+                console.log("   Delete Family Member " + id + "\n" + JSON.stringify(this.getFamilyMemberByID(id)));
+                myFamilyData.splice(i, 1);
+
+            }
+        }
+
+        console.log("Deleted member " + id + " from FamilyData: \n" + JSON.stringify(myFamilyData));
     }
 
 };

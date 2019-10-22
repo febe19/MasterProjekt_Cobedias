@@ -50,7 +50,7 @@ class Militaerdienst extends Component {
         this.setState({[event.target.name]: event.target.value});
     };
 
-    //Try to fetch the already inserted values fro the localStorage
+    //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
             untauglichkeitsGrund: localStorage.get('untauglichkeitsGrund'),
@@ -91,7 +91,7 @@ class Militaerdienst extends Component {
                 <div>
                     <TextField
                         id="outlined-multiline-static"
-                        label="Grund der Dienstuntauglichkeit"
+                        label="Grund der Dienstuntauglichkeit (falls untauglich, ansonsten bitte leer lassen)"
                         multiline
                         rows="8"
                         margin="normal"
