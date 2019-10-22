@@ -24,6 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import Fab from '@material-ui/core/Fab';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 
 //My ID is always 0.
@@ -418,6 +419,30 @@ class FamilyTree extends Component {
     showStepperInPopup() {
         return (
             <div className='FamilyTreeContent'>
+                <div>
+                    <Button color="primary" aria-label="edit"
+                         onClick={this.handlePopupCancel}
+                         value={this.state.currentSelectedFamilyMember}
+                         style={{
+                             margin: '0 auto',
+                             height: '30px',
+                             width: '15px',
+                             position: 'absolute',
+                             top: '0%',
+                             right: '-5%',
+                             background: 'red',
+                             color: 'white',
+                             borderRadius: '0 0 0 10px',
+                         }}>
+                        <CancelIcon style={{
+                            position: 'absolute',
+                            left: '15%',
+                            margin: '0 auto',
+                            height: '15px',
+                            width: '15px',
+                        }}/>
+                    </Button>
+                </div>
                 <Stepper alternativeLabel nonLinear activeStep={this.state.activeStep}>
                     {steps.map((label, index) => {
                         const stepProps = {};
