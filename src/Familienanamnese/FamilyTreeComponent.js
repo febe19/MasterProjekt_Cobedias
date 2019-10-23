@@ -71,24 +71,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
+// creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
+const yearsDropdown = [];
+
+for (var i = 1900; i <= 2019; i++) {
+    const dict = {
+        value: i,
+    }
+    yearsDropdown.push(dict);
+}
 
 
 // Namen der Stepps werden hier definiert
@@ -107,20 +98,6 @@ function verwandtschaftAbfragenNeeded(member) {
 
 //TODO: check component completeness
 
-// prüft ob ein spezifischer Component "complete" ist
-function componentCompleted(step) {
-    switch (step) {
-        case 0:
-            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Fertig");
-            return localStorage.get('AngabenKomplett');
-        case 1:
-            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
-            return localStorage.get('familyMemberZustandKomplett');
-        default:
-            console.log("case default");
-            return false;
-    }
-}
 
 class FamilyTree extends Component {
 
@@ -137,7 +114,11 @@ class FamilyTree extends Component {
             FamilyDataState: familyHelpers.getFamilyData(),
             popupOpen: false,
             popupKomplett: false,
+            angabenKomplett: false,
+            familyMemberZustandKomplett: false,
+            verwandschaftKomplett: false,
             familyMember: '',
+            geburtsjahr: 0,
             spitzname: '',
             vorname: '',
             nachname: '',
@@ -145,11 +126,10 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             activeStep: 0,
             completed: {},
-            familyMemberZustandKomplett: false,
             verstorben: '',
-            todesjahr: 0
+            todesjahr: 0,
+            todesursache: ''
         };
-        console.log("test1: " + this.state.verstorben);
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
@@ -168,11 +148,30 @@ class FamilyTree extends Component {
         }
     }
 
+
+// prüft ob ein spezifischer Component "complete" ist
+    componentCompleted(step) {
+        switch (step) {
+            case 0:
+                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Fertig");
+                return (this.state.angabenKomplett);
+            case 1:
+                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
+                return this.state.familyMemberZustandKomplett;
+            case 2:
+                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
+                return this.state.verwandschaftKomplett;
+            default:
+                console.log("case default");
+                return false;
+        }
+    }
+
 // prüft, ob alle Felder in diesem Step ausgefüllt sind
     updateStepCompleteness(step) {
         console.log("check completeness for: " + step);
         // alle ausgefüllt --> Häckchen wird gesetzt
-        if (componentCompleted(step) === true) {
+        if (this.componentCompleted(step) === true) {
             const newCompleted = this.state.completed;
             newCompleted[step] = true;
             this.setState({completed: newCompleted});
@@ -188,6 +187,7 @@ class FamilyTree extends Component {
             //alert("Nicht alle Felder ausgefüllt!");
         }
     }
+
 
 // "Weiter" Button
     handleNext = (e) => {
@@ -218,19 +218,47 @@ class FamilyTree extends Component {
     //OnClick function ot add Siblings of me
     //write the Change of "vorname" / "nachname" and so on to the state.
     handleChange = () => event => {
-        console.log("Achtung!");
-        console.log("event: " + event);
-        console.log("target: " + event.target);
-        console.log("name: " + event.target.name);
-        console.log("value: " + event.target.value);
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({
+            [event.target.name]: event.target.value
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
+        });
     };
 
 
     //write the Change of "todesjahr" and so on to the state.
     handleChangeTodesjahr = () => event => {
-        console.log("value: " + event.target.value);
-        this.setState({todesjahr: event.target.value});
+        this.setState({todesjahr: event.target.value}, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
+        });
+    };
+
+    //write the Change of "geburtsjahr" and so on to the state.
+    handleChangeGeburtsjahr = () => event => {
+        this.setState({
+            geburtsjahr: event.target.value,
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
+        })
+        ;
     };
 
 
@@ -256,12 +284,27 @@ class FamilyTree extends Component {
 
         this.setState({
             popupOpen: false,
+            geburtsjahr: 0,
             spitzname: '',
             vorname: '',
             nachname: '',
             gesundheitszustand: '',
             activeStep: 0,
-            verstorben: ''
+            verstorben: '',
+            todesjahr: 0,
+            todesursache: '',
+            popupKomplett: false,
+            angabenKomplett: false,
+            familyMemberZustandKomplett: false,
+            verwandschaftKomplett: false
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
         });
     };
 
@@ -269,12 +312,27 @@ class FamilyTree extends Component {
     handlePopupCancel = e => {
         this.setState({
             popupOpen: false,
+            geburtsjahr: 0,
             spitzname: '',
             vorname: '',
             nachname: '',
             gesundheitszustand: '',
             activeStep: 0,
-            verstorben: ''
+            verstorben: '',
+            todesjahr: 0,
+            todesursache: '',
+            popupKomplett: false,
+            angabenKomplett: false,
+            familyMemberZustandKomplett: false,
+            verwandschaftKomplett: false
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
         });
     };
 
@@ -283,7 +341,14 @@ class FamilyTree extends Component {
     handleYesButtonChange = () => {
         this.setState({
             verstorben: true,
-            familyMemberZustandKomplett: this.checkZustandCompleteness()
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
         });
     };
 
@@ -292,12 +357,48 @@ class FamilyTree extends Component {
     handleNoButtonChange = () => {
         this.setState({
             verstorben: false,
-            familyMemberZustandKomplett: this.checkZustandCompleteness()
+        }, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
         });
     };
 
     // Completeness der Textfelder wird überprüft
+    checkAngabenCompleteness() {
+        if (this.state.geburtsjahr !== 0 && this.state.spitzname !== '' && this.state.vorname !== '' && this.state.nachname !== '') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Completeness der Textfelder wird überprüft
     checkZustandCompleteness() {
+        if (this.state.verstorben === '') {
+            return false;
+        } else if (this.state.verstorben === true) {
+            if (this.state.todesjahr !== 0 && this.state.todesjahr !== '' && this.state.todesursache !== '') {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (this.state.verstorben === false) {
+            if (this.state.gesundheitszustand !== '') {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    //TODO: check if the necessaryfields are filled out in the step "Verwandschaft"
+    // Completeness der Textfelder wird überprüft
+    checkVerwandschaftCompleteness() {
         return true;
     }
 
@@ -437,6 +538,29 @@ class FamilyTree extends Component {
     showAngaben() {
         return (
             <div>
+                <form className={useStyles.container} noValidate autoComplete="off">
+                    <TextField
+                        id="geburtsjahr"
+                        select
+                        label="Geburtsjahr"
+                        className={classes.textField}
+                        value={this.state.geburtsjahr}
+                        onChange={this.handleChangeGeburtsjahr("geburtsjahr")}
+                        SelectProps={{
+                            MenuProps: {
+                                className: classes.menu,
+                            },
+                        }}
+                        helperText="Geburtsjahr wählen"
+                        margin="normal"
+                    >
+                        {yearsDropdown.map(option => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.value}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </form>
                 <TextField
                     label="Spitzname"
                     margin="normal"
@@ -472,8 +596,6 @@ class FamilyTree extends Component {
     }
 
     colorYesButton() {
-        console.log("ich prüfe");
-        console.log(this.state.verstorben === '');
         if (this.state.verstorben === '') {
             return false
         } else {
@@ -498,7 +620,6 @@ class FamilyTree extends Component {
         return (
 
             <div>
-                <br/>
                 <p>Familienmitglieder verstorben?</p>
                 <div className="FamilyMemberZustandButton">
                     <Button variant="outlined" size="small" color="primary"
@@ -517,6 +638,8 @@ class FamilyTree extends Component {
 
     // popup to add a new family member
     showGesundheitszustand() {
+
+
         if (this.state.verstorben !== '') {
             if (this.state.verstorben) {
                 return (
@@ -524,17 +647,16 @@ class FamilyTree extends Component {
                         <br/>
                         <br/>
                         <br/>
-                        <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie das Todesjahr an:</p>
-                        </div>
+
+                        <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
 
 
                         <form className={useStyles.container} noValidate autoComplete="off">
 
                             <TextField
-                                id="standard-select-currency"
+                                id="todesjahr"
                                 select
-                                label="Select"
+                                label="Todesjahr"
                                 className={classes.textField}
                                 value={this.state.todesjahr}
                                 onChange={this.handleChangeTodesjahr("todesjahr")}
@@ -543,10 +665,10 @@ class FamilyTree extends Component {
                                         className: classes.menu,
                                     },
                                 }}
-                                helperText="Please select your currency"
+                                helperText="Todesjahr wählen"
                                 margin="normal"
                             >
-                                {currencies.map(option => (
+                                {yearsDropdown.map(option => (
                                     <MenuItem key={option.value} value={option.value}>
                                         {option.value}
                                     </MenuItem>
@@ -557,6 +679,7 @@ class FamilyTree extends Component {
 
 
                         <TextField
+                            style={{width: '100px', margin: '3px'}}
                             label="Todesjahr"
                             margin="normal"
                             variant="outlined"
@@ -564,7 +687,19 @@ class FamilyTree extends Component {
                             value={this.state.todesjahr}
                             onChange={this.handleChange("todesjahr")}
                             fullWidth
-                            placeholder="Geben Sie hier das Todesjahr ein"
+                            placeholder="Todesjahr"
+                        />
+                        <TextField
+                            label="Todesursache"
+                            margin="normal"
+                            variant="outlined"
+                            name="todesursache"
+                            value={this.state.todesursache}
+                            onChange={this.handleChange("todesursache")}
+                            fullWidth
+                            multiline
+                            rows="8"
+                            placeholder="Geben Sie hier die Todesursache ein"
                         />
                     </div>
                 )
@@ -636,7 +771,7 @@ class FamilyTree extends Component {
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepButton
-                                    onClick={this.handleStep(index)}>
+                                    onClick={this.handleStep(index)} completed={this.state.completed[index]}>
                                     {label}
                                 </StepButton>
                             </Step>
