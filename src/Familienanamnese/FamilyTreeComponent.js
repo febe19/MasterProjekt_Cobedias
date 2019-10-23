@@ -53,9 +53,9 @@ const classes = makeStyles(theme => ({
 // Namen der Stepps werden hier definiert
 function getSteps(member) {
     if (verwandtschaftAbfragenNeeded(member)) {
-        return ["Angaben", "Gesundheitszustand", "Verwandtschaft"];
+        return ["Angaben", "Zustand", "Verwandtschaft"];
     } else {
-        return ["Angaben", "Gesundheitszustand"];
+        return ["Angaben", "Zustand"];
     }
 }
 
@@ -71,8 +71,8 @@ function componentCompleted(step) {
             console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Fertig");
             return localStorage.get('AngabenKomplett');
         case 1:
-            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Gesundheitszustand_ Fertig");
-            return localStorage.get('GesundheitszustandKomplett');
+            console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
+            return localStorage.get('FamilyMemberZustandKomplett');
         default:
             console.log("case default");
             return false;
@@ -85,6 +85,9 @@ class FamilyTree extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handlePopupClose = this.handlePopupClose.bind(this);
+        this.handleYesButtonChange = this.handleYesButtonChange.bind(this);
+        this.handleNoButtonChange = this.handleNoButtonChange.bind(this);
+
 
         //Define the state of this component.
         this.state = {
@@ -99,6 +102,7 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             activeStep: 0,
             completed: {},
+            verstorben: '',
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
@@ -197,7 +201,8 @@ class FamilyTree extends Component {
             vorname: '',
             nachname: '',
             gesundheitszustand: '',
-            activeStep: 0
+            activeStep: 0,
+            verstorben: ''
         });
     };
 
@@ -209,7 +214,28 @@ class FamilyTree extends Component {
             vorname: '',
             nachname: '',
             gesundheitszustand: '',
-            activeStep: 0
+            activeStep: 0,
+            verstorben: ''
+        });
+    };
+
+
+    //write the Change of the Yes Button to the state.
+    handleYesButtonChange = () => {
+        this.setState({verstorben: true}, () => {
+
+            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
+            localStorage.set('FamilyMemberZustandKomplett', this.checkZustandCompleteness());
+        });
+    };
+
+
+    //write the Change of the No Button to the state.
+    handleNoButtonChange = () => {
+        this.setState({verstorben: false}, () => {
+
+            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
+            localStorage.set('verstorben', false);
         });
     };
 
@@ -380,6 +406,30 @@ class FamilyTree extends Component {
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
             </div>
+        )
+    }
+
+    stateOfFamilyMember() {
+        const styleYesButton = (this.colorYesButton()) ? {background: '#BBC2E5'} : {};
+        const styleNoButton = (this.colorNoButton()) ? {background: '#BBC2E5'} : {};
+
+        return (
+
+            <div>
+                <br/>
+                <p>Ist XXX verstorben?</p>
+                <div className="FamilyMemberZustandButton">
+                    <Button variant="outlined" size="small" color="primary"
+                            style={styleYesButton} onClick={this.handleYesButtonChange}> Ja </Button>
+                </div>
+                <div className="FamilyMemberZustandButton">
+                    <Button variant="outlined" size="small" color="primary" style={styleNoButton}
+                            onClick={this.handleNoButtonChange}> Nein </Button>
+                </div>
+                <div>{this.showGesundheitszustand()}</div>
+            </div>
+
+
         )
     }
 
