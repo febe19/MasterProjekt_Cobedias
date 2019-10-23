@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
 // creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
 const yearsDropdown = [];
 
-for (var i = 1900; i <= 2019; i++) {
+for (var i = 2019; i >= 1919; i--) {
     const dict = {
         value: i,
     }
@@ -279,7 +279,7 @@ class FamilyTree extends Component {
         } else {
             console.log("__Handle Popup Close for: " + e.currentTarget.value + " --> Edit of data");
             let currentData = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
-            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.siblings, currentData.spouses, currentData.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.siblings, currentData.spouses, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState({
@@ -421,9 +421,9 @@ class FamilyTree extends Component {
 
         //Change between add sister or add brother.
         if (e === 'addSister') {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -439,12 +439,12 @@ class FamilyTree extends Component {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            }], me.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
                 "id": "me",
                 "type": "married"
-            }], me.children, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            }], me.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -475,9 +475,9 @@ class FamilyTree extends Component {
         }
 
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", meAsAParent, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], [], this.state.spitzname, this.state.vorname, this.state.nachname, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", meAsAParent, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -501,9 +501,13 @@ class FamilyTree extends Component {
         console.log("Edit Familiy Member --> " + e);
 
         this.setState({
+            geburtsjahr: familyHelpers.getFamilyMemberByID(e).geburtsjahr,
             spitzname: familyHelpers.getFamilyMemberByID(e).spitzname,
             vorname: familyHelpers.getFamilyMemberByID(e).vorname,
             nachname: familyHelpers.getFamilyMemberByID(e).nachname,
+            verstorben: familyHelpers.getFamilyMemberByID(e).verstorben,
+            todesjahr: familyHelpers.getFamilyMemberByID(e).todesjahr,
+            todesursache: familyHelpers.getFamilyMemberByID(e).todesursache,
             gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand
         });
 
@@ -516,7 +520,15 @@ class FamilyTree extends Component {
     // popup to add a new family member
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
-        this.setState({popupOpen: true, currentSelectedFamilyMember: fm});
+        this.setState({popupOpen: true, currentSelectedFamilyMember: fm}, () => {
+            this.setState({
+                angabenKomplett: this.checkAngabenCompleteness(),
+                familyMemberZustandKomplett: this.checkZustandCompleteness(),
+                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            }, () => {
+                this.updateStepCompleteness(this.state.activeStep);
+            })
+        });
     };
 
     //Show Popup,if state == true

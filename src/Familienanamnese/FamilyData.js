@@ -131,7 +131,7 @@ const familyHelpers = {
     },
 
     //Edit of an existing family member
-    editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+    editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -151,9 +151,13 @@ const familyHelpers = {
                     "siblings": sibling,
                     "spouses": spouses,
                     "children": children,
+                    "geburtsjahr": geburtsjahr,
                     "spitzname": spitzname,
                     "vorname": vorname,
                     "nachname": nachname,
+                    "verstorben": verstorben,
+                    "todesjahr": todesjahr,
+                    "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
                 }
             );
@@ -164,7 +168,7 @@ const familyHelpers = {
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
 
@@ -225,9 +229,13 @@ const familyHelpers = {
                     "siblings": sibling,
                     "spouses": spouses,
                     "children": children,
+                    "geburtsjahr": geburtsjahr,
                     "spitzname": spitzname,
                     "vorname": vorname,
                     "nachname": nachname,
+                    "verstorben": verstorben,
+                    "todesjahr": todesjahr,
+                    "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
                 }
             );
