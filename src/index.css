@@ -204,3 +204,10 @@ ul.header li a {
     width: 70vh;
     overflow: hidden;
 }
+
+
+.FamilyMemberZustandButton {
+    margin-right: 15px;
+    margin-top: 18px;
+    float: left;
+}

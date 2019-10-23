@@ -26,6 +26,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 //My ID is always 0.
 const myID = 'me';
@@ -50,6 +52,45 @@ const classes = makeStyles(theme => ({
     }
 }));
 
+
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
+    },
+    dense: {
+        marginTop: 19,
+    },
+    menu: {
+        width: 200,
+    },
+}));
+
+const currencies = [
+    {
+        value: 'USD',
+        label: '$',
+    },
+    {
+        value: 'EUR',
+        label: '€',
+    },
+    {
+        value: 'BTC',
+        label: '฿',
+    },
+    {
+        value: 'JPY',
+        label: '¥',
+    },
+];
+
+
 // Namen der Stepps werden hier definiert
 function getSteps(member) {
     if (verwandtschaftAbfragenNeeded(member)) {
@@ -64,6 +105,8 @@ function verwandtschaftAbfragenNeeded(member) {
     return !(member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling');
 }
 
+//TODO: check component completeness
+
 // prüft ob ein spezifischer Component "complete" ist
 function componentCompleted(step) {
     switch (step) {
@@ -72,7 +115,7 @@ function componentCompleted(step) {
             return localStorage.get('AngabenKomplett');
         case 1:
             console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
-            return localStorage.get('FamilyMemberZustandKomplett');
+            return localStorage.get('familyMemberZustandKomplett');
         default:
             console.log("case default");
             return false;
@@ -102,8 +145,11 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             activeStep: 0,
             completed: {},
+            familyMemberZustandKomplett: false,
             verstorben: '',
+            todesjahr: 0
         };
+        console.log("test1: " + this.state.verstorben);
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
@@ -114,7 +160,7 @@ class FamilyTree extends Component {
             case 0:
                 return this.showAngaben();
             case 1:
-                return this.showGesundheitszustand();
+                return this.showFamilyMemberZustand();
             case 2:
                 return this.showVerwandtschaft();
             default:
@@ -172,8 +218,21 @@ class FamilyTree extends Component {
     //OnClick function ot add Siblings of me
     //write the Change of "vorname" / "nachname" and so on to the state.
     handleChange = () => event => {
+        console.log("Achtung!");
+        console.log("event: " + event);
+        console.log("target: " + event.target);
+        console.log("name: " + event.target.name);
+        console.log("value: " + event.target.value);
         this.setState({[event.target.name]: event.target.value});
     };
+
+
+    //write the Change of "todesjahr" and so on to the state.
+    handleChangeTodesjahr = () => event => {
+        console.log("value: " + event.target.value);
+        this.setState({todesjahr: event.target.value});
+    };
+
 
     // closes Popup when new family member is added with button "hinzufügen"
     handlePopupClose = e => {
@@ -222,22 +281,25 @@ class FamilyTree extends Component {
 
     //write the Change of the Yes Button to the state.
     handleYesButtonChange = () => {
-        this.setState({verstorben: true}, () => {
-
-            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
-            localStorage.set('FamilyMemberZustandKomplett', this.checkZustandCompleteness());
+        this.setState({
+            verstorben: true,
+            familyMemberZustandKomplett: this.checkZustandCompleteness()
         });
     };
 
 
     //write the Change of the No Button to the state.
     handleNoButtonChange = () => {
-        this.setState({verstorben: false}, () => {
-
-            // completeness aller textfelder wird überprüft, sobald sich ein input ändert
-            localStorage.set('verstorben', false);
+        this.setState({
+            verstorben: false,
+            familyMemberZustandKomplett: this.checkZustandCompleteness()
         });
     };
+
+    // Completeness der Textfelder wird überprüft
+    checkZustandCompleteness() {
+        return true;
+    }
 
     //OnClick function ot add Siblings of me
     addSibling = (e) => {
@@ -409,15 +471,35 @@ class FamilyTree extends Component {
         )
     }
 
-    stateOfFamilyMember() {
+    colorYesButton() {
+        console.log("ich prüfe");
+        console.log(this.state.verstorben === '');
+        if (this.state.verstorben === '') {
+            return false
+        } else {
+            return (this.state.verstorben)
+        }
+    }
+
+    // markiert den "Nein" button blau sobald er (zum ersten Mal) angewählt wurde
+    colorNoButton() {
+        if (this.state.verstorben === '') {
+            return false
+        } else {
+            return (!this.state.verstorben)
+        }
+    }
+
+    showFamilyMemberZustand() {
         const styleYesButton = (this.colorYesButton()) ? {background: '#BBC2E5'} : {};
         const styleNoButton = (this.colorNoButton()) ? {background: '#BBC2E5'} : {};
+
 
         return (
 
             <div>
                 <br/>
-                <p>Ist XXX verstorben?</p>
+                <p>Familienmitglieder verstorben?</p>
                 <div className="FamilyMemberZustandButton">
                     <Button variant="outlined" size="small" color="primary"
                             style={styleYesButton} onClick={this.handleYesButtonChange}> Ja </Button>
@@ -435,22 +517,83 @@ class FamilyTree extends Component {
 
     // popup to add a new family member
     showGesundheitszustand() {
-        return (
-            <div>
-                <TextField
-                    label="Gesundheitszustand"
-                    margin="normal"
-                    variant="outlined"
-                    name="gesundheitszustand"
-                    value={this.state.gesundheitszustand}
-                    onChange={this.handleChange("gesundheitszustand")}
-                    fullWidth
-                    multiline
-                    rows="8"
-                    placeholder="Geben Sie hier den Gesundheitszustand ein"
-                />
-            </div>
-        )
+        if (this.state.verstorben !== '') {
+            if (this.state.verstorben) {
+                return (
+                    <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="Gesundheitszustand">
+                            <p>Bitte geben Sie das Todesjahr an:</p>
+                        </div>
+
+
+                        <form className={useStyles.container} noValidate autoComplete="off">
+
+                            <TextField
+                                id="standard-select-currency"
+                                select
+                                label="Select"
+                                className={classes.textField}
+                                value={this.state.todesjahr}
+                                onChange={this.handleChangeTodesjahr("todesjahr")}
+                                SelectProps={{
+                                    MenuProps: {
+                                        className: classes.menu,
+                                    },
+                                }}
+                                helperText="Please select your currency"
+                                margin="normal"
+                            >
+                                {currencies.map(option => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.value}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                        </form>
+
+
+                        <TextField
+                            label="Todesjahr"
+                            margin="normal"
+                            variant="outlined"
+                            name="todesjahr"
+                            value={this.state.todesjahr}
+                            onChange={this.handleChange("todesjahr")}
+                            fullWidth
+                            placeholder="Geben Sie hier das Todesjahr ein"
+                        />
+                    </div>
+                )
+
+            } else {
+                return (
+                    <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="Gesundheitszustand">
+                            <p>Bitte geben Sie den Gesundheitszustand an:</p>
+                        </div>
+                        <TextField
+                            label="Gesundheitszustand"
+                            margin="normal"
+                            variant="outlined"
+                            name="gesundheitszustand"
+                            value={this.state.gesundheitszustand}
+                            onChange={this.handleChange("gesundheitszustand")}
+                            fullWidth
+                            multiline
+                            rows="8"
+                            placeholder="Geben Sie hier den Gesundheitszustand ein"
+                        />
+                    </div>
+                )
+            }
+        }
     }
 
     showVerwandtschaft() {
