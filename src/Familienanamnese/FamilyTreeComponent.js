@@ -28,6 +28,14 @@ import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 import MenuItem from '@material-ui/core/MenuItem';
 
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Slide from '@material-ui/core/Slide';
+
+
+const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
+    return <Slide direction="down" ref={ref} {...props} />;
+});
+
 
 //My ID is always 0.
 const myID = 'me';
@@ -96,8 +104,6 @@ function verwandtschaftAbfragenNeeded(member) {
     return !(member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling');
 }
 
-//TODO: check component completeness
-
 
 class FamilyTree extends Component {
 
@@ -113,6 +119,7 @@ class FamilyTree extends Component {
         this.state = {
             FamilyDataState: familyHelpers.getFamilyData(),
             popupOpen: false,
+            popupAlertOpen: false,
             popupKomplett: false,
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
@@ -288,9 +295,17 @@ class FamilyTree extends Component {
         });
     };
 
-    // closes Popup when adding new family member is canceled with button "abbrechen"
+    handlePopopCancelAlert = e => {
+        this.setState({
+            popupAlertOpen: true,
+            popupOpen: false
+        })
+    }
+
+    // closes Popup when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
     handlePopupCancel = e => {
         this.setState({
+            popupAlertOpen: false,
             popupOpen: false,
             geburtsjahr: 0,
             spitzname: '',
@@ -305,6 +320,13 @@ class FamilyTree extends Component {
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
             verwandschaftKomplett: false
+        });
+    };
+    // closes alert Popup when alert message is agreed / not agreed
+    handlePopupCancelAlertClose = e => {
+        this.setState({
+            popupOpen: true,
+            popupAlertOpen: false
         });
     };
 
@@ -498,6 +520,35 @@ class FamilyTree extends Component {
                             <div>{this.showStepperInPopup()}</div>
                         </DialogContent>
                     </div>
+                </Dialog>
+            </div>)
+    }
+
+    //Show Popup,if state == true
+    showPopupAlert() {
+        return (
+            <div>
+                <Dialog
+                    open={this.state.popupAlertOpen}
+                    TransitionComponent={TransitionAlertPopup}
+                    keepMounted
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle id="alert-dialog-slide-title">{"Wollen Sie wirklich abbrechen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Wenn Sie abbrechen, werden Ihre Daten nicht gespeichert!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handlePopupCancelAlertClose} color="primary">
+                            Nein
+                        </Button>
+                        <Button onClick={this.handlePopupCancel} color="primary">
+                            Ja
+                        </Button>
+                    </DialogActions>
                 </Dialog>
             </div>)
     }
@@ -712,7 +763,7 @@ class FamilyTree extends Component {
             <div className='FamilyTreeContent'>
                 <div>
                     <Button color="primary" aria-label="edit"
-                            onClick={this.handlePopupCancel}
+                            onClick={this.handlePopopCancelAlert}
                             value={this.state.currentSelectedFamilyMember}
                             style={{
                                 margin: '0 auto',
@@ -800,6 +851,7 @@ class FamilyTree extends Component {
                             onClick={() => this.popUpFamilyMember('addSon')}>Sohn
                         Hinzufügen</Button>
                     <div>{this.showPopup()}</div>
+                    <div>{this.showPopupAlert()}</div>
                 </div>
                 <div>
                     <ReactFamilyTree
