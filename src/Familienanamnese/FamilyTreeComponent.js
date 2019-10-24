@@ -216,7 +216,7 @@ class FamilyTree extends Component {
     handleBack = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
         if (this.state.activeStep === 0) {
-            this.handlePopupCancel(e);
+            this.handlePopopCancelAlert(e);
         } else {
             this.setState({activeStep: this.state.activeStep - 1});
         }
