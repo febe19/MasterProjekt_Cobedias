@@ -169,23 +169,29 @@ class FamilyTree extends Component {
 
 // prüft, ob alle Felder in diesem Step ausgefüllt sind
     updateStepCompleteness(step) {
-        console.log("check completeness for: " + step);
-        // alle ausgefüllt --> Häckchen wird gesetzt
-        if (this.componentCompleted(step) === true) {
-            const newCompleted = this.state.completed;
-            newCompleted[step] = true;
-            this.setState({completed: newCompleted});
-            // setCompleted(newCompleted);
-        } else {
-            // Nicht alle ausgefüllt --> Häckchen wird entfernt
-            const newCompleted = this.state.completed;
-            newCompleted[step] = false;
-            this.setState({completed: newCompleted});
-            // TODO: Enable alert (evtl. mit zwei Buttons --> möchten Sie wirklich weiter? Ja/Nein)
-            // TODO: Alert-Vorgehen überdenken: nur einfacher Alert oder unterschiedlicher Alert für jeden Case?
-            // TODO: Sollen nicht ausgefüllte textfelder rot markiert werden?
-            //alert("Nicht alle Felder ausgefüllt!");
-        }
+        this.setState({
+            angabenKomplett: this.checkAngabenCompleteness(),
+            familyMemberZustandKomplett: this.checkZustandCompleteness(),
+            verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+        }, () => {
+            console.log("check completeness for: " + step);
+            // alle ausgefüllt --> Häckchen wird gesetzt
+            if (this.componentCompleted(step) === true) {
+                const newCompleted = this.state.completed;
+                newCompleted[step] = true;
+                this.setState({completed: newCompleted});
+                // setCompleted(newCompleted);
+            } else {
+                // Nicht alle ausgefüllt --> Häckchen wird entfernt
+                const newCompleted = this.state.completed;
+                newCompleted[step] = false;
+                this.setState({completed: newCompleted});
+                // TODO: Enable alert (evtl. mit zwei Buttons --> möchten Sie wirklich weiter? Ja/Nein)
+                // TODO: Alert-Vorgehen überdenken: nur einfacher Alert oder unterschiedlicher Alert für jeden Case?
+                // TODO: Sollen nicht ausgefüllte textfelder rot markiert werden?
+                //alert("Nicht alle Felder ausgefüllt!");
+            }
+        })
     }
 
 
@@ -221,13 +227,7 @@ class FamilyTree extends Component {
         this.setState({
             [event.target.name]: event.target.value
         }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(this.state.activeStep);
         });
     };
 
@@ -235,13 +235,7 @@ class FamilyTree extends Component {
     //write the Change of "todesjahr" and so on to the state.
     handleChangeTodesjahr = () => event => {
         this.setState({todesjahr: event.target.value}, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(this.state.activeStep);
         });
     };
 
@@ -250,13 +244,7 @@ class FamilyTree extends Component {
         this.setState({
             geburtsjahr: event.target.value,
         }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(this.state.activeStep);
         })
         ;
     };
@@ -297,14 +285,6 @@ class FamilyTree extends Component {
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
             verwandschaftKomplett: false
-        }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
         });
     };
 
@@ -325,14 +305,6 @@ class FamilyTree extends Component {
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
             verwandschaftKomplett: false
-        }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
         });
     };
 
@@ -342,13 +314,7 @@ class FamilyTree extends Component {
         this.setState({
             verstorben: true,
         }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(this.state.activeStep);
         });
     };
 
@@ -358,13 +324,7 @@ class FamilyTree extends Component {
         this.setState({
             verstorben: false,
         }, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(this.state.activeStep);
         });
     };
 
@@ -521,13 +481,9 @@ class FamilyTree extends Component {
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
         this.setState({popupOpen: true, currentSelectedFamilyMember: fm}, () => {
-            this.setState({
-                angabenKomplett: this.checkAngabenCompleteness(),
-                familyMemberZustandKomplett: this.checkZustandCompleteness(),
-                verwandschaftKomplett: this.checkVerwandschaftCompleteness()
-            }, () => {
-                this.updateStepCompleteness(this.state.activeStep);
-            })
+            this.updateStepCompleteness(0);
+            this.updateStepCompleteness(1);
+            this.updateStepCompleteness(2);
         });
     };
 

@@ -34,7 +34,15 @@ let myFamilyData =
                     "id": "me",
                     "type": "blood"
                 }
-            ]
+            ],
+            "geburtsjahr": 0,
+            "spitzname": '',
+            "vorname": '',
+            "nachname": '',
+            "verstorben": '',
+            "todesjahr": '',
+            "todesursache": '',
+            "gesundheitszustand": ''
         },
         {
             "id": "myFather",
@@ -52,7 +60,15 @@ let myFamilyData =
                     "id": "me",
                     "type": "blood"
                 }
-            ]
+            ],
+            "geburtsjahr": 0,
+            "spitzname": '',
+            "vorname": '',
+            "nachname": '',
+            "verstorben": '',
+            "todesjahr": '',
+            "todesursache": '',
+            "gesundheitszustand": ''
         }
     ];
 
