@@ -7,3 +7,20 @@
 .h3 {
   color: whitesmoke;
 }
+
+/* Border styles for pictures in PersonAngaben*/
+
+.noBorder {
+  text-align: center;
+  color: #000;
+  border: solid 2px transparent;
+  padding: 12px 12px 12px 12px;
+  margin: 0px 0px 10px 0;
+}
+.withBorder {
+  text-align: center;
+  color: #000;
+  border: solid 2px #ec3a4b;
+  padding: 12px 12px 12px 12px;
+  margin: 0px 0px 10px 0;
+}

@@ -29,13 +29,48 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-//TODO: Rand bei Anklicken hinzufügen
-
 export class PersonAngaben extends Component {
+  //Bilderobjekt
+  constructor(props) {
+    super(props);
+    this.state = {
+      Bilder: {
+        Männlich: {
+          title: "Männlich",
+          image: require("../components/images/männlich.png"),
+          selected: false
+        },
+        Weiblich: {
+          title: "Weiblich",
+          image: require("../components/images/weiblich.png"),
+          selected: false
+        }
+      }
+    };
+  }
+
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
   };
+
+  // Ränder hinzufügen bei anklicken
+  onIconClick(event) {
+    //Neues Objekt mit aktueller Stateinformation erzeugen
+    let newState = Object.assign({}, this.state);
+    //der Rand aller Bilder wird entfernt
+    for (let selection in newState.Bilder) {
+      if (selection !== event.target.id) {
+        newState.Bilder[selection].selected = false;
+      }
+    }
+    //..ausser der Rand des geclickten targets
+    newState.Bilder[event.target.id].selected = true;
+    //updaten des States mit aktuellen Informationen
+    this.setState({
+      newState
+    });
+  }
 
   render() {
     const { values, handleChange } = this.props;
@@ -108,22 +143,23 @@ export class PersonAngaben extends Component {
                 Bitte Geschlecht auswählen:
                 <br />
               </h3>
-              <img
-                src={require("../components/images/männlich.png")}
-                id="i1"
-                alt="Männlich"
-                style={{ width: "5%" }}
-                m={2}
-                p={2}
-              />
-              <img
-                src={require("../components/images/weiblich.png")}
-                id="i1"
-                alt="Weiblich"
-                style={{ width: "4.3%" }}
-                m={2}
-                p={2}
-              />
+
+              {Object.keys(this.state.Bilder).map(icon => (
+                <div
+                  className={
+                    this.state.Bilder[icon]["selected"]
+                      ? "withBorder"
+                      : "noBorder"
+                  }
+                >
+                  <img
+                    src={this.state.Bilder[icon]["image"]}
+                    id={this.state.Bilder[icon]["name"]}
+                    onClick={e => this.onIconClick(e)}
+                  />
+                  <p>{this.state.Bilder[icon]["name"]}</p>
+                </div>
+              ))}
             </Box>
             <Box display="flex" justifyContent="center" alignItems="flex-end">
               <RaisedButton
