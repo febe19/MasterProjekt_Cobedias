@@ -102,7 +102,18 @@ function getSteps(member) {
 
 //Function to determine if Verwandtschaft needs to be displayed for a current person.
 function verwandtschaftAbfragenNeeded(member) {
-    return !(member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling');
+
+    let me = familyHelpers.getFamilyMemberByID("me");
+
+    if (member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling') {
+        return false;
+    } else if ((member === 'addSon' || member === 'addDaughter' || member.slice(0, 5) === 'child') && (me.spouses.length !== 0)) {
+        return true;
+    } else if ((member === 'addSpouse' || member.slice(0, 6) === 'spouse') && (me.children.length !== 0)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -138,7 +149,9 @@ class FamilyTree extends Component {
             completed: {},
             verstorben: '',
             todesjahr: 0,
-            todesursache: ''
+            todesursache: '',
+
+            parentsOfChild: []
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
@@ -181,8 +194,7 @@ class FamilyTree extends Component {
     updateStepCompleteness(step) {
         this.setState({
             angabenKomplett: this.checkAngabenCompleteness(),
-            familyMemberZustandKomplett: this.checkZustandCompleteness(),
-            verwandschaftKomplett: this.checkVerwandschaftCompleteness()
+            familyMemberZustandKomplett: this.checkZustandCompleteness()
         }, () => {
             console.log("check completeness for: " + step);
             // alle ausgefüllt --> Häckchen wird gesetzt
@@ -392,11 +404,6 @@ class FamilyTree extends Component {
         }
     }
 
-    //TODO: check if the necessaryfields are filled out in the step "Verwandschaft"
-    // Completeness der Textfelder im step Verwandschaft wird überprüft
-    checkVerwandschaftCompleteness() {
-        return true;
-    }
 
     //OnClick function ot add Siblings of me
     addSibling = (e) => {
@@ -521,7 +528,10 @@ class FamilyTree extends Component {
             verstorben: familyHelpers.getFamilyMemberByID(e).verstorben,
             todesjahr: familyHelpers.getFamilyMemberByID(e).todesjahr,
             todesursache: familyHelpers.getFamilyMemberByID(e).todesursache,
-            gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand
+            gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand,
+
+            verwandschaftKomplett: true
+
         });
 
         //Open Popup
@@ -533,10 +543,12 @@ class FamilyTree extends Component {
     // popup to add a new family member
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
-        this.setState({popupOpen: true, currentSelectedFamilyMember: fm}, () => {
+        console.log("step: " + this.state.activeStep)
+        this.setState({activeStep: 0, popupOpen: true, currentSelectedFamilyMember: fm}, () => {
             this.updateStepCompleteness(0);
             this.updateStepCompleteness(1);
             this.updateStepCompleteness(2);
+            console.log("step2: " + this.state.activeStep)
         });
     };
 
@@ -811,34 +823,42 @@ class FamilyTree extends Component {
     }
 
     showVerwandschaftParents() {
-        console.log("FamilyData: " + familyHelpers.getFamilyData());
-        console.log("currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
-        console.log("if: " + (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child'));
+        //console.log("FamilyData: " + familyHelpers.getFamilyData());
+        //console.log("currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
+        //console.log("if: " + (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child'));
         if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child') {
-            console.log("yesss")
+            //  console.log("yesss")
             let me = familyHelpers.getFamilyMemberByID("me");
-            console.log("my siblings: " + JSON.stringify(me.spouses))
-
+            //console.log("my siblings: " + JSON.stringify(me.spouses))
 
             //Take me as spouses
             let spouses = [];
 
-
             // show spouses
             for (let i = 0; i < me.spouses.length; i++) {
-                console.log("numero: " + JSON.stringify(me.spouses[i]))
-                console.log("spitzname: " + familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname)
-                const name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname;
+                let id = me.spouses[i].id
+                let name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname;
+                //console.log("current_spouse: " + JSON.stringify(me.spouses[i]))
+                //console.log("spitzname: " + name);
+                if (name === '') {
+                    name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).vorname;
+                }
+                if (name === '') {
+                    name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname;
+                }
+                if (name === '') {
+                    name = id;
+                }
+                //console.log("display_name: " + name);
                 spouses.push(
                     {
-                        id: me.spouses[i].id,
+                        id: id,
                         type: me.spouses[i].type,
                         name: name,
                     });
             }
 
-            console.log("spouses new: " + JSON.stringify(spouses))
-
+            //console.log("spouses new: " + JSON.stringify(spouses));
 
             return (
                 <div>
@@ -857,6 +877,38 @@ class FamilyTree extends Component {
     }
 
 
+    choseParentForChildren(id) {
+        console.log("parents: " + this.state.parentsOfChild);
+        console.log("id: " + id);
+
+        let newParents = this.state.parentsOfChild;
+        if (newParents.includes(id)) {
+
+
+            var index_to_remove = newParents.indexOf(id);
+            console.log("index_to_remove: " + index_to_remove);
+            if (index_to_remove > -1) {
+                newParents.splice(index_to_remove, 1);
+            }
+
+            console.log("filtered array")
+
+        } else {
+            console.log("pushed array");
+            newParents.push(id);
+        }
+
+        this.setState({
+            parentsOfChild: newParents,
+            verwandschaftKomplett: true
+        }, () => {
+            console.log("new parents: " + this.state.parentsOfChild);
+            this.updateStepCompleteness(this.state.activeStep);
+        });
+
+
+    }
+
     // stepper content of "Verwandschaft"
     showVerwandtschaft() {
         return (
@@ -868,6 +920,7 @@ class FamilyTree extends Component {
     }
 
     showStepperInPopup() {
+        console.log("step3: " + this.state.activeStep)
         return (
             <div className='FamilyTreeContent'>
                 <div>
