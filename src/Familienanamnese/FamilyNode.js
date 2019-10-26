@@ -55,8 +55,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                          width: '20px',
                          borderRadius: '100px',
                          position: 'absolute',
-                         top: '0%',
-                         right: '3%'
+                         top: '15%',
+                         right: '1%'
                      }}>
                     <DeleteIcon style={{
                         margin: '0 auto',
@@ -74,8 +74,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                          width: '20px',
                          borderRadius: '100px',
                          position: 'absolute',
-                         bottom: '0%',
-                         right: '3%'
+                         bottom: '15%',
+                         right: '1%'
 
                      }}>
                     <EditIcon style={{

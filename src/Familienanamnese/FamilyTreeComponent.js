@@ -42,6 +42,7 @@ const myID = 'me';
 
 const WIDTH = 150;
 const HEIGHT = 150;
+const RESIZE = 0.7;
 
 
 const classes = makeStyles(theme => ({
@@ -804,11 +805,64 @@ class FamilyTree extends Component {
         }
     }
 
+
+    showVerwandschaftChildren() {
+        console.log("showVerwandschaftChildren")
+    }
+
+    showVerwandschaftParents() {
+        console.log("FamilyData: " + familyHelpers.getFamilyData());
+        console.log("currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
+        console.log("if: " + (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child'));
+        if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child') {
+            console.log("yesss")
+            let me = familyHelpers.getFamilyMemberByID("me");
+            console.log("my siblings: " + JSON.stringify(me.spouses))
+
+
+            //Take me as spouses
+            let spouses = [];
+
+
+            // show spouses
+            for (let i = 0; i < me.spouses.length; i++) {
+                console.log("numero: " + JSON.stringify(me.spouses[i]))
+                console.log("spitzname: " + familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname)
+                const name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname;
+                spouses.push(
+                    {
+                        id: me.spouses[i].id,
+                        type: me.spouses[i].type,
+                        name: name,
+                    });
+            }
+
+            console.log("spouses new: " + JSON.stringify(spouses))
+
+
+            return (
+                <div>
+                    <p>Bitte wählen Sie das Elternteil:</p>
+
+                    {spouses.map(option => (
+                        <Button id={option.id} variant="outlined" color="primary"
+                                onClick={() => this.choseParentForChildren(option.id)}>{option.name}</Button>
+                    ))}
+
+                </div>
+            )
+
+        }
+
+    }
+
+
     // stepper content of "Verwandschaft"
     showVerwandtschaft() {
         return (
             <div>
-                <p>Here you can enter your Verwandtschaft</p>
+                <div>{this.showVerwandschaftParents()}</div>
+                <div>{this.showVerwandschaftChildren()}</div>
             </div>
         )
     }
@@ -924,9 +978,11 @@ class FamilyTree extends Component {
                                 deleteFunction={this.handleDeleteFamilyMemberPopup}
                                 editFunction={this.editFamilyMember}
                                 style={{
-                                    width: WIDTH * 0.8,
-                                    height: HEIGHT * 0.8,
-                                    transform: `translate(${node.left * (WIDTH / 1.9)}px, ${node.top * (HEIGHT / 1.9)}px)`,
+                                    width: WIDTH * RESIZE,
+                                    height: HEIGHT * RESIZE,
+                                    transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                    padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
+
                                 }}
                             />
                         )}
