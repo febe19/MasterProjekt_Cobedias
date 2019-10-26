@@ -119,7 +119,9 @@ class FamilyTree extends Component {
         this.state = {
             FamilyDataState: familyHelpers.getFamilyData(),
             popupOpen: false,
-            popupAlertOpen: false,
+            popupCancelAlertOpen: false,
+            popupDeleteFamilyMemberAlertOpen: false,
+            familyMemberToBeDeleted: 'false',
             popupKomplett: false,
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
@@ -202,7 +204,7 @@ class FamilyTree extends Component {
     }
 
 
-// "Weiter" Button
+    // "Weiter" Button
     handleNext = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
         if (this.state.activeStep === getSteps(this.state.currentSelectedFamilyMember).length - 1) {
@@ -212,7 +214,7 @@ class FamilyTree extends Component {
         }
     };
 
-// "Zurück" Button
+    // "Zurück" Button
     handleBack = (e) => {
         this.updateStepCompleteness(this.state.activeStep);
         if (this.state.activeStep === 0) {
@@ -222,7 +224,7 @@ class FamilyTree extends Component {
         }
     };
 
-// Direkter Sprung zu einem Stepp in oberer Leiste (Stepp Button)
+    // Direkter Sprung zu einem Stepp in oberer Leiste (Stepp Button)
     handleStep = step => () => {
         this.updateStepCompleteness(this.state.activeStep);
         this.setState({activeStep: step});
@@ -295,17 +297,19 @@ class FamilyTree extends Component {
         });
     };
 
+    // when the "addFamilyMember-Popup" is closed (with "abbrechen" or "x") this handler closes the popup (without deleting the data) and opens the alert popup
     handlePopopCancelAlert = e => {
         this.setState({
-            popupAlertOpen: true,
+            popupCancelAlertOpen: true,
             popupOpen: false
         })
     }
 
-    // closes Popup when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
+    // closes "addFamilyMember-Popup" when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
+    // the unsaved data is deleted
     handlePopupCancel = e => {
         this.setState({
-            popupAlertOpen: false,
+            popupCancelAlertOpen: false,
             popupOpen: false,
             geburtsjahr: 0,
             spitzname: '',
@@ -322,16 +326,25 @@ class FamilyTree extends Component {
             verwandschaftKomplett: false
         });
     };
-    // closes alert Popup when alert message is agreed / not agreed
+
+    // closes alert Popup when alert message is not agreed --> the data is not deleted and the "addFamilyMember-Popup" is opened again
     handlePopupCancelAlertClose = e => {
         this.setState({
             popupOpen: true,
-            popupAlertOpen: false
+            popupCancelAlertOpen: false
+        });
+    };
+
+    // closes alert Popup when alert message is not agreed / family member is not deleted!
+    handlePopupDeleteFamilyMemberAlertClose = e => {
+        this.setState({
+            popupDeleteFamilyMemberAlertOpen: false,
+            familyMemberToBeDeleted: ''
         });
     };
 
 
-    //write the Change of the Yes Button to the state.
+    //write the Change of the Verstorben=Yes Button to the state.
     handleYesButtonChange = () => {
         this.setState({
             verstorben: true,
@@ -341,7 +354,7 @@ class FamilyTree extends Component {
     };
 
 
-    //write the Change of the No Button to the state.
+    //write the Change of the Verstorben=No Button to the state.
     handleNoButtonChange = () => {
         this.setState({
             verstorben: false,
@@ -350,7 +363,7 @@ class FamilyTree extends Component {
         });
     };
 
-    // Completeness der Textfelder wird überprüft
+    // Completeness der Textfelder im step Angaben wird überprüft
     checkAngabenCompleteness() {
         if (this.state.geburtsjahr !== 0 && this.state.spitzname !== '' && this.state.vorname !== '' && this.state.nachname !== '') {
             return true;
@@ -359,7 +372,7 @@ class FamilyTree extends Component {
         }
     }
 
-    // Completeness der Textfelder wird überprüft
+    // Completeness der Textfelder im step Zustand wird überprüft
     checkZustandCompleteness() {
         if (this.state.verstorben === '') {
             return false;
@@ -379,7 +392,7 @@ class FamilyTree extends Component {
     }
 
     //TODO: check if the necessaryfields are filled out in the step "Verwandschaft"
-    // Completeness der Textfelder wird überprüft
+    // Completeness der Textfelder im step Verwandschaft wird überprüft
     checkVerwandschaftCompleteness() {
         return true;
     }
@@ -467,14 +480,31 @@ class FamilyTree extends Component {
         )
     };
 
-    //onclick Function to delete Family Member
-    deleteFamilyMember = (e) => {
-        console.log("Delete FamiliyMember --> " + e);
 
-        familyHelpers.deleteFamilyMember(e);
+    //onclick Function to open alert popup which asks if you really want to delete this family member
+    handleDeleteFamilyMemberPopup = (e) => {
+        console.log("Delete FamiliyMember POPUP --> " + e);
 
         this.setState(
-            {FamilyDataState: familyHelpers.getFamilyData()}
+            {
+                popupDeleteFamilyMemberAlertOpen: true,
+                familyMemberToBeDeleted: e
+            }
+        )
+    };
+
+    //onclick Function to delete Family Member: called when alert popup to delete family member is agreed
+    deleteFamilyMember = (e) => {
+        console.log("Delete FamiliyMember --> " + this.state.familyMemberToBeDeleted);
+
+        familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
+
+        this.setState(
+            {
+                popupDeleteFamilyMemberAlertOpen: false,
+                FamilyDataState: familyHelpers.getFamilyData(),
+                familyMemberToBeDeleted: ''
+            }
         )
     };
 
@@ -525,11 +555,11 @@ class FamilyTree extends Component {
     }
 
     //Show Popup,if state == true
-    showPopupAlert() {
+    showPopupCancelAlert() {
         return (
             <div>
                 <Dialog
-                    open={this.state.popupAlertOpen}
+                    open={this.state.popupCancelAlertOpen}
                     TransitionComponent={TransitionAlertPopup}
                     keepMounted
                     aria-labelledby="alert-dialog-slide-title"
@@ -553,7 +583,7 @@ class FamilyTree extends Component {
             </div>)
     }
 
-    // popup to add a new family member
+    // step content of "Angaben"
     showAngaben() {
         return (
             <div>
@@ -614,6 +644,40 @@ class FamilyTree extends Component {
         )
     }
 
+
+    //Show Popup,if state == true
+    showPopupDeleteFamilyMemberAlert() {
+        return (
+            <div>
+                <Dialog
+                    open={this.state.popupDeleteFamilyMemberAlertOpen}
+                    TransitionComponent={TransitionAlertPopup}
+                    keepMounted
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle
+                        id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglieder wirklich löschen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
+                            rückgängig gemacht werden.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handlePopupDeleteFamilyMemberAlertClose} color="primary">
+                            Nein
+                        </Button>
+                        <Button onClick={this.deleteFamilyMember} color="primary">
+                            Ja
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>)
+    }
+
+
+    // markiert den "Ja" button blau sobald er angewählt wird
     colorYesButton() {
         if (this.state.verstorben === '') {
             return false
@@ -622,7 +686,7 @@ class FamilyTree extends Component {
         }
     }
 
-    // markiert den "Nein" button blau sobald er (zum ersten Mal) angewählt wurde
+    // markiert den "Nein" button blau sobald er angewählt wird
     colorNoButton() {
         if (this.state.verstorben === '') {
             return false
@@ -631,10 +695,10 @@ class FamilyTree extends Component {
         }
     }
 
+    // step content of "Zustand"
     showFamilyMemberZustand() {
         const styleYesButton = (this.colorYesButton()) ? {background: '#BBC2E5'} : {};
         const styleNoButton = (this.colorNoButton()) ? {background: '#BBC2E5'} : {};
-
 
         return (
 
@@ -648,17 +712,13 @@ class FamilyTree extends Component {
                     <Button variant="outlined" size="small" color="primary" style={styleNoButton}
                             onClick={this.handleNoButtonChange}> Nein </Button>
                 </div>
-                <div>{this.showGesundheitszustand()}</div>
+                <div>{this.showGesundheitszustandOrTodesjahr()}</div>
             </div>
-
-
         )
     }
 
-    // popup to add a new family member
-    showGesundheitszustand() {
-
-
+    // depending on if verstorben=YES/NO this function displays the apropriate stepper content
+    showGesundheitszustandOrTodesjahr() {
         if (this.state.verstorben !== '') {
             if (this.state.verstorben) {
                 return (
@@ -666,12 +726,8 @@ class FamilyTree extends Component {
                         <br/>
                         <br/>
                         <br/>
-
                         <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
-
-
                         <form className={useStyles.container} noValidate autoComplete="off">
-
                             <TextField
                                 id="todesjahr"
                                 select
@@ -693,9 +749,7 @@ class FamilyTree extends Component {
                                     </MenuItem>
                                 ))}
                             </TextField>
-
                         </form>
-
 
                         <TextField
                             style={{width: '100px', margin: '3px'}}
@@ -750,6 +804,7 @@ class FamilyTree extends Component {
         }
     }
 
+    // stepper content of "Verwandschaft"
     showVerwandtschaft() {
         return (
             <div>
@@ -851,7 +906,8 @@ class FamilyTree extends Component {
                             onClick={() => this.popUpFamilyMember('addSon')}>Sohn
                         Hinzufügen</Button>
                     <div>{this.showPopup()}</div>
-                    <div>{this.showPopupAlert()}</div>
+                    <div>{this.showPopupCancelAlert()}</div>
+                    <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
                 </div>
                 <div>
                     <ReactFamilyTree
@@ -865,7 +921,7 @@ class FamilyTree extends Component {
                                 key={node.id}
                                 node={node}
                                 isRoot={node.id === myID}
-                                deleteFunction={this.deleteFamilyMember}
+                                deleteFunction={this.handleDeleteFamilyMemberPopup}
                                 editFunction={this.editFamilyMember}
                                 style={{
                                     width: WIDTH * 0.8,
