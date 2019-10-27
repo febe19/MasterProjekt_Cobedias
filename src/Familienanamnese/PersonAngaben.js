@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
+
 import Box from "@material-ui/core/Box";
 import { render } from "react-dom";
 
@@ -29,48 +29,39 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// Farben der Umrandungen
+const Borderstyles = {
+  border: {
+    border: "2px solid red"
+  },
+  noBorder: {
+    border: "2px solid transparent"
+  }
+};
+
 export class PersonAngaben extends Component {
-  //Bilderobjekt
   constructor(props) {
     super(props);
+    this.applyBorder = this.applyBorder.bind(this);
+    this.applyBorder2 = this.applyBorder2.bind(this);
     this.state = {
-      Bilder: {
-        Männlich: {
-          title: "Männlich",
-          image: require("../components/images/männlich.png"),
-          selected: false
-        },
-        Weiblich: {
-          title: "Weiblich",
-          image: require("../components/images/weiblich.png"),
-          selected: false
-        }
-      }
+      showBorder: false,
+      showBorder2: false
     };
+  }
+
+  // 2 gleiche Funktionen, um Umrandungen hinzuzufügen
+  applyBorder() {
+    this.setState(state => ({ showBorder: !state.showBorder }));
+  }
+  applyBorder2() {
+    this.setState(state => ({ showBorder2: !state.showBorder2 }));
   }
 
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
   };
-
-  // Ränder hinzufügen bei anklicken
-  onIconClick(event) {
-    //Neues Objekt mit aktueller Stateinformation erzeugen
-    let newState = Object.assign({}, this.state);
-    //der Rand aller Bilder wird entfernt
-    for (let selection in newState.Bilder) {
-      if (selection !== event.target.id) {
-        newState.Bilder[selection].selected = false;
-      }
-    }
-    //..ausser der Rand des geclickten targets
-    newState.Bilder[event.target.id].selected = true;
-    //updaten des States mit aktuellen Informationen
-    this.setState({
-      newState
-    });
-  }
 
   render() {
     const { values, handleChange } = this.props;
@@ -144,22 +135,27 @@ export class PersonAngaben extends Component {
                 <br />
               </h3>
 
-              {Object.keys(this.state.Bilder).map(icon => (
-                <div
-                  className={
-                    this.state.Bilder[icon]["selected"]
-                      ? "withBorder"
-                      : "noBorder"
+              <div id="root">
+                <img
+                  src={require("../components/images/weiblich.png")}
+                  onClick={this.applyBorder}
+                  style={
+                    this.state.showBorder
+                      ? Borderstyles.border
+                      : Borderstyles.noBorder
                   }
-                >
-                  <img
-                    src={this.state.Bilder[icon]["image"]}
-                    id={this.state.Bilder[icon]["name"]}
-                    onClick={e => this.onIconClick(e)}
-                  />
-                  <p>{this.state.Bilder[icon]["name"]}</p>
-                </div>
-              ))}
+                />
+
+                <img
+                  src={require("../components/images/männlich.png")}
+                  onClick={this.applyBorder2}
+                  style={
+                    this.state.showBorder2
+                      ? Borderstyles.border
+                      : Borderstyles.noBorder
+                  }
+                />
+              </div>
             </Box>
             <Box display="flex" justifyContent="center" alignItems="flex-end">
               <RaisedButton
