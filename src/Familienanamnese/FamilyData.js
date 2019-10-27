@@ -187,10 +187,16 @@ const familyHelpers = {
     addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
-
+            console.log("adding: "+id);
+            console.log("parents: "+JSON.stringify(parents));
+            console.log("parents.length: "+parents.length);
             //add Child to Parents
             for (let i = 0; i <= parents.length - 1; i++) {
+                console.log("parent id: "+this.getFamilyMemberByID(parents[i].id).id);
                 if (this.getFamilyMemberByID(parents[i].id).id !== id && this.getFamilyMemberByID(parents[i].id) !== false && this.getFamilyMemberByID(parents[i].id) !== null) {
+                    console.log("trueeee");
+                    console.log("adding child: "+id);
+                    console.log("to parent: "+this.getFamilyMemberByID(parents[i].id));
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
                             "id": id,
@@ -200,8 +206,10 @@ const familyHelpers = {
                 }
             }
 
+            console.log("sibling.length: "+sibling.length);
             //Add sibling to siblings or to children of me depending on the input
             for (let i = 0; i <= sibling.length - 1; i++) {
+                console.log("sibling.length im loop");
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
@@ -213,8 +221,11 @@ const familyHelpers = {
             }
 
             //Add spouse
+
+            console.log("pouses.length: "+spouses.length);
             for (let i = 0; i <= spouses.length - 1; i++) {
                 if (this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== null) {
+                    console.log("ad spouse: "+spouses[i].id);
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
                             "id": id,
@@ -224,6 +235,10 @@ const familyHelpers = {
                 }
             }
 
+            /*
+
+            //ich glaube das braucht es nicht, da der additional parents nun manuell bestimmt wird
+
             //Add Parent to already existing children
             for (let i = 0; i <= children.length - 1; i++) {
                 if (this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== null) {
@@ -232,9 +247,13 @@ const familyHelpers = {
                             "id": id,
                             "type": "blood",
                         }
-                    );
+                    );}
                 }
             }
+
+             */
+
+
 
             //Push Data to familyData.
             myFamilyData.push(
@@ -257,10 +276,10 @@ const familyHelpers = {
             );
 
             //If it goes until here, the new member is added.
-            console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
+            console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + "New family member" + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
-            //New mmeber already exists --> Should not happen, because ID is generated on the fly.
+            //New member already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
