@@ -6,12 +6,10 @@ let myFamilyData =
             "gender": "male",
             "parents": [
                 {
-                    "id": "myMother",
-                    "type": "blood"
+                    "id": "myMother"
                 },
                 {
-                    "id": "myFather",
-                    "type": "blood"
+                    "id": "myFather"
                 }
             ],
             "siblings": [],
@@ -25,14 +23,12 @@ let myFamilyData =
             "siblings": [],
             "spouses": [
                 {
-                    "id": "myFather",
-                    "type": "married"
+                    "id": "myFather"
                 }
             ],
             "children": [
                 {
-                    "id": "me",
-                    "type": "blood"
+                    "id": "me"
                 }
             ],
             "geburtsjahr": 0,
@@ -51,14 +47,12 @@ let myFamilyData =
             "siblings": [],
             "spouses": [
                 {
-                    "id": "myMother",
-                    "type": "married"
+                    "id": "myMother"
                 }
             ],
             "children": [
                 {
-                    "id": "me",
-                    "type": "blood"
+                    "id": "me"
                 }
             ],
             "geburtsjahr": 0,
@@ -187,20 +181,18 @@ const familyHelpers = {
     addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
-            console.log("adding: "+id);
-            console.log("parents: "+JSON.stringify(parents));
-            console.log("parents.length: "+parents.length);
             //add Child to Parents
+
             for (let i = 0; i <= parents.length - 1; i++) {
-                console.log("parent id: "+this.getFamilyMemberByID(parents[i].id).id);
+                console.log("-- parent id: "+this.getFamilyMemberByID(parents[i].id).id);
                 if (this.getFamilyMemberByID(parents[i].id).id !== id && this.getFamilyMemberByID(parents[i].id) !== false && this.getFamilyMemberByID(parents[i].id) !== null) {
-                    console.log("trueeee");
-                    console.log("adding child: "+id);
-                    console.log("to parent: "+this.getFamilyMemberByID(parents[i].id));
+                    console.log("----adding child: "+id);
+                    console.log("----to parent: "+this.getFamilyMemberByID(parents[i].id).id);
+
+                    console.log("---- with Children: "+ JSON.stringify(this.getFamilyMemberByID(parents[i].id).children));
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
@@ -213,8 +205,7 @@ const familyHelpers = {
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
@@ -222,14 +213,12 @@ const familyHelpers = {
 
             //Add spouse
 
-            console.log("pouses.length: "+spouses.length);
+            console.log("spouses.length: "+spouses.length);
             for (let i = 0; i <= spouses.length - 1; i++) {
                 if (this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== null) {
-                    console.log("ad spouse: "+spouses[i].id);
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
@@ -252,8 +241,6 @@ const familyHelpers = {
             }
 
              */
-
-
 
             //Push Data to familyData.
             myFamilyData.push(

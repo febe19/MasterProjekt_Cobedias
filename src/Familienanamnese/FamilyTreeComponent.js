@@ -177,13 +177,10 @@ class FamilyTree extends Component {
     componentCompleted(step) {
         switch (step) {
             case 0:
-                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Angaben_ Fertig");
                 return (this.state.angabenKomplett);
             case 1:
-                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
                 return this.state.familyMemberZustandKomplett;
             case 2:
-                console.log("-  " + new Date().toLocaleTimeString() + " _Popup_Zustand_ Fertig");
                 return this.state.verwandschaftKomplett;
             default:
                 console.log("case default");
@@ -197,7 +194,6 @@ class FamilyTree extends Component {
             angabenKomplett: this.checkAngabenCompleteness(),
             familyMemberZustandKomplett: this.checkZustandCompleteness()
         }, () => {
-            console.log("check completeness for: " + step);
             // alle ausgefüllt --> Häckchen wird gesetzt
             if (this.componentCompleted(step) === true) {
                 const newCompleted = this.state.completed;
@@ -418,8 +414,7 @@ class FamilyTree extends Component {
         //Take me as Sibling
         let siblings = [
             {
-                "id": "me",
-                "type": "blood"
+                "id": "me"
             },
         ];
 
@@ -448,14 +443,12 @@ class FamilyTree extends Component {
 
         if (me.gender === 'female') {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
-                "id": "me",
-                "type": "married"
-            }], me.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+                "id": "me"
+            }], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
-                "id": "me",
-                "type": "married"
-            }], me.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+                "id": "me"
+            }], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -469,39 +462,20 @@ class FamilyTree extends Component {
         let meChildren = [];
         let meAsAParent = [
             {
-                "id": "me",
-                "type": "blood"
+                "id": "me"
             }
         ];
 
         //TODO: Add a selection from which Spouse the child is and then push it to the meAsAParent Array.
 
-        //if there is only one spouse this one is selected
-        /*
-        if (me.spouses.length === 1) {
-            meAsAParent.push(me.spouses)
-        }
-        */
-
-
-        /*
-        // set me as one parent
-        meAsAParent.push(me.id);
-
-         */
-
         //set the selected additional parent
         if (this.state.additionalParentOfChild !== '' && this.state.additionalParentOfChild !== null) {
             meAsAParent.push(
                 {
-                    id: this.state.additionalParentOfChild,
-                    type: "blood",
+                    "id": this.state.additionalParentOfChild
                 }
             )
-
-
         }
-
 
         if (me.children !== [] && me.children.length !== 0) {
             for (let i = 0; i < me.children.length; i++) {
@@ -575,12 +549,10 @@ class FamilyTree extends Component {
     // popup to add a new family member
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
-        console.log("step: " + this.state.activeStep)
         this.setState({activeStep: 0, popupOpen: true, currentSelectedFamilyMember: fm}, () => {
             this.updateStepCompleteness(0);
             this.updateStepCompleteness(1);
             this.updateStepCompleteness(2);
-            console.log("step2: " + this.state.activeStep)
         });
     };
 
@@ -851,7 +823,6 @@ class FamilyTree extends Component {
 
 
     showVerwandschaftChildren() {
-        console.log("showVerwandschaftChildren");
         console.log("currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
 
         //if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child') {
@@ -975,7 +946,6 @@ class FamilyTree extends Component {
     }
 
     showStepperInPopup() {
-        console.log("step3: " + this.state.activeStep)
         return (
             <div className='FamilyTreeContent'>
                 <div>
