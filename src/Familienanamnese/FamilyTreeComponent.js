@@ -438,8 +438,8 @@ class FamilyTree extends Component {
     //OnClick Function to add a Spouse
     addSpouse = (e) => {
         let me = familyHelpers.getFamilyMemberByID("me");
-        console.log("this.state.childrenOfSpouse: "+this.state.childrenOfSpouse);
-        console.log("me.children: "+ me.children)
+        console.log("this.state.childrenOfSpouse: " + this.state.childrenOfSpouse);
+        console.log("me.children: " + me.children)
 
         if (me.gender === 'female') {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
@@ -470,11 +470,23 @@ class FamilyTree extends Component {
 
         //set the selected additional parent
         if (this.state.additionalParentOfChild !== '' && this.state.additionalParentOfChild !== null) {
+            console.log("additional parent: "+this.state.additionalParentOfChild);
             meAsAParent.push(
                 {
                     "id": this.state.additionalParentOfChild
                 }
             )
+        } else if (me.spouses.length > 0) {
+            console.log("additional parent default: "+me.spouses[me.spouses.length - 1].id);
+            meAsAParent.push(
+                {
+                    "id": me.spouses[me.spouses.length - 1].id
+                }
+            )
+
+        }
+        else{
+            console.log("elseeeee");
         }
 
         if (me.children !== [] && me.children.length !== 0) {
@@ -827,7 +839,7 @@ class FamilyTree extends Component {
 
         //if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child') {
 
-        }
+    }
 
     showVerwandschaftParents() {
         //console.log("FamilyData: " + familyHelpers.getFamilyData());
