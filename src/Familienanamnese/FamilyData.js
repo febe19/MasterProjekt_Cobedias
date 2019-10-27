@@ -100,6 +100,9 @@ const familyHelpers = {
     checkExistingFamilyMember: function (id) {
         for (let i = 0; i <= myFamilyData.length - 1; i++) {
             if (myFamilyData[i].id === id) {
+
+                //TODO: adding spouse sometimes wrongly called --> PLEASE FIX THE BUG thanks :)
+
                 console.log("__ " + myFamilyData[i].id + " Already exists");
                 return true;
             }
@@ -141,7 +144,7 @@ const familyHelpers = {
     },
 
     //Edit of an existing family member
-    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
+    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -152,8 +155,8 @@ const familyHelpers = {
                 }
             }
 
-            // check if parent of the family member were edited
-            if (parents[1].id !== oldParents[1].id) {
+            // check if it is a child that is being edited and if parents of the family members were edited
+            if (id.substring(0, 5) === 'child' && parents[1].id !== oldParents[1].id) {
                 //delete the edited child in the old parent
                 for (let i = 0; i < this.getFamilyMemberByID(oldParents[1].id).children.length; i++) {
                     if (this.getFamilyMemberByID(oldParents[1].id).children[i].id === id) {
@@ -167,6 +170,30 @@ const familyHelpers = {
                 console.log(" Parents for Family Member " + id + " changed");
             }
 
+            // check if it is a spouse that is being edited
+
+            let newChildren = []
+            if (id.substring(0, 6) === 'spouse' && this.getFamilyMemberByID("me").spouses.length > 1 && children.length > oldChildren.length) {
+
+                //loop through selected children of edited spouse
+                for (let k = 0; k < children.length; k++) {
+
+                    //loop through all spouses
+                    for (let i = 0; i < myFamilyData.length; i++) {
+                        if (myFamilyData[i].id.substring(0, 6) === 'spouse') {
+
+                            //delete all children that were selected by edited spouse
+                            for (let j = 0; j < myFamilyData[i].children.length; j++) {
+                                if (myFamilyData[i].children[j].id === children[k]) {
+                                    myFamilyData[i].children.splice(j, 1);
+                                }
+                            }
+                        }
+                    }
+                    //add child to edited spouse's children
+                    newChildren.push({"id": children[k]});
+                }
+            }
 
             //Create new entry for member
             myFamilyData.push(
@@ -176,7 +203,7 @@ const familyHelpers = {
                     "parents": parents,
                     "siblings": sibling,
                     "spouses": spouses,
-                    "children": children,
+                    "children": newChildren,
                     "geburtsjahr": geburtsjahr,
                     "spitzname": spitzname,
                     "vorname": vorname,
@@ -233,6 +260,46 @@ const familyHelpers = {
                 }
             }
 
+            // add spouse as parent to selected children
+            if (id.substring(0, 6) === 'spouse' && children !== [] && children !== null) {
+                for (let i = 0; i < children.length; i++) {
+                    // delete all occurences of selected children in already existing spouses
+                    for (let j = 0; j < myFamilyData.length; j++) {
+
+                        // loop through all spouses
+                        if (myFamilyData[j].id.substring(0, 6) === 'spouse') {
+                            for (let k = 0; k < myFamilyData[j].children.length; k++) {
+                                // check for those spouses if they had the selected child and if yes, delete it so that it can be added to the new spouse
+                                if (myFamilyData[j].children[k].id === children[i].id) {
+                                    //the following line removes the selected child from former spouse-parent.children AND ALSO FROM ME.CHILDREN!!!
+                                    myFamilyData[j].children.splice(k, 1);
+                                }
+                            }
+                        }
+                    }
+
+                    //if there is only one parent it means that this is the first spouse that is added. In this case this new spouse is set as a parent of all existing children
+                    if (this.getFamilyMemberByID(children[i].id).parents.length === 1) {
+                        this.getFamilyMemberByID(children[i].id).parents.push({"id": id})
+
+                        // otherwise it means that the child already had two parents, in that case the second parent(which is the spouse), has to be removed and then the newly created spouse can be added as a parent
+                    } else {
+                        this.getFamilyMemberByID(children[i].id).parents.splice(1, 1);
+                        this.getFamilyMemberByID(children[i].id).parents.push({"id": id})
+                    }
+
+                }
+
+
+                // make sure that all children are in me.children (since they are slpiced away when adding new spouse – sometimes....)
+                this.getFamilyMemberByID("me").children = [];
+                for (let i = 0; i <= myFamilyData.length - 1; i++) {
+                    if (myFamilyData[i].id.substring(0, 5) === 'child') {
+                        this.getFamilyMemberByID("me").children.push({"id": myFamilyData[i].id});
+                    }
+                }
+            }
+
 
             //Push Data to familyData.
             myFamilyData.push(
@@ -258,11 +325,15 @@ const familyHelpers = {
             console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + "New family member" + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
+
+            //TODO: this else statement is sometimes called wrongly if a new spouse is added --> PLEASE FIX THE BUG
+
             //New member already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
-    },
+    }
+    ,
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
     deleteFamilyMember: function (id) {
