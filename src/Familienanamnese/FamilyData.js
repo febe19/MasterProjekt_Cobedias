@@ -337,6 +337,9 @@ const familyHelpers = {
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
     deleteFamilyMember: function (id) {
+
+        //TODO: if a spouse is deleted, add all his children to another spouse
+
         for (let i = 0; i < myFamilyData.length; i++) {
 
             console.log("Check Family Member " + myFamilyData[i].id);
