@@ -146,6 +146,10 @@ const familyHelpers = {
     //Edit of an existing family member
     editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
 
+        console.log("children: " + children);
+        console.log("oldChildren: " + JSON.stringify(oldChildren));
+        console.log("all data: " + id + gender + JSON.stringify(parents) + JSON.stringify(oldParents) + sibling + JSON.stringify(spouses) + children + JSON.stringify(oldChildren) + geburtsjahr + spitzname + vorname + nachname + verstorben + todesjahr + todesursache + gesundheitszustand + additionalParent);
+
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -171,7 +175,7 @@ const familyHelpers = {
                 );
             }
 
-            // check if it is a spouse that is being edited
+            // check if it is a spouse that is being edited AND if its children were edited
             let newChildren = [];
             if (id.substring(0, 6) === 'spouse' && this.getFamilyMemberByID("me").spouses.length > 1 && children.length > oldChildren.length) {
 
@@ -200,7 +204,10 @@ const familyHelpers = {
                         }
                     }
                 }
+            } else {
+                newChildren = oldChildren;
             }
+            console.log("new children that are being pushed: " + JSON.stringify(newChildren));
 
             //Create new entry for member
             myFamilyData.push(

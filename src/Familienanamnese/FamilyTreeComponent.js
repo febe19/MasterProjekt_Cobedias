@@ -580,8 +580,11 @@ class FamilyTree extends Component {
             }
 
             //now edit the found spouse --> it is like the spouse who will still exist after deletion takes away all the deleted spouse's children before the spouse is deleted
+            console.log("spouseToEdit: " + spouseToEdit);
             let currentData = familyHelpers.getFamilyMemberByID(spouseToEdit);
-            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            console.log("currentData: " + JSON.stringify(currentData));
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, currentData.geburtsjahr, currentData.spitzname, currentData.vorname, currentData.nachname, currentData.verstorben, currentData.todesjahr, currentData.todesursache, currentData.gesundheitszustand);
+
 
             // now the spouse who we want to delete doesn't have children anymore. This means that now we can delete it.
             familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
