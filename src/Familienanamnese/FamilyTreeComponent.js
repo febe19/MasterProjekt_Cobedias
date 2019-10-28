@@ -103,9 +103,9 @@ function verwandtschaftAbfragenNeeded(member) {
 
     if (member === 'myMother' || member === 'myFather' || member === 'addBrother' || member === 'addSister' || member.slice(0, 7) === 'sibling') {
         return false;
-    } else if ((member === 'addSon' || member === 'addDaughter' || member.slice(0, 5) === 'child') && (me.spouses.length !== 0)) {
+    } else if ((member === 'addSon' || member === 'addDaughter' || member.slice(0, 5) === 'child') && (me.spouses.length > 1)) {
         return true;
-    } else if ((member === 'addSpouse' || member.slice(0, 6) === 'spouse') && (me.children.length !== 0) && (me.spouses.length > 0)) {
+    } else if ((member === 'addSpouse' || member.slice(0, 6) === 'spouse') && (me.children.length > 0) && (me.spouses.length > 0)) {
         return true;
     } else {
         return false;
@@ -130,6 +130,7 @@ class FamilyTree extends Component {
             popupCancelAlertOpen: false,
             popupDeleteFamilyMemberAlertOpen: false,
             familyMemberToBeDeleted: 'false',
+            allDeletedFamilyMembers: [],
             popupKomplett: false,
             angabenKomplett: false,
             familyMemberZustandKomplett: false,
@@ -283,7 +284,6 @@ class FamilyTree extends Component {
             console.log("__Handle Popup Close for: " + e.currentTarget.value + " --> Edit of data");
             let currentData = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
             let newParents = currentData.parents;
-            let newChildren = currentData.children;
 
             //check if a child is edited
             if (e.currentTarget.value.substring(0, 5) === 'child') {
@@ -534,17 +534,68 @@ class FamilyTree extends Component {
 
     //onclick Function to delete Family Member: called when alert popup to delete family member is agreed
     deleteFamilyMember = (e) => {
-        console.log("Delete FamiliyMember --> " + this.state.familyMemberToBeDeleted);
-
-        familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
-
-        this.setState(
-            {
-                popupDeleteFamilyMemberAlertOpen: false,
-                FamilyDataState: familyHelpers.getFamilyData(),
-                familyMemberToBeDeleted: ''
+        //add the fm to the list of all deleted fm's
+        let allDeletedFamilyMembers = this.state.allDeletedFamilyMembers;
+        allDeletedFamilyMembers.push(familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted));
+        //add it to the state
+        this.setState({
+                allDeletedFamilyMembers: allDeletedFamilyMembers
+            }, () => {
+                console.log("allDeletedFamilyMembers: \n" + JSON.stringify(this.state.allDeletedFamilyMembers))
             }
-        )
+        );
+
+        //TODO: show snackbar to give the user the positive feedback: "Der Familienmitglieder XXX wurde gelöscht."
+
+        //check if a spouse is deleted && if it is not the only spouse && is has children
+        if (this.state.familyMemberToBeDeleted.substring(0, 6) === 'spouse' && (familyHelpers.getFamilyMemberByID("me").spouses.length) > 1 && (familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length) > 0) {
+            //now check which spouse you want to add the children to and set it as current data (which will be changed later)
+            let spouseToEdit = '';
+            for (let i = 0; i <= familyHelpers.getFamilyMemberByID("me").spouses.length - 1; i++) {
+                if (!(familyHelpers.getFamilyMemberByID("me").spouses[i].id === this.state.familyMemberToBeDeleted)) {
+                    spouseToEdit = familyHelpers.getFamilyMemberByID("me").spouses[i].id;
+                }
+            }
+
+            //now add all the children that the existing spouse already has now
+            let allChildrenOfOtherSpouseAfterDeletion = [];
+            if (familyHelpers.getFamilyMemberByID(spouseToEdit).children.length > 0) {
+                for (let i = 0; i <= familyHelpers.getFamilyMemberByID(spouseToEdit).children.length - 1; i++) {
+                    allChildrenOfOtherSpouseAfterDeletion.push(familyHelpers.getFamilyMemberByID(spouseToEdit).children[i].id)
+                }
+            }
+
+            //now additionally add all children of the spouse who gets deleted
+            for (let i = 0; i <= familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length - 1; i++) {
+                allChildrenOfOtherSpouseAfterDeletion.push(familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children[i].id)
+            }
+
+            //now edit the found spouse --> it is like the spouse who will still exist after deletion takes away all the deleted spouse's children before the spouse is deleted
+            let currentData = familyHelpers.getFamilyMemberByID(spouseToEdit);
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+
+            // now the spouse who we want to delete doesn't have children anymore. This means that now we can delete it.
+            familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
+            this.setState(
+                {
+                    popupDeleteFamilyMemberAlertOpen: false,
+                    FamilyDataState: familyHelpers.getFamilyData(),
+                    familyMemberToBeDeleted: '',
+                    childrenOfSpouse: []
+                }
+            )
+
+        } else {
+            //if it is (not a spouse || a spouse without children || the only spouse) that is being deleted, the fm can directly be deleted (without removing the children first)
+            familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
+            this.setState(
+                {
+                    popupDeleteFamilyMemberAlertOpen: false,
+                    FamilyDataState: familyHelpers.getFamilyData(),
+                    familyMemberToBeDeleted: ''
+                }
+            )
+        }
     };
 
     //edit of already existing Family members
@@ -570,6 +621,7 @@ class FamilyTree extends Component {
                 additionalParentOfChild: familyHelpers.getFamilyMemberByID(e).parents[1].id
             });
         }
+
         //check which are the existing children of the spouse
         if (e.substring(0, 6) === 'spouse' && (familyHelpers.getFamilyMemberByID(e).children.length) > 0) {
             let previousChildrenOfSpouse = [];

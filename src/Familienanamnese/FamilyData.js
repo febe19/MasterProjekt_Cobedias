@@ -145,6 +145,7 @@ const familyHelpers = {
 
     //Edit of an existing family member
     editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
+
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -163,16 +164,15 @@ const familyHelpers = {
                         this.getFamilyMemberByID(oldParents[1].id).children.splice(i, 1);
                     }
                 }
+
                 // add the child in the new parent
                 this.getFamilyMemberByID(parents[1].id).children.push(
                     {"id": id,}
                 );
-                console.log(" Parents for Family Member " + id + " changed");
             }
 
             // check if it is a spouse that is being edited
-
-            let newChildren = []
+            let newChildren = [];
             if (id.substring(0, 6) === 'spouse' && this.getFamilyMemberByID("me").spouses.length > 1 && children.length > oldChildren.length) {
 
                 //loop through selected children of edited spouse
@@ -192,6 +192,13 @@ const familyHelpers = {
                     }
                     //add child to edited spouse's children
                     newChildren.push({"id": children[k]});
+
+                    //loop through all children and replace current parent with new parent (= the spouse that is being edited)
+                    for (let i = 0; i < myFamilyData.length; i++) {
+                        if (myFamilyData[i].id === children[k]) {
+                            myFamilyData[i].parents[1].id = id
+                        }
+                    }
                 }
             }
 
@@ -338,8 +345,7 @@ const familyHelpers = {
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
     deleteFamilyMember: function (id) {
 
-        //TODO: if a spouse is deleted, add all his children to another spouse
-
+        //loop through all family members
         for (let i = 0; i < myFamilyData.length; i++) {
 
             console.log("Check Family Member " + myFamilyData[i].id);
