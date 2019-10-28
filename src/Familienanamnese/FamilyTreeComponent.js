@@ -444,9 +444,9 @@ class FamilyTree extends Component {
 
         //Change between add sister or add brother.
         if (e === 'addSister') {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "female", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.allDeletedFamilyMembers), "female", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfSiblings(), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.allDeletedFamilyMembers), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -467,11 +467,11 @@ class FamilyTree extends Component {
         }
 
         if (me.gender === 'female') {
-            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "male", [], [], [{
+            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.allDeletedFamilyMembers), "male", [], [], [{
                 "id": "me"
             }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfSpouse(), "female", [], [], [{
+            familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.allDeletedFamilyMembers), "female", [], [], [{
                 "id": "me"
             }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
@@ -513,9 +513,9 @@ class FamilyTree extends Component {
         }
 
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "female", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.allDeletedFamilyMembers), "female", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfChildren(), "male", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.allDeletedFamilyMembers), "male", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
         this.setState(
@@ -554,7 +554,7 @@ class FamilyTree extends Component {
         this.setState({
                 allDeletedFamilyMembers: allDeletedFamilyMembers
             }, () => {
-                console.log("allDeletedFamilyMembers: \n" + JSON.stringify(this.state.allDeletedFamilyMembers))
+                console.log("__All deleted Family Members: \n" + JSON.stringify(this.state.allDeletedFamilyMembers))
             }
         );
 
@@ -580,11 +580,8 @@ class FamilyTree extends Component {
             }
 
             //now edit the found spouse --> it is like the spouse who will still exist after deletion takes away all the deleted spouse's children before the spouse is deleted
-            console.log("spouseToEdit: " + spouseToEdit);
             let currentData = familyHelpers.getFamilyMemberByID(spouseToEdit);
-            console.log("currentData: " + JSON.stringify(currentData));
             familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, currentData.geburtsjahr, currentData.spitzname, currentData.vorname, currentData.nachname, currentData.verstorben, currentData.todesjahr, currentData.todesursache, currentData.gesundheitszustand);
-
 
             // now the spouse who we want to delete doesn't have children anymore. This means that now we can delete it.
             familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);

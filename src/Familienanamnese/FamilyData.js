@@ -100,9 +100,6 @@ const familyHelpers = {
     checkExistingFamilyMember: function (id) {
         for (let i = 0; i <= myFamilyData.length - 1; i++) {
             if (myFamilyData[i].id === id) {
-
-                //TODO: adding spouse sometimes wrongly called --> PLEASE FIX THE BUG thanks :)
-
                 console.log("__ " + myFamilyData[i].id + " Already exists");
                 return true;
             }
@@ -110,45 +107,37 @@ const familyHelpers = {
         return false;
     },
 
-    //get Highest index of Siblings --> Currently only 9 siblings are allowed
-    getHighestIndexOfSiblings: function () {
-        let highestIndex = 0;
+
+    //get Highest index of existing and deleted family members of type "fm"
+    getHighestIndexOfFM: function (fm, allDeletedFamilyMembers) {
+        let lengthOfFMString = fm.length;
+        let numbersOfAllIDs = [];
+        //loop through all existing family members
         for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 7) === 'sibling') {
-                highestIndex = myFamilyData[i].id.slice(-1);
+            if (myFamilyData[i].id.substring(0, lengthOfFMString) === fm) {
+                numbersOfAllIDs.push(Number(myFamilyData[i].id.substring(lengthOfFMString)));
             }
         }
-        return (parseInt(highestIndex, 10) + 1);
+        //loop through all deleted family members if not empty
+        if (allDeletedFamilyMembers.length !== 0) {
+            for (let i = 0; i <= allDeletedFamilyMembers.length - 1; i++) {
+                if (allDeletedFamilyMembers[i].id.substring(0, lengthOfFMString) === fm) {
+                    numbersOfAllIDs.push(Number(allDeletedFamilyMembers[i].id.substring(lengthOfFMString)));
+                }
+            }
+        }
+        if (numbersOfAllIDs.length === 0) {
+            //this is the first fm of this type that is being added
+            return 1;
+        } else {
+            let maxID = Math.max(...numbersOfAllIDs);
+            return (maxID + 1);
+        }
     },
 
-    //get Highest index of Spouse --> Currently only 9 spouses are allowed
-    getHighestIndexOfSpouse: function () {
-        let highestIndex = 0;
-        for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 6) === 'spouse') {
-                highestIndex = myFamilyData[i].id.slice(-1);
-            }
-        }
-        return (parseInt(highestIndex, 10) + 1);
-    },
-
-    //get Highest index of Child --> Currently only 9 children are allowed
-    getHighestIndexOfChildren: function () {
-        let highestIndex = 0;
-        for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 5) === 'child') {
-                highestIndex = myFamilyData[i].id.slice(-1);
-            }
-        }
-        return (parseInt(highestIndex, 10) + 1);
-    },
 
     //Edit of an existing family member
     editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
-
-        console.log("children: " + children);
-        console.log("oldChildren: " + JSON.stringify(oldChildren));
-        console.log("all data: " + id + gender + JSON.stringify(parents) + JSON.stringify(oldParents) + sibling + JSON.stringify(spouses) + children + JSON.stringify(oldChildren) + geburtsjahr + spitzname + vorname + nachname + verstorben + todesjahr + todesursache + gesundheitszustand + additionalParent);
 
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
@@ -207,7 +196,6 @@ const familyHelpers = {
             } else {
                 newChildren = oldChildren;
             }
-            console.log("new children that are being pushed: " + JSON.stringify(newChildren));
 
             //Create new entry for member
             myFamilyData.push(
@@ -339,9 +327,6 @@ const familyHelpers = {
             console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + "New family member" + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
-
-            //TODO: this else statement is sometimes called wrongly if a new spouse is added --> PLEASE FIX THE BUG
-
             //New member already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
