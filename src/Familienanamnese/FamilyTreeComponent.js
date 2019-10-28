@@ -129,7 +129,7 @@ class FamilyTree extends Component {
             popupOpen: false,
             popupCancelAlertOpen: false,
             popupDeleteFamilyMemberAlertOpen: false,
-            familyMemberToBeDeleted: 'false',
+            familyMemberToBeDeleted: '',
             allDeletedFamilyMembers: [],
             popupKomplett: false,
             angabenKomplett: false,
@@ -321,7 +321,8 @@ class FamilyTree extends Component {
             familyMemberZustandKomplett: false,
             verwandschaftKomplett: false,
             additionalParentOfChild: '',
-            childrenOfSpouse: []
+            childrenOfSpouse: [],
+            currentSelectedFamilyMember: ''
         });
     };
 
@@ -353,7 +354,8 @@ class FamilyTree extends Component {
             familyMemberZustandKomplett: false,
             verwandschaftKomplett: false,
             additionalParentOfChild: '',
-            childrenOfSpouse: []
+            childrenOfSpouse: [],
+            currentSelectedFamilyMember: ''
         });
     };
 
@@ -369,7 +371,9 @@ class FamilyTree extends Component {
     handlePopupDeleteFamilyMemberAlertClose = e => {
         this.setState({
             popupDeleteFamilyMemberAlertOpen: false,
-            familyMemberToBeDeleted: ''
+            familyMemberToBeDeleted: '',
+            verwandschaftKomplett: false,
+            additionalParentOfChild: ''
         });
     };
 
@@ -524,10 +528,19 @@ class FamilyTree extends Component {
     handleDeleteFamilyMemberPopup = (e) => {
         console.log("Delete FamiliyMember POPUP --> " + e);
 
+        //now set the spouse which was added last (and is not the one who is deleted) as the default spouse to add the children from the spouse which will be deleted
+        let spouseToEdit = '';
+        for (let i = 0; i <= familyHelpers.getFamilyMemberByID("me").spouses.length - 1; i++) {
+            if (!(familyHelpers.getFamilyMemberByID("me").spouses[i].id === e)) {
+                spouseToEdit = familyHelpers.getFamilyMemberByID("me").spouses[i].id;
+            }
+        }
+
         this.setState(
             {
                 popupDeleteFamilyMemberAlertOpen: true,
-                familyMemberToBeDeleted: e
+                familyMemberToBeDeleted: e,
+                additionalParentOfChild: spouseToEdit
             }
         )
     };
@@ -549,13 +562,9 @@ class FamilyTree extends Component {
 
         //check if a spouse is deleted && if it is not the only spouse && is has children
         if (this.state.familyMemberToBeDeleted.substring(0, 6) === 'spouse' && (familyHelpers.getFamilyMemberByID("me").spouses.length) > 1 && (familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length) > 0) {
-            //now check which spouse you want to add the children to and set it as current data (which will be changed later)
-            let spouseToEdit = '';
-            for (let i = 0; i <= familyHelpers.getFamilyMemberByID("me").spouses.length - 1; i++) {
-                if (!(familyHelpers.getFamilyMemberByID("me").spouses[i].id === this.state.familyMemberToBeDeleted)) {
-                    spouseToEdit = familyHelpers.getFamilyMemberByID("me").spouses[i].id;
-                }
-            }
+            //spouseToEdit is set to the one that was selected in the delete-fm-alert-popup
+            //the children of the deleted spouse will be added to the spouseToEdit
+            let spouseToEdit = this.state.additionalParentOfChild;
 
             //now add all the children that the existing spouse already has now
             let allChildrenOfOtherSpouseAfterDeletion = [];
@@ -581,7 +590,9 @@ class FamilyTree extends Component {
                     popupDeleteFamilyMemberAlertOpen: false,
                     FamilyDataState: familyHelpers.getFamilyData(),
                     familyMemberToBeDeleted: '',
-                    childrenOfSpouse: []
+                    childrenOfSpouse: [],
+                    verwandschaftKomplett: false,
+                    additionalParentOfChild: ''
                 }
             )
 
@@ -592,7 +603,9 @@ class FamilyTree extends Component {
                 {
                     popupDeleteFamilyMemberAlertOpen: false,
                     FamilyDataState: familyHelpers.getFamilyData(),
-                    familyMemberToBeDeleted: ''
+                    familyMemberToBeDeleted: '',
+                    verwandschaftKomplett: false,
+                    additionalParentOfChild: ''
                 }
             )
         }
@@ -775,6 +788,7 @@ class FamilyTree extends Component {
                             Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
                             rückgängig gemacht werden.
                         </DialogContentText>
+                        <div>{this.showVerwandschaftParents()}</div>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handlePopupDeleteFamilyMemberAlertClose} color="primary">
@@ -918,7 +932,6 @@ class FamilyTree extends Component {
 
 
     showVerwandschaftChildren() {
-        console.log("currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
         if (this.state.currentSelectedFamilyMember === 'addSpouse' || this.state.currentSelectedFamilyMember.slice(0, 6) === 'spouse') {
             let me = familyHelpers.getFamilyMemberByID("me");
 
@@ -930,9 +943,6 @@ class FamilyTree extends Component {
                 let name = familyHelpers.getFamilyMemberByID(me.children[i].id).spitzname;
                 if (name === '') {
                     name = familyHelpers.getFamilyMemberByID(me.children[i].id).vorname;
-                }
-                if (name === '') {
-                    name = familyHelpers.getFamilyMemberByID(me.children[i].id).spitzname;
                 }
                 if (name === '') {
                     name = id;
@@ -962,7 +972,10 @@ class FamilyTree extends Component {
 
 
     showVerwandschaftParents() {
-        if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child') {
+        // the parents are shown in the add-popup when a child is added and more than 1 spouse exists
+        // the parents are shown in the edit-popup when a child is edited and more than 1 spouse exists
+        // the parents are also shown in the delete-alert-popup if a spouse is deleted and more that 1 other spouse exists and the spouse who is deleted has at least 1 child
+        if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child' || (this.state.familyMemberToBeDeleted !== '' && familyHelpers.getFamilyMemberByID("me").spouses.length > 2 && familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length > 0)) {
             let me = familyHelpers.getFamilyMemberByID("me");
 
             //Take me as spouses
@@ -981,17 +994,20 @@ class FamilyTree extends Component {
                 if (name === '') {
                     name = id;
                 }
-                spouses.push(
-                    {
-                        id: id,
-                        type: me.spouses[i].type,
-                        name: name,
-                    });
+                // the following if condition makes sure that (if we are currently in the delete-alert-popup) the spouse who is to be deleted is not shown as an option
+                if (!(id === this.state.familyMemberToBeDeleted)) {
+                    spouses.push(
+                        {
+                            id: id,
+                            type: me.spouses[i].type,
+                            name: name,
+                        });
+                }
             }
 
             return (
                 <div>
-                    <p>Bitte wählen Sie das Elternteil:</p>
+                    <div>{this.getShowVerwandschaftParentsMessage()}</div>
                     {spouses.map(option => (
                         <Button id={option.id} variant="outlined" color="primary"
                                 onClick={() => this.choseParentForChildren(option.id)}
@@ -1029,6 +1045,37 @@ class FamilyTree extends Component {
         });
     }
 
+    getShowVerwandschaftParentsMessage() {
+        if (this.state.familyMemberToBeDeleted === '') {
+            return (
+                <p>Bitte wählen Sie das Elternteil:</p>
+            )
+        } else {
+            let numberOfChildrenOfDeletedSpouse = familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length;
+            let childrenOfDeletedSpouse = [];
+            for (let i = 0; i < familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length; i++) {
+                let id = familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children[i].id;
+                let name = familyHelpers.getFamilyMemberByID(id).spitzname;
+                if (name === '') {
+                    name = familyHelpers.getFamilyMemberByID(id).vorname;
+                }
+                if (name === '') {
+                    name = id;
+                }
+                childrenOfDeletedSpouse.push(name)
+            }
+            return (
+                <div>
+                    <p>Dieses Familienmitglied ist Elternteil von den
+                        folgenden {numberOfChildrenOfDeletedSpouse} Kindern:<br/>{childrenOfDeletedSpouse.join(', ')}
+                    </p>
+                    <br></br>
+                    <p>Bitte wählen Sie, welchem anderen Elternteil diese Kinder zugewiesen werden sollen:<br/><br/></p>
+                </div>
+            )
+        }
+
+    }
 
     // stepper content of "Verwandschaft"
     showVerwandtschaft() {
