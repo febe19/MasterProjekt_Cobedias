@@ -690,7 +690,8 @@ class FamilyTree extends Component {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                    <DialogTitle id="alert-dialog-slide-title">{"Wollen Sie wirklich abbrechen?"}</DialogTitle>
+                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
+                                 id="alert-dialog-slide-title">{"Wollen Sie wirklich abbrechen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
                             Wenn Sie abbrechen, werden Ihre Daten nicht gespeichert!
@@ -781,8 +782,8 @@ class FamilyTree extends Component {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                    <DialogTitle
-                        id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglieder wirklich löschen?"}</DialogTitle>
+                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
+                                 id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglieder wirklich löschen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
                             Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
