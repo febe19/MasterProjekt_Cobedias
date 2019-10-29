@@ -164,10 +164,9 @@ ul.header li a {
     padding: 20px;
     list-style-type: none;
     margin: auto;
-    width: 80%;
+    width: 90%;
     left: 50%;
     color: black;
-
 }
 
 .FamilyTreeStepContent {
@@ -193,11 +192,22 @@ ul.header li a {
 
 .FamilyTreeNavigationsButton {
     float: left;
-    left: 0%;
+    position: fixed;
+    left: 50%;
+    bottom: 7%;
+    transform: translate(-50%, -50%);
     margin: 0 auto;
 }
 
 .dialogContentDiv {
     height: 90vh;
     width: 70vh;
+    overflow: hidden;
+}
+
+
+.FamilyMemberZustandButton {
+    margin-right: 15px;
+    margin-top: 18px;
+    float: left;
 }

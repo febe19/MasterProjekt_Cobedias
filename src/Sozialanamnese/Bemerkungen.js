@@ -46,6 +46,7 @@ class Bemerkungen extends Component {
         return (
             <div>
                 <h2>Bemerkungen</h2>
+                <br />
                 <p>Falls Sie noch abschliessende Bemerkungen haben, geben Sie diese bitte hier ein. Ansonsten lassen Sie das Feld einfach leer und klicken Sie "Weiter".</p>
                 <TextField
                     id="outlined-multiline-static"

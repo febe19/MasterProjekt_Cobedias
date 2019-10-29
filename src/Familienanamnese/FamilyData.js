@@ -6,12 +6,10 @@ let myFamilyData =
             "gender": "male",
             "parents": [
                 {
-                    "id": "myMother",
-                    "type": "blood"
+                    "id": "myMother"
                 },
                 {
-                    "id": "myFather",
-                    "type": "blood"
+                    "id": "myFather"
                 }
             ],
             "siblings": [],
@@ -25,16 +23,22 @@ let myFamilyData =
             "siblings": [],
             "spouses": [
                 {
-                    "id": "myFather",
-                    "type": "married"
+                    "id": "myFather"
                 }
             ],
             "children": [
                 {
-                    "id": "me",
-                    "type": "blood"
+                    "id": "me"
                 }
-            ]
+            ],
+            "geburtsjahr": 0,
+            "spitzname": '',
+            "vorname": '',
+            "nachname": '',
+            "verstorben": '',
+            "todesjahr": '',
+            "todesursache": '',
+            "gesundheitszustand": ''
         },
         {
             "id": "myFather",
@@ -43,16 +47,22 @@ let myFamilyData =
             "siblings": [],
             "spouses": [
                 {
-                    "id": "myMother",
-                    "type": "married"
+                    "id": "myMother"
                 }
             ],
             "children": [
                 {
-                    "id": "me",
-                    "type": "blood"
+                    "id": "me"
                 }
-            ]
+            ],
+            "geburtsjahr": 0,
+            "spitzname": '',
+            "vorname": '',
+            "nachname": '',
+            "verstorben": '',
+            "todesjahr": '',
+            "todesursache": '',
+            "gesundheitszustand": ''
         }
     ];
 
@@ -97,49 +107,94 @@ const familyHelpers = {
         return false;
     },
 
-    //get Highest index of Siblings --> Currently only 9 siblings are allowed
-    getHighestIndexOfSiblings: function () {
-        let highestIndex = 0;
+
+    //get Highest index of existing and deleted family members of type "fm"
+    getHighestIndexOfFM: function (fm, allDeletedFamilyMembers) {
+        let lengthOfFMString = fm.length;
+        let numbersOfAllIDs = [];
+        //loop through all existing family members
         for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 7) === 'sibling') {
-                highestIndex = myFamilyData[i].id.slice(-1);
+            if (myFamilyData[i].id.substring(0, lengthOfFMString) === fm) {
+                numbersOfAllIDs.push(Number(myFamilyData[i].id.substring(lengthOfFMString)));
             }
         }
-        return (parseInt(highestIndex, 10) + 1);
+        //loop through all deleted family members if not empty
+        if (allDeletedFamilyMembers.length !== 0) {
+            for (let i = 0; i <= allDeletedFamilyMembers.length - 1; i++) {
+                if (allDeletedFamilyMembers[i].id.substring(0, lengthOfFMString) === fm) {
+                    numbersOfAllIDs.push(Number(allDeletedFamilyMembers[i].id.substring(lengthOfFMString)));
+                }
+            }
+        }
+        if (numbersOfAllIDs.length === 0) {
+            //this is the first fm of this type that is being added
+            return 1;
+        } else {
+            let maxID = Math.max(...numbersOfAllIDs);
+            return (maxID + 1);
+        }
     },
 
-    //get Highest index of Spouse --> Currently only 9 spouses are allowed
-    getHighestIndexOfSpouse: function () {
-        let highestIndex = 0;
-        for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 6) === 'spouse') {
-                highestIndex = myFamilyData[i].id.slice(-1);
-            }
-        }
-        return (parseInt(highestIndex, 10) + 1);
-    },
-
-    //get Highest index of Child --> Currently only 9 children are allowed
-    getHighestIndexOfChildren: function () {
-        let highestIndex = 0;
-        for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, 5) === 'child') {
-                highestIndex = myFamilyData[i].id.slice(-1);
-            }
-        }
-        return (parseInt(highestIndex, 10) + 1);
-    },
 
     //Edit of an existing family member
-    editExistingFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
+
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
-            //delete Existing Entry form member
+            //delete Existing Entry from member
             for (let i = 0; i < myFamilyData.length; i++) {
                 if (myFamilyData[i].id === id) {
                     myFamilyData.splice(i, 1);
                 }
+            }
+
+            // check if it is a child that is being edited and if parents of the family members were edited
+            if (id.substring(0, 5) === 'child' && parents[1].id !== oldParents[1].id) {
+                //delete the edited child in the old parent
+                for (let i = 0; i < this.getFamilyMemberByID(oldParents[1].id).children.length; i++) {
+                    if (this.getFamilyMemberByID(oldParents[1].id).children[i].id === id) {
+                        this.getFamilyMemberByID(oldParents[1].id).children.splice(i, 1);
+                    }
+                }
+
+                // add the child in the new parent
+                this.getFamilyMemberByID(parents[1].id).children.push(
+                    {"id": id,}
+                );
+            }
+
+            // check if it is a spouse that is being edited AND if its children were edited
+            let newChildren = [];
+            if (id.substring(0, 6) === 'spouse' && this.getFamilyMemberByID("me").spouses.length > 1 && children.length > oldChildren.length) {
+
+                //loop through selected children of edited spouse
+                for (let k = 0; k < children.length; k++) {
+
+                    //loop through all spouses
+                    for (let i = 0; i < myFamilyData.length; i++) {
+                        if (myFamilyData[i].id.substring(0, 6) === 'spouse') {
+
+                            //delete all children that were selected by edited spouse
+                            for (let j = 0; j < myFamilyData[i].children.length; j++) {
+                                if (myFamilyData[i].children[j].id === children[k]) {
+                                    myFamilyData[i].children.splice(j, 1);
+                                }
+                            }
+                        }
+                    }
+                    //add child to edited spouse's children
+                    newChildren.push({"id": children[k]});
+
+                    //loop through all children and replace current parent with new parent (= the spouse that is being edited)
+                    for (let i = 0; i < myFamilyData.length; i++) {
+                        if (myFamilyData[i].id === children[k]) {
+                            myFamilyData[i].parents[1].id = id
+                        }
+                    }
+                }
+            } else {
+                newChildren = oldChildren;
             }
 
             //Create new entry for member
@@ -150,13 +205,18 @@ const familyHelpers = {
                     "parents": parents,
                     "siblings": sibling,
                     "spouses": spouses,
-                    "children": children,
+                    "children": newChildren,
+                    "geburtsjahr": geburtsjahr,
                     "spitzname": spitzname,
                     "vorname": vorname,
                     "nachname": nachname,
+                    "verstorben": verstorben,
+                    "todesjahr": todesjahr,
+                    "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
                 }
             );
+
 
         } else {
             console.log("No Family member found with id: " + id);
@@ -164,17 +224,16 @@ const familyHelpers = {
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children, spitzname, vorname, nachname, gesundheitszustand) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
 
         if (!this.checkExistingFamilyMember(id)) {
-
             //add Child to Parents
+
             for (let i = 0; i <= parents.length - 1; i++) {
                 if (this.getFamilyMemberByID(parents[i].id).id !== id && this.getFamilyMemberByID(parents[i].id) !== false && this.getFamilyMemberByID(parents[i].id) !== null) {
                     this.getFamilyMemberByID(parents[i].id).children.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
@@ -185,36 +244,64 @@ const familyHelpers = {
                 if (this.getFamilyMemberByID(sibling[i].id).id !== id && this.getFamilyMemberByID(sibling[i].id) !== false && this.getFamilyMemberByID(sibling[i].id) !== null) {
                     this.getFamilyMemberByID(sibling[i].id).siblings.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
             }
 
             //Add spouse
+
             for (let i = 0; i <= spouses.length - 1; i++) {
                 if (this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== false && this.getFamilyMemberByID(spouses[i].id) !== null) {
                     this.getFamilyMemberByID(spouses[i].id).spouses.push(
                         {
-                            "id": id,
-                            "type": "blood",
+                            "id": id
                         }
                     );
                 }
             }
 
-            //Add Parent to already existing children
-            for (let i = 0; i <= children.length - 1; i++) {
-                if (this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== false && this.getFamilyMemberByID(children[i].id) !== null) {
-                    this.getFamilyMemberByID(children[i].id).parents.push(
-                        {
-                            "id": id,
-                            "type": "blood",
+            // add spouse as parent to selected children
+            if (id.substring(0, 6) === 'spouse' && children !== [] && children !== null) {
+                for (let i = 0; i < children.length; i++) {
+                    // delete all occurences of selected children in already existing spouses
+                    for (let j = 0; j < myFamilyData.length; j++) {
+
+                        // loop through all spouses
+                        if (myFamilyData[j].id.substring(0, 6) === 'spouse') {
+                            for (let k = 0; k < myFamilyData[j].children.length; k++) {
+                                // check for those spouses if they had the selected child and if yes, delete it so that it can be added to the new spouse
+                                if (myFamilyData[j].children[k].id === children[i].id) {
+                                    //the following line removes the selected child from former spouse-parent.children AND ALSO FROM ME.CHILDREN!!!
+                                    myFamilyData[j].children.splice(k, 1);
+                                }
+                            }
                         }
-                    );
+                    }
+
+                    //if there is only one parent it means that this is the first spouse that is added. In this case this new spouse is set as a parent of all existing children
+                    if (this.getFamilyMemberByID(children[i].id).parents.length === 1) {
+                        this.getFamilyMemberByID(children[i].id).parents.push({"id": id})
+
+                        // otherwise it means that the child already had two parents, in that case the second parent(which is the spouse), has to be removed and then the newly created spouse can be added as a parent
+                    } else {
+                        this.getFamilyMemberByID(children[i].id).parents.splice(1, 1);
+                        this.getFamilyMemberByID(children[i].id).parents.push({"id": id})
+                    }
+
+                }
+
+
+                // make sure that all children are in me.children (since they are slpiced away when adding new spouse – sometimes....)
+                this.getFamilyMemberByID("me").children = [];
+                for (let i = 0; i <= myFamilyData.length - 1; i++) {
+                    if (myFamilyData[i].id.substring(0, 5) === 'child') {
+                        this.getFamilyMemberByID("me").children.push({"id": myFamilyData[i].id});
+                    }
                 }
             }
+
 
             //Push Data to familyData.
             myFamilyData.push(
@@ -225,25 +312,32 @@ const familyHelpers = {
                     "siblings": sibling,
                     "spouses": spouses,
                     "children": children,
+                    "geburtsjahr": geburtsjahr,
                     "spitzname": spitzname,
                     "vorname": vorname,
                     "nachname": nachname,
+                    "verstorben": verstorben,
+                    "todesjahr": todesjahr,
+                    "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
                 }
             );
 
             //If it goes until here, the new member is added.
-            console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
+            console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + "New family member" + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
             return true;
         } else {
-            //New mmeber already exists --> Should not happen, because ID is generated on the fly.
+            //New member already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
-    },
+    }
+    ,
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
     deleteFamilyMember: function (id) {
+
+        //loop through all family members
         for (let i = 0; i < myFamilyData.length; i++) {
 
             console.log("Check Family Member " + myFamilyData[i].id);

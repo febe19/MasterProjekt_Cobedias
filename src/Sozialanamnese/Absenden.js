@@ -10,8 +10,8 @@ class Absenden extends Component {
                 <p>Bei Uns bitte das PDF herunterladen und wenn möglich ausgedruckt mitbringen.</p>
 
                 <div hidden={false}>
-                    <PDFDownloadLink document={<CobediasDocument/>} fileName="Cobedias.pdf">
-                        {({loading}) => (loading ? 'Loading document...' : 'Download now!')}
+                    <PDFDownloadLink document={<CobediasDocument/>} fileName="TestSozialanamnese.pdf">
+                        {({loading}) => (loading ? 'Loading document...' : '.')}
                     </PDFDownloadLink>
                 </div>
             </div>
