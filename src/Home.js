@@ -38,14 +38,10 @@ class Home extends Component {
         });
     }
 
-    componentWillUnmount() {
-        localStorage.set('Vorname', this.state.Vorname);
-        localStorage.set('Nachname', this.state.Nachname);
-    }
-
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value}, () => {
-            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
+            localStorage.set('Vorname', this.state.Vorname);
+            localStorage.set('Nachname', this.state.Nachname);
             this.checkDisabledButtons();
         });
     };

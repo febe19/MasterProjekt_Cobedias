@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './FamilyNode.module.css';
 import "typeface-roboto";
+import localStorage from 'local-storage'
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,6 +16,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             return node.spitzname
         } else if (node.vorname && node.vorname !== '') {
             return node.vorname;
+        } else if (node.id === 'me') {
+            return localStorage.get("Vorname");
         } else {
             return node.id;
         }
