@@ -717,6 +717,7 @@ class FamilyTree extends Component {
                     <TextField
                         id="geburtsjahr"
                         select
+                        variant="outlined"
                         label="Geburtsjahr"
                         className={classes.textField}
                         value={this.state.geburtsjahr}
@@ -858,6 +859,7 @@ class FamilyTree extends Component {
                             <TextField
                                 id="todesjahr"
                                 select
+                                variant="outlined"
                                 label="Todesjahr"
                                 className={classes.textField}
                                 value={this.state.todesjahr}
@@ -878,17 +880,6 @@ class FamilyTree extends Component {
                             </TextField>
                         </form>
 
-                        <TextField
-                            style={{width: '100px', margin: '3px'}}
-                            label="Todesjahr"
-                            margin="normal"
-                            variant="outlined"
-                            name="todesjahr"
-                            value={this.state.todesjahr}
-                            onChange={this.handleChange("todesjahr")}
-                            fullWidth
-                            placeholder="Todesjahr"
-                        />
                         <TextField
                             label="Todesursache"
                             margin="normal"
