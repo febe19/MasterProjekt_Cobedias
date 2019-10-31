@@ -2,11 +2,21 @@ import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
 import {Button} from '@material-ui/core';
 import localStorage from 'local-storage'
+import TextField from "@material-ui/core/TextField";
 
 class Home extends Component {
     constructor(props) {
         super(props);
+
         this.deleteLocalStorage = this.deleteLocalStorage.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.checkDisabledButtons = this.checkDisabledButtons.bind(this);
+
+        this.state = {
+            Vorname: '',
+            Nachname: '',
+            disableButtons: true
+        };
     }
 
     //Deleting the Local Storage by Button --> Probably not needed in hte future.
@@ -15,10 +25,43 @@ class Home extends Component {
         localStorage.clear();
     }
 
-    //Log when the User comes to HOME.git
+    //Log when the User comes to HOME
     componentDidMount() {
         console.log("-  " + new Date().toLocaleTimeString() + " _Home_ ");
+
+        this.setState({
+            Vorname: localStorage.get('Vorname'),
+            Nachname: localStorage.get('Nachname')
+        }, () => {
+            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
+            this.checkDisabledButtons();
+        });
     }
+
+    componentWillUnmount() {
+        localStorage.set('Vorname', this.state.Vorname);
+        localStorage.set('Nachname', this.state.Nachname);
+    }
+
+    handleChange = () => event => {
+        this.setState({[event.target.name]: event.target.value}, () => {
+            // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
+            this.checkDisabledButtons();
+        });
+    };
+
+    checkDisabledButtons() {
+        if (this.state.Vorname === '' || this.state.Vorname === null || this.state.Nachname === '' || this.state.Nachname === null) {
+            this.setState({
+                disableButtons: true
+            });
+        } else {
+            this.setState({
+                disableButtons: false
+            });
+        }
+    }
+
 
     render() {
         return (
@@ -28,19 +71,54 @@ class Home extends Component {
                 </div>
 
                 <div className='ChangingContent'>
-                    <p>Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu testen.</p>
+                    <h2>Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu testen.</h2>
+                    <p>Bitte geben Sie hier unten Ihren Vorname sowie Ihren Nachname ein. </p>
+
+                    <div>
+                        <TextField
+                            label="Vorname"
+                            margin="normal"
+                            variant="outlined"
+                            name="Vorname"
+                            value={this.state.Vorname}
+                            onChange={this.handleChange("Vorname")}
+                            fullWidth
+                            placeholder="Geben Sie hier Ihren Vornamen ein"
+                        />
+                        <TextField
+                            label="Nachname"
+                            margin="normal"
+                            variant="outlined"
+                            name="Nachname"
+                            value={this.state.Nachname}
+                            onChange={this.handleChange("Nachname")}
+                            fullWidth
+                            placeholder="Geben Sie hier Ihren Nachnamen ein"
+                        />
+
+                    </div>
+
                     <p>Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf "Familienanamnese" drücken.</p>
 
+                    <div>
+                        TODO: In this div the gender selection should happen.
+                    </div>
 
                     <div className='StartButtonDiv'>
-                        <NavLink exact to="/Sozialanamnese" style={{"text-decoration": "none", margin: '3px'}}>
-                            <Button color="Primary" variant="contained">Sozialanamnese</Button>
+                        <NavLink exact to={this.state.disableButtons === false ? "/Sozialanamnese" : "#"}
+                                 style={{"text-decoration": "none", margin: '3px', background: 'transparent'}}>
+                            <Button color="Primary" disabled={this.state.disableButtons}
+                                    variant="contained">Sozialanamnese</Button>
                         </NavLink>
-                        <NavLink exact to="/Familienanamnese" style={{"text-decoration": "none", margin: '3px'}}>
-                            <Button color="Primary" variant="contained">Familienanamnese</Button>
+                        <NavLink exact to={this.state.disableButtons === false ? "/Familienanamnese" : "#"}
+                                 style={{"text-decoration": "none", margin: '3px', background: 'transparent'}}>
+                            <Button color="Primary" disabled={this.state.disableButtons}
+                                    variant="contained">Familienanamnese</Button>
                         </NavLink>
 
                     </div>
+
+
 
                     <Button style={{position: 'absolute', bottom: '10px'}} onClick={this.deleteLocalStorage}>
                         Clear Local Storage
