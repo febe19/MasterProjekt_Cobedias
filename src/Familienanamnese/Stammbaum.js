@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Box from "@material-ui/core/Box";
 import FamilyTree from './FamilyTreeComponent'
 import styles from './FamilyTree.module.css';
+import Button from "@material-ui/core/Button";
+import {NavLink} from "react-router-dom";
 
 export class Stammbaum extends Component {
     continue = e => {
@@ -18,80 +20,22 @@ export class Stammbaum extends Component {
         return (
             <div>
                 <div style={{width: "100%"}}>
-                    <Box
-                        display="flex"
-                        justifyContent="flex-start"
-                        m={1}
-                        p={1}
-                        bgcolor="background.paper"
-                    >
-                        <Box p={1}>
-                            <img
-                                src={require("../components/images/logo_cobedias.png")}
-                                style={{width: "40%"}}
-                                m={1}
-                                p={1}
-                            />
-                        </Box>
-                    </Box>
+                    <div className="Titel">
+                        <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Familienanamnese</h1>
+
+                        <NavLink exact to="/" style={{"text-decoration":"none"}}>
+                            <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Startseite</Button>
+                        </NavLink>
+
+                        <NavLink exact to="/Sozialanamnese" style={{"text-decoration":"none"}}>
+                            <Button variant="outlined" style={{float: 'right', marginRight: '1%', color: 'white', borderColor: 'white'}}>Sozialanamnese</Button>
+                        </NavLink>
+                    </div>
 
                     <div className={styles.root}>
                         <FamilyTree/>
                     </div>
 
-                    <Box
-                        display="flex"
-                        justifyContent="flex-end"
-                        flexDirection="column"
-                        alignItems="flex-end"
-                        m={1}
-                        p={1}
-                        bgcolor="background.paper"
-                    >
-                        <Box p={1}>
-                            <img
-                                src={require("../components/images/weiblich_hinz.png")}
-                                style={{width: "40%"}}
-                                m={1}
-                                p={1}
-                            />
-                            <img
-                                src={require("../components/images/mänlich_hinz.png")}
-                                style={{width: "45%"}}
-                                m={1}
-                                p={1}
-                            />
-                        </Box>
-                        <Box p={1}>
-                            <img
-                                src={require("../components/images/weiblich_hinz.png")}
-                                style={{width: "40%"}}
-                                m={1}
-                                p={1}
-                            />
-                            <img
-                                src={require("../components/images/mänlich_hinz.png")}
-                                style={{width: "45%"}}
-                                m={1}
-                                p={1}
-                            />
-                        </Box>
-                        <Box p={1}>
-                            <img
-                                src={require("../components/images/andere.png")}
-                                title="Halb"
-                                style={{width: "30%"}}
-                                m={2}
-                                p={2}
-                            />
-                            <img
-                                src={require("../components/images/andere.png")}
-                                style={{width: "30%"}}
-                                m={2}
-                                p={2}
-                            />
-                        </Box>
-                    </Box>
                 </div>
             </div>
         );

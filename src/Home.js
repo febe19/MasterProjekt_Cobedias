@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
 import {Button} from '@material-ui/core';
 import localStorage from 'local-storage'
-import {PDFDownloadLink, Page, Text, Document, StyleSheet} from '@react-pdf/renderer';
 
 class Home extends Component {
     constructor(props) {
@@ -33,11 +32,11 @@ class Home extends Component {
                     <p>Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf "Familienanamnese" drücken.</p>
 
 
-                    <NavLink exact to="/Sozialanamnese">
-                        <Button>Sozialanamnese</Button>
+                    <NavLink exact to="/Sozialanamnese" style={{"text-decoration":"none"}}>
+                        <Button color="Primary" variant="contained">Sozialanamnese</Button>
                     </NavLink>
-                    <NavLink exact to="/Familienanamnese">
-                        <Button>Familienanamnese</Button>
+                    <NavLink exact to="/Familienanamnese" style={{"text-decoration":"none"}}>
+                        <Button color="Primary" variant="contained">Familienanamnese</Button>
                     </NavLink>
 
                     <Button onClick={this.deleteLocalStorage}>

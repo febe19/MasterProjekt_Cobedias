@@ -14,6 +14,7 @@ import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import localStorage from "local-storage";
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -149,7 +150,16 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
         <div className={classes.root}>
 
             <div className="Titel">
-                <h1>Cobedias 2.0 - Sozialanamnese</h1>
+                <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Sozialanamnese</h1>
+
+                <NavLink exact to="/" style={{"text-decoration":"none"}}>
+                    <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Startseite</Button>
+                </NavLink>
+
+                <NavLink exact to="/Familienanamnese" style={{"text-decoration":"none"}}>
+                    <Button variant="outlined" style={{float: 'right', marginRight: '1%', color: 'white', borderColor: 'white'}}>Familienanamnese</Button>
+                </NavLink>
+
             </div>
             <div className='SozialanamneseContent'>
                 <Stepper alternativeLabel nonLinear activeStep={activeStep}>
