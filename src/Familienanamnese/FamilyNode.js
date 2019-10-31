@@ -3,6 +3,12 @@ import classNames from 'classnames';
 import styles from './FamilyNode.module.css';
 import "typeface-roboto";
 import localStorage from 'local-storage'
+import girlAvatar from '../images/001-girl.svg'
+import boyAvatar from '../images/049-boy.svg'
+import womanAvatar from '../images/003-woman.svg'
+import manAvatar from '../images/028-man.svg'
+import grandmotherAvatar from '../images/047-grandmother.svg'
+import grandfatherAvatar from '../images/002-grandfather.svg'
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,6 +26,38 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             return localStorage.get("Vorname");
         } else {
             return node.id;
+        }
+    }
+
+    function getAvatar(node) {
+        if (node.id === 'me') {
+            if (node.gender === 'female') {
+                return womanAvatar;
+            } else {
+                return manAvatar;
+            }
+        } else if (node.id === 'myMother') {
+            return grandmotherAvatar;
+        } else if (node.id === 'myFather') {
+            return grandfatherAvatar;
+        } else if (node.id.substring(0, 6) === 'spouse') {
+            if (node.gender === 'female') {
+                return womanAvatar;
+            } else {
+                return manAvatar;
+            }
+        } else if (node.id.substring(0, 7) === 'sibling') {
+            if (node.gender === 'female') {
+                return womanAvatar;
+            } else {
+                return manAvatar;
+            }
+        } else {
+            if (node.gender === 'female') {
+                return girlAvatar;
+            } else {
+                return boyAvatar;
+            }
         }
     }
 
@@ -44,12 +82,11 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             <div
                 className={classNames(
                     styles.oneFamilyMemberDiv,
-                    styles[node.gender],
                     isRoot && styles.isRoot,
-                )}
-            />
+                )}>
+                <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
+            </div>
             <div className={styles.FamilyMemberName}>{getName(node)}</div>
-
             <div hidden={hideDelete(node.id)}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => deleteFunction(node.id)}
