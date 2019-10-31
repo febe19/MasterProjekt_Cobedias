@@ -1165,26 +1165,29 @@ class FamilyTree extends Component {
         return (
             <div style={{margin: '0 auto'}}>
                 <div>
-                    <Button id="addSister" variant="outlined" color="primary"
-                            onClick={() => this.popUpFamilyMember('addSister')}>Schwester
-                        Hinzufügen</Button>
-                    <Button id="addBrother" variant="outlined" color="primary"
-                            onClick={() => this.popUpFamilyMember('addBrother')}>Bruder
-                        Hinzufügen</Button>
-                    <Button id="addSpouse" variant="outlined" color="primary"
-                            onClick={() => this.popUpFamilyMember('addSpouse')}>Partner
-                        Hinzufügen</Button>
-                    <Button id="addDaughter" variant="outlined" color="primary"
-                            onClick={() => this.popUpFamilyMember('addDaughter')}>Tochter
-                        Hinzufügen</Button>
-                    <Button id="addSon" variant="outlined" color="primary"
-                            onClick={() => this.popUpFamilyMember('addSon')}>Sohn
-                        Hinzufügen</Button>
+                    <p style={{margin: '3px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
+                    <div className="addFamilyMembersButtons">
+                        <Button id="addSister" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addSister')} style={{margin: '3px'}}>Schwester
+                            Hinzufügen</Button>
+                        <Button id="addBrother" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addBrother')} style={{margin: '3px'}}>Bruder
+                            Hinzufügen</Button>
+                        <Button id="addSpouse" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addSpouse')} style={{margin: '3px'}}>Partner
+                            Hinzufügen</Button>
+                        <Button id="addDaughter" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addDaughter')} style={{margin: '3px'}}>Tochter
+                            Hinzufügen</Button>
+                        <Button id="addSon" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addSon')} style={{margin: '3px'}}>Sohn
+                            Hinzufügen</Button>
+                    </div>
                     <div>{this.showPopup()}</div>
                     <div>{this.showPopupCancelAlert()}</div>
                     <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
                 </div>
-                <div>
+                <div className="FamilyTreeDiv">
                     <ReactFamilyTree
                         nodes={this.state.FamilyDataState}
                         rootId={myID}

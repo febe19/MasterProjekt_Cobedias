@@ -219,3 +219,15 @@ ul.header li a {
     margin-top: 18px;
     float: left;
 }
+
+.addFamilyMembersButtons {
+    margin: 10px;
+}
+
+.FamilyTreeDiv {
+    margin: 0 auto;
+    float: left;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
