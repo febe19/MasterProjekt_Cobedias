@@ -27,27 +27,25 @@ class Home extends Component {
                     <h1>Cobedias 2.0 - Willkommen</h1>
                 </div>
 
-                <div>
+                <div className='ChangingContent'>
                     <p>Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu testen.</p>
                     <p>Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf "Familienanamnese" drücken.</p>
 
 
-                    <NavLink exact to="/Sozialanamnese" style={{"text-decoration":"none"}}>
-                        <Button color="Primary" variant="contained">Sozialanamnese</Button>
-                    </NavLink>
-                    <NavLink exact to="/Familienanamnese" style={{"text-decoration":"none"}}>
-                        <Button color="Primary" variant="contained">Familienanamnese</Button>
-                    </NavLink>
+                    <div className='StartButtonDiv'>
+                        <NavLink exact to="/Sozialanamnese" style={{"text-decoration": "none", margin: '3px'}}>
+                            <Button color="Primary" variant="contained">Sozialanamnese</Button>
+                        </NavLink>
+                        <NavLink exact to="/Familienanamnese" style={{"text-decoration": "none", margin: '3px'}}>
+                            <Button color="Primary" variant="contained">Familienanamnese</Button>
+                        </NavLink>
 
-                    <Button onClick={this.deleteLocalStorage}>
+                    </div>
+
+                    <Button style={{position: 'absolute', bottom: '10px'}} onClick={this.deleteLocalStorage}>
                         Clear Local Storage
                     </Button>
                 </div>
-
-                <div>
-                    Currently using React {React.version}
-                </div>
-
 
             </div>
         );

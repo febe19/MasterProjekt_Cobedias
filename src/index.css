@@ -49,13 +49,21 @@ ul.header li a {
     color: white;
 }
 
-.SozialanamneseContent {
+.ChangingContent {
     padding: 20px;
     list-style-type: none;
     margin: auto;
     width: 80%;
     left: 50%;
     color: black;
+}
+
+.StartButtonDiv {
+    float: left;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    margin: 5px;
 }
 
 .StepContent {

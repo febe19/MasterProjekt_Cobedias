@@ -161,7 +161,7 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                 </NavLink>
 
             </div>
-            <div className='SozialanamneseContent'>
+            <div className='ChangingContent'>
                 <Stepper alternativeLabel nonLinear activeStep={activeStep}>
                     {steps.map((label, index) => {
                         const stepProps = {};
