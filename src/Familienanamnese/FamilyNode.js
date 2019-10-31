@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './FamilyNode.module.css';
+import "typeface-roboto";
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -39,13 +40,13 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         <div className={styles.root} style={style}>
             <div
                 className={classNames(
-                    styles.inner,
+                    styles.oneFamilyMemberDiv,
                     styles[node.gender],
                     isRoot && styles.isRoot,
                 )}
-            >
-                {getName(node)}
-            </div>
+            />
+            <div className={styles.FamilyMemberName}>{getName(node)}</div>
+
             <div hidden={hideDelete(node.id)}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => deleteFunction(node.id)}

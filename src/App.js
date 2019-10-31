@@ -3,8 +3,8 @@ import "./App.css";
 import { Route, Switch, HashRouter } from "react-router-dom";
 import "typeface-roboto";
 import Home from "./Home";
-import Familienanamnese from "./Familienanamnese/Familienanamnese";
 import Sozialanamnese from "./Sozialanamnese/Sozialanamnese";
+import Stammbaum from "./Familienanamnese/Stammbaum";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <div style={{ width: "100%" }}>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/Familienanamnese" component={Familienanamnese} />
+          <Route path="/Familienanamnese" component={Stammbaum} />
           <Route path="/Sozialanamnese" component={Sozialanamnese} />
           <Route exact path="*" component={Home} />
         </Switch>

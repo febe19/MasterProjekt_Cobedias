@@ -1,14 +1,12 @@
 .root {
     position: absolute;
     display: flex;
-    padding: 10px;
 }
 
-.inner {
-
+.oneFamilyMemberDiv {
     display: flex;
     flex: 1;
-    border: 2px solid rgba(0, 0, 0, .2);
+    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px 10px;
     overflow: hidden;
     padding: 5px;
@@ -23,5 +21,11 @@
 }
 
 .isRoot {
-    border-color: red;
+    border: 2px solid rgba(255, 0, 0, 0.6);
+}
+
+.FamilyMemberName {
+    font-family: Roboto;
+    position: absolute;
+    bottom: 0px;
 }
