@@ -25,13 +25,16 @@ class Home extends Component {
     this.checkDisabledButtons = this.checkDisabledButtons.bind(this);
     this.applyBorder = this.applyBorder.bind(this);
     this.applyBorder2 = this.applyBorder2.bind(this);
+    this._onButtonClick = this._onButtonClick.bind(this);
 
     this.state = {
       Vorname: "",
       Nachname: "",
       disableButtons: true,
       showBorder: false,
-      showBorder2: false
+      showBorder2: false,
+      showComponent: false,
+      panels: []
     };
   }
 
@@ -99,140 +102,159 @@ class Home extends Component {
     }
   }
 
+  _onButtonClick() {
+    const nextId = this.state.panels.length + 1;
+    this.setState({
+      showComponent: true,
+      panels: this.state.panels.concat([nextId])
+    });
+  }
+
   render() {
-    return (
-      <div>
-        <div className="Titel">
-          <h1>Cobedias 2.0 - Willkommen</h1>
-        </div>
-
-        <div className="ChangingContent">
-          <h2>
-            Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu
-            testen.
-          </h2>
-          <p>
-            Bitte geben Sie hier unten Ihren Vorname sowie Ihren Nachname ein.{" "}
-          </p>
-
-          <div>
-            <TextField
-              label="Vorname"
-              margin="normal"
-              variant="outlined"
-              name="Vorname"
-              value={this.state.Vorname}
-              onChange={this.handleChange("Vorname")}
-              fullWidth
-              placeholder="Geben Sie hier Ihren Vornamen ein"
-            />
-            <TextField
-              label="Nachname"
-              margin="normal"
-              variant="outlined"
-              name="Nachname"
-              value={this.state.Nachname}
-              onChange={this.handleChange("Nachname")}
-              fullWidth
-              placeholder="Geben Sie hier Ihren Nachnamen ein"
-            />
+    if (this.state.showComponent) {
+      return <Star />;
+    } else {
+      return (
+        <div>
+          <div className="Titel">
+            <h1>Cobedias 2.0 - Willkommen</h1>
           </div>
 
-          <p>
-            Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
-            "Familienanamnese" drücken.
-          </p>
-          <br />
-          <div id="root">
-            <p>Bitte wählen Sie ihr Geschlecht aus:</p>
-            <img
-              height="60px"
-              width="60px"
-              value={this.state.showBorder}
-              onChange={this.handleChange("showBorder")}
-              src={require("./images/028-man.svg")}
-              onClick={this.applyBorder}
-              style={
-                this.state.showBorder
-                  ? Borderstyles.border
-                  : Borderstyles.noBorder
-              }
-            />
+          <div className="ChangingContent">
+            <h2>
+              Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu
+              testen.
+            </h2>
+            <p>
+              Bitte geben Sie hier unten Ihren Vorname sowie Ihren Nachname ein.{" "}
+            </p>
 
-            <img
-              height="60px"
-              width="60px"
-              value={this.state.showBorder2}
-              onChange={this.handleChange("showBorder2")}
-              src={require("./images/003-woman.svg")}
-              onClick={this.applyBorder2}
-              style={
-                this.state.showBorder2
-                  ? Borderstyles.border
-                  : Borderstyles.noBorder
-              }
-            />
-          </div>
+            <div>
+              <TextField
+                label="Vorname"
+                margin="normal"
+                variant="outlined"
+                name="Vorname"
+                value={this.state.Vorname}
+                onChange={this.handleChange("Vorname")}
+                fullWidth
+                placeholder="Geben Sie hier Ihren Vornamen ein"
+              />
+              <TextField
+                label="Nachname"
+                margin="normal"
+                variant="outlined"
+                name="Nachname"
+                value={this.state.Nachname}
+                onChange={this.handleChange("Nachname")}
+                fullWidth
+                placeholder="Geben Sie hier Ihren Nachnamen ein"
+              />
+            </div>
 
-          <div className="StartButtonDiv">
-            <NavLink
-              exact
-              to={this.state.disableButtons === false ? "/Sozialanamnese" : "#"}
-              style={{
-                "text-decoration": "none",
-                margin: "3px",
-                background: "transparent"
-              }}
-            >
-              <Button
-                color="Primary"
-                disabled={this.state.disableButtons}
-                variant="contained"
+            <p>
+              Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
+              "Familienanamnese" drücken.
+            </p>
+            <br />
+            <div id="root">
+              <p>Bitte wählen Sie ihr Geschlecht aus:</p>
+              <img
+                height="60px"
+                width="60px"
+                value={this.state.showBorder}
+                onChange={this.handleChange("showBorder")}
+                src={require("./images/028-man.svg")}
+                onClick={this.applyBorder}
+                style={
+                  this.state.showBorder
+                    ? Borderstyles.border
+                    : Borderstyles.noBorder
+                }
+              />
+
+              <img
+                height="60px"
+                width="60px"
+                value={this.state.showBorder2}
+                onChange={this.handleChange("showBorder2")}
+                src={require("./images/003-woman.svg")}
+                onClick={this.applyBorder2}
+                style={
+                  this.state.showBorder2
+                    ? Borderstyles.border
+                    : Borderstyles.noBorder
+                }
+              />
+            </div>
+
+            <div className="StartButtonDiv">
+              <NavLink
+                exact
+                to={
+                  this.state.disableButtons === false ? "/Sozialanamnese" : "#"
+                }
+                style={{
+                  "text-decoration": "none",
+                  margin: "3px",
+                  background: "transparent"
+                }}
               >
-                Sozialanamnese
-              </Button>
-            </NavLink>
-            <NavLink
-              exact
-              to={this.state.disableButtons === false ? "/Star" : "#"}
-              style={{
-                "text-decoration": "none",
-                margin: "3px",
-                background: "transparent"
-              }}
-            >
-              <Button
-                color="Primary"
-                disabled={this.state.disableButtons}
-                variant="contained"
+                <Button
+                  color="Primary"
+                  disabled={this.state.disableButtons}
+                  variant="contained"
+                >
+                  Sozialanamnese
+                </Button>
+              </NavLink>
+              <NavLink
+                exact
+                to={
+                  this.state.disableButtons === false
+                    ? "/Familienanamnese"
+                    : "#"
+                }
+                style={{
+                  "text-decoration": "none",
+                  margin: "3px",
+                  background: "transparent"
+                }}
               >
-                Familienanamnese
-              </Button>
-            </NavLink>
+                <Button
+                  color="Primary"
+                  disabled={this.state.disableButtons}
+                  variant="contained"
+                >
+                  Familienanamnese
+                </Button>
+              </NavLink>
+            </div>
+            <Box
+              display="flex"
+              flexDirection="row"
+              p={1}
+              m={1}
+              justifyContent="flex-end"
+            >
+              {" "}
+              <img
+                src={require("./images/star.png")}
+                height="70px"
+                width="70px"
+                onClick={this._onButtonClick}
+              />
+            </Box>
+            <Button
+              style={{ position: "absolute", bottom: "10px" }}
+              onClick={this.deleteLocalStorage}
+            >
+              Clear Local Storage
+            </Button>
           </div>
-          <Box
-            display="flex"
-            flexDirection="row"
-            p={1}
-            m={1}
-            justifyContent="flex-end"
-          >
-            {" "}
-            <img
-              src={require("./images/star.png")}
-              height="70px"
-              width="70px"
-            />
-          </Box>
-          <Button
-            style={{ position: "absolute", bottom: "10px" }}
-            onClick={this.deleteLocalStorage}
-          >
-            Clear Local Storage
-          </Button>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
