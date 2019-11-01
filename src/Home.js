@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
+import Box from "@material-ui/core/Box";
+import Star from "./Star";
 
 // Umrandungen für Bilder
 const Borderstyles = {
@@ -144,8 +146,8 @@ class Home extends Component {
           <div id="root">
             <p>Bitte wählen Sie ihr Geschlecht aus:</p>
             <img
-              height="50px"
-              width="50px"
+              height="60px"
+              width="60px"
               value={this.state.showBorder}
               onChange={this.handleChange("showBorder")}
               src={require("./images/028-man.svg")}
@@ -158,8 +160,8 @@ class Home extends Component {
             />
 
             <img
-              height="50px"
-              width="50px"
+              height="60px"
+              width="60px"
               value={this.state.showBorder2}
               onChange={this.handleChange("showBorder2")}
               src={require("./images/003-woman.svg")}
@@ -192,9 +194,7 @@ class Home extends Component {
             </NavLink>
             <NavLink
               exact
-              to={
-                this.state.disableButtons === false ? "/Familienanamnese" : "#"
-              }
+              to={this.state.disableButtons === false ? "/Star" : "#"}
               style={{
                 "text-decoration": "none",
                 margin: "3px",
@@ -210,7 +210,20 @@ class Home extends Component {
               </Button>
             </NavLink>
           </div>
-
+          <Box
+            display="flex"
+            flexDirection="row"
+            p={1}
+            m={1}
+            justifyContent="flex-end"
+          >
+            {" "}
+            <img
+              src={require("./images/star.png")}
+              height="70px"
+              width="70px"
+            />
+          </Box>
           <Button
             style={{ position: "absolute", bottom: "10px" }}
             onClick={this.deleteLocalStorage}
