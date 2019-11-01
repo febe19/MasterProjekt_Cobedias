@@ -56,7 +56,7 @@ export class Stammbaum extends Component {
   openNav() {
     const style = { width: "100%" };
     this.setState({ style });
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    document.body.style.backgroundColor = "rgba(0,0,0,0.3)";
     document.addEventListener("click", this.closeNav);
   }
 
@@ -83,6 +83,16 @@ export class Stammbaum extends Component {
                   />
                   <div className="Stammbaum">
                     <FamilyTree />
+                    <p style={{ color: "white" }}>
+                      <br />
+                      In diesem Familienstammbaum können sämtliche
+                      Familienmitglieder erfasst werden. Weibliche
+                      Familienmitglieder werden rosa angezeigt, männliche
+                      hellblau.
+                      <br /> Die Verwandschaftsverhältnisse sind über Linien
+                      dargestellt. Ziel ist es soviele Personen, wie möglich zu
+                      erwähnen, um ein möglichst komplettes Bild zu bekommen.
+                    </p>
                   </div>
                 </Box>
               </Box>
@@ -100,7 +110,9 @@ export class Stammbaum extends Component {
                   onClick={this.openNav}
                 >
                   <img
-                    src={require("../components/images/question.png")}
+                    src={require("../components/images/help.PNG")}
+                    width="70px"
+                    height="70px"
                     m={2}
                     p={2}
                     onClick={this._onButtonClick}
