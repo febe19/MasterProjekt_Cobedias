@@ -41,7 +41,7 @@ export class Familienanamnese extends Component {
     const values = { vorName, nachName };
 
     switch (step) {
-      case 1:
+      /* case 1:
         return (
           <FA_anfang
             nextStep={this.nextStep.bind(this)}
@@ -56,9 +56,9 @@ export class Familienanamnese extends Component {
             handleChange={this.handleChange}
             values={values}
           />
-        );
+        );*/
 
-      case 3: //TODO: Change Step back to 1
+      case 1: //TODO: Change Step back to 1
         return (
           <Stammbaum
             nextStep={this.nextStep.bind(this)}

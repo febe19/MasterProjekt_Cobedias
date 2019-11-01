@@ -9,14 +9,21 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import RaisedButton from "material-ui/RaisedButton";
 import { StylesContext } from "@material-ui/styles/StylesProvider";
 
+//https://stackoverflow.com/questions/42130822/display-a-overlay-when-input-is-clicked-in-react
+
 export class Stammbaum extends Component {
   constructor(props) {
     super(props);
     this.state = {
       color: "white",
       showComponent: false,
-      panels: []
+      panels: [],
+      style: {
+        width: "0%"
+      }
     };
+    this.openNav = this.openNav.bind(this);
+    this.closeNav = this.closeNav.bind(this);
     this._onButtonClick = this._onButtonClick.bind(this);
   }
 
@@ -38,11 +45,31 @@ export class Stammbaum extends Component {
     });
   }
 
+  componentDidMount() {
+    document.addEventListener("click", this.closeNav);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.closeNav);
+  }
+
+  openNav() {
+    const style = { width: "100%" };
+    this.setState({ style });
+    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    document.addEventListener("click", this.closeNav);
+  }
+
+  closeNav() {
+    document.removeEventListener("click", this.closeNav);
+    const style = { width: 0 };
+    this.setState({ style });
+    document.body.style.backgroundColor = "#F3F3F3";
+  }
+
   render() {
-    if (this.state.showComponent) {
-      return <Tutorial_1 />;
-    } else {
-      return (
+    return (
+      <div>
         <MuiThemeProvider>
           <React.Fragment>
             <div className="App" style={{ backgroundColor: this.state.color }}>
@@ -54,7 +81,9 @@ export class Stammbaum extends Component {
                     m={1}
                     p={1}
                   />
-                  <FamilyTree />
+                  <div className="Stammbaum">
+                    <FamilyTree />
+                  </div>
                 </Box>
               </Box>
 
@@ -66,12 +95,33 @@ export class Stammbaum extends Component {
                 m={1}
                 p={1}
               >
-                <img
-                  src={require("../components/images/question.png")}
-                  m={2}
-                  p={2}
-                  onClick={this._onButtonClick}
-                />
+                <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
+                  style={{ fontSize: 30, cursor: "pointer" }}
+                  onClick={this.openNav}
+                >
+                  <img
+                    src={require("../components/images/question.png")}
+                    m={2}
+                    p={2}
+                    onClick={this._onButtonClick}
+                  />
+                </span>
+                <div ref="snav" className="overlay" style={this.state.style}>
+                  <div className="sidenav-container">
+                    <div className="text-center"></div>
+                    <a
+                      href="javascript:void(0)"
+                      className="closebtn"
+                      onClick={this.closeNav}
+                    >
+                      ×
+                    </a>
+                    <div className="list-group">
+                      {/*Hier kann eine komponente eingefügt werden*/}
+                      {this.props.children}
+                    </div>
+                  </div>
+                </div>
               </Box>
               <Box display="flex" justifyContent="center">
                 <RaisedButton
@@ -95,8 +145,8 @@ export class Stammbaum extends Component {
             </div>
           </React.Fragment>
         </MuiThemeProvider>
-      );
-    }
+      </div>
+    );
   }
 }
 
