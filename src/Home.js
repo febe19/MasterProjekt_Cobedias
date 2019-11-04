@@ -35,10 +35,14 @@ class Home extends Component {
 
   // 2 gleiche Funktionen, um Umrandungen hinzuzufügen
   applyBorder() {
-    this.setState(state => ({ showBorder: !state.showBorder }));
+    this.setState(state => ({ showBorder: !state.showBorder }), () => {
+      localStorage.set("me_gender", "male");
+    });
   }
   applyBorder2() {
-    this.setState(state => ({ showBorder2: !state.showBorder2 }));
+    this.setState(state => ({ showBorder2: !state.showBorder2 }), () => {
+      localStorage.set("me_gender", "female");
+    });
   }
 
   //Deleting the Local Storage by Button --> Probably not needed in the future.

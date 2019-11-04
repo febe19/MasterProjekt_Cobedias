@@ -1,4 +1,5 @@
 //TODO: Get gender for "me" from input form
+console.log("test22222");
 let myFamilyData =
     [
         {
