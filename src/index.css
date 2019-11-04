@@ -1,233 +1,232 @@
 body {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 
-    margin: 0;
+  margin: 0;
 }
 
-h1, h2, p, ul, li {
-    font-family: sans-serif;
-    margin: 0;
+h1,
+h2,
+p,
+ul,
+li {
+  font-family: sans-serif;
+  margin: 0;
 }
 
 /* header bar*/
 ul.header {
-    background-color: dimgrey;
+  background-color: dimgrey;
 }
 
 /*Header Item*/
 ul.header li {
-    display: inline;
-    list-style-type: none;
-    margin: 0;
+  display: inline;
+  list-style-type: none;
+  margin: 0;
 }
 
 /*Header Item hover*/
 ul.header li :hover {
-    color: cornflowerblue;
-    background-color: lightgrey;
+  color: cornflowerblue;
+  background-color: lightgrey;
 }
 
 ul.header li a {
-    text-align: left;
-    color: #FFF;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 15px;
-    display: inline-block;
+  text-align: left;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 15px;
+  display: inline-block;
 }
 
 .active {
-    background-color: darkgrey;
+  background-color: darkgrey;
 }
 
 .Titel {
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-color: #3F51B5;
-    color: white;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #3f51b5;
+  color: white;
 }
 
 .ChangingContent {
-    padding: 20px;
-    list-style-type: none;
-    margin: auto;
-    width: 80%;
-    left: 50%;
-    color: black;
+  padding: 20px;
+  list-style-type: none;
+  margin: auto;
+  width: 80%;
+  left: 50%;
+  color: black;
 }
 
 .StartButtonDiv {
-    float: left;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    margin: 5px;
+  float: left;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  margin: 5px;
 }
 
 .StepContent {
-    max-height: calc(100vh - 320px);
-    overflow-y: scroll;
-    padding: 10px;
+  max-height: calc(100vh - 320px);
+  overflow-y: scroll;
+  padding: 10px;
 }
 
 .StepContent::-webkit-scrollbar {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 .StepContent::-webkit-scrollbar:vertical {
-    width: 17px;
+  width: 17px;
 }
 
-
 .StepContent::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 2px solid white; /* should match background, can't be transparent */
-    background-color: rgba(0, 0, 0, .5);
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .SozialanamneseNavigationsButton {
-    float: left;
-    position: fixed;
-    left: 50%;
-    bottom: 20px;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+  float: left;
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 
 .SozialanamneseSendButton {
-    position: fixed;
-    left: 50%;
-    bottom: 80px;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+  position: fixed;
+  left: 50%;
+  bottom: 80px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 
 .MilitaerdienstButtons {
-    margin-right: 15px;
-    margin-top: 18px;
-    float: left;
+  margin-right: 15px;
+  margin-top: 18px;
+  float: left;
 }
 
-
 .Berufstaetigkeit {
-    margin: auto;
+  margin: auto;
 }
 
 .BerufstaetigkeitButtons {
-    margin-right: 15px;
-    margin-top: 18px;
-    float: left;
+  margin-right: 15px;
+  margin-top: 18px;
+  float: left;
 }
 
 .BerufstaetigkeitButtonRight {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .ArbeitspensumSlider {
-    margin-top: 45px;
-    margin-left: 30px;
-    width: 90%;
+  margin-top: 45px;
+  margin-left: 30px;
+  width: 90%;
 }
 
 .ArbeitszustandEingeblendetesDiv {
-    margin-top: 15px;
-    margin-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 .DatePicker {
-    margin-top: 5px;
-    float: left;
+  margin-top: 5px;
+  float: left;
 }
 
 .DatePickerArbeitsunfaehigkeit {
-    float: left;
+  float: left;
 }
 
 .DatePickerArbeitsunfaehigkeit2 {
-    margin-left: 30px;
-    float: left;
+  margin-left: 30px;
+  float: left;
 }
 
 .ArbeitsunfaehigkeitInProzent {
-    margin-top: 100px;
-    clear: left;
-    width: 90%;
+  margin-top: 100px;
+  clear: left;
+  width: 90%;
 }
 
 .ArbeitsunfähigkeitSlider {
-    margin-top: 50px;
-    margin-left: 30px;
-    clear: left;
-    width: 90%;
+  margin-top: 50px;
+  margin-left: 30px;
+  clear: left;
+  width: 90%;
 }
 
 .Berufeingabe {
-    margin-top: 7%;
+  margin-top: 7%;
 }
 
-
 .FamilyTreeContent {
-    padding: 20px;
-    list-style-type: none;
-    margin: auto;
-    width: 90%;
-    left: 50%;
-    color: black;
+  padding: 20px;
+  list-style-type: none;
+  margin: auto;
+  width: 90%;
+  left: 50%;
+  color: black;
 }
 
 .FamilyTreeStepContent {
-    max-height: calc(100vh - 320px);
-    overflow-y: scroll;
-    padding: 10px;
+  max-height: calc(100vh - 320px);
+  overflow-y: scroll;
+  padding: 10px;
 }
 
 .FamilyTreeStepContent::-webkit-scrollbar {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 .FamilyTreeStepContent::-webkit-scrollbar:vertical {
-    width: 17px;
+  width: 17px;
 }
 
-
 .FamilyTreeStepContent::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 2px solid white; /* should match background, can't be transparent */
-    background-color: rgba(0, 0, 0, .5);
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .FamilyTreeNavigationsButton {
-    float: left;
-    position: fixed;
-    left: 50%;
-    bottom: 7%;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+  float: left;
+  position: fixed;
+  left: 50%;
+  bottom: 7%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 
 .dialogContentDiv {
-    height: 90vh;
-    width: 70vh;
-    overflow: hidden;
+  height: 90vh;
+  width: 70vh;
+  overflow: hidden;
 }
 
-
 .FamilyMemberZustandButton {
-    margin-right: 15px;
-    margin-top: 18px;
-    float: left;
+  margin-right: 15px;
+  margin-top: 18px;
+  float: left;
 }
 
 .addFamilyMembersButtons {
-    margin: 10px;
+  margin: 10px;
 }
 
 .FamilyTreeDiv {
-    margin: 0 auto;
-    float: left;
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, 0%);
+  margin: 0 auto;
+  float: left;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }

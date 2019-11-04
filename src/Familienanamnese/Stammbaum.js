@@ -5,8 +5,6 @@ import FamilyTree from "./FamilyTreeComponent";
 import styles from "./FamilyTree.module.css";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
-import FamilyTree from "./FamilyTreeComponent";
-import styles from "./FamilyTree.module.css";
 import Toggle, { Tutorial_1 } from "./Tutorial_1";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -119,12 +117,6 @@ export class Stammbaum extends Component {
                 >
                   <Box display="flex" justifyContent="flex-start" m={1} p={1}>
                     <Box p={1}>
-                      <img
-                        src={require("../components/images/logo_cobedias.png")}
-                        style={{ width: "40%" }}
-                        m={1}
-                        p={1}
-                      />
                       <div className="Stammbaum">
                         <FamilyTree />
                       </div>

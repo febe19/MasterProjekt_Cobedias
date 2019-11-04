@@ -40,9 +40,10 @@ const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(prop
 //My ID is always 0.
 const myID = 'me';
 
+//adjust height and width of images position
 const WIDTH = 150;
 const HEIGHT = 150;
-const RESIZE = 0.7;
+const RESIZE = 1;
 
 
 const classes = makeStyles(theme => ({

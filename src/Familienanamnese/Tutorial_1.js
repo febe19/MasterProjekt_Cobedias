@@ -43,7 +43,7 @@ export class Tutorial_1 extends Component {
           <Box flexDirection="row">
             <Box display="flex" justifyContent="flex-start" m={1} p={1}>
               <img
-                src={require("../components/images/logo_cobedias.png")}
+                src={require("../components/images/Weiter.png")}
                 style={{ width: "10%" }}
                 m={1}
                 p={1}

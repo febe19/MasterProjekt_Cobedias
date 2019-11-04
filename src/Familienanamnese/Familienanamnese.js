@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import FA_anfang from "./FA_anfang";
 import PersonAngaben from "./PersonAngaben";
 import Stammbaum from "./Stammbaum";
-import Tutorial_1 from "./Tutorial_1";
 
 //traversy:UserForm
 export class Familienanamnese extends Component {
@@ -58,7 +57,7 @@ export class Familienanamnese extends Component {
           />
         );
 
-      case 3: //TODO: Change Step back to 1
+      case 3:
         return (
           <Stammbaum
             nextStep={this.nextStep.bind(this)}
