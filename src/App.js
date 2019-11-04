@@ -9,7 +9,7 @@ import Stammbaum from "./Familienanamnese/Stammbaum";
 function App() {
   return (
     <HashRouter>
-      <div style={{ width: "100%" }}>
+      <div className="App" style={{ width: "100%" }}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/Familienanamnese" component={Stammbaum} />
