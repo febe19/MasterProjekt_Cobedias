@@ -1,5 +1,3 @@
-//TODO: Get gender for "me" from input form
-console.log("test22222");
 let myFamilyData =
     [
         {
@@ -68,6 +66,19 @@ let myFamilyData =
     ];
 
 const familyHelpers = {
+
+    // sets the gender of me which was chosen earlier
+    setGenderOfMe: function (gender) {
+        console.log("yess");
+        for (let i = 0; i <= myFamilyData.length - 1; i++) {
+            //If ID is me --> found.
+            if (myFamilyData[i].id === 'me') {
+                myFamilyData[i]['gender'] = gender;
+            }
+        }
+        console.log("new me: " + JSON.stringify(myFamilyData));
+
+    },
 
     //Returns the FamilyData aka. "all family objects" --> Is used to draw the tree.
     getFamilyData: function () {

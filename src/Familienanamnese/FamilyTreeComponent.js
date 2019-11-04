@@ -26,6 +26,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Slide from '@material-ui/core/Slide';
+import localStorage from "local-storage";
 
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
@@ -154,6 +155,15 @@ class FamilyTree extends Component {
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
+    }
+
+
+    //Try to fetch the gender of me from the localStorage
+    componentWillMount() {
+        let me_gender = localStorage.get('me_gender');
+        if (localStorage.get('me_gender')) {
+            familyHelpers.setGenderOfMe(me_gender);
+        }
     }
 
 // zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
@@ -475,6 +485,8 @@ class FamilyTree extends Component {
                 children.push({"id": this.state.childrenOfSpouse[i]})
             }
         }
+
+        // TODO: choose gender of spouse
 
         if (me.gender === 'female') {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.allDeletedFamilyMembers), "male", [], [], [{
