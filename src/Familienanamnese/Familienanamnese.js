@@ -48,8 +48,8 @@ export class Familienanamnese extends Component {
             handleChange={this.handleChange}
             values={values}
           />
-        );*/
-      case 1:
+        );
+      case 2:
         return (
           <PersonAngaben
             nextStep={this.nextStep}
@@ -57,8 +57,8 @@ export class Familienanamnese extends Component {
             values={values}
           />
         );
-
-      /* case 3: //TODO: Change Step back to 1
+*/
+      case 1: //TODO: Change Step back to 1
         return (
           <Stammbaum
             nextStep={this.nextStep}
@@ -66,7 +66,7 @@ export class Familienanamnese extends Component {
             handleChange={this.handleChange}
             values={values}
           />
-        );*/
+        );
     }
   }
 }

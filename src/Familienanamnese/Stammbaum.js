@@ -67,7 +67,9 @@ export class Stammbaum extends Component {
                 p={1}
               >
                 <img
-                  src={require("../components/images/question.png")}
+                  src={require("../components/images/help.PNG")}
+                  height="70px"
+                  width="70px"
                   m={2}
                   p={2}
                   onClick={this._onButtonClick}

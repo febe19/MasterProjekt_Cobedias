@@ -27,6 +27,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Slide from '@material-ui/core/Slide';
 
+import "../App.css";
+import { Box } from '@material-ui/core';
+
+
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -121,6 +125,8 @@ class FamilyTree extends Component {
         this.handlePopupClose = this.handlePopupClose.bind(this);
         this.handleYesButtonChange = this.handleYesButtonChange.bind(this);
         this.handleNoButtonChange = this.handleNoButtonChange.bind(this);
+        this.openNav = this.openNav.bind(this);
+        this.closeNav = this.closeNav.bind(this);
 
 
         //Define the state of this component.
@@ -168,6 +174,26 @@ class FamilyTree extends Component {
                 return "Unknown step";
         }
     }
+
+    //Overlay navigation
+    componentDidMount() {
+        document.addEventListener("click", this.closeNav);
+      }
+    componentWillUnmount() {
+        document.removeEventListener("click", this.closeNav);
+      }
+    openNav() {
+        const style = { width: "100%" };
+        this.setState({ style });
+        document.body.style.backgroundColor = "rgba(0,0,0,0.3)";
+        document.addEventListener("click", this.closeNav);
+      }
+    closeNav() {
+        document.removeEventListener("click", this.closeNav);
+        const style = { width: 0 };
+        this.setState({ style });
+        document.body.style.backgroundColor = "#F3F3F3";
+      }
 
 
 // prüft ob ein spezifischer Component "complete" ist
@@ -712,7 +738,11 @@ class FamilyTree extends Component {
     // step content of "Angaben"
     showAngaben() {
         return (
-            <div>
+            <div className="Stammbaum">
+                 <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
+                  style={{ fontSize: 30, cursor: "pointer" }}
+                  onClick={this.openNav}
+                >
                 <form className={useStyles.container} noValidate autoComplete="off">
                     <TextField
                         id="geburtsjahr"
@@ -766,7 +796,39 @@ class FamilyTree extends Component {
                     fullWidth
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
+                <br/>
+                <img
+                    src={require("../components/images/help.PNG")}
+                    width="70px"
+                    height="70px"
+                    m={2}
+                    p={2}
+                    onClick={this._onButtonClick}
+                  />
+                 </span>
+                <div ref="snav" className="overlay" style={this.state.style}>
+                  <div className="sidenav-container">
+                    <div className="text-center"></div>
+                    <a
+                      href="javascript:void(0)"
+                      className="closebtn"
+                      onClick={this.closeNav}
+                    >
+                      ×
+                    </a>
+                    <div className="list-group">
+                      {<Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center" alignSelf="center">
+            <p><br/>In diesem Feld wird für jedes Familienmitglied Geburtsjahr, Spitzname, Vorname und Nachname vermerkt. <br/>Unter "Weiter" kann man bei der Person den Gesundheitszustand angeben.<br/>Ist die Person bereits verstorben, sollte das Todesjahr sowie die Todesursache erwähnt werden.</p></Box>}
+                      {this.props.children}
+                    </div>
+                  </div>
+                </div>
             </div>
+            
+
         )
     }
 
