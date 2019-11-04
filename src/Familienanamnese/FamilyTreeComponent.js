@@ -118,6 +118,7 @@ class FamilyTree extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeBlur = this.handleChangeBlur.bind(this);
         this.handlePopupClose = this.handlePopupClose.bind(this);
         this.handleYesButtonChange = this.handleYesButtonChange.bind(this);
         this.handleNoButtonChange = this.handleNoButtonChange.bind(this);
@@ -242,27 +243,36 @@ class FamilyTree extends Component {
     handleChange = () => event => {
         this.setState({
             [event.target.name]: event.target.value
-        }, () => {
-            this.updateStepCompleteness(this.state.activeStep);
         });
+    };
+
+    //OnBlur function which checks the completeness and updates stepper-checks
+    handleChangeBlur = () => event => {
+        this.updateStepCompleteness(this.state.activeStep);
     };
 
 
     //write the Change of "todesjahr" and so on to the state.
     handleChangeTodesjahr = () => event => {
-        this.setState({todesjahr: event.target.value}, () => {
-            this.updateStepCompleteness(this.state.activeStep);
-        });
+        this.setState({todesjahr: event.target.value});
+    };
+
+    //OnBlur function which checks the completeness and updates stepper-checks when "todesjahr" is changed
+    handleChangeTodesjahrBlur = () => event => {
+        this.updateStepCompleteness(this.state.activeStep);
     };
 
     //write the Change of "geburtsjahr" and so on to the state.
     handleChangeGeburtsjahr = () => event => {
         this.setState({
             geburtsjahr: event.target.value,
-        }, () => {
-            this.updateStepCompleteness(this.state.activeStep);
         })
-        ;
+    };
+
+    //OnBlur function which checks the completeness and updates stepper-checks when "geburtsjahr" is changed
+    handleChangeGeburtsjahrBlur = () => event => {
+        this.updateStepCompleteness(this.state.activeStep);
+
     };
 
 
@@ -722,6 +732,7 @@ class FamilyTree extends Component {
                         className={classes.textField}
                         value={this.state.geburtsjahr}
                         onChange={this.handleChangeGeburtsjahr("geburtsjahr")}
+                        onBlur={this.handleChangeGeburtsjahrBlur("geburtsjahr")}
                         SelectProps={{
                             MenuProps: {
                                 className: classes.menu,
@@ -744,6 +755,7 @@ class FamilyTree extends Component {
                     name="spitzname"
                     value={this.state.spitzname}
                     onChange={this.handleChange("spitzname")}
+                    onBlur={this.handleChangeBlur("spitzname")}
                     fullWidth
                     placeholder="Geben Sie hier den Spitznamen ein"
                 />
@@ -754,6 +766,7 @@ class FamilyTree extends Component {
                     name="vorname"
                     value={this.state.vorname}
                     onChange={this.handleChange("vorname")}
+                    onBlur={this.handleChangeBlur("vorname")}
                     fullWidth
                     placeholder="Geben Sie hier den Vornamen ein"
                 />
@@ -764,6 +777,7 @@ class FamilyTree extends Component {
                     name="nachname"
                     value={this.state.nachname}
                     onChange={this.handleChange("nachname")}
+                    onBlur={this.handleChangeBlur("nachname")}
                     fullWidth
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
@@ -864,6 +878,7 @@ class FamilyTree extends Component {
                                 className={classes.textField}
                                 value={this.state.todesjahr}
                                 onChange={this.handleChangeTodesjahr("todesjahr")}
+                                onBlur={this.handleChangeTodesjahrBlur("todesjahr")}
                                 SelectProps={{
                                     MenuProps: {
                                         className: classes.menu,
@@ -887,6 +902,7 @@ class FamilyTree extends Component {
                             name="todesursache"
                             value={this.state.todesursache}
                             onChange={this.handleChange("todesursache")}
+                            onBlur={this.handleChangeBlur("todesursache")}
                             fullWidth
                             multiline
                             rows="8"
@@ -911,6 +927,7 @@ class FamilyTree extends Component {
                             name="gesundheitszustand"
                             value={this.state.gesundheitszustand}
                             onChange={this.handleChange("gesundheitszustand")}
+                            onBlur={this.handleChangeBlur("gesundheitszustand")}
                             fullWidth
                             multiline
                             rows="8"
@@ -1203,7 +1220,9 @@ class FamilyTree extends Component {
                         )}
                     />
                 </div>
-                <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></div>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/freepik"
+                                      title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
+                                                                          title="Flaticon">www.flaticon.com</a></div>
             </div>
         );
     }
