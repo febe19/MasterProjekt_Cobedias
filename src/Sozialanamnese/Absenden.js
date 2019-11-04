@@ -56,11 +56,11 @@ const CobediasDocument = () => (
                 <Text style={PDFstyles.heading}>Berufstätigkeit</Text>
                 <Text style={PDFstyles.section}>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
                 <Text style={PDFstyles.section}>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
-                <Text style={PDFstyles.section}>Normal arbeitsfähig: {localStorage.get('normalArbeitsfaehig').toString()}</Text>
-                <Text style={PDFstyles.section}>Arbeitslos: {localStorage.get('arbeitlos').toString()}</Text>
-                <Text style={PDFstyles.section}>Pensioniert: {localStorage.get('pensioniert').toString()}</Text>
-                <Text style={PDFstyles.section}>IV-Rente: {localStorage.get('iVRente').toString()}</Text>
-                <Text style={PDFstyles.section}>Arbeitsunfähig: {localStorage.get('arbeitsunfaehig').toString()}</Text>
+                <Text style={PDFstyles.section}>Normal arbeitsfähig: {String(localStorage.get('normalArbeitsfaehig'))}</Text>
+                <Text style={PDFstyles.section}>Arbeitslos: {String(localStorage.get('arbeitlos'))}</Text>
+                <Text style={PDFstyles.section}>Pensioniert: {String(localStorage.get('pensioniert'))}</Text>
+                <Text style={PDFstyles.section}>IV-Rente: {String(localStorage.get('iVRente'))}</Text>
+                <Text style={PDFstyles.section}>Arbeitsunfähig: {String(localStorage.get('arbeitsunfaehig'))}</Text>
                 <Text style={PDFstyles.section}>Arbeitspensum: {localStorage.get('arbeitspensum')}</Text>
                 <Text style={PDFstyles.section}>Datum Arbeitslosigkeit: {localStorage.get('dateArbeitslosigkeit')}</Text>
                 <Text style={PDFstyles.section}>Datum pensioniert: {localStorage.get('datePensioniert')}</Text>
@@ -74,30 +74,30 @@ const CobediasDocument = () => (
                 <Text style={PDFstyles.section}>Hobbies: {localStorage.get('hobbies')}</Text>
 
                 <Text style={PDFstyles.heading}>Militärdienst</Text>
-                <Text style={PDFstyles.section}>Militärdienst wurde gemacht: {localStorage.get('militaerdienstGemacht').toString()}</Text>
+                <Text style={PDFstyles.section}>Militärdienst wurde gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
                 <Text style={PDFstyles.section}>Grund für Untauglichkeit: {localStorage.get('untauglichkeitsGrund')}</Text>
 
                 <Text style={PDFstyles.heading}>Wohnsituation</Text>
-                <Text style={PDFstyles.section}>Haus: {localStorage.get('haus').toString()}</Text>
-                <Text style={PDFstyles.section}>Wohnung: {localStorage.get('wohnung').toString()}</Text>
-                <Text style={PDFstyles.section}>Altersheim: {localStorage.get('altersheim').toString()}</Text>
-                <Text style={PDFstyles.section}>Pflegeheim: {localStorage.get('pflegeheim').toString()}</Text>
-                <Text style={PDFstyles.section}>Andere Wohnsituation: {localStorage.get('andere').toString()}</Text>
+                <Text style={PDFstyles.section}>Haus: {String(localStorage.get('haus'))}</Text>
+                <Text style={PDFstyles.section}>Wohnung: {String(localStorage.get('wohnung'))}</Text>
+                <Text style={PDFstyles.section}>Altersheim: {String(localStorage.get('altersheim'))}</Text>
+                <Text style={PDFstyles.section}>Pflegeheim: {String(localStorage.get('pflegeheim'))}</Text>
+                <Text style={PDFstyles.section}>Andere Wohnsituation: {String(localStorage.get('andere'))}</Text>
                 <Text style={PDFstyles.section}>Beschreibung der "anderen Wohnsituation": {localStorage.get('andereWohnText')}</Text>
 
                 <Text style={PDFstyles.heading}>Zivilstand</Text>
-                <Text style={PDFstyles.section}>Ledig: {localStorage.get('ledig').toString()}</Text>
-                <Text style={PDFstyles.section}>Verheiratet: {localStorage.get('verheiratet').toString()}</Text>
-                <Text style={PDFstyles.section}>Verwitwet: {localStorage.get('verwitwet').toString()}</Text>
-                <Text style={PDFstyles.section}>Geschieden: {localStorage.get('geschieden').toString()}</Text>
-                <Text style={PDFstyles.section}>Anderer Zivilstand: {localStorage.get('andere').toString()}</Text>
+                <Text style={PDFstyles.section}>Ledig: {String(localStorage.get('ledig'))}</Text>
+                <Text style={PDFstyles.section}>Verheiratet: {String(localStorage.get('verheiratet'))}</Text>
+                <Text style={PDFstyles.section}>Verwitwet: {String(localStorage.get('verwitwet'))}</Text>
+                <Text style={PDFstyles.section}>Geschieden: {String(localStorage.get('geschieden'))}</Text>
+                <Text style={PDFstyles.section}>Anderer Zivilstand: {String(localStorage.get('andere'))}</Text>
                 <Text style={PDFstyles.section}>Beschreibung des "anderen Zivilstands": {localStorage.get('andereText')}</Text>
                 <Text style={PDFstyles.section}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>
-                <Text style={PDFstyles.section}>Patientenverfügung existiert: {localStorage.get('patVerfuegungJa').toString()}</Text>
-                <Text style={PDFstyles.section}>Patientenverfügung existiert nicht: {localStorage.get('patVerfuegungNein').toString()}</Text>
+                <Text style={PDFstyles.section}>Patientenverfügung existiert: {String(localStorage.get('patVerfuegungJa'))}</Text>
+                <Text style={PDFstyles.section}>Patientenverfügung existiert nicht: {String(localStorage.get('patVerfuegungNein'))}</Text>
                 <Text style={PDFstyles.section}>Patientenverfügung hinterlegt bei: {localStorage.get('patVerfuegungBei')}</Text>
-                <Text style={PDFstyles.section}>Vorsorgeauftrag existiert: {localStorage.get('vorsorgeauftragJa').toString()}</Text>
-                <Text style={PDFstyles.section}>Vorsorgeauftrag existiert nicht: {localStorage.get('vorsorgeauftragNein').toString()}</Text>
+                <Text style={PDFstyles.section}>Vorsorgeauftrag existiert: {String(localStorage.get('vorsorgeauftragJa'))}</Text>
+                <Text style={PDFstyles.section}>Vorsorgeauftrag existiert nicht: {String(localStorage.get('vorsorgeauftragNein'))}</Text>
                 <Text style={PDFstyles.section}>Vorsorgeauftrag hinterlegt bei: {localStorage.get('vorsorgeauftragBei')}</Text>
 
                 <Text style={PDFstyles.heading}>Bemerkungen</Text>
