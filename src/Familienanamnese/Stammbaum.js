@@ -83,19 +83,6 @@ export class Stammbaum extends Component {
                   />
                   <div className="Stammbaum">
                     <FamilyTree />
-                    <p style={{ color: "white" }}>
-                      <br />
-                      In diesem Familienstammbaum können sämtliche
-                      Familienmitglieder erfasst werden. Weibliche
-                      Familienmitglieder werden rosa angezeigt, männliche
-                      hellblau.
-                      <br /> Die Verwandschaftsverhältnisse sind über Linien
-                      dargestellt. Ziel ist es soviele Personen, wie möglich zu
-                      erwähnen, um ein möglichst komplettes Bild zu bekommen.
-                      <br />
-                      Darüber hinaus können bestehende Personen bearbeitet oder
-                      gelöscht werden.
-                    </p>
                   </div>
                 </Box>
               </Box>
@@ -132,8 +119,31 @@ export class Stammbaum extends Component {
                       ×
                     </a>
                     <div className="list-group">
-                      {/*Hier kann eine komponente eingefügt werden*/}
-                      {this.props.children}
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyItems="center"
+                        m={2}
+                        p={2}
+                      >
+                        {
+                          <p style={{ color: "white" }}>
+                            <br />
+                            In diesem Familienstammbaum können sämtliche
+                            Familienmitglieder erfasst werden. Weibliche
+                            Familienmitglieder werden rosa angezeigt, männliche
+                            hellblau.
+                            <br /> Die Verwandschaftsverhältnisse sind über
+                            Linien dargestellt. Ziel ist es soviele Personen,
+                            wie möglich zu erwähnen, um ein möglichst komplettes
+                            Bild zu bekommen.
+                            <br />
+                            Darüber hinaus können bestehende Personen bearbeitet
+                            oder gelöscht werden.
+                          </p>
+                        }
+                        {this.props.children}
+                      </Box>
                     </div>
                   </div>
                 </div>
