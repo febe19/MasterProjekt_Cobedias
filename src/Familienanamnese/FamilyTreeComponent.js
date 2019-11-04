@@ -738,11 +738,7 @@ class FamilyTree extends Component {
     // step content of "Angaben"
     showAngaben() {
         return (
-            <div className="Stammbaum">
-                 <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
-                  style={{ fontSize: 30, cursor: "pointer" }}
-                  onClick={this.openNav}
-                >
+            <div >
                 <form className={useStyles.container} noValidate autoComplete="off">
                     <TextField
                         id="geburtsjahr"
@@ -797,6 +793,11 @@ class FamilyTree extends Component {
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
                 <br/>
+                <div className="Stammbaum">
+                 <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
+                  style={{ fontSize: 30, cursor: "pointer" }}
+                  onClick={this.openNav}
+                >
                 <img
                     src={require("../components/images/help.PNG")}
                     width="70px"
@@ -823,6 +824,7 @@ class FamilyTree extends Component {
                       alignItems="center" alignSelf="center">
             <p><br/>In diesem Feld wird für jedes Familienmitglied Geburtsjahr, Spitzname, Vorname und Nachname vermerkt. <br/>Unter "Weiter" kann man bei der Person den Gesundheitszustand angeben.<br/>Ist die Person bereits verstorben, sollte das Todesjahr sowie die Todesursache erwähnt werden.</p></Box>}
                       {this.props.children}
+                      </div>
                     </div>
                   </div>
                 </div>
