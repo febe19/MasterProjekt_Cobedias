@@ -3,12 +3,19 @@ import classNames from 'classnames';
 import styles from './FamilyNode.module.css';
 import "typeface-roboto";
 import localStorage from 'local-storage'
+
 import girlAvatar from '../images/001-girl.svg'
+import girlAvatarBW from '../images/001-girl-BW.svg'
 import boyAvatar from '../images/049-boy.svg'
+import boyAvatarBW from '../images/049-boy-BW.svg'
 import womanAvatar from '../images/003-woman.svg'
+import womanAvatarBW from '../images/003-woman-BW.svg'
 import manAvatar from '../images/028-man.svg'
+import manAvatarBW from '../images/028-man-BW.svg'
 import grandmotherAvatar from '../images/047-grandmother.svg'
+import grandmotherAvatarBW from '../images/047-grandmother-BW.svg'
 import grandfatherAvatar from '../images/002-grandfather.svg'
+import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -37,26 +44,59 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 return manAvatar;
             }
         } else if (node.id === 'myMother') {
-            return grandmotherAvatar;
+            console.log("-- "+ node.verstorben);
+            if (node.verstorben === true) {
+                return grandmotherAvatarBW;
+            } else {
+                return grandmotherAvatar;
+            }
         } else if (node.id === 'myFather') {
-            return grandfatherAvatar;
+            if (node.verstorben === true) {
+                return grandfatherAvatarBW;
+            } else {
+                return grandfatherAvatar;
+            }
         } else if (node.id.substring(0, 6) === 'spouse') {
             if (node.gender === 'female') {
-                return womanAvatar;
+                if (node.verstorben === true) {
+                    return womanAvatarBW;
+                } else {
+                    return womanAvatar;
+                }
             } else {
-                return manAvatar;
+                if (node.verstorben === true) {
+                    return manAvatarBW;
+                } else {
+                    return manAvatar;
+                }
             }
         } else if (node.id.substring(0, 7) === 'sibling') {
             if (node.gender === 'female') {
-                return womanAvatar;
+                if (node.verstorben === true) {
+                    return womanAvatarBW;
+                } else {
+                    return womanAvatar;
+                }
             } else {
-                return manAvatar;
+                if (node.verstorben === true) {
+                    return manAvatarBW;
+                } else {
+                    return manAvatar;
+                }
             }
         } else {
             if (node.gender === 'female') {
-                return girlAvatar;
+                if (node.verstorben === true) {
+                    return girlAvatarBW;
+                } else {
+                    return girlAvatar;
+                }
             } else {
-                return boyAvatar;
+                if (node.verstorben === true) {
+                    return boyAvatarBW;
+                } else {
+                    return boyAvatar;
+                }
             }
         }
     }
