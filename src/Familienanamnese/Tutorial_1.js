@@ -89,7 +89,10 @@ export class Tutorial_1 extends Component {
               In diesem Familienstammbaum können sämtliche Familienmitglieder
               erfasst werden. Weibliche Familienmitglieder werden Rosa
               angezeigt, männliche hellblau. Die Verwandschaftsverhältnisse sind
-              über Linien dargestellt.
+              über Linien dargestellt. Die einzelnen Familienmitglieder sind
+              über verschiedene Darstellungen ersichtlich.
+              <br /> Bei Fehlern in der Eingabe können die Familienmitglieder
+              bearbeitet oder gelöscht werden durch angrenzende Symbole.
             </h3>
           </Box>
         </div>

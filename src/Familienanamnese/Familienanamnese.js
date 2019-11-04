@@ -44,7 +44,7 @@ export class Familienanamnese extends Component {
       case 1:
         return (
           <FA_anfang
-            nextStep={this.nextStep}
+            nextStep={this.nextStep.bind(this)}
             handleChange={this.handleChange}
             values={values}
           />
@@ -52,7 +52,7 @@ export class Familienanamnese extends Component {
       case 2:
         return (
           <PersonAngaben
-            nextStep={this.nextStep}
+            nextStep={this.nextStep.bind(this)}
             handleChange={this.handleChange}
             values={values}
           />
@@ -61,8 +61,8 @@ export class Familienanamnese extends Component {
       case 3: //TODO: Change Step back to 1
         return (
           <Stammbaum
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
+            nextStep={this.nextStep.bind(this)}
+            prevStep={this.prevStep.bind(this)}
             handleChange={this.handleChange}
             values={values}
           />
