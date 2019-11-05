@@ -11,6 +11,34 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import RaisedButton from "material-ui/RaisedButton";
 import { StylesContext } from "@material-ui/styles/StylesProvider";
 
+import Popup from "reactjs-popup";
+import { makeStyles } from "@material-ui/core/styles";
+
+const classes = makeStyles(theme => ({
+  root: {
+    width: "100%"
+  },
+  button: {
+    marginRight: theme.spacing(1)
+  },
+  backButton: {
+    marginRight: theme.spacing(1)
+  },
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  }
+}));
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1)
+  },
+  input: {
+    display: "none"
+  }
+}));
+
 export class Stammbaum extends Component {
   constructor(props) {
     super(props);
@@ -126,7 +154,6 @@ export class Stammbaum extends Component {
                   <Box
                     display="flex"
                     justifyContent="flex-start"
-                    flexDirection="column"
                     alignItems="flex-start"
                     m={1}
                     p={1}
@@ -188,24 +215,28 @@ export class Stammbaum extends Component {
                       </div>
                     </div>
                   </Box>
-                  <Box display="flex" justifyContent="center">
-                    <RaisedButton
-                      p={2}
-                      m={2}
-                      label="Weiter"
-                      primary={true}
-                      style={StylesContext.button}
-                      onClick={this.continue}
-                    />
-
-                    <RaisedButton
-                      p={2}
-                      m={2}
-                      label="Zurück"
-                      primary={true}
-                      style={StylesContext.button}
-                      onClick={this.back}
-                    />
+                  <Box
+                    display="flex"
+                    alignItems="flex-end"
+                    alignContent="flex-end"
+                    j
+                    justifyContent="center"
+                    m={2}
+                    p={2}
+                  >
+                    <Popup
+                      trigger={
+                        <button className="button"> Abschliessen</button>
+                      }
+                      position="top center"
+                      closeOnDocumentClick
+                    >
+                      <div>
+                        Wollen sie den Familienstammbaum nun exportieren und zum
+                        Hauptmenü zurückkehren?
+                        <Button className={classes.button}>Ja</Button>
+                      </div>
+                    </Popup>
                   </Box>
                 </div>
               </React.Fragment>

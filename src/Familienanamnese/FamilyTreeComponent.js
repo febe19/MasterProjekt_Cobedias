@@ -32,6 +32,8 @@ import { Box } from '@material-ui/core';
 
 
 
+
+
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -41,9 +43,9 @@ const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(prop
 const myID = 'me';
 
 //adjust height and width of images position
-const WIDTH = 150;
-const HEIGHT = 150;
-const RESIZE = 1;
+const WIDTH = 130;
+const HEIGHT = 130;
+const RESIZE = 0.9;
 
 
 const classes = makeStyles(theme => ({
@@ -79,6 +81,7 @@ const useStyles = makeStyles(theme => ({
     menu: {
         width: 200,
     },
+    
 }));
 
 // creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
@@ -1218,10 +1221,11 @@ class FamilyTree extends Component {
     }
 
     render() {
+        
         return (
             <div style={{margin: '0 auto'}}>
                 <div>
-                    <p style={{margin: '3px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
+                    <p style={{margin: '3px'}}>Geben Sie hier bitte alle Ihre Blutsverwandte ein.</p>
                     <div className="addFamilyMembersButtons">
                         <Button id="addSister" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addSister')} style={{margin: '3px'}}>Schwester
@@ -1269,8 +1273,14 @@ class FamilyTree extends Component {
                     />
                 </div>
                 <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></div>
+            
+            
             </div>
+
+            
+            
         );
+        
     }
 }
 
