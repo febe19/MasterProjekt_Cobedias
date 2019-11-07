@@ -16,6 +16,7 @@ import grandmotherAvatar from '../images/047-grandmother.svg'
 import grandmotherAvatarBW from '../images/047-grandmother-BW.svg'
 import grandfatherAvatar from '../images/002-grandfather.svg'
 import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
+import WarningSign from '../images/Warning_Sign.svg'
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -36,6 +37,16 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
+    function showAlert(node) {
+        if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null || node.nachname === '' || node.nachname === null) {
+            return WarningSign;
+        } else if (node.verstorben === true && (node.todesjahr === 0 || node.todesursache === '' || node.todesursache === null)) {
+            return WarningSign;
+        } else if (node.verstorben === false && (node.gesundheitszustand === null || node.gesundheitszustand === '')) {
+            return WarningSign;
+        }
+    }
+
     function getAvatar(node) {
         if (node.id === 'me') {
             if (node.gender === 'female') {
@@ -44,7 +55,6 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 return manAvatar;
             }
         } else if (node.id === 'myMother') {
-            console.log("-- "+ node.verstorben);
             if (node.verstorben === true) {
                 return grandmotherAvatarBW;
             } else {
@@ -125,6 +135,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     isRoot && styles.isRoot,
                 )}>
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
+                <img className={styles.warningSign} src={showAlert(node)}/>
             </div>
             <div className={styles.FamilyMemberName}>{getName(node)}</div>
             <div hidden={hideDelete(node.id)}>

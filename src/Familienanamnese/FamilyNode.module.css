@@ -36,3 +36,10 @@
     margin: 0 auto;
     background-color: white;
 }
+
+.warningSign {
+    position: absolute;
+    left: 20px;
+    top: 26px;
+    z-index: 1000;
+}
