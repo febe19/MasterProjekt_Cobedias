@@ -175,39 +175,46 @@ class Home extends Component {
                     <br/>
                     <div id="root">
                         <p>Bitte wählen Sie ihr Geschlecht aus:</p>
-                        <img
-                            height="91px"
-                            width="91px"
-                            value={this.state.showBorder1}
-                            onChange={this.handleChange("showBorder1")}
-                            src={require("./images/028-man.svg")}
-                            onClick={this.applyBorder}
-                            style={
-                                this.state.showBorder1
-                                    ? Borderstyles.border
-                                    : Borderstyles.noBorder
-                            }
-                        />
-
-                        <img
-                            height="91px"
-                            width="91px"
-                            value={this.state.showBorder2}
-                            onChange={this.handleChange("showBorder2")}
-                            src={require("./images/003-woman.svg")}
-                            onClick={this.applyBorder2}
-                            style={
-                                this.state.showBorder2
-                                    ? Borderstyles.border
-                                    : Borderstyles.noBorder
-                            }
-                        />
+                        <div className="genderSelectionDiv" >
+                            <img
+                                height="91px"
+                                width="91px"
+                                value={this.state.showBorder1}
+                                onChange={this.handleChange("showBorder1")}
+                                src={require("./images/028-man.svg")}
+                                onClick={this.applyBorder}
+                                style={
+                                    this.state.showBorder1
+                                        ? Borderstyles.border
+                                        : Borderstyles.noBorder
+                                }
+                            />
+                            <p className="genderSelection">Mann</p>
+                        </div>
+                        <div className="genderSelectionDiv" >
+                            <img
+                                height="91px"
+                                width="91px"
+                                value={this.state.showBorder2}
+                                onChange={this.handleChange("showBorder2")}
+                                src={require("./images/003-woman.svg")}
+                                onClick={this.applyBorder2}
+                                style={
+                                    this.state.showBorder2
+                                        ? Borderstyles.border
+                                        : Borderstyles.noBorder
+                                }
+                            />
+                            <p className="genderSelection">Frau</p>
+                        </div>
                     </div>
 
-                    <p>
-                        Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
-                        "Familienanamnese" drücken.
-                    </p>
+                    <div style={{clear: "both"}}>
+                        <p>
+                            Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
+                            "Familienanamnese" drücken.
+                        </p>
+                    </div>
 
                     <div className="StartButtonDiv">
                         <NavLink
