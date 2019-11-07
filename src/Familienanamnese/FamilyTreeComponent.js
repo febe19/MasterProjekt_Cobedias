@@ -912,7 +912,7 @@ class FamilyTree extends Component {
                             onBlur={this.handleChangeBlur("todesursache")}
                             fullWidth
                             multiline
-                            rows="8"
+                            rows="5"
                             placeholder="Geben Sie hier die Todesursache ein"
                         />
                     </div>
