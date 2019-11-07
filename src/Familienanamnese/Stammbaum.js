@@ -96,152 +96,150 @@ export class Stammbaum extends Component {
 
   render() {
     return (
-      <div>
-        <div style={{ width: "100%" }}>
-          <div className="Titel">
-            <h1 style={{ display: "inline-block" }}>
-              Cobedias 2.0 - Familienanamnese
-            </h1>
+      <div style={{ width: "100%" }}>
+        <div className="Titel">
+          <h1 style={{ display: "inline-block" }}>
+            Cobedias 2.0 - Familienanamnese
+          </h1>
 
-            <NavLink exact to="/" style={{ "text-decoration": "none" }}>
-              <Button
-                variant="outlined"
-                style={{
-                  float: "right",
-                  marginRight: "5%",
-                  color: "white",
-                  borderColor: "white"
-                }}
-              >
-                Startseite
-              </Button>
-            </NavLink>
-
-            <NavLink
-              exact
-              to="/Sozialanamnese"
-              style={{ "text-decoration": "none" }}
+          <NavLink exact to="/" style={{ "text-decoration": "none" }}>
+            <Button
+              variant="outlined"
+              style={{
+                float: "right",
+                marginRight: "5%",
+                color: "white",
+                borderColor: "white"
+              }}
             >
-              <Button
-                variant="outlined"
-                style={{
-                  float: "right",
-                  marginRight: "1%",
-                  color: "white",
-                  borderColor: "white"
-                }}
+              Startseite
+            </Button>
+          </NavLink>
+
+          <NavLink
+            exact
+            to="/Sozialanamnese"
+            style={{ "text-decoration": "none" }}
+          >
+            <Button
+              variant="outlined"
+              style={{
+                float: "right",
+                marginRight: "1%",
+                color: "white",
+                borderColor: "white"
+              }}
+            >
+              Sozialanamnese
+            </Button>
+          </NavLink>
+        </div>
+
+        <div>
+          <MuiThemeProvider>
+            <React.Fragment>
+              <div
+                className="App"
+                style={{ backgroundColor: this.state.color }}
               >
-                Sozialanamnese
-              </Button>
-            </NavLink>
-          </div>
-
-          <div>
-            <MuiThemeProvider>
-              <React.Fragment>
-                <div
-                  className="App"
-                  style={{ backgroundColor: this.state.color }}
-                >
-                  <Box display="flex" justifyContent="flex-start" m={1} p={1}>
-                    <Box p={1}>
-                      <div className="Stammbaum">
-                        <FamilyTree />
-                      </div>
-                    </Box>
-                  </Box>
-
-                  <Box
-                    display="flex"
-                    justifyContent="flex-start"
-                    alignItems="flex-start"
-                    m={1}
-                    p={1}
-                  >
-                    <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
-                      style={{ fontSize: 30, cursor: "pointer" }}
-                      onClick={this.openNav}
-                    >
-                      <img
-                        src={require("../components/images/help.PNG")}
-                        width="70px"
-                        height="70px"
-                        m={2}
-                        p={2}
-                        onClick={this._onButtonClick}
-                      />
-                    </span>
-                    <div
-                      ref="snav"
-                      className="overlay"
-                      style={this.state.style}
-                    >
-                      <div className="sidenav-container">
-                        <div className="text-center"></div>
-                        <a
-                          href="javascript:void(0)"
-                          className="closebtn"
-                          onClick={this.closeNav}
-                        >
-                          ×
-                        </a>
-                        <div className="list-group">
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            justifyItems="center"
-                            m={2}
-                            p={2}
-                          >
-                            {
-                              <p style={{ color: "white" }}>
-                                <br />
-                                In diesem Familienstammbaum können sämtliche
-                                Familienmitglieder erfasst werden. Weibliche
-                                Familienmitglieder werden rosa angezeigt,
-                                männliche hellblau.
-                                <br /> Die Verwandschaftsverhältnisse sind über
-                                Linien dargestellt. Ziel ist es soviele
-                                Personen, wie möglich zu erwähnen, um ein
-                                möglichst komplettes Bild zu bekommen.
-                                <br />
-                                Darüber hinaus können bestehende Personen
-                                bearbeitet oder gelöscht werden.
-                              </p>
-                            }
-                            {this.props.children}
-                          </Box>
-                        </div>
-                      </div>
+                <Box display="flex" justifyContent="flex-start" m={1} p={1}>
+                  <Box p={1}>
+                    <div className="Stammbaum">
+                      <FamilyTree />
                     </div>
                   </Box>
-                  <Box
-                    display="flex"
-                    alignItems="flex-end"
-                    alignContent="flex-end"
-                    j
-                    justifyContent="center"
-                    m={2}
-                    p={2}
+                </Box>
+
+                <Box
+                  display="flex"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  m={1}
+                  p={1}
+                >
+                  <span //Im span wird das Overlay eingeführt mit schliessenden und öffnenden navs
+                    style={{ fontSize: 30, cursor: "pointer" }}
+                    onClick={this.openNav}
                   >
-                    <Popup
-                      trigger={
-                        <button className="button"> Abschliessen</button>
-                      }
-                      position="top center"
-                      closeOnDocumentClick
-                    >
-                      <div>
-                        Wollen sie den Familienstammbaum nun exportieren und zum
-                        Hauptmenü zurückkehren?
-                        <Button className={classes.button}>Ja</Button>
+                    <img
+                      src={require("../components/images/help.PNG")}
+                      width="70px"
+                      height="70px"
+                      m={2}
+                      p={2}
+                      onClick={this._onButtonClick}
+                    />
+                  </span>
+                  <div ref="snav" className="overlay" style={this.state.style}>
+                    <div className="sidenav-container">
+                      <div className="text-center"></div>
+                      <a
+                        href="javascript:void(0)"
+                        className="closebtn"
+                        onClick={this.closeNav}
+                      >
+                        ×
+                      </a>
+                      <div className="list-group">
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyItems="center"
+                          m={2}
+                          p={2}
+                        >
+                          {
+                            <p style={{ color: "white" }}>
+                              <br />
+                              In diesem Familienstammbaum können sämtliche
+                              Familienmitglieder erfasst werden. Weibliche
+                              Familienmitglieder werden rosa angezeigt,
+                              männliche hellblau.
+                              <br /> Die Verwandschaftsverhältnisse sind über
+                              Linien dargestellt. Ziel ist es soviele Personen,
+                              wie möglich zu erwähnen, um ein möglichst
+                              komplettes Bild zu bekommen.
+                              <br />
+                              Darüber hinaus können bestehende Personen
+                              bearbeitet oder gelöscht werden.
+                            </p>
+                          }
+                          {this.props.children}
+                        </Box>
                       </div>
-                    </Popup>
-                  </Box>
-                </div>
-              </React.Fragment>
-            </MuiThemeProvider>
-          </div>
+                    </div>
+                  </div>
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="flex-end"
+                  alignContent="flex-end"
+                  j
+                  justifyContent="center"
+                  m={2}
+                  p={2}
+                >
+                  <Popup
+                    trigger={<button className="button"> Abschliessen</button>}
+                    position="top center"
+                    closeOnDocumentClick
+                  >
+                    <div>
+                      Wollen sie den Familienstammbaum nun exportieren und zum
+                      Hauptmenü zurückkehren?
+                      <NavLink
+                        exact
+                        to="/"
+                        style={{ "text-decoration": "none" }}
+                      >
+                        <Button className={classes.button}>Ja</Button>
+                      </NavLink>
+                    </div>
+                  </Popup>
+                </Box>
+              </div>
+            </React.Fragment>
+          </MuiThemeProvider>
         </div>
       </div>
     );
