@@ -1,3 +1,5 @@
+import localStorage from 'local-storage'
+
 let myFamilyData =
     [
         {
@@ -230,6 +232,8 @@ const familyHelpers = {
         } else {
             console.log("No Family member found with id: " + id);
         }
+
+        localStorage.set('FamilyData', myFamilyData);
     },
 
     //This allows adding an all new family Member with check if they already exist
@@ -334,14 +338,14 @@ const familyHelpers = {
 
             //If it goes until here, the new member is added.
             console.log("__Added new member " + id + " to FamilyData: \n" + JSON.stringify(myFamilyData) + "\n \n" + "New family member" + "\n \n" + JSON.stringify(this.getLastFamilyMember()));
+            localStorage.set('FamilyData', myFamilyData);
             return true;
         } else {
             //New member already exists --> Should not happen, because ID is generated on the fly.
             console.log("__Family member " + id + " does already exist");
             return false;
         }
-    }
-    ,
+    },
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
     deleteFamilyMember: function (id) {
@@ -387,8 +391,8 @@ const familyHelpers = {
         }
 
         console.log("Deleted member " + id + " from FamilyData: \n" + JSON.stringify(myFamilyData));
+        localStorage.set('FamilyData', myFamilyData);
     }
-
 };
 
 export default familyHelpers;
