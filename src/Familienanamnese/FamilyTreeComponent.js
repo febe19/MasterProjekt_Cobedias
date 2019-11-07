@@ -164,6 +164,7 @@ class FamilyTree extends Component {
         if (localStorage.get('me_gender')) {
             familyHelpers.setGenderOfMe(me_gender);
         }
+        this.setState({FamilyDataState: familyHelpers.getFamilyData()});
     }
 
 // zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
@@ -1188,8 +1189,9 @@ class FamilyTree extends Component {
                                 onClick={() => this.popUpFamilyMember('addBrother')} style={{margin: '3px'}}>Bruder
                             Hinzufügen</Button>
                         <Button id="addSpouse" variant="outlined" color="primary"
-                                onClick={() => this.popUpFamilyMember('addSpouse')} style={{margin: '3px'}}>Partner
-                            Hinzufügen</Button>
+                                onClick={() => this.popUpFamilyMember('addSpouse')} style={{margin: '3px'}}>
+                                {(localStorage.get('me_gender') !== null &&  localStorage.get('me_gender') === 'male') ? 'Partnerin hinzufügen' : 'Partner hinzufügen'}
+                        </Button>
                         <Button id="addDaughter" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addDaughter')} style={{margin: '3px'}}>Tochter
                             Hinzufügen</Button>

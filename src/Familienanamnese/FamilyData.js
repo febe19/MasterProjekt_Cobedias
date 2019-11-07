@@ -77,6 +77,7 @@ const familyHelpers = {
                 myFamilyData[i]['gender'] = gender;
             }
         }
+        localStorage.set('FamilyData', myFamilyData);
     },
 
     //Returns the FamilyData aka. "all family objects" --> Is used to draw the tree.
