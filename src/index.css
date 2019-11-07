@@ -230,3 +230,7 @@ ul.header li a {
   left: 50%;
   transform: translate(-50%, 0%);
 }
+
+button:focus {
+  outline: none !important;
+}
