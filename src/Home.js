@@ -37,6 +37,10 @@ class Home extends Component {
             showBorder1: false,
             showBorder2: false
         };
+
+        if ( localStorage.get('FamilyData') === null) {
+            localStorage.set('FamilyData', []);
+        }
     }
 
     // 2 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen

@@ -81,6 +81,9 @@ const familyHelpers = {
 
     //Returns the FamilyData aka. "all family objects" --> Is used to draw the tree.
     getFamilyData: function () {
+        if (localStorage.get('FamilyData').length > 0) {
+            myFamilyData = localStorage.get('FamilyData');
+        }
         return myFamilyData;
     },
 
