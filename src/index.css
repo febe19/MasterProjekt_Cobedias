@@ -242,3 +242,40 @@ ul.header li a {
     margin-top: -5px;
 }
 
+.Tutorial {
+    font-family: Roboto;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+.HilfeButton {
+    width: 100px;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10000;
+}
+
+.TutorialButtons {
+    float: left;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    z-index: 10000;
+}
+
+.TutorialText {
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+
