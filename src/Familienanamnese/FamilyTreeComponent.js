@@ -323,6 +323,7 @@ class FamilyTree extends Component {
             }
 
             familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, newParents, currentData.parents, currentData.siblings, currentData.spouses, this.state.childrenOfSpouse, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            this.setState({FamilyDataState: familyHelpers.getFamilyData()});
         }
 
         this.setState({
@@ -469,9 +470,7 @@ class FamilyTree extends Component {
             familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.DeletedFamilyMembers), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
-        this.setState(
-            {FamilyDataState: familyHelpers.getFamilyData()}
-        )
+        this.setState({FamilyDataState: familyHelpers.getFamilyData()});
     };
 
     //OnClick Function to add a Spouse
@@ -498,9 +497,7 @@ class FamilyTree extends Component {
             }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
-        this.setState(
-            {FamilyDataState: familyHelpers.getFamilyData()}
-        )
+        this.setState({FamilyDataState: familyHelpers.getFamilyData()});
     };
 
     //OnClick Function to add Children
@@ -540,9 +537,7 @@ class FamilyTree extends Component {
             familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.DeletedFamilyMembers), "male", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
         }
 
-        this.setState(
-            {FamilyDataState: familyHelpers.getFamilyData()}
-        )
+        this.setState({FamilyDataState: familyHelpers.getFamilyData()});
     };
 
 
@@ -646,9 +641,7 @@ class FamilyTree extends Component {
             todesjahr: familyHelpers.getFamilyMemberByID(e).todesjahr,
             todesursache: familyHelpers.getFamilyMemberByID(e).todesursache,
             gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand,
-
             verwandschaftKomplett: true
-
         });
 
         //check if child (which you want to edit) has 2 parents. If yes: set "additionalParentOfChild" = id of the second parent of the child (which has t be the spouse)
