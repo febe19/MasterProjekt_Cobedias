@@ -28,6 +28,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Slide from '@material-ui/core/Slide';
 import localStorage from "local-storage";
 
+import Box from '@material-ui/core/Box';
+import {
+    NavLink
+  } from "react-router-dom";
+  import Popup from "reactjs-popup";
+
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -950,7 +956,7 @@ class FamilyTree extends Component {
                         <br/>
                         <br/>
                         <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie den Gesundheitszustand an:</p>
+                            <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe von Krankheiten sein. </p>
                         </div>
                         <TextField
                             label="Gesundheitszustand"
@@ -1261,6 +1267,35 @@ class FamilyTree extends Component {
                     title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
                                                         title="Flaticon">www.flaticon.com</a></div>
 
+                                                        
+ <Box
+                  display="flex"
+                  alignItems="flex-end"
+                  alignContent="flex-end"
+                  j
+                  justifyContent="flex-end"
+                  m={2}
+                  p={2}
+                >
+                  <Popup
+                    trigger={<button className="button"> Abschliessen</button>}
+                    position="top center"
+                    closeOnDocumentClick
+                  >
+                    <div>
+                      Wollen sie den Familienstammbaum nun exportieren und zum
+                      Hauptmenü zurückkehren?
+                      <NavLink
+                        exact
+                        to="/"
+                        style={{ "text-decoration": "none" }}
+                      >
+                        <Button className={classes.button}>Ja</Button>
+                      </NavLink>
+                    </div>
+                  </Popup>
+                </Box>
+
                 <div className="HilfeButton">
                     <Button id="Hilfe" variant="outlined" onClick={this.showTutorial}
                             color={this.state.hideTutorial === true ? "Primary": ""}
@@ -1270,13 +1305,19 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
-                        <p>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</p>
+                        <p>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.<br /> Die Verwandschaftsverhältnisse sind über
+                              Linien dargestellt. Ziel ist es soviele Personen,
+                              wie möglich zu erwähnen, um ein möglichst
+                              komplettes Bild zu bekommen.
+                              <br />
+                              Darüber hinaus können bestehende Personen
+                              bearbeitet oder gelöscht werden. Beachten Sie, dass obwohl die Eltern bereits abgebildet sind, die Eltern auszufüllen.</p>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Buttons</h1>
-                        <p>Mit diesen Buttons können Sie weitere Familienmitgleider hinzufügen.</p>
+                        <p>Mit diesen Buttons können Sie weitere Familienmitgleider hinzufügen. Mit Abschliessen beenden Sie die Eingabe.</p> 
                     </div>
 
                     <div className="TutorialButtons">
