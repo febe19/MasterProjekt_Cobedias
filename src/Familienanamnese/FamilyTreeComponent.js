@@ -731,13 +731,63 @@ class FamilyTree extends Component {
         }
     }
 
+    //Im Popup sollte der richtige Namen stehen
+    getPopUpLabel() {
+        let name = '';
+        let degree = '';
+
+        console.log("this.state.currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
+
+        if (this.state.currentSelectedFamilyMember !== '') {
+            if (this.state.currentSelectedFamilyMember.substring(0, 3) !== 'add') {
+                let fm = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
+
+                if (fm.spitzname !== '') {
+                    name = fm.spitzname;
+                } else if (fm.vorname !== '') {
+                    name = fm.vorname;
+                }
+
+                if (this.state.currentSelectedFamilyMember === 'myMother') {
+                    degree = 'Ihre Mutter';
+                    name = "";
+                } else if (this.state.currentSelectedFamilyMember === 'myFather') {
+                    degree = 'Ihr Vater';
+                    name = '';
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 5) === 'child') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Tochter";
+                    } else {
+                        degree = "Ihrem Sohn";
+                    }
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 6) === 'spouse') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Partnerin";
+                    } else {
+                        degree = "Ihrem Partner";
+                    }
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 7) === 'sibling') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Schwester";
+                    } else {
+                        degree = "Ihrem Bruder";
+                    }
+                }
+            } else {
+                degree = "Ihrem neuen Familienmitglied";
+            }
+        }
+
+        return degree + " " + name;
+    }
+
     //Show Popup,if state == true
     showPopup() {
         return (
             <div>
                 <Dialog open={this.state.popupOpen}>
                     <div className="dialogContentDiv">
-                        <DialogTitle>Bitte füllen Sie aus:</DialogTitle>
+                        <DialogTitle>Details zu {this.getPopUpLabel()}</DialogTitle>
                         <DialogContent style={{padding: '0'}}>
                             <div>{this.showStepperInPopup()}</div>
                         </DialogContent>
@@ -889,7 +939,8 @@ class FamilyTree extends Component {
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
-                            Wählen Sie "Ja", um die Familienanamnese abzuschliessen und zum Startbildschirm zurückzukehren.
+                            Wählen Sie "Ja", um die Familienanamnese abzuschliessen und zum Startbildschirm
+                            zurückzukehren.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -897,7 +948,7 @@ class FamilyTree extends Component {
                             Nein
                         </Button>
 
-                        <NavLink exact to="/" style={{"text-decoration":"none"}}>
+                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
                             <Button onClick={this.deleteFamilyMember} color="primary">Ja</Button>
                         </NavLink>
                     </DialogActions>
@@ -1322,7 +1373,8 @@ class FamilyTree extends Component {
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)"} : {zIndex: "-1"}}>
-                    <Button id="Abbschliessen" variant="outlined" color="Primary" onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
+                    <Button id="Abbschliessen" variant="outlined" color="Primary"
+                            onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
                 </div>
 
                 <div hidden={this.state.hideTutorial === false}
