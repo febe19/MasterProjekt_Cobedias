@@ -134,6 +134,7 @@ class FamilyTree extends Component {
         this.showTutorial = this.showTutorial.bind(this);
         this.nextTutorialStep = this.nextTutorialStep.bind(this);
         this.previousTutorialStep = this.previousTutorialStep.bind(this);
+        this.handlePopupAbschliessenClose = this.handlePopupAbschliessenClose.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -162,7 +163,8 @@ class FamilyTree extends Component {
             hideTutorial: true,
             tutorialStep: 0,
             childrenOfSpouse: [],
-            additionalParentOfChild: ''
+            additionalParentOfChild: '',
+            abschliessenPopupOpen: false,
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
@@ -367,6 +369,12 @@ class FamilyTree extends Component {
         })
     };
 
+    handleAbschliesseAlert = e => {
+        this.setState({
+            abschliessenPopupOpen: true,
+        })
+    };
+
     // closes "addFamilyMember-Popup" when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
     // the unsaved data is deleted
     handlePopupCancel = e => {
@@ -407,6 +415,12 @@ class FamilyTree extends Component {
             familyMemberToBeDeleted: '',
             verwandschaftKomplett: false,
             additionalParentOfChild: ''
+        });
+    };
+
+    handlePopupAbschliessenClose = e => {
+        this.setState({
+            abschliessenPopupOpen: false
         });
     };
 
@@ -861,6 +875,36 @@ class FamilyTree extends Component {
             </div>)
     }
 
+    showPopupAbschliessen() {
+        return (
+            <div>
+                <Dialog
+                    open={this.state.abschliessenPopupOpen}
+                    TransitionComponent={TransitionAlertPopup}
+                    keepMounted
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
+                                 id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Wählen Sie "Ja", um die Familienanamnese abzuschliessen und zum Startbildschirm zurückzukehren.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handlePopupAbschliessenClose} color="primary">
+                            Nein
+                        </Button>
+
+                        <NavLink exact to="/" style={{"text-decoration":"none"}}>
+                            <Button onClick={this.deleteFamilyMember} color="primary">Ja</Button>
+                        </NavLink>
+                    </DialogActions>
+                </Dialog>
+            </div>)
+    }
+
 
     // markiert den "Ja" button blau sobald er angewählt wird
     colorYesButton() {
@@ -1243,6 +1287,7 @@ class FamilyTree extends Component {
                     <div>{this.showPopup()}</div>
                     <div>{this.showPopupCancelAlert()}</div>
                     <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
+                    <div>{this.showPopupAbschliessen()}</div>
                 </div>
 
                 <div className="FamilyTreeDiv"
@@ -1277,7 +1322,7 @@ class FamilyTree extends Component {
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)"} : {zIndex: "-1"}}>
-                    <Button id="Abbschliessen" variant="outlined" color="Primary"> Abschliessen</Button>
+                    <Button id="Abbschliessen" variant="outlined" color="Primary" onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
                 </div>
 
                 <div hidden={this.state.hideTutorial === false}
