@@ -29,13 +29,15 @@ class Home extends Component {
     this.checkDisabledButtons = this.checkDisabledButtons.bind(this);
     this.applyBorder = this.applyBorder.bind(this);
     this.applyBorder2 = this.applyBorder2.bind(this);
+    this.applyBorder3 = this.applyBorder3.bind(this);
 
     this.state = {
       Vorname: "",
       Nachname: "",
       disableButtons: true,
       showBorder1: false,
-      showBorder2: false
+      showBorder2: false,
+      showBorder3: false
     };
 
     if (localStorage.get("FamilyData") === null) {
@@ -46,11 +48,13 @@ class Home extends Component {
   // 2 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen
   applyBorder() {
     this.setState(
-      state => ({ showBorder1: true, showBorder2: false }),
+      state => ({ showBorder1: true, showBorder2: false, showBorder3: false }),
       () => {
         localStorage.set("me_gender", "male");
         localStorage.set("showBorder1", this.state.showBorder1);
         localStorage.set("showBorder2", this.state.showBorder2);
+        localStorage.set("showBorder3", this.state.showBorder3);
+
         this.checkDisabledButtons();
       }
     );
@@ -58,11 +62,26 @@ class Home extends Component {
 
   applyBorder2() {
     this.setState(
-      state => ({ showBorder2: true, showBorder1: false }),
+      state => ({ showBorder2: true, showBorder1: false, showBorder3: false }),
       () => {
         localStorage.set("me_gender", "female");
         localStorage.set("showBorder1", this.state.showBorder1);
         localStorage.set("showBorder2", this.state.showBorder2);
+        localStorage.set("showBorder3", this.state.showBorder3);
+
+        this.checkDisabledButtons();
+      }
+    );
+  }
+  applyBorder3() {
+    this.setState(
+      state => ({ showBorder3: true, showBorder2: false, showBorder1: false }),
+      () => {
+        localStorage.set("me_gender", "female");
+        localStorage.set("showBorder1", this.state.showBorder1);
+        localStorage.set("showBorder2", this.state.showBorder2);
+        localStorage.set("showBorder3", this.state.showBorder3);
+
         this.checkDisabledButtons();
       }
     );
@@ -84,17 +103,27 @@ class Home extends Component {
       if (localStorage.get("me_gender") === "male") {
         this.setState({
           showBorder1: true,
-          showBorder2: false
+          showBorder2: false,
+          showBorder3: false
         });
       }
       if (localStorage.get("me_gender") === "female") {
         this.setState({
           showBorder1: false,
-          showBorder2: true
+          showBorder2: true,
+          showBorder3: false
         });
       }
+
+      if (localStorage.get("me_gender") === "Andere") {
+        this.setState({
+          showBorder1: false,
+          showBorder2: false,
+          showBorder3: true
+        });
+      }
+      this.checkDisabledButtons();
     }
-    this.checkDisabledButtons();
   }
 
   //Log when the User comes to HOME
@@ -119,6 +148,8 @@ class Home extends Component {
       localStorage.set("Nachname", this.state.Nachname);
       localStorage.set("showBorder1", this.state.showBorder1);
       localStorage.set("showBorder2", this.state.showBorder2);
+      localStorage.set("showBorder3", this.state.showBorder3);
+
       this.checkDisabledButtons();
     });
   };
@@ -129,8 +160,12 @@ class Home extends Component {
       this.state.Vorname === null ||
       this.state.Nachname === "" ||
       this.state.Nachname === null ||
-      (this.state.showBorder1 === false && this.state.showBorder2 === false) ||
-      (this.state.showBorder1 === true && this.state.showBorder2 === true)
+      (this.state.showBorder1 === false &&
+        this.state.showBorder2 === false &&
+        this.state.showBorder3 === false) ||
+      (this.state.showBorder1 === true &&
+        this.state.showBorder2 === true &&
+        this.state.showBorder3 === true)
     ) {
       this.setState({
         disableButtons: true
@@ -217,60 +252,74 @@ class Home extends Component {
               <p className="genderSelection">Frau</p>
             </div>
           </div>
-
-          <div style={{ clear: "both" }}>
-            <p>
-              Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
-              "Familienanamnese" drücken.
-            </p>
-          </div>
-
-          <div className="StartButtonDiv">
-            <NavLink
-              exact
-              to={this.state.disableButtons === false ? "/Sozialanamnese" : "#"}
-              style={{
-                "text-decoration": "none",
-                margin: "3px",
-                background: "transparent"
-              }}
-            >
-              <Button
-                color="Primary"
-                disabled={this.state.disableButtons}
-                variant="contained"
-              >
-                Sozialanamnese
-              </Button>
-            </NavLink>
-            <NavLink
-              exact
-              to={
-                this.state.disableButtons === false ? "/Familienanamnese" : "#"
+          <div className="genderSelectionDiv">
+            <img
+              height="91px"
+              width="91px"
+              value={this.state.showBorder3}
+              onChange={this.handleChange("showBorder3")}
+              src={require("./images/trans_icon.jpg")}
+              onClick={this.applyBorder3}
+              style={
+                this.state.showBorder3
+                  ? Borderstyles.border
+                  : Borderstyles.noBorder
               }
-              style={{
-                "text-decoration": "none",
-                margin: "3px",
-                background: "transparent"
-              }}
-            >
-              <Button
-                color="Primary"
-                disabled={this.state.disableButtons}
-                variant="contained"
-              >
-                Familienanamnese
-              </Button>
-            </NavLink>
+            />
+            <p className="genderSelection">Andere</p>
           </div>
-
-          <Button
-            style={{ position: "absolute", bottom: "10px" }}
-            onClick={this.deleteLocalStorage}
-          >
-            Clear Local Storage
-          </Button>
         </div>
+
+        <div style={{ clear: "both" }}>
+          <p>
+            Um zu beginnen, können Sie entweder auf "Sozialanamnese" oder auf
+            "Familienanamnese" drücken.
+          </p>
+        </div>
+
+        <div className="StartButtonDiv">
+          <NavLink
+            exact
+            to={this.state.disableButtons === false ? "/Sozialanamnese" : "#"}
+            style={{
+              "text-decoration": "none",
+              margin: "3px",
+              background: "transparent"
+            }}
+          >
+            <Button
+              color="Primary"
+              disabled={this.state.disableButtons}
+              variant="contained"
+            >
+              Sozialanamnese
+            </Button>
+          </NavLink>
+          <NavLink
+            exact
+            to={this.state.disableButtons === false ? "/Familienanamnese" : "#"}
+            style={{
+              "text-decoration": "none",
+              margin: "3px",
+              background: "transparent"
+            }}
+          >
+            <Button
+              color="Primary"
+              disabled={this.state.disableButtons}
+              variant="contained"
+            >
+              Familienanamnese
+            </Button>
+          </NavLink>
+        </div>
+
+        <Button
+          style={{ position: "absolute", bottom: "10px" }}
+          onClick={this.deleteLocalStorage}
+        >
+          Clear Local Storage
+        </Button>
       </div>
     );
   }
