@@ -39,7 +39,8 @@ let myFamilyData =
             "verstorben": '',
             "todesjahr": '',
             "todesursache": '',
-            "gesundheitszustand": ''
+            "gesundheitszustand": '',
+            "blutsverwandt": true
         },
         {
             "id": "myFather",
@@ -63,7 +64,8 @@ let myFamilyData =
             "verstorben": '',
             "todesjahr": '',
             "todesursache": '',
-            "gesundheitszustand": ''
+            "gesundheitszustand": '',
+            "blutsverwandt": true
         }
     ];
 
@@ -152,8 +154,9 @@ const familyHelpers = {
 
 
     //Edit of an existing family member
-    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
+    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt) {
 
+        console.log("-----> Blutsverwandt: "+ blutsverwandt);
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -229,6 +232,7 @@ const familyHelpers = {
                     "todesjahr": todesjahr,
                     "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
+                    "blutsverwandt": blutsverwandt
                 }
             );
             localStorage.set('FamilyData', myFamilyData);
@@ -242,7 +246,7 @@ const familyHelpers = {
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt) {
 
         if (!this.checkExistingFamilyMember(id)) {
             //add Child to Parents
@@ -338,6 +342,7 @@ const familyHelpers = {
                     "todesjahr": todesjahr,
                     "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
+                    "blutsverwandt": blutsverwandt,
                 }
             );
 

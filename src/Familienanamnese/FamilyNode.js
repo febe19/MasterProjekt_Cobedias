@@ -50,6 +50,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
     function getAvatar(node) {
         if (node.id === 'me') {
             if (node.gender === 'female') {
+
                 return womanAvatar;
             } else {
                 return manAvatar;
@@ -127,6 +128,16 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
+    function getStyle(node) {
+        console.log("Is node "+ node.id+" blutsverwandt "+ node.blutsverwandt);
+        if (node.blutsverwandt === false) {
+            return {maxWidth: '91px', opacity: '0.2'};
+        } else {
+            return {maxWidth: '91px', opacity: '1'};
+        }
+
+    }
+
     return (
         <div className={styles.root} style={style}>
             <div
@@ -134,7 +145,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     styles.oneFamilyMemberDiv,
                     isRoot && styles.isRoot,
                 )}>
-                <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
+                <img style={getStyle(node)} src={getAvatar(node)}/>
                 <img className={styles.warningSign} src={showAlert(node)}/>
             </div>
             <div className={styles.FamilyMemberName}>{getName(node)}</div>
@@ -159,22 +170,22 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             </div>
             <div hidden={hideEdit(node.id)}>
                 <Fab color="primary" aria-label="edit"
-                           onClick={() => editFunction(node.id)}
-                           style={{
-                               margin: '0 auto',
-                               height: '20px',
-                               width: '20px',
-                               borderRadius: '100px',
-                               position: 'absolute',
-                               bottom: '15%',
-                               right: '1%',
-                           }}>
-                <EditIcon style={{
-                    margin: '0 auto',
-                    height: '15px',
-                    width: '15px',
-                }}/>
-            </Fab>
+                     onClick={() => editFunction(node.id)}
+                     style={{
+                         margin: '0 auto',
+                         height: '20px',
+                         width: '20px',
+                         borderRadius: '100px',
+                         position: 'absolute',
+                         bottom: '15%',
+                         right: '1%',
+                     }}>
+                    <EditIcon style={{
+                        margin: '0 auto',
+                        height: '15px',
+                        width: '15px',
+                    }}/>
+                </Fab>
             </div>
         </div>
     );
