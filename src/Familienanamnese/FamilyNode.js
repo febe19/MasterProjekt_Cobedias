@@ -159,23 +159,22 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             </div>
             <div hidden={hideEdit(node.id)}>
                 <Fab color="primary" aria-label="edit"
-                     onClick={() => editFunction(node.id)}
-                     style={{
-                         margin: '0 auto',
-                         height: '20px',
-                         width: '20px',
-                         borderRadius: '100px',
-                         position: 'absolute',
-                         bottom: '15%',
-                         right: '1%'
-
-                     }}>
-                    <EditIcon style={{
-                        margin: '0 auto',
-                        height: '15px',
-                        width: '15px',
-                    }}/>
-                </Fab>
+                           onClick={() => editFunction(node.id)}
+                           style={{
+                               margin: '0 auto',
+                               height: '20px',
+                               width: '20px',
+                               borderRadius: '100px',
+                               position: 'absolute',
+                               bottom: '15%',
+                               right: '1%',
+                           }}>
+                <EditIcon style={{
+                    margin: '0 auto',
+                    height: '15px',
+                    width: '15px',
+                }}/>
+            </Fab>
             </div>
         </div>
     );
