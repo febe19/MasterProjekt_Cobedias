@@ -28,7 +28,7 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-function OtherFamilyMemberNode({deleteFunction, editFunction, style}) {
+function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
@@ -53,6 +53,8 @@ function OtherFamilyMemberNode({deleteFunction, editFunction, style}) {
         } else if (node.verstorben === true && (node.todesjahr === 0 || node.todesursache === '' || node.todesursache === null)) {
             return WarningSign;
         } else if (node.verstorben === false && (node.gesundheitszustand === null || node.gesundheitszustand === '')) {
+            return WarningSign;
+        } else if (node.verwandtschaftsgrad === null || node.verwandtschaftsgrad !== '') {
             return WarningSign;
         }
     }
@@ -121,31 +123,19 @@ function OtherFamilyMemberNode({deleteFunction, editFunction, style}) {
         }
     }
 
-    function hideDelete(nodeID) {
-        return nodeID === 'me' || nodeID === 'myFather' || nodeID === 'myMother';
-    }
-
-    function hideEdit(nodeID) {
-        return nodeID === 'me';
-    }
-
-    function getBlutsverwandtIcon(node) {
-        return BloodDrop;
-    }
-
     return (
         <div className={styles.rootOtherFamilyMember} style={style}>
             <div
                 className={styles.oneOtherFamilyMemberDiv}>
-                <img className={styles.bloodDropOtherFamilyMember} hidden={/*node.blutsverwandt === false*/ false}
+                <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
                      src={BloodDrop}/>
                 <img style={{maxWidth: '91px'}} src={womanSisterAvatar}/>
-                <img className={styles.warningSignOtherFamilyMember} src={/*showAlert(node)*/ WarningSign}/>
+                <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
             </div>
-            <div className={styles.OtherFamilyMemberName}>Fabio</div>
+            <div className={styles.OtherFamilyMemberName}>{getName(node)}</div>
             <div hidden={false}>
                 <Fab color="primary" aria-label="edit"
-                     onClick={() => deleteFunction(/*node.id*/)}
+                     onClick={() => deleteFunction(node.id)}
                      style={{
                          margin: '0 auto',
                          height: '20px',
@@ -164,7 +154,7 @@ function OtherFamilyMemberNode({deleteFunction, editFunction, style}) {
             </div>
             <div hidden={false}>
                 <Fab color="primary" aria-label="edit"
-                     onClick={() => editFunction(/*node.id*/)}
+                     onClick={() => editFunction(node.id)}
                      style={{
                          margin: '0 auto',
                          height: '20px',

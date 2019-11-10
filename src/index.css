@@ -298,7 +298,7 @@ ul.header li a {
     padding-top: 20px;
 }
 
-.otherFamilyDiv {
+.OtherFamilyDiv {
     margin: 5px 5px auto;
     padding: 5px;
     float: left;
@@ -306,6 +306,23 @@ ul.header li a {
     right: 15px;
     border: 2px solid #ddd;
     border-radius: 5px;
+    overflow-y: auto;
+    max-height: 470px;
+}
+
+.OtherFamilyDiv::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.OtherFamilyDiv::-webkit-scrollbar:vertical {
+    width: 17px;
+}
+
+
+.OtherFamilyDiv::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
 }
 
 
