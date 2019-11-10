@@ -43,3 +43,12 @@
     top: 26px;
     z-index: 1000;
 }
+
+.bloodDrop {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 24px;
+    top: 70px;
+    z-index: 1000;
+}

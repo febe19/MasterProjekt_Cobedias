@@ -10,13 +10,19 @@ import boyAvatar from '../images/049-boy.svg'
 import boyAvatarBW from '../images/049-boy-BW.svg'
 import womanAvatar from '../images/003-woman.svg'
 import womanAvatarBW from '../images/003-woman-BW.svg'
+import womanSisterAvatar from '../images/003-woman-sister.svg'
+import womanSpouseAvatar from '../images/003-woman-spouse.svg'
 import manAvatar from '../images/028-man.svg'
 import manAvatarBW from '../images/028-man-BW.svg'
+import manBrotherAvatar from '../images/028-man-brother.svg'
+import manSpouseAvatar from '../images/028-man-spouse.svg'
 import grandmotherAvatar from '../images/047-grandmother.svg'
 import grandmotherAvatarBW from '../images/047-grandmother-BW.svg'
 import grandfatherAvatar from '../images/002-grandfather.svg'
 import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
 import WarningSign from '../images/Warning_Sign.svg'
+import BloodDrop from '../images/blood.svg'
+
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -50,7 +56,6 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
     function getAvatar(node) {
         if (node.id === 'me') {
             if (node.gender === 'female') {
-
                 return womanAvatar;
             } else {
                 return manAvatar;
@@ -72,13 +77,13 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 if (node.verstorben === true) {
                     return womanAvatarBW;
                 } else {
-                    return womanAvatar;
+                    return womanSpouseAvatar;
                 }
             } else {
                 if (node.verstorben === true) {
                     return manAvatarBW;
                 } else {
-                    return manAvatar;
+                    return manSpouseAvatar;
                 }
             }
         } else if (node.id.substring(0, 7) === 'sibling') {
@@ -86,13 +91,13 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 if (node.verstorben === true) {
                     return womanAvatarBW;
                 } else {
-                    return womanAvatar;
+                    return womanSisterAvatar;
                 }
             } else {
                 if (node.verstorben === true) {
                     return manAvatarBW;
                 } else {
-                    return manAvatar;
+                    return manBrotherAvatar;
                 }
             }
         } else {
@@ -128,14 +133,9 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
-    function getStyle(node) {
-        console.log("Is node "+ node.id+" blutsverwandt "+ node.blutsverwandt);
-        if (node.blutsverwandt === false) {
-            return {maxWidth: '91px', opacity: '0.2'};
-        } else {
-            return {maxWidth: '91px', opacity: '1'};
-        }
-
+    function getBlutsverwandtIcon(node) {
+        console.log("Is node " + node.id + " blutsverwandt " + node.blutsverwandt);
+        return BloodDrop;
     }
 
     return (
@@ -145,7 +145,9 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     styles.oneFamilyMemberDiv,
                     isRoot && styles.isRoot,
                 )}>
-                <img style={getStyle(node)} src={getAvatar(node)}/>
+                <img className={styles.bloodDrop} hidden={node.blutsverwandt === false}
+                     src={getBlutsverwandtIcon(node)}/>
+                <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
                 <img className={styles.warningSign} src={showAlert(node)}/>
             </div>
             <div className={styles.FamilyMemberName}>{getName(node)}</div>
