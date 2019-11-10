@@ -5,6 +5,9 @@ import FamilyNode from './FamilyNode';
 import styles from './FamilyTree.module.css';
 import Button from "@material-ui/core/Button";
 
+import { NavLink } from "react-router-dom";
+
+
 import familyHelpers from "./FamilyData.js";
 
 import Dialog from '@material-ui/core/Dialog';
@@ -30,7 +33,9 @@ import localStorage from "local-storage";
 
 import Box from '@material-ui/core/Box';
 import {
-    NavLink
+
+
+
   } from "react-router-dom";
   import Popup from "reactjs-popup";
 
@@ -1267,7 +1272,7 @@ class FamilyTree extends Component {
                     title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
                                                         title="Flaticon">www.flaticon.com</a></div>
 
-                                                        
+
  <Box
                   display="flex"
                   alignItems="flex-end"
@@ -1317,7 +1322,7 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Buttons</h1>
-                        <p>Mit diesen Buttons können Sie weitere Familienmitgleider hinzufügen. Mit Abschliessen beenden Sie die Eingabe.</p> 
+                        <p>Mit diesen Buttons können Sie weitere Familienmitgleider hinzufügen. Mit Abschliessen beenden Sie die Eingabe.</p>
                     </div>
 
                     <div className="TutorialButtons">
