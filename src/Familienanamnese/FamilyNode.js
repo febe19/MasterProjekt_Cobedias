@@ -32,7 +32,11 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
-        if (node.spitzname && node.spitzname !== '') {
+        if (node.id === 'myFather' && node.spitzname === '') {
+            return 'Vater bearbeiten'
+        } else if (node.id === 'myMother' && node.spitzname === '') {
+            return 'Mutter bearbeiten'
+        } else if (node.spitzname && node.spitzname !== '') {
             return node.spitzname
         } else if (node.vorname && node.vorname !== '') {
             return node.vorname;
@@ -134,7 +138,6 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
     }
 
     function getBlutsverwandtIcon(node) {
-        console.log("Is node " + node.id + " blutsverwandt " + node.blutsverwandt);
         return BloodDrop;
     }
 
