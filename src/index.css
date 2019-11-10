@@ -226,6 +226,7 @@ ul.header li a {
 
 .FamilyTreeDiv {
     margin: 0 auto;
+    padding: 5px;
     float: left;
     position: fixed;
     left: 50%;
@@ -253,6 +254,7 @@ ul.header li a {
     height: 100%;
     background: rgba(0, 0, 0, 0);
     color: white;
+    z-index: 200;
 }
 
 .HilfeButton {
@@ -261,6 +263,13 @@ ul.header li a {
     bottom: 20px;
     left: 20px;
     z-index: 10000;
+}
+
+.AbschliessenButton {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 5px;
 }
 
 .TutorialButtons {

@@ -10,13 +10,19 @@ import boyAvatar from '../images/049-boy.svg'
 import boyAvatarBW from '../images/049-boy-BW.svg'
 import womanAvatar from '../images/003-woman.svg'
 import womanAvatarBW from '../images/003-woman-BW.svg'
+import womanSisterAvatar from '../images/003-woman-sister.svg'
+import womanSpouseAvatar from '../images/003-woman-spouse.svg'
 import manAvatar from '../images/028-man.svg'
 import manAvatarBW from '../images/028-man-BW.svg'
+import manBrotherAvatar from '../images/028-man-brother.svg'
+import manSpouseAvatar from '../images/028-man-spouse.svg'
 import grandmotherAvatar from '../images/047-grandmother.svg'
 import grandmotherAvatarBW from '../images/047-grandmother-BW.svg'
 import grandfatherAvatar from '../images/002-grandfather.svg'
 import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
 import WarningSign from '../images/Warning_Sign.svg'
+import BloodDrop from '../images/blood.svg'
+
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -26,7 +32,11 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
-        if (node.spitzname && node.spitzname !== '') {
+        if (node.id === 'myFather' && node.spitzname === '') {
+            return 'Vater bearbeiten'
+        } else if (node.id === 'myMother' && node.spitzname === '') {
+            return 'Mutter bearbeiten'
+        } else if (node.spitzname && node.spitzname !== '') {
             return node.spitzname
         } else if (node.vorname && node.vorname !== '') {
             return node.vorname;
@@ -71,13 +81,13 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 if (node.verstorben === true) {
                     return womanAvatarBW;
                 } else {
-                    return womanAvatar;
+                    return womanSpouseAvatar;
                 }
             } else {
                 if (node.verstorben === true) {
                     return manAvatarBW;
                 } else {
-                    return manAvatar;
+                    return manSpouseAvatar;
                 }
             }
         } else if (node.id.substring(0, 7) === 'sibling') {
@@ -85,13 +95,13 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 if (node.verstorben === true) {
                     return womanAvatarBW;
                 } else {
-                    return womanAvatar;
+                    return womanSisterAvatar;
                 }
             } else {
                 if (node.verstorben === true) {
                     return manAvatarBW;
                 } else {
-                    return manAvatar;
+                    return manBrotherAvatar;
                 }
             }
         } else {
@@ -127,6 +137,10 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
+    function getBlutsverwandtIcon(node) {
+        return BloodDrop;
+    }
+
     return (
         <div className={styles.root} style={style}>
             <div
@@ -134,6 +148,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     styles.oneFamilyMemberDiv,
                     isRoot && styles.isRoot,
                 )}>
+                <img className={styles.bloodDrop} hidden={node.blutsverwandt === false}
+                     src={getBlutsverwandtIcon(node)}/>
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
                 <img className={styles.warningSign} src={showAlert(node)}/>
             </div>
@@ -167,8 +183,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                          borderRadius: '100px',
                          position: 'absolute',
                          bottom: '15%',
-                         right: '1%'
-
+                         right: '1%',
                      }}>
                     <EditIcon style={{
                         margin: '0 auto',

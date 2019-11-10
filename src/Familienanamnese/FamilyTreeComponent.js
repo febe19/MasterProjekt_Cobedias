@@ -5,9 +5,6 @@ import FamilyNode from './FamilyNode';
 import styles from './FamilyTree.module.css';
 import Button from "@material-ui/core/Button";
 
-import { NavLink } from "react-router-dom";
-
-
 import familyHelpers from "./FamilyData.js";
 
 import Dialog from '@material-ui/core/Dialog';
@@ -33,11 +30,13 @@ import localStorage from "local-storage";
 
 import Box from '@material-ui/core/Box';
 import {
-
-
-
-  } from "react-router-dom";
-  import Popup from "reactjs-popup";
+    NavLink
+} from "react-router-dom";
+import Popup from "reactjs-popup";
+import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Fab from "@material-ui/core/Fab";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
@@ -137,6 +136,7 @@ class FamilyTree extends Component {
         this.showTutorial = this.showTutorial.bind(this);
         this.nextTutorialStep = this.nextTutorialStep.bind(this);
         this.previousTutorialStep = this.previousTutorialStep.bind(this);
+        this.handlePopupAbschliessenClose = this.handlePopupAbschliessenClose.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -165,7 +165,9 @@ class FamilyTree extends Component {
             hideTutorial: true,
             tutorialStep: 0,
             childrenOfSpouse: [],
-            additionalParentOfChild: ''
+            additionalParentOfChild: '',
+            abschliessenPopupOpen: false,
+            blutsverwandt: true,
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
@@ -337,7 +339,7 @@ class FamilyTree extends Component {
                 }
             }
 
-            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, newParents, currentData.parents, currentData.siblings, currentData.spouses, this.state.childrenOfSpouse, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, newParents, currentData.parents, currentData.siblings, currentData.spouses, this.state.childrenOfSpouse, currentData.children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt);
             this.setState({FamilyDataState: familyHelpers.getFamilyData()});
         }
 
@@ -367,6 +369,12 @@ class FamilyTree extends Component {
         this.setState({
             popupCancelAlertOpen: true,
             popupOpen: false
+        })
+    };
+
+    handleAbschliesseAlert = e => {
+        this.setState({
+            abschliessenPopupOpen: true,
         })
     };
 
@@ -410,6 +418,12 @@ class FamilyTree extends Component {
             familyMemberToBeDeleted: '',
             verwandschaftKomplett: false,
             additionalParentOfChild: ''
+        });
+    };
+
+    handlePopupAbschliessenClose = e => {
+        this.setState({
+            abschliessenPopupOpen: false
         });
     };
 
@@ -480,9 +494,9 @@ class FamilyTree extends Component {
 
         //Change between add sister or add brother.
         if (e === 'addSister') {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.DeletedFamilyMembers), "female", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.DeletedFamilyMembers), "female", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt);
         } else {
-            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.DeletedFamilyMembers), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("sibling" + familyHelpers.getHighestIndexOfFM('sibling', this.state.DeletedFamilyMembers), "male", me.parents, siblings, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt);
         }
 
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
@@ -505,11 +519,11 @@ class FamilyTree extends Component {
         if (me.gender === 'female') {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.DeletedFamilyMembers), "male", [], [], [{
                 "id": "me"
-            }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, false);
         } else {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.DeletedFamilyMembers), "female", [], [], [{
                 "id": "me"
-            }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            }], children, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, false);
         }
 
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
@@ -547,9 +561,9 @@ class FamilyTree extends Component {
         }
 
         if (e === 'addDaughter') {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.DeletedFamilyMembers), "female", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.DeletedFamilyMembers), "female", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt);
         } else {
-            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.DeletedFamilyMembers), "male", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand);
+            familyHelpers.addFamilyMember("child" + familyHelpers.getHighestIndexOfFM('child', this.state.DeletedFamilyMembers), "male", newParents, meChildren, [], [], this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt);
         }
 
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
@@ -613,7 +627,7 @@ class FamilyTree extends Component {
 
             //now edit the found spouse --> it is like the spouse who will still exist after deletion takes away all the deleted spouse's children before the spouse is deleted
             let currentData = familyHelpers.getFamilyMemberByID(spouseToEdit);
-            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, currentData.geburtsjahr, currentData.spitzname, currentData.vorname, currentData.nachname, currentData.verstorben, currentData.todesjahr, currentData.todesursache, currentData.gesundheitszustand);
+            familyHelpers.editExistingFamilyMember(currentData.id, currentData.gender, currentData.parents, currentData.parents, currentData.siblings, currentData.spouses, allChildrenOfOtherSpouseAfterDeletion, currentData.children, currentData.geburtsjahr, currentData.spitzname, currentData.vorname, currentData.nachname, currentData.verstorben, currentData.todesjahr, currentData.todesursache, currentData.gesundheitszustand, currentData.blutsverwandt);
 
             // now the spouse who we want to delete doesn't have children anymore. This means that now we can delete it.
             familyHelpers.deleteFamilyMember(this.state.familyMemberToBeDeleted);
@@ -656,6 +670,7 @@ class FamilyTree extends Component {
             todesjahr: familyHelpers.getFamilyMemberByID(e).todesjahr,
             todesursache: familyHelpers.getFamilyMemberByID(e).todesursache,
             gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand,
+            blutsverwandt: familyHelpers.getFamilyMemberByID(e).blutsverwandt,
             verwandschaftKomplett: true
         });
 
@@ -696,11 +711,14 @@ class FamilyTree extends Component {
     };
 
     showTutorial() {
-        this.setState({hideTutorial: !this.state.hideTutorial});
+        this.setState({
+            hideTutorial: !this.state.hideTutorial,
+            tuorialStep: 0
+        });
     }
 
     nextTutorialStep() {
-        if (this.state.tutorialStep === 1) {
+        if (this.state.tutorialStep === 2) {
             this.setState({tutorialStep: 0});
             this.showTutorial();
         } else {
@@ -717,13 +735,63 @@ class FamilyTree extends Component {
         }
     }
 
+    //Im Popup sollte der richtige Namen stehen
+    getPopUpLabel() {
+        let name = '';
+        let degree = '';
+
+        console.log("this.state.currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
+
+        if (this.state.currentSelectedFamilyMember !== '') {
+            if (this.state.currentSelectedFamilyMember.substring(0, 3) !== 'add') {
+                let fm = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
+
+                if (fm.spitzname !== '') {
+                    name = fm.spitzname;
+                } else if (fm.vorname !== '') {
+                    name = fm.vorname;
+                }
+
+                if (this.state.currentSelectedFamilyMember === 'myMother') {
+                    degree = 'Ihre Mutter';
+                    name = "";
+                } else if (this.state.currentSelectedFamilyMember === 'myFather') {
+                    degree = 'Ihr Vater';
+                    name = '';
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 5) === 'child') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Tochter";
+                    } else {
+                        degree = "Ihrem Sohn";
+                    }
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 6) === 'spouse') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Partnerin";
+                    } else {
+                        degree = "Ihrem Partner";
+                    }
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 7) === 'sibling') {
+                    if (fm.gender === 'female') {
+                        degree = "Ihrer Schwester";
+                    } else {
+                        degree = "Ihrem Bruder";
+                    }
+                }
+            } else {
+                degree = "Ihrem neuen Familienmitglied";
+            }
+        }
+
+        return degree + " " + name;
+    }
+
     //Show Popup,if state == true
     showPopup() {
         return (
             <div>
                 <Dialog open={this.state.popupOpen}>
                     <div className="dialogContentDiv">
-                        <DialogTitle>Bitte füllen Sie aus:</DialogTitle>
+                        <DialogTitle>Details zu {this.getPopUpLabel()}</DialogTitle>
                         <DialogContent style={{padding: '0'}}>
                             <div>{this.showStepperInPopup()}</div>
                         </DialogContent>
@@ -761,6 +829,10 @@ class FamilyTree extends Component {
                 </Dialog>
             </div>)
     }
+
+    handleCheckboxChange = name => event => {
+        this.setState({...this.state, [name]: event.target.checked});
+    };
 
     // step content of "Angaben"
     showAngaben() {
@@ -824,6 +896,19 @@ class FamilyTree extends Component {
                     fullWidth
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
+                <div hidden={this.state.currentSelectedFamilyMember === 'myMother' || this.state.currentSelectedFamilyMember === 'myFather' || this.state.currentSelectedFamilyMember.substring(0,6) === 'spouse' || this.state.currentSelectedFamilyMember.substring(0,9) === 'addSpouse'}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={this.state.blutsverwandt}
+                                onChange={this.handleCheckboxChange("blutsverwandt")}
+                                value="blutsverwandt"
+                                color="primary"
+                            />
+                        }
+                        label="Diese Person ist blutsverwandt mit mir."
+                    />
+                </div>
             </div>
         )
     }
@@ -856,6 +941,37 @@ class FamilyTree extends Component {
                         <Button onClick={this.deleteFamilyMember} color="primary">
                             Ja
                         </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>)
+    }
+
+    showPopupAbschliessen() {
+        return (
+            <div>
+                <Dialog
+                    open={this.state.abschliessenPopupOpen}
+                    TransitionComponent={TransitionAlertPopup}
+                    keepMounted
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
+                                 id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Wählen Sie "Ja", um die Familienanamnese abzuschliessen und zum Startbildschirm
+                            zurückzukehren.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handlePopupAbschliessenClose} color="primary">
+                            Nein
+                        </Button>
+
+                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                            <Button onClick={this.deleteFamilyMember} color="primary">Ja</Button>
+                        </NavLink>
                     </DialogActions>
                 </Dialog>
             </div>)
@@ -961,7 +1077,8 @@ class FamilyTree extends Component {
                         <br/>
                         <br/>
                         <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe von Krankheiten sein. </p>
+                            <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe
+                                von Krankheiten sein. </p>
                         </div>
                         <TextField
                             label="Gesundheitszustand"
@@ -1215,10 +1332,13 @@ class FamilyTree extends Component {
     render() {
         return (
             <div style={{margin: '0 auto'}}>
-                <div
-                    style={this.state.hideTutorial === false && this.state.tutorialStep === 1 ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.9)"} : {}}>
-                    <p style={{margin: '3px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
-                    <div className="addFamilyMembersButtons">
+                <div>
+                    <p style={{margin: '3px', marginTop: '15px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
+                    <div className="addFamilyMembersButtons"
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
+                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             position: "relative"
+                         } : {zIndex: "-1"}}>
                         <Button id="addSister" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addSister')} style={{margin: '3px'}}>Schwester
                             Hinzufügen</Button>
@@ -1239,10 +1359,16 @@ class FamilyTree extends Component {
                     <div>{this.showPopup()}</div>
                     <div>{this.showPopupCancelAlert()}</div>
                     <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
+                    <div>{this.showPopupAbschliessen()}</div>
                 </div>
+
                 <div className="FamilyTreeDiv"
-                     style={this.state.hideTutorial === false && this.state.tutorialStep === 0 ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.9)"} : {}}>
-                    <ReactFamilyTree
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         position: "relative"
+                     } : {zIndex: "-1"}}>
+
+                    < ReactFamilyTree
                         nodes={this.state.FamilyDataState}
                         rootId={myID}
                         width={WIDTH}
@@ -1266,70 +1392,57 @@ class FamilyTree extends Component {
                     />
                 </div>
 
+                <div className="AbschliessenButton"
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)"} : {zIndex: "-1"}}>
+                    <Button id="Abbschliessen" variant="outlined" color="Primary"
+                            onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
+                </div>
+
                 <div hidden={this.state.hideTutorial === false}
                      style={{position: "absolute", bottom: "2px", right: "2px"}}>Icons made by <a
                     href="https://www.flaticon.com/authors/freepik"
                     title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
                                                         title="Flaticon">www.flaticon.com</a></div>
 
-
- <Box
-                  display="flex"
-                  alignItems="flex-end"
-                  alignContent="flex-end"
-                  j
-                  justifyContent="flex-end"
-                  m={2}
-                  p={2}
-                >
-                  <Popup
-                    trigger={<button className="button"> Abschliessen</button>}
-                    position="top center"
-                    closeOnDocumentClick
-                  >
-                    <div>
-                      Wollen sie den Familienstammbaum nun exportieren und zum
-                      Hauptmenü zurückkehren?
-                      <NavLink
-                        exact
-                        to="/"
-                        style={{ "text-decoration": "none" }}
-                      >
-                        <Button className={classes.button}>Ja</Button>
-                      </NavLink>
-                    </div>
-                  </Popup>
-                </Box>
-
                 <div className="HilfeButton">
                     <Button id="Hilfe" variant="outlined" onClick={this.showTutorial}
-                            color={this.state.hideTutorial === true ? "Primary": ""}
-                            style={this.state.hideTutorial === true ? {margin: '3px'} : {color: 'white', borderColor: 'white', margin: '3px'}}>{this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
+                            color={this.state.hideTutorial === true ? "Primary" : ""}
+                            style={this.state.hideTutorial === true ? {margin: '3px'} : {
+                                color: 'white',
+                                borderColor: 'white',
+                                margin: '3px'
+                            }}>{this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
                 </div>
                 <div className="Tutorial" hidden={this.state.hideTutorial}>
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
-                        <p>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.<br /> Die Verwandschaftsverhältnisse sind über
-                              Linien dargestellt. Ziel ist es soviele Personen,
-                              wie möglich zu erwähnen, um ein möglichst
-                              komplettes Bild zu bekommen.
-                              <br />
-                              Darüber hinaus können bestehende Personen
-                              bearbeitet oder gelöscht werden. Beachten Sie, dass obwohl die Eltern bereits abgebildet sind, die Eltern auszufüllen.</p>
+                        <li>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</li>
+                        <li>Die Verwandschaftsverhältnisse sind über Linien dargestellt.</li>
+                        <li>Ziel ist es ein möglichst genaues Bild Ihrere Blutsverwandten zu erhalten</li>
+                        <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
+                            gelöscht werden
+                        </li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
-                        <h1>Buttons</h1>
-                        <p>Mit diesen Buttons können Sie weitere Familienmitgleider hinzufügen. Mit Abschliessen beenden Sie die Eingabe.</p>
+                        <h1>Hinzufügen</h1>
+                        <li>Mit diesen Buttons können Sie weitere Familienmitglieder hinzufügen.</li>
+                        <li>Es ist immer von Ihnen auszugehen.</li>
+                    </div>
+
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
+                         className="TutorialText">
+                        <h1>Abschliessen</h1>
+                        <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen</li>
                     </div>
 
                     <div className="TutorialButtons">
                         <Button id="TutorialZurück" variant="outlined"
                                 style={{color: 'white', borderColor: 'white', margin: '3px'}}
                                 onClick={this.previousTutorialStep}
-                                >Zurück</Button>
+                        >Zurück</Button>
                         <Button id="TutorialWeiter" variant="outlined"
                                 style={{color: 'white', borderColor: 'white', margin: '3px'}}
                                 onClick={this.nextTutorialStep}
