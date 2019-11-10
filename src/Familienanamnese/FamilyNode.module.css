@@ -3,7 +3,22 @@
     display: flex;
 }
 
+.rootOtherFamilyMember {
+    position: relative;
+    display: flex;
+}
+
 .oneFamilyMemberDiv {
+    display: flex;
+    flex: 1;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px;
+    overflow: hidden;
+    padding: 5px;
+    background-color: white;
+}
+
+.oneOtherFamilyMemberDiv {
     display: flex;
     flex: 1;
     border: 2px solid rgba(0, 0, 0, 0.2);
@@ -37,10 +52,29 @@
     background-color: white;
 }
 
+.OtherFamilyMemberName {
+    font-family: Roboto;
+    text-transform: uppercase;
+    float: left;
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    transform: translate(-50%, 0%);
+    margin: 0 auto;
+    background-color: white;
+}
+
 .warningSign {
     position: absolute;
     left: 20px;
     top: 26px;
+    z-index: 1000;
+}
+
+.warningSignOtherFamilyMember {
+    position: absolute;
+    left: -3px;
+    top: 5px;
     z-index: 1000;
 }
 
@@ -50,5 +84,14 @@
     position: absolute;
     left: 24px;
     top: 70px;
+    z-index: 1000;
+}
+
+.bloodDropOtherFamilyMember {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 1px;
+    top: 50px;
     z-index: 1000;
 }
