@@ -1006,7 +1006,7 @@ class FamilyTree extends Component {
                         <br/>
                         <br/>
                         <br/>
-                        <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
+                        <p>Bitte geben Sie das Todesjahr und die Todesursache von {this.state.spitzname} an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
                                 id="todesjahr"
