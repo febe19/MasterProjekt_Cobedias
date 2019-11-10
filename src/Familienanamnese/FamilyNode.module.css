@@ -68,14 +68,14 @@
     position: absolute;
     left: 20px;
     top: 26px;
-    z-index: 1000;
+    z-index: 150;
 }
 
 .warningSignOtherFamilyMember {
     position: absolute;
     left: -3px;
     top: 5px;
-    z-index: 1000;
+    z-index: 150;
 }
 
 .bloodDrop {
@@ -84,7 +84,7 @@
     position: absolute;
     left: 24px;
     top: 70px;
-    z-index: 1000;
+    z-index: 150;
 }
 
 .bloodDropOtherFamilyMember {
@@ -93,5 +93,5 @@
     position: absolute;
     left: 1px;
     top: 50px;
-    z-index: 1000;
+    z-index: 150;
 }

@@ -222,6 +222,12 @@ ul.header li a {
 
 .addFamilyMembersButtons {
     margin: 10px;
+    width: fit-content;
+}
+
+.addOtherFamilyMembersButtons {
+    margin: 10px 0 auto;
+    width: fit-content;
 }
 
 .FamilyTreeDiv {
@@ -298,13 +304,10 @@ ul.header li a {
 .OtherFamilyDiv {
     margin: 11px 5px auto;
     padding: 5px;
-    float: left;
-    position: fixed;
-    right: 15px;
     border: 2px solid #ddd;
     border-radius: 5px;
     overflow-y: auto;
-    height: 445px;
+    height: 454px;
     max-height: 470px;
 }
 

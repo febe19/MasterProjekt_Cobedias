@@ -780,7 +780,7 @@ class FamilyTree extends Component {
     }
 
     nextTutorialStep() {
-        if (this.state.tutorialStep === 2) {
+        if (this.state.tutorialStep === 3) {
             this.setState({tutorialStep: 0});
             this.showTutorial();
         } else {
@@ -1427,7 +1427,7 @@ class FamilyTree extends Component {
             <div>
 
                 <div className="Left">
-                    <p style={{margin: '3px', marginTop: '15px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
+                    <p style={{margin: '3px', marginTop: '15px', marginLeft: '20px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
                     <div className="addFamilyMembersButtons"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
                              boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
@@ -1493,8 +1493,13 @@ class FamilyTree extends Component {
 
                 <div className="Right">
                     <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
-                    <div className="addFamilyMembersButtons">
-                        <Button id="addOther" variant="outlined" color="primary"
+                    <div className="addOtherFamilyMembersButtons"
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {
+                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             position: "relative",
+                             zIndex: 200
+                         } : {zIndex: "-100"}}>
+                        <Button id="addOther" variant="outlined" color="primary" style={{margin: '3px'}}
                                 onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
                     </div>
 
@@ -1522,7 +1527,10 @@ class FamilyTree extends Component {
                 <div>{this.showPopupAbschliessen()}</div>
 
                 <div className="AbschliessenButton"
-                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)"} : {zIndex: "-1"}}>
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
+                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         zIndex: 200
+                     } : {zIndex: "-100"}}>
                     <Button id="Abbschliessen" variant="outlined" color="Primary"
                             onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
                 </div>
@@ -1557,11 +1565,22 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Hinzufügen</h1>
-                        <li>Mit diesen Buttons können Sie weitere Familienmitglieder hinzufügen.</li>
+                        <li>Mit diesen Buttons können Sie dem Stambaum weitere Familienmitglieder hinzufügen.</li>
                         <li>Es ist immer von Ihnen auszugehen.</li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
+                         className="TutorialText">
+                        <h1>Andere Familienmitglieder</h1>
+                        <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, könne Sie
+                            mit deime Knopf hinzufügen.
+                        </li>
+                        <li>Diese Familienmitgleider werden nicht im Stammbaum angezeigt, sondern direkt unterhalb
+                            dieses Knopfes.
+                        </li>
+                    </div>
+
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Abschliessen</h1>
                         <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen</li>
