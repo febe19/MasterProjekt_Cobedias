@@ -318,7 +318,6 @@ ul.header li a {
     width: 17px;
 }
 
-
 .OtherFamilyDiv::-webkit-scrollbar-thumb {
     border-radius: 8px;
     border: 2px solid white; /* should match background, can't be transparent */

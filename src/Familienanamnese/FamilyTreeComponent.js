@@ -134,6 +134,8 @@ class FamilyTree extends Component {
         this.nextTutorialStep = this.nextTutorialStep.bind(this);
         this.previousTutorialStep = this.previousTutorialStep.bind(this);
         this.handlePopupAbschliessenClose = this.handlePopupAbschliessenClose.bind(this);
+        this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
+        this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -319,8 +321,7 @@ class FamilyTree extends Component {
             console.log("__Handle Popup Close for: " + e.currentTarget.value + " --> Edit of data");
 
             if (e.currentTarget.value.substring(0, 5) === 'other') {
-                console.log("editOtherFamilyMember");
-                familyHelpers.editOtherExistingFamiliyMember(e.currentTarget.value, null, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt, this.state.verwandtschaftsgrad);
+                familyHelpers.editOtherExistingFamiliyMember(e.currentTarget.value, this.state.otherFamilyMemberGender, this.state.geburtsjahr, this.state.spitzname, this.state.vorname, this.state.nachname, this.state.verstorben, this.state.todesjahr, this.state.todesursache, this.state.gesundheitszustand, this.state.blutsverwandt, this.state.verwandtschaftsgrad);
             } else {
 
                 let currentData = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
@@ -368,7 +369,9 @@ class FamilyTree extends Component {
             verwandschaftKomplett: false,
             additionalParentOfChild: '',
             childrenOfSpouse: [],
-            currentSelectedFamilyMember: ''
+            currentSelectedFamilyMember: '',
+            verwandtschaftsgrad: '',
+            otherFamilyMemberGender: '',
         });
     };
 
@@ -407,7 +410,9 @@ class FamilyTree extends Component {
             verwandschaftKomplett: false,
             additionalParentOfChild: '',
             childrenOfSpouse: [],
-            currentSelectedFamilyMember: ''
+            currentSelectedFamilyMember: '',
+            verwandtschaftsgrad: '',
+            otherFamilyMemberGender: '',
         });
     };
 
@@ -440,6 +445,22 @@ class FamilyTree extends Component {
     handleYesButtonChange = () => {
         this.setState({
             verstorben: true,
+        }, () => {
+            this.updateStepCompleteness(this.state.activeStep);
+        });
+    };
+
+    handleWeiblichButtonChange = () => {
+        this.setState({
+            otherFamilyMemberGender: 'female',
+        }, () => {
+            this.updateStepCompleteness(this.state.activeStep);
+        });
+    };
+
+    handleMaenlichButtonChange = () => {
+        this.setState({
+            otherFamilyMemberGender: 'male',
         }, () => {
             this.updateStepCompleteness(this.state.activeStep);
         });
@@ -700,6 +721,7 @@ class FamilyTree extends Component {
                 blutsverwandt: familyHelpers.getOtherFamilyMemberByID(e).blutsverwandt,
                 verwandschaftKomplett: true,
                 verwandtschaftsgrad: familyHelpers.getOtherFamilyMemberByID(e).verwandtschaftsgrad,
+                otherFamilyMemberGender: familyHelpers.getOtherFamilyMemberByID(e).gender,
             });
         } else {
             this.setState({
@@ -1044,7 +1066,7 @@ class FamilyTree extends Component {
                 <p>Familienmitglieder verstorben?</p>
                 <div className="FamilyMemberZustandButton">
                     <Button variant="outlined" size="small" color="primary"
-                            style={styleYesButton} onClick={this.handleYesButtonChange}>Ja </Button>
+                            style={styleYesButton} onClick={this.handleYesButtonChange}>Ja</Button>
                 </div>
                 <div className="FamilyMemberZustandButton">
                     <Button variant="outlined" size="small" color="primary" style={styleNoButton}
@@ -1176,7 +1198,6 @@ class FamilyTree extends Component {
         }
     }
 
-
     showVerwandschaftParents() {
         // the parents are shown in the add-popup when a child is added and more than 1 spouse exists
         // the parents are shown in the edit-popup when a child is edited and more than 1 spouse exists
@@ -1296,10 +1317,16 @@ class FamilyTree extends Component {
     }
 
     showOtherFamilyMemberVerwandtschaft() {
-
-        if (this.state.currentSelectedFamilyMember === 'addOther') {
+        if (this.state.currentSelectedFamilyMember === 'addOther' || this.state.currentSelectedFamilyMember.substring(0, 5) === 'other') {
             return (
                 <div>
+                    <p>Bitte wählen sie ein Geschlecht aus</p>
+                    <Button variant="outlined" size="small" color="primary"
+                            style={this.state.otherFamilyMemberGender === 'male' ? {background: '#BBC2E5', margin: '5px'} : {margin: '5px'}}
+                            onClick={this.handleMaenlichButtonChange}>Männlich</Button>
+                    <Button variant="outlined" size="small" color="primary"
+                            style={this.state.otherFamilyMemberGender === 'female' ? {background: '#BBC2E5', margin: '5px'} : {margin: '5px'}}
+                            onClick={this.handleWeiblichButtonChange}>Weiblich</Button>
                     <TextField
                         label="Verwandtschaftsgrad"
                         margin="normal"

@@ -60,65 +60,21 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
     }
 
     function getAvatar(node) {
-        if (node.id === 'me') {
-            if (node.gender === 'female') {
-                return womanAvatar;
-            } else {
-                return manAvatar;
-            }
-        } else if (node.id === 'myMother') {
+        if (node.gender === 'female') {
             if (node.verstorben === true) {
-                return grandmotherAvatarBW;
+                return womanAvatarBW;
+            } else if (node.blutsverwandt === true) {
+                return womanSisterAvatar;
             } else {
-                return grandmotherAvatar;
-            }
-        } else if (node.id === 'myFather') {
-            if (node.verstorben === true) {
-                return grandfatherAvatarBW;
-            } else {
-                return grandfatherAvatar;
-            }
-        } else if (node.id.substring(0, 6) === 'spouse') {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return womanAvatarBW;
-                } else {
-                    return womanSpouseAvatar;
-                }
-            } else {
-                if (node.verstorben === true) {
-                    return manAvatarBW;
-                } else {
-                    return manSpouseAvatar;
-                }
-            }
-        } else if (node.id.substring(0, 7) === 'sibling') {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return womanAvatarBW;
-                } else {
-                    return womanSisterAvatar;
-                }
-            } else {
-                if (node.verstorben === true) {
-                    return manAvatarBW;
-                } else {
-                    return manBrotherAvatar;
-                }
+                return womanSpouseAvatar;
             }
         } else {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return girlAvatarBW;
-                } else {
-                    return girlAvatar;
-                }
+            if (node.verstorben === true) {
+                return manAvatarBW;
+            } else if (node.blutsverwandt === true) {
+                return manBrotherAvatar;
             } else {
-                if (node.verstorben === true) {
-                    return boyAvatarBW;
-                } else {
-                    return boyAvatar;
-                }
+                return manSpouseAvatar;
             }
         }
     }
@@ -129,7 +85,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
                 className={styles.oneOtherFamilyMemberDiv}>
                 <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
                      src={BloodDrop}/>
-                <img style={{maxWidth: '91px'}} src={womanSisterAvatar}/>
+                <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
                 <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
             </div>
             <div className={styles.OtherFamilyMemberName}>{getName(node)}</div>
