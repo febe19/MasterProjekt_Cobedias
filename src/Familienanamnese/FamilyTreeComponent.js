@@ -1322,10 +1322,16 @@ class FamilyTree extends Component {
                 <div>
                     <p>Bitte wählen sie ein Geschlecht aus</p>
                     <Button variant="outlined" size="small" color="primary"
-                            style={this.state.otherFamilyMemberGender === 'male' ? {background: '#BBC2E5', margin: '5px'} : {margin: '5px'}}
+                            style={this.state.otherFamilyMemberGender === 'male' ? {
+                                background: '#BBC2E5',
+                                margin: '5px'
+                            } : {margin: '5px'}}
                             onClick={this.handleMaenlichButtonChange}>Männlich</Button>
                     <Button variant="outlined" size="small" color="primary"
-                            style={this.state.otherFamilyMemberGender === 'female' ? {background: '#BBC2E5', margin: '5px'} : {margin: '5px'}}
+                            style={this.state.otherFamilyMemberGender === 'female' ? {
+                                background: '#BBC2E5',
+                                margin: '5px'
+                            } : {margin: '5px'}}
                             onClick={this.handleWeiblichButtonChange}>Weiblich</Button>
                     <TextField
                         label="Verwandtschaftsgrad"
@@ -1418,14 +1424,16 @@ class FamilyTree extends Component {
 
     render() {
         return (
-            <div style={{margin: '0 auto'}}>
-                <div>
+            <div>
+
+                <div className="Left">
                     <p style={{margin: '3px', marginTop: '15px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
                     <div className="addFamilyMembersButtons"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
                              boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
-                             position: "relative"
-                         } : {zIndex: "-1"}}>
+                             position: "relative",
+                             zIndex: 200
+                         } : {zIndex: "-100"}}>
                         <Button id="addSister" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addSister')} style={{margin: '3px'}}>Schwester
                             Hinzufügen</Button>
@@ -1442,61 +1450,76 @@ class FamilyTree extends Component {
                         <Button id="addSon" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addSon')} style={{margin: '3px'}}>Sohn
                             Hinzufügen</Button>
+                    </div>
+
+                    <div className="BigFamilyTreeContainer"
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             position: "relative",
+                             zIndex: 200
+                         } : {zIndex: "-100"}}>
+                        <div className="FamilyTreeDiv"
+                             style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                                 boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                                 position: "relative",
+                                 zIndex: 200
+                             } : {zIndex: "-100"}}>
+
+                            <ReactFamilyTree
+                                nodes={this.state.FamilyDataState}
+                                rootId={myID}
+                                width={WIDTH}
+                                height={HEIGHT}
+                                canvasClassName={styles.tree}
+                                renderNode={(node: IFamilyExtNode) => (
+                                    <FamilyNode
+                                        key={node.id}
+                                        node={node}
+                                        isRoot={node.id === myID}
+                                        deleteFunction={this.handleDeleteFamilyMemberPopup}
+                                        editFunction={this.editFamilyMember}
+                                        style={{
+                                            width: WIDTH * RESIZE,
+                                            height: HEIGHT * RESIZE,
+                                            transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                            padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
+                                        }}
+                                    />
+                                )}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="Right">
+                    <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
+                    <div className="addFamilyMembersButtons">
                         <Button id="addOther" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
                     </div>
-                    <div>{this.showPopup()}</div>
-                    <div>{this.showPopupCancelAlert()}</div>
-                    <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
-                    <div>{this.showPopupAbschliessen()}</div>
-                </div>
 
-                <div className="FamilyTreeDiv"
-                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
-                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
-                         position: "relative"
-                     } : {zIndex: "-1"}}>
-
-                    <ReactFamilyTree
-                        nodes={this.state.FamilyDataState}
-                        rootId={myID}
-                        width={WIDTH}
-                        height={HEIGHT}
-                        canvasClassName={styles.tree}
-                        renderNode={(node: IFamilyExtNode) => (
-                            <FamilyNode
-                                key={node.id}
-                                node={node}
-                                isRoot={node.id === myID}
-                                deleteFunction={this.handleDeleteFamilyMemberPopup}
-                                editFunction={this.editFamilyMember}
-                                style={{
-                                    width: WIDTH * RESIZE,
-                                    height: HEIGHT * RESIZE,
-                                    transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
-                                    padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
-                                }}
-                            />
-                        )}
-                    />
-                </div>
-
-                <div className="OtherFamilyDiv" hidden={familyHelpers.getHighestIndexOfOtherFM() === 0}>
-                    <div className="OtherFamilyMemberPortraitDiv">
-                        {familyHelpers.getOtherFamilyData().map(option => (
-                            <OtherFamilyMemberNode
-                                node={option}
-                                deleteFunction={this.handleDeleteFamilyMemberPopup}
-                                editFunction={this.editFamilyMember}
-                                style={{
-                                    width: WIDTH * RESIZE,
-                                    height: HEIGHT * RESIZE,
-                                    marginRight: '18px',
-                                    marginBottom: '25px',
-                                }}/>
-                        ))}
+                    <div className="OtherFamilyDiv" hidden={familyHelpers.getHighestIndexOfOtherFM() === 0}>
+                        <div className="OtherFamilyMemberPortraitDiv">
+                            {familyHelpers.getOtherFamilyData().map(option => (
+                                <OtherFamilyMemberNode
+                                    node={option}
+                                    deleteFunction={this.handleDeleteFamilyMemberPopup}
+                                    editFunction={this.editFamilyMember}
+                                    style={{
+                                        width: WIDTH * RESIZE,
+                                        height: HEIGHT * RESIZE,
+                                        marginRight: '18px',
+                                        marginBottom: '25px',
+                                    }}/>
+                            ))}
+                        </div>
                     </div>
                 </div>
+
+                <div>{this.showPopup()}</div>
+                <div>{this.showPopupCancelAlert()}</div>
+                <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
+                <div>{this.showPopupAbschliessen()}</div>
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)"} : {zIndex: "-1"}}>

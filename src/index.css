@@ -227,10 +227,7 @@ ul.header li a {
 .FamilyTreeDiv {
     margin: 0 auto;
     padding: 5px;
-    float: left;
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    width: fit-content;
 }
 
 .genderSelectionDiv {
@@ -299,7 +296,7 @@ ul.header li a {
 }
 
 .OtherFamilyDiv {
-    margin: 5px 5px auto;
+    margin: 11px 5px auto;
     padding: 5px;
     float: left;
     position: fixed;
@@ -307,6 +304,7 @@ ul.header li a {
     border: 2px solid #ddd;
     border-radius: 5px;
     overflow-y: auto;
+    height: 445px;
     max-height: 470px;
 }
 
@@ -324,6 +322,40 @@ ul.header li a {
     background-color: rgba(0, 0, 0, .5);
 }
 
+.BigFamilyTreeContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.BigFamilyTreeContainer::-webkit-scrollbar:vertical {
+    width: 17px;
+}
+
+.BigFamilyTreeContainer::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.Left {
+    width: 84%;
+    height: 100%;
+    float: left;
+}
+
+.BigFamilyTreeContainer {
+    width: 95%;
+    max-width: 95%;
+    height: auto;
+    float: left;
+    overflow-x: auto;
+}
+
+.Right {
+    width: 15%;
+    height: 100%;
+    position: relative;
+    float: right;
+}
 
 
 
