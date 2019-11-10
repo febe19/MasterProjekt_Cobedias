@@ -37,6 +37,7 @@ import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
 
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
@@ -896,7 +897,8 @@ class FamilyTree extends Component {
                     fullWidth
                     placeholder="Geben Sie hier den Nachnamen ein"
                 />
-                <div hidden={this.state.currentSelectedFamilyMember === 'myMother' || this.state.currentSelectedFamilyMember === 'myFather' || this.state.currentSelectedFamilyMember.substring(0,6) === 'spouse' || this.state.currentSelectedFamilyMember.substring(0,9) === 'addSpouse'}>
+                <div
+                    hidden={this.state.currentSelectedFamilyMember === 'myMother' || this.state.currentSelectedFamilyMember === 'myFather' || this.state.currentSelectedFamilyMember.substring(0, 6) === 'spouse' || this.state.currentSelectedFamilyMember.substring(0, 9) === 'addSpouse'}>
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -1355,6 +1357,8 @@ class FamilyTree extends Component {
                         <Button id="addSon" variant="outlined" color="primary"
                                 onClick={() => this.popUpFamilyMember('addSon')} style={{margin: '3px'}}>Sohn
                             Hinzufügen</Button>
+                        <Button id="addOther" variant="outlined" color="primary"
+                                onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
                     </div>
                     <div>{this.showPopup()}</div>
                     <div>{this.showPopupCancelAlert()}</div>
@@ -1368,7 +1372,7 @@ class FamilyTree extends Component {
                          position: "relative"
                      } : {zIndex: "-1"}}>
 
-                    < ReactFamilyTree
+                    <ReactFamilyTree
                         nodes={this.state.FamilyDataState}
                         rootId={myID}
                         width={WIDTH}
@@ -1390,6 +1394,32 @@ class FamilyTree extends Component {
                             />
                         )}
                     />
+                </div>
+
+                <div className="otherFamilyDiv">
+                    <div>
+
+                    </div>
+                    <div className="OtherFamilyMemberPortraitDiv">
+                        <OtherFamilyMemberNode
+                            deleteFunction={this.handleDeleteFamilyMemberPopup}
+                            editFunction={this.editFamilyMember}
+                            style={{
+                                width: WIDTH * RESIZE,
+                                height: HEIGHT * RESIZE,
+                                marginRight: '18px',
+                                marginBottom: '25px',
+                            }}/>
+                        <OtherFamilyMemberNode
+                            deleteFunction={this.handleDeleteFamilyMemberPopup}
+                            editFunction={this.editFamilyMember}
+                            style={{
+                                width: WIDTH * RESIZE,
+                                height: HEIGHT * RESIZE,
+                                marginRight: '18px',
+                                marginBottom: '25px',
+                            }}/>
+                    </div>
                 </div>
 
                 <div className="AbschliessenButton"
