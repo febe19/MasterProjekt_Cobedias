@@ -28,6 +28,29 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+import {
+    createMuiTheme,
+    MuiThemeProvider,
+} from "@material-ui/core/styles";
+
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+                fontSize: "20px",
+                color: "white",
+                //backgroundColor: "#A9A9A9",
+                backgroundColor: "rgba(99, 90, 121, 0.9)",
+                maxWidth: '1000px'
+            }
+        }
+    }
+});
+
+
 function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
@@ -133,6 +156,35 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         return BloodDrop;
     }
 
+    // this function makes sure that the icon AND the Tooltip is only displayed if it should
+    function getIconAlert(node) {
+        if (showAlert(node)) {
+
+            return (
+                <MuiThemeProvider theme={theme}>
+                    <Tooltip TransitionComponent={Zoom} title="Es gibt nicht ausgefüllte Felder." placement="left">
+                        <img className={styles.warningSign} src={showAlert(node)}/>
+                    </Tooltip>
+                </MuiThemeProvider>
+            )
+        }
+    }
+
+    // this function makes sure that the icon AND the Tooltip is only displayed if it should
+    function getIconBlutsverwandt(node) {
+        if (!(node.blutsverwandt === false)) {
+            return (
+                <MuiThemeProvider theme={theme}>
+                    <Tooltip TransitionComponent={Zoom} title="Dieser Familienmitglieder ist blutsverwandt."
+                             placement="left">
+                        <img className={styles.bloodDrop} hidden={node.blutsverwandt === false}
+                             src={getBlutsverwandtIcon(node)}/>
+                    </Tooltip>
+                </MuiThemeProvider>
+            )
+        }
+    }
+
     return (
         <div className={styles.root} style={style}>
             <div
@@ -140,10 +192,9 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     styles.oneFamilyMemberDiv,
                     isRoot && styles.isRoot,
                 )}>
-                <img className={styles.bloodDrop} hidden={node.blutsverwandt === false}
-                     src={getBlutsverwandtIcon(node)}/>
+                {getIconBlutsverwandt(node)}
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
-                <img className={styles.warningSign} src={showAlert(node)}/>
+                {getIconAlert(node)}
             </div>
             <div className={styles.FamilyMemberName}>{getName(node)}</div>
             <div hidden={hideDelete(node.id)}>

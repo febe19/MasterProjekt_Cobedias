@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import Box from "@material-ui/core/Box";
 import FamilyTree from './FamilyTreeComponent'
 import styles from './FamilyTree.module.css';
 import Button from "@material-ui/core/Button";

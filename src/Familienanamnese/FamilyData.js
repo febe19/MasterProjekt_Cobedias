@@ -123,7 +123,7 @@ const familyHelpers = {
         return false;
     },
 
-    getOtherFamilyMemberByID: function(id) {
+    getOtherFamilyMemberByID: function (id) {
         for (let i = 0; i <= otherFamilyData.length - 1; i++) {
             //If ID is the same --> found.
             if (otherFamilyData[i].id === id) {
@@ -175,8 +175,8 @@ const familyHelpers = {
         }
     },
 
-    editOtherExistingFamiliyMember: function(id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
-        for (let i = 0; i< otherFamilyData.length; i++) {
+    editOtherExistingFamiliyMember: function (id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
+        for (let i = 0; i < otherFamilyData.length; i++) {
             if (otherFamilyData[i].id === id) {
                 otherFamilyData[i].gender = gender;
                 otherFamilyData[i].geburtsjahr = geburtsjahr;
@@ -210,7 +210,7 @@ const familyHelpers = {
             }
 
             // check if it is a child that is being edited and if parents of the family members were edited
-            if (id.substring(0, 5) === 'child' && parents[1].id !== oldParents[1].id) {
+            if ((id.substring(0, 5) === 'child') && (parents.length === 2) && (oldParents.length === 2) && (parents[1].id !== oldParents[1].id)) {
                 //delete the edited child in the old parent
                 for (let i = 0; i < this.getFamilyMemberByID(oldParents[1].id).children.length; i++) {
                     if (this.getFamilyMemberByID(oldParents[1].id).children[i].id === id) {
@@ -417,11 +417,11 @@ const familyHelpers = {
     },
 
     deleteOtherFamilyMember: function (id) {
-        console.log("OFM to delete: "+id);
+        console.log("OFM to delete: " + id);
         for (let i = 0; i < otherFamilyData.length; i++) {
-            console.log("OFM testing for deleteion: "+otherFamilyData[i].id);
+            console.log("OFM testing for deleteion: " + otherFamilyData[i].id);
             if (otherFamilyData[i].id === id) {
-                console.log("OFM found: "+otherFamilyData[i].id);
+                console.log("OFM found: " + otherFamilyData[i].id);
                 otherFamilyData.splice(i, 1);
             }
         }
