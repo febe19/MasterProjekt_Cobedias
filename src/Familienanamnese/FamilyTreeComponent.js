@@ -1611,39 +1611,46 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
-                        <li>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</li>
-                        <li>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
-                        <li>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten Familienmitglieder zu
-                            erhalten.
+                        <li style={{fontSize: "24px"}}>Hier sehen sie alle Familienmitglieder, welche Sie bereits
+                            hinzugefügt haben.
                         </li>
-                        <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
-                            gelöscht werden.
+                        <li style={{fontSize: "24px"}}>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
+                        <li style={{fontSize: "24px"}}>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten
+                            Familienmitglieder zu erhalten.
+                        </li>
+                        <li style={{fontSize: "24px"}}>Mit den blauen Buttons neben den Portraits können
+                            Familienmitglieder bearbeitet oder gelöscht werden.
                         </li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
-                        <h1>Hinzufügen</h1>
-                        <li>Mit diesen Buttons können Sie dem Stambaum weitere Familienmitglieder hinzufügen.</li>
-                        <li>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind immer Sie selbst.</li>
+                        <h1>Familienmitglieder hinzufügen</h1>
+                        <li style={{fontSize: "24px"}}>Mit diesen Buttons können Sie dem Stambaum weitere
+                            Familienmitglieder hinzufügen.
+                        </li>
+                        <li style={{fontSize: "24px"}}>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind
+                            immer Sie selbst.
+                        </li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
                          className="TutorialText">
-                        <h1>Andere Familienmitglieder</h1>
-                        <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, können
-                            Sie
-                            mit diesem Knopf hinzufügen.
+                        <h1>Andere Familienmitglieder hinzufügen</h1>
+                        <li style={{fontSize: "24px"}}>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen
+                            hinzufügen können, können Sie mit diesem Knopf hinzufügen.
                         </li>
-                        <li>Diese Familienmitglieder werden nicht im Stammbaum angezeigt, sondern direkt unterhalb
-                            dieses Knopfes.
+                        <li style={{fontSize: "24px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
+                            sondern direkt unterhalb dieses Knopfes.
                         </li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
-                        <h1>Abschliessen</h1>
-                        <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen.</li>
+                        <h1>Familienanamnese abschliessen</h1>
+                        <li style={{fontSize: "24px"}}>Mit diesem Button können Sie, sobald Sie alle Familienmitglieder
+                            erfasst haben, die Eingabe abschliessen.
+                        </li>
                     </div>
 
                     <div className="TutorialButtons">

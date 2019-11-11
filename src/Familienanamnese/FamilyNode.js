@@ -192,7 +192,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // this function makes sure that the icon AND the Tooltip is only displayed if it should
     function getIconBlutsverwandt(node) {
-        if (!(node.blutsverwandt === false)) {
+        if (!(node.blutsverwandt === false || node.id == 'me')) {
             return (
                 <MuiThemeProvider theme={theme}>
                     <Tooltip TransitionComponent={Zoom} title="Dieses Familienmitglied ist blutsverwandt."
