@@ -643,8 +643,6 @@ class FamilyTree extends Component {
 
         console.log("FamilyMemberTo Delete:  --> " + this.state.familyMemberToBeDeleted);
 
-        console.log("substring?: " + this.state.familyMemberToBeDeleted.substring(0, 5));
-        console.log("other?: " + (this.state.familyMemberToBeDeleted.substring(0, 5) === 'other'));
 
         //check if it is another familymember?
         if (this.state.familyMemberToBeDeleted.substring(0, 5) === 'other') {
@@ -1210,9 +1208,6 @@ class FamilyTree extends Component {
         // the parents are shown in the edit-popup when a child is edited and more than 1 spouse exists
         // the parents are also shown in the delete-alert-popup if a spouse is deleted and more that 1 other spouse exists and the spouse who is deleted has at least 1 child
 
-        //if (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child' || (this.state.familyMemberToBeDeleted !== '' && familyHelpers.getFamilyMemberByID("me").spouses.length > 2 && familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length > 0)) {
-        console.log("substr: " + (this.state.familyMemberToBeDeleted.substring(0, 5)));
-        console.log("substr: " + (this.state.familyMemberToBeDeleted.substring(0, 5) === 'other'));
         if ((this.state.familyMemberToBeDeleted !== '' && this.state.familyMemberToBeDeleted.substring(0, 5) !== 'other') && ((this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child' || (this.state.familyMemberToBeDeleted !== '' && familyHelpers.getFamilyMemberByID("me").spouses.length > 2 && familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length > 0)))) {
             let me = familyHelpers.getFamilyMemberByID("me");
 

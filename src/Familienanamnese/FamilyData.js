@@ -180,8 +180,6 @@ const familyHelpers = {
         }
 
         //loop through all deleted family members if not empty
-        console.log("allDeletedFamilyMembers len: " + allDeletedFamilyMembers.length);
-        console.log("allDeletedFamilyMembers: " + JSON.stringify(allDeletedFamilyMembers));
         if (allDeletedFamilyMembers.length !== 0) {
             for (let i = 0; i <= allDeletedFamilyMembers.length - 1; i++) {
                 if (allDeletedFamilyMembers[i].id.substring(0, lengthOfFMString) === fm) {
