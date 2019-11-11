@@ -97,6 +97,8 @@ for (var i = 2019; i >= 1919; i--) {
 function getSteps(member) {
     if (verwandtschaftAbfragenNeeded(member)) {
         return ["Angaben", "Zustand", "Verwandtschaft"];
+    } else if (member === 'addOther' || member.substring(0, 5) === 'other') {
+        return ["Angaben", "Zustand", "Weitere Angaben"];
     } else {
         return ["Angaben", "Zustand"];
     }
@@ -112,8 +114,6 @@ function verwandtschaftAbfragenNeeded(member) {
     } else if ((member === 'addSon' || member === 'addDaughter' || member.slice(0, 5) === 'child') && (me.spouses.length > 1)) {
         return true;
     } else if ((member === 'addSpouse' || member.slice(0, 6) === 'spouse') && (me.children.length > 0) && (me.spouses.length > 0)) {
-        return true;
-    } else if (member === 'addOther' || member.substring(0, 5) === 'other') {
         return true;
     } else {
         return false;
