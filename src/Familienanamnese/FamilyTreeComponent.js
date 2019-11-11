@@ -171,7 +171,6 @@ class FamilyTree extends Component {
             otherFamilyMemberGender: '',
             verwandtschaftsgrad: '',
         };
-
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
@@ -1010,7 +1009,7 @@ class FamilyTree extends Component {
                     aria-describedby="alert-dialog-slide-description"
                 >
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
-                                 id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglieder wirklich löschen?"}</DialogTitle>
+                                 id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglied wirklich löschen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
                             Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
@@ -1084,7 +1083,7 @@ class FamilyTree extends Component {
         return (
 
             <div>
-                <p>Familienmitglieder verstorben?</p>
+                <p>Familienmitglied verstorben?</p>
                 <div className="FamilyMemberZustandButton">
                     <Button variant="outlined" size="small" color="primary"
                             style={styleYesButton} onClick={this.handleYesButtonChange}>Ja</Button>
@@ -1194,7 +1193,7 @@ class FamilyTree extends Component {
                     name = familyHelpers.getFamilyMemberByID(me.children[i].id).vorname;
                 }
                 if (name === '') {
-                    name = id;
+                    name = 'KIND ' + id.substring(5, id.length);
                 }
                 children.push(
                     {
@@ -1224,7 +1223,7 @@ class FamilyTree extends Component {
         // the parents are shown in the edit-popup when a child is edited and more than 1 spouse exists
         // the parents are also shown in the delete-alert-popup if a spouse is deleted and more that 1 other spouse exists and the spouse who is deleted has at least 1 child
 
-        if ((this.state.familyMemberToBeDeleted !== '' && this.state.familyMemberToBeDeleted.substring(0, 5) !== 'other') && ((this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child' || (this.state.familyMemberToBeDeleted !== '' && familyHelpers.getFamilyMemberByID("me").spouses.length > 2 && familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length > 0)))) {
+        if ((this.state.familyMemberToBeDeleted.substring(0, 5) !== 'other') && (this.state.currentSelectedFamilyMember === 'addSon' || this.state.currentSelectedFamilyMember === 'addDaughter' || this.state.currentSelectedFamilyMember.slice(0, 5) === 'child' || (this.state.familyMemberToBeDeleted !== '' && familyHelpers.getFamilyMemberByID("me").spouses.length > 2 && familyHelpers.getFamilyMemberByID(this.state.familyMemberToBeDeleted).children.length > 0))) {
             let me = familyHelpers.getFamilyMemberByID("me");
 
             //Take me as spouses
@@ -1238,10 +1237,11 @@ class FamilyTree extends Component {
                     name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).vorname;
                 }
                 if (name === '') {
-                    name = familyHelpers.getFamilyMemberByID(me.spouses[i].id).spitzname;
-                }
-                if (name === '') {
-                    name = id;
+                    if (familyHelpers.getFamilyMemberByID(id).gender === 'female') {
+                        name = 'Partnerin ' + id.substring(6, id.length);
+                    } else {
+                        name = 'Partner ' + id.substring(6, id.length);
+                    }
                 }
                 // the following if condition makes sure that (if we are currently in the delete-alert-popup) the spouse who is to be deleted is not shown as an option
                 if (!(id === this.state.familyMemberToBeDeleted)) {
@@ -1309,7 +1309,7 @@ class FamilyTree extends Component {
                     name = familyHelpers.getFamilyMemberByID(id).vorname;
                 }
                 if (name === '') {
-                    name = id;
+                    name = 'KIND ' + id.substring(5, id.length);
                 }
                 childrenOfDeletedSpouse.push(name)
             }
@@ -1578,10 +1578,12 @@ class FamilyTree extends Component {
                          className="TutorialText">
                         <h1>Stammbaum</h1>
                         <li>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</li>
-                        <li>Die Verwandschaftsverhältnisse sind über Linien dargestellt.</li>
-                        <li>Ziel ist es ein möglichst genaues Bild Ihrere Blutsverwandten zu erhalten</li>
+                        <li>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
+                        <li>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten Familienmitglieder zu
+                            erhalten.
+                        </li>
                         <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
-                            gelöscht werden
+                            gelöscht werden.
                         </li>
                     </div>
 
@@ -1589,16 +1591,17 @@ class FamilyTree extends Component {
                          className="TutorialText">
                         <h1>Hinzufügen</h1>
                         <li>Mit diesen Buttons können Sie dem Stambaum weitere Familienmitglieder hinzufügen.</li>
-                        <li>Es ist immer von Ihnen auszugehen.</li>
+                        <li>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind immer Sie selbst.</li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
                          className="TutorialText">
                         <h1>Andere Familienmitglieder</h1>
-                        <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, könne Sie
-                            mit deime Knopf hinzufügen.
+                        <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, können
+                            Sie
+                            mit diesem Knopf hinzufügen.
                         </li>
-                        <li>Diese Familienmitgleider werden nicht im Stammbaum angezeigt, sondern direkt unterhalb
+                        <li>Diese Familienmitglieder werden nicht im Stammbaum angezeigt, sondern direkt unterhalb
                             dieses Knopfes.
                         </li>
                     </div>
@@ -1606,7 +1609,7 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Abschliessen</h1>
-                        <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen</li>
+                        <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen.</li>
                     </div>
 
                     <div className="TutorialButtons">

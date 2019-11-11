@@ -113,7 +113,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         if (showAlert(node)) {
             return (
                 <MuiThemeProvider theme={theme}>
-                    <Tooltip TransitionComponent={Zoom} title="Es gibt nicht ausgefüllte Felder." placement="left">
+                    <Tooltip TransitionComponent={Zoom} title="Es sind nicht alle Felder ausgefüllt." placement="left">
                         <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
                     </Tooltip>
                 </MuiThemeProvider>
@@ -126,7 +126,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         if (!(node.blutsverwandt === false)) {
             return (
                 <MuiThemeProvider theme={theme}>
-                    <Tooltip TransitionComponent={Zoom} title="Dieser Familienmitglieder ist blutsverwandt."
+                    <Tooltip TransitionComponent={Zoom} title="Dieses Familienmitglied ist blutsverwandt."
                              placement="left">
                         <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
                              src={BloodDrop}/>
