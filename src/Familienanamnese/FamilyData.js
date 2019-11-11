@@ -455,8 +455,6 @@ const familyHelpers = {
 
         //loop through all family members
         for (let i = 0; i < myFamilyData.length; i++) {
-
-            console.log("Check Family Member " + myFamilyData[i].id);
             for (let j = 0; j < myFamilyData[i].siblings.length; j++) {
                 if (myFamilyData[i].siblings[j].id === id) {
                     console.log("   Delete Family Member " + id + " in " + myFamilyData[i].id + ".siblings " + JSON.stringify(myFamilyData[i].siblings));

@@ -204,7 +204,7 @@ class FamilyTree extends Component {
     componentCompleted(step) {
         switch (step) {
             case 0:
-                return (this.state.angabenKomplett);
+                return this.state.angabenKomplett;
             case 1:
                 return this.state.familyMemberZustandKomplett;
             case 2:
@@ -219,7 +219,8 @@ class FamilyTree extends Component {
     updateStepCompleteness(step) {
         this.setState({
             angabenKomplett: this.checkAngabenCompleteness(),
-            familyMemberZustandKomplett: this.checkZustandCompleteness()
+            familyMemberZustandKomplett: this.checkZustandCompleteness(),
+            verwandschaftKomplett: this.checkWeitereAngabenCompleteness()
         }, () => {
             // alle ausgefüllt --> Häckchen wird gesetzt
             if (this.componentCompleted(step) === true) {
@@ -499,6 +500,21 @@ class FamilyTree extends Component {
             }
         } else {
             return false;
+        }
+    }
+
+    // Completeness der Textfelder im step "Weitere Angaben" wird überprüft
+    // returns "this.state.verwandschaftKomplett" falls nicht other FM
+    checkWeitereAngabenCompleteness() {
+        if (this.state.currentSelectedFamilyMember !== '' && this.state.currentSelectedFamilyMember.substring(0, 5) === 'other') {
+            //check if gender and verwandschaftsgrad of other fm is set
+            if (this.state.otherFamilyMemberGender !== '' && this.state.verwandtschaftsgrad !== '') {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return this.state.verwandschaftKomplett;
         }
     }
 
