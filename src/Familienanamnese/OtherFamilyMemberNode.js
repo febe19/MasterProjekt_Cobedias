@@ -28,7 +28,7 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
+function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
@@ -54,99 +54,42 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
             return WarningSign;
         } else if (node.verstorben === false && (node.gesundheitszustand === null || node.gesundheitszustand === '')) {
             return WarningSign;
+        } else if (node.verwandtschaftsgrad === null || node.verwandtschaftsgrad !== '') {
+            return WarningSign;
         }
     }
 
     function getAvatar(node) {
-        if (node.id === 'me') {
-            if (node.gender === 'female') {
-                return womanAvatar;
-            } else {
-                return manAvatar;
-            }
-        } else if (node.id === 'myMother') {
+        if (node.gender === 'female') {
             if (node.verstorben === true) {
-                return grandmotherAvatarBW;
+                return womanAvatarBW;
+            } else if (node.blutsverwandt === true) {
+                return womanSisterAvatar;
             } else {
-                return grandmotherAvatar;
-            }
-        } else if (node.id === 'myFather') {
-            if (node.verstorben === true) {
-                return grandfatherAvatarBW;
-            } else {
-                return grandfatherAvatar;
-            }
-        } else if (node.id.substring(0, 6) === 'spouse') {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return womanAvatarBW;
-                } else {
-                    return womanSpouseAvatar;
-                }
-            } else {
-                if (node.verstorben === true) {
-                    return manAvatarBW;
-                } else {
-                    return manSpouseAvatar;
-                }
-            }
-        } else if (node.id.substring(0, 7) === 'sibling') {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return womanAvatarBW;
-                } else {
-                    return womanSisterAvatar;
-                }
-            } else {
-                if (node.verstorben === true) {
-                    return manAvatarBW;
-                } else {
-                    return manBrotherAvatar;
-                }
+                return womanSpouseAvatar;
             }
         } else {
-            if (node.gender === 'female') {
-                if (node.verstorben === true) {
-                    return girlAvatarBW;
-                } else {
-                    return girlAvatar;
-                }
+            if (node.verstorben === true) {
+                return manAvatarBW;
+            } else if (node.blutsverwandt === true) {
+                return manBrotherAvatar;
             } else {
-                if (node.verstorben === true) {
-                    return boyAvatarBW;
-                } else {
-                    return boyAvatar;
-                }
+                return manSpouseAvatar;
             }
         }
     }
 
-    function hideDelete(nodeID) {
-        return nodeID === 'me' || nodeID === 'myFather' || nodeID === 'myMother';
-    }
-
-    function hideEdit(nodeID) {
-        return nodeID === 'me';
-    }
-
-    function getBlutsverwandtIcon(node) {
-        return BloodDrop;
-    }
-
     return (
-        <div className={styles.root} style={style}>
+        <div className={styles.rootOtherFamilyMember} style={style}>
             <div
-                className={classNames(
-                    styles.oneFamilyMemberDiv,
-                    isRoot && styles.isRoot,
-                )}>
-                <img className={styles.bloodDrop} hidden={node.blutsverwandt === false}
-                     src={getBlutsverwandtIcon(node)}/>
+                className={styles.oneOtherFamilyMemberDiv}>
+                <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
+                     src={BloodDrop}/>
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
-                <img className={styles.warningSign} src={showAlert(node)}/>
+                <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
             </div>
-            <div className={styles.FamilyMemberName}>{getName(node)}</div>
-            <div hidden={hideDelete(node.id)}>
+            <div className={styles.OtherFamilyMemberName}>{getName(node)}</div>
+            <div hidden={false}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => deleteFunction(node.id)}
                      style={{
@@ -155,8 +98,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                          width: '20px',
                          borderRadius: '100px',
                          position: 'absolute',
-                         top: '15%',
-                         right: '1%'
+                         top: '2%',
+                         right: '-20%'
                      }}>
                     <DeleteIcon style={{
                         margin: '0 auto',
@@ -165,7 +108,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                     }}/>
                 </Fab>
             </div>
-            <div hidden={hideEdit(node.id)}>
+            <div hidden={false}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => editFunction(node.id)}
                      style={{
@@ -174,8 +117,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                          width: '20px',
                          borderRadius: '100px',
                          position: 'absolute',
-                         bottom: '15%',
-                         right: '1%',
+                         bottom: '2%',
+                         right: '-20%',
                      }}>
                     <EditIcon style={{
                         margin: '0 auto',
@@ -188,4 +131,4 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
     );
 }
 
-export default FamilyNode;
+export default OtherFamilyMemberNode;

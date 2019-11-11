@@ -1,5 +1,7 @@
 import localStorage from 'local-storage'
 
+let otherFamilyData = [];
+
 let myFamilyData =
     [
         {
@@ -39,7 +41,8 @@ let myFamilyData =
             "verstorben": '',
             "todesjahr": '',
             "todesursache": '',
-            "gesundheitszustand": ''
+            "gesundheitszustand": '',
+            "blutsverwandt": true
         },
         {
             "id": "myFather",
@@ -63,7 +66,8 @@ let myFamilyData =
             "verstorben": '',
             "todesjahr": '',
             "todesursache": '',
-            "gesundheitszustand": ''
+            "gesundheitszustand": '',
+            "blutsverwandt": true
         }
     ];
 
@@ -86,6 +90,14 @@ const familyHelpers = {
             myFamilyData = localStorage.get('FamilyData');
         }
         return myFamilyData;
+    },
+
+
+    getOtherFamilyData: function () {
+        if (localStorage.get('OtherFamilyData') !== null && localStorage.get('OtherFamilyData').length > 0) {
+            otherFamilyData = localStorage.get('OtherFamilyData');
+        }
+        return otherFamilyData;
     },
 
     //Returns the number of family members
@@ -111,6 +123,16 @@ const familyHelpers = {
         return false;
     },
 
+    getOtherFamilyMemberByID: function(id) {
+        for (let i = 0; i <= otherFamilyData.length - 1; i++) {
+            //If ID is the same --> found.
+            if (otherFamilyData[i].id === id) {
+                return otherFamilyData[i];
+            }
+        }
+        return false;
+    },
+
     //This is a check if the family member already exists --> Prevention of adding the same member twice.
     checkExistingFamilyMember: function (id) {
         for (let i = 0; i <= myFamilyData.length - 1; i++) {
@@ -122,6 +144,9 @@ const familyHelpers = {
         return false;
     },
 
+    getHighestIndexOfOtherFM: function () {
+        return otherFamilyData.length;
+    },
 
     //get Highest index of existing and deleted family members of type "fm"
     getHighestIndexOfFM: function (fm, allDeletedFamilyMembers) {
@@ -150,10 +175,30 @@ const familyHelpers = {
         }
     },
 
+    editOtherExistingFamiliyMember: function(id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
+        for (let i = 0; i< otherFamilyData.length; i++) {
+            if (otherFamilyData[i].id === id) {
+                otherFamilyData[i].gender = gender;
+                otherFamilyData[i].geburtsjahr = geburtsjahr;
+                otherFamilyData[i].spitzname = spitzname;
+                otherFamilyData[i].vorname = vorname;
+                otherFamilyData[i].nachname = nachname;
+                otherFamilyData[i].verstorben = verstorben;
+                otherFamilyData[i].todesjahr = todesjahr;
+                otherFamilyData[i].todesursache = todesursache;
+                otherFamilyData[i].gesundheitszustand = gesundheitszustand;
+                otherFamilyData[i].blutsverwandt = blutsverwandt;
+                otherFamilyData[i].verwandtschaftsgrad = verwadtschaftsgrad;
+            }
+        }
+        localStorage.set('OtherFamilyData', otherFamilyData);
+    },
+
 
     //Edit of an existing family member
-    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, additionalParent) {
+    editExistingFamilyMember: function (id, gender, parents, oldParents, sibling, spouses, children, oldChildren, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt) {
 
+        console.log("-----> Blutsverwandt: " + blutsverwandt);
         if (this.getFamilyMemberByID(id)) {
             console.log(" Edit Family Member " + id + " --> \n" + JSON.stringify(this.getFamilyData()));
 
@@ -229,6 +274,7 @@ const familyHelpers = {
                     "todesjahr": todesjahr,
                     "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
+                    "blutsverwandt": blutsverwandt
                 }
             );
             localStorage.set('FamilyData', myFamilyData);
@@ -237,12 +283,29 @@ const familyHelpers = {
         }
     },
 
-    setLocalStorage: function() {
-        localStorage.set('FamilyData', myFamilyData);
+    addOtherFamilyMember: function (id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
+        otherFamilyData.push(
+            {
+                "id": id,
+                "gender": gender,
+                "geburtsjahr": geburtsjahr,
+                "spitzname": spitzname,
+                "vorname": vorname,
+                "nachname": nachname,
+                "verstorben": verstorben,
+                "todesjahr": todesjahr,
+                "todesursache": todesursache,
+                "gesundheitszustand": gesundheitszustand,
+                "blutsverwandt": blutsverwandt,
+                "verwandtschaftsgrad": verwadtschaftsgrad,
+            }
+        );
+
+        localStorage.set('OtherFamilyData', otherFamilyData);
     },
 
     //This allows adding an all new family Member with check if they already exist
-    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand) {
+    addFamilyMember: function (id, gender, parents, sibling, spouses, children, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt) {
 
         if (!this.checkExistingFamilyMember(id)) {
             //add Child to Parents
@@ -338,6 +401,7 @@ const familyHelpers = {
                     "todesjahr": todesjahr,
                     "todesursache": todesursache,
                     "gesundheitszustand": gesundheitszustand,
+                    "blutsverwandt": blutsverwandt,
                 }
             );
 
@@ -350,6 +414,18 @@ const familyHelpers = {
             console.log("__Family member " + id + " does already exist");
             return false;
         }
+    },
+
+    deleteOtherFamilyMember: function (id) {
+        console.log("OFM to delete: "+id);
+        for (let i = 0; i < otherFamilyData.length; i++) {
+            console.log("OFM testing for deleteion: "+otherFamilyData[i].id);
+            if (otherFamilyData[i].id === id) {
+                console.log("OFM found: "+otherFamilyData[i].id);
+                otherFamilyData.splice(i, 1);
+            }
+        }
+        localStorage.set('OtherFamilyData', otherFamilyData);
     },
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
