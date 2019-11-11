@@ -67,7 +67,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         } else if (node.id === 'me') {
             return localStorage.get("Vorname");
         } else {
-            let newName = 'andere' + node.id.substring(5, node.id.length);
+            let newName = 'Andere' + node.id.substring(5, node.id.length);
             return newName;
         }
     }
@@ -105,6 +105,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
                 return manSpouseAvatar;
             }
         }
+        //TODO: if no gender is chosen, take "neutral" avatar (the same as we use when choosing the gender of me in the Startseite)
     }
 
 
@@ -136,6 +137,14 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         }
     }
 
+    // checks if the displayed name should be italic or bold
+    function shouldDisplayNameBeIalic(name) {
+        if (name.substring(0, 6) === 'Andere') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     return (
         <div className={styles.rootOtherFamilyMember} style={style}>
@@ -145,7 +154,8 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
                 {getIconAlert(node)}
             </div>
-            <div className={styles.OtherFamilyMemberName}>{getName(node)}</div>
+            <div className={styles.OtherFamilyMemberName}
+                 style={(shouldDisplayNameBeIalic(getName(node))) ? {fontStyle: 'italic'} : {fontWeight: 'bold'}}>{getName(node)}</div>
             <div hidden={false}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => deleteFunction(node.id)}

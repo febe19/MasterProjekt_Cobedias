@@ -432,7 +432,15 @@ class FamilyTree extends Component {
         });
     };
 
+    //closes the "Abschliessen"-Popup when button "Abbrechen" is chosen
     handlePopupAbschliessenClose = e => {
+        this.setState({
+            abschliessenPopupOpen: false
+        });
+    };
+
+    //closes the "Abschliessen"-Popup, exports FamilyData and returns back to "Startseite" when button "Abschliessen" is chosen
+    handlePopupAbschliessen = e => {
         this.setState({
             abschliessenPopupOpen: false
         });
@@ -785,7 +793,9 @@ class FamilyTree extends Component {
     // popup to add a new family member
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
-        this.setState({activeStep: 0, popupOpen: true, currentSelectedFamilyMember: fm}, () => {
+        this.setState({
+            abschliessenPopupOpen: false, activeStep: 0, popupOpen: true, currentSelectedFamilyMember: fm
+        }, () => {
             this.updateStepCompleteness(0);
             this.updateStepCompleteness(1);
             this.updateStepCompleteness(2);
@@ -1039,18 +1049,42 @@ class FamilyTree extends Component {
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
-                            Wählen Sie "Ja", um die Familienanamnese abzuschliessen und zum Startbildschirm
+                            Falls es noch Familienmitglieder gibt, welche mit einem roten Ausrufezeichen (!) markiert
+                            sind, so ergänzen Sie für diejenigen Familienmitglieder bitte alle fehlenden Angaben.
+                            <br></br>
+                            Wählen Sie dafür den Button "ABBRECHEN" und editieren sie die Familienmitglieder dann, indem
+                            sie auf das Stiftsymbol klicken.
+                            <br></br>
+                            <br></br>
+                            Falls Sie weitere noch nicht erfasst blutsverwandte Familienmitglieder haben, welche an
+                            einer Krankheit leiden, so erfassen Sie diese bitte noch und geben Sie die entsprechende
+                            Krankheit an.
+                            <br></br>
+                            Falls diese Familienmitglieder nicht links im Stammbaum abgebildet werden können, so
+                            benützen Sie bitte den Button "ANDERE HINZUFÜGEN".
+                            <br></br>
+                            <br></br>
+                            Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
+                            "ABSCHLIESSEN", um die Familienanamnese abzuschliessen und zum Startbildschirm
                             zurückzukehren.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handlePopupAbschliessenClose} color="primary">
-                            Nein
+
+
+                        <Button id="addOther" color="primary" style={{margin: '10px', right: '120px'}}
+                                onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
+
+                        <Button onClick={this.handlePopupAbschliessenClose} color="primary"
+                                style={{margin: '10px', right: '70px'}}>
+                            Abbrechen
                         </Button>
 
                         <NavLink exact to="/" style={{"text-decoration": "none"}}>
-                            <Button onClick={this.deleteFamilyMember} color="primary">Ja</Button>
+                            <Button onClick={this.handlePopupAbschliessen} color="primary"
+                                    style={{margin: '10px', right: '10px'}}>Abschliessen</Button>
                         </NavLink>
+
                     </DialogActions>
                 </Dialog>
             </div>)

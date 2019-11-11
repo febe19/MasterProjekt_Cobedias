@@ -205,6 +205,15 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
+    // checks if the displayed name should be italic or bold
+    function shouldDisplayNameBeIalic(name) {
+        if (name.substring(0, 4) === 'Kind' || name.substring(0, 11) === 'Geschwister' || name.substring(0, 7) === 'Partner' || name.substring(0, 5) === 'Vater' || name.substring(0, 6) === 'Mutter') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return (
         <div className={styles.root} style={style}>
             <div
@@ -216,7 +225,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
                 {getIconAlert(node)}
             </div>
-            <div className={styles.FamilyMemberName}>{getName(node)}</div>
+            <div className={styles.FamilyMemberName}
+                 style={(shouldDisplayNameBeIalic(getName(node))) ? {fontStyle: 'italic'} : {fontWeight: 'bold'}}>{getName(node)}</div>
             <div hidden={hideDelete(node.id)}>
                 <Fab color="primary" aria-label="edit"
                      onClick={() => deleteFunction(node.id)}
