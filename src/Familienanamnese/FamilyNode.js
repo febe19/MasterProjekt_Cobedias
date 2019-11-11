@@ -34,6 +34,7 @@ import {
     createMuiTheme,
     MuiThemeProvider,
 } from "@material-ui/core/styles";
+import familyHelpers from "./FamilyData";
 
 
 const theme = createMuiTheme({
@@ -55,9 +56,9 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
-        if (node.id === 'myFather' && node.spitzname === '') {
+        if (node.id === 'myFather' && node.spitzname === '' && node.vorname === '') {
             return 'Vater bearbeiten'
-        } else if (node.id === 'myMother' && node.spitzname === '') {
+        } else if (node.id === 'myMother' && node.spitzname === '' && node.vorname === '') {
             return 'Mutter bearbeiten'
         } else if (node.spitzname && node.spitzname !== '') {
             return node.spitzname
@@ -66,9 +67,27 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         } else if (node.id === 'me') {
             return localStorage.get("Vorname");
         } else {
-            return node.id;
+            return getDisplayNameByID(node);
         }
     }
+
+    //get the german display name for each node
+    function getDisplayNameByID(node) {
+        let newName = '';
+        if (node.id.substr(0, 5) === 'child') {
+            newName = 'Kind' + (node.id.substring(5, node.id.length))
+        } else if (node.id.substr(0, 6) === 'spouse') {
+            if (familyHelpers.getFamilyMemberByID(node.id).gender === 'female') {
+                newName = 'Partnerin' + (node.id.substring(6, node.id.length))
+            } else {
+                newName = 'Partner' + (node.id.substring(6, node.id.length))
+            }
+        } else if (node.id.substr(0, 7) === 'sibling') {
+            newName = 'Geschwister' + (node.id.substring(7, node.id.length))
+        }
+        return newName;
+    }
+
 
     //check if alert icon (Ausrufezeichen) should be displayed
     function showAlert(node) {

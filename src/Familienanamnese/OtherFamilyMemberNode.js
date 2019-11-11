@@ -34,6 +34,7 @@ import {
     createMuiTheme,
     MuiThemeProvider,
 } from "@material-ui/core/styles";
+import familyHelpers from "./FamilyData";
 
 
 const theme = createMuiTheme({
@@ -55,9 +56,9 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
     function getName(node) {
-        if (node.id === 'myFather' && node.spitzname === '') {
+        if (node.id === 'myFather' && node.spitzname === '' && node.vorname === '') {
             return 'Vater bearbeiten'
-        } else if (node.id === 'myMother' && node.spitzname === '') {
+        } else if (node.id === 'myMother' && node.spitzname === '' && node.vorname === '') {
             return 'Mutter bearbeiten'
         } else if (node.spitzname && node.spitzname !== '') {
             return node.spitzname
@@ -66,9 +67,11 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         } else if (node.id === 'me') {
             return localStorage.get("Vorname");
         } else {
-            return node.id;
+            let newName = 'andere' + node.id.substring(5, node.id.length);
+            return newName;
         }
     }
+
 
     function showAlert(node) {
         if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null) {
