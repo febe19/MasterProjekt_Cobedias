@@ -329,8 +329,6 @@ class FamilyTree extends Component {
                 //check if a child is edited
                 if (e.currentTarget.value.substring(0, 5) === 'child') {
                     newParents = [];
-                    let me = familyHelpers.getFamilyMemberByID("me");
-                    //ad "me" to parents
                     newParents.push({"id": "me"});
 
                     //set the selected additional parent as the second parent of the edited child
