@@ -28,6 +28,29 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+import {
+    createMuiTheme,
+    MuiThemeProvider,
+} from "@material-ui/core/styles";
+
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+                fontSize: "20px",
+                color: "white",
+                //backgroundColor: "#A9A9A9",
+                backgroundColor: "rgba(99, 90, 121, 0.9)",
+                maxWidth: '1000px'
+            }
+        }
+    }
+});
+
+
 function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
 
     // returns the name which should be displayed for a specific family member
@@ -48,13 +71,15 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
     }
 
     function showAlert(node) {
-        if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null || node.nachname === '' || node.nachname === null) {
+        if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null) {
             return WarningSign;
         } else if (node.verstorben === true && (node.todesjahr === 0 || node.todesursache === '' || node.todesursache === null)) {
             return WarningSign;
         } else if (node.verstorben === false && (node.gesundheitszustand === null || node.gesundheitszustand === '')) {
             return WarningSign;
-        } else if (node.verwandtschaftsgrad === null || node.verwandtschaftsgrad !== '') {
+        } else if (node.verwandtschaftsgrad === null || node.verwandtschaftsgrad === '') {
+            return WarningSign;
+        } else if (node.gender === '') {
             return WarningSign;
         }
     }
@@ -79,14 +104,43 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
         }
     }
 
+
+    // this function makes sure that the icon AND the Tooltip is only displayed if it should
+    function getIconAlert(node) {
+        if (showAlert(node)) {
+            return (
+                <MuiThemeProvider theme={theme}>
+                    <Tooltip TransitionComponent={Zoom} title="Es gibt nicht ausgefüllte Felder." placement="left">
+                        <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
+                    </Tooltip>
+                </MuiThemeProvider>
+            )
+        }
+    }
+
+    // this function makes sure that the icon AND the Tooltip is only displayed if it should
+    function getIconBlutsverwandt(node) {
+        if (!(node.blutsverwandt === false)) {
+            return (
+                <MuiThemeProvider theme={theme}>
+                    <Tooltip TransitionComponent={Zoom} title="Dieser Familienmitglieder ist blutsverwandt."
+                             placement="left">
+                        <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
+                             src={BloodDrop}/>
+                    </Tooltip>
+                </MuiThemeProvider>
+            )
+        }
+    }
+
+
     return (
         <div className={styles.rootOtherFamilyMember} style={style}>
             <div
                 className={styles.oneOtherFamilyMemberDiv}>
-                <img className={styles.bloodDropOtherFamilyMember} hidden={node.blutsverwandt === false}
-                     src={BloodDrop}/>
+                {getIconBlutsverwandt(node)}
                 <img style={{maxWidth: '91px'}} src={getAvatar(node)}/>
-                <img className={styles.warningSignOtherFamilyMember} src={showAlert(node)}/>
+                {getIconAlert(node)}
             </div>
             <div className={styles.OtherFamilyMemberName}>{getName(node)}</div>
             <div hidden={false}>

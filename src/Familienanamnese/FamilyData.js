@@ -1,6 +1,7 @@
 import localStorage from 'local-storage'
 
 let otherFamilyData = [];
+let deletedFamilyData = [];
 
 let myFamilyData =
     [
@@ -100,6 +101,13 @@ const familyHelpers = {
         return otherFamilyData;
     },
 
+    getDeletedFamilyData: function () {
+        if (localStorage.get('DeletedFamilyData') !== null && localStorage.get('DeletedFamilyData').length > 0) {
+            deletedFamilyData = localStorage.get('DeletedFamilyData');
+        }
+        return deletedFamilyData;
+    },
+
     //Returns the number of family members
     getNumberFamilyMember: function () {
         console.log("__Return number Family member: " + myFamilyData.length);
@@ -144,7 +152,9 @@ const familyHelpers = {
         return false;
     },
 
-    getHighestIndexOfOtherFM: function () {
+
+    //returns the number of existing other FM's
+    getNumberOfOtherFM: function () {
         return otherFamilyData.length;
     },
 
@@ -152,13 +162,26 @@ const familyHelpers = {
     getHighestIndexOfFM: function (fm, allDeletedFamilyMembers) {
         let lengthOfFMString = fm.length;
         let numbersOfAllIDs = [];
-        //loop through all existing family members
-        for (let i = 0; i <= myFamilyData.length - 1; i++) {
-            if (myFamilyData[i].id.substring(0, lengthOfFMString) === fm) {
-                numbersOfAllIDs.push(Number(myFamilyData[i].id.substring(lengthOfFMString)));
+
+        if (fm === 'other' && this.getOtherFamilyData().length !== 0) {
+            //loop through all existing OTHER family members
+            for (let i = 0; i <= this.getOtherFamilyData().length - 1; i++) {
+                if (this.getOtherFamilyData()[i].id.substring(0, lengthOfFMString) === fm) {
+                    numbersOfAllIDs.push(Number(this.getOtherFamilyData()[i].id.substring(lengthOfFMString)));
+                }
+            }
+        } else {
+            //loop through all existing family members (apart from OTHERS)
+            for (let i = 0; i <= myFamilyData.length - 1; i++) {
+                if (myFamilyData[i].id.substring(0, lengthOfFMString) === fm) {
+                    numbersOfAllIDs.push(Number(myFamilyData[i].id.substring(lengthOfFMString)));
+                }
             }
         }
+
         //loop through all deleted family members if not empty
+        console.log("allDeletedFamilyMembers len: " + allDeletedFamilyMembers.length);
+        console.log("allDeletedFamilyMembers: " + JSON.stringify(allDeletedFamilyMembers));
         if (allDeletedFamilyMembers.length !== 0) {
             for (let i = 0; i <= allDeletedFamilyMembers.length - 1; i++) {
                 if (allDeletedFamilyMembers[i].id.substring(0, lengthOfFMString) === fm) {
@@ -419,13 +442,14 @@ const familyHelpers = {
     deleteOtherFamilyMember: function (id) {
         console.log("OFM to delete: " + id);
         for (let i = 0; i < otherFamilyData.length; i++) {
-            console.log("OFM testing for deleteion: " + otherFamilyData[i].id);
+            console.log("OFM testing for deletion: " + otherFamilyData[i].id);
             if (otherFamilyData[i].id === id) {
                 console.log("OFM found: " + otherFamilyData[i].id);
                 otherFamilyData.splice(i, 1);
             }
         }
         localStorage.set('OtherFamilyData', otherFamilyData);
+        localStorage.set('DeletedFamilyData', deletedFamilyData);
     },
 
     //This delete certain Family members. It is only allowed to delete spouses, siblings or children
@@ -473,6 +497,7 @@ const familyHelpers = {
 
         console.log("Deleted member " + id + " from FamilyData: \n" + JSON.stringify(myFamilyData));
         localStorage.set('FamilyData', myFamilyData);
+        localStorage.set('DeletedFamilyData', deletedFamilyData);
     }
 };
 

@@ -70,8 +70,9 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         }
     }
 
+    //check if alert icon (Ausrufezeichen) should be displayed
     function showAlert(node) {
-        if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null || node.nachname === '' || node.nachname === null) {
+        if (node.vorname === null || node.vorname === '' || node.spitzname === null || node.spitzname === '' || node.geburtsjahr === 0 || node.geburtsjahr === '' || node.verstorben === '' || node.verstorben === null) {
             return WarningSign;
         } else if (node.verstorben === true && (node.todesjahr === 0 || node.todesursache === '' || node.todesursache === null)) {
             return WarningSign;
