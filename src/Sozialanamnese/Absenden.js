@@ -87,9 +87,8 @@ class Absenden extends Component {
                         Schritt zurück und ergänzen Sie dort die Angaben. Danach können Sie wieder auf den letzten
                         Schritt klicken.</p>
                     <br/>
-                    <p>Sind alle Abschnitte vollständig, so senden Sie die Daten bitte an Ihren Arzt / Ihre Ärztin,
-                        indem Sie unten auf die dafür
-                        vorgesehene Schaltfläche klicken.</p>
+                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf die
+                        dafür vorgesehene Schaltfläche klicken.</p>
                     <br/><br/><br/><br/><br/><br/><br/>
 
                     <div hidden={false}>
@@ -103,7 +102,7 @@ class Absenden extends Component {
                                     color="primary"
                                     onClick={this.handlePopupZurStartseite}
                                 >
-                                    Daten an Arzt/Ärztin senden
+                                    Daten herunterladen
                                     {({loading}) => (loading ? 'Loading document...' : '')}
                                 </Button>
                             </div>
