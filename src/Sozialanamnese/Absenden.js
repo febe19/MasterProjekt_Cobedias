@@ -142,6 +142,10 @@ const CobediasDocument = () => (
     <Document>
         <Page size="A4" style={PDFstyles.page}>
             <View>
+                <Text style={PDFstyles.section}>Vorname: {localStorage.get('Vorname')}</Text>
+                <Text style={PDFstyles.section}>Nachname: {localStorage.get('Nachname')}</Text>
+                <Text style={PDFstyles.section}>Geschlecht: {localStorage.get('me_gender')}</Text>
+
                 <Text style={PDFstyles.heading}>Berufstätigkeit</Text>
                 <Text style={PDFstyles.section}>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
                 <Text style={PDFstyles.section}>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
