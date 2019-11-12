@@ -32,7 +32,9 @@ import {NavLink} from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
+import {Document, Page, PDFDownloadLink, StyleSheet, Text, View} from "@react-pdf/renderer";
 
+import createHistory from 'history/createBrowserHistory';
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -92,6 +94,24 @@ for (var i = 2019; i >= 1919; i--) {
     yearsDropdown.push(dict);
 }
 
+//styles to export PDF
+const PDFstyles = StyleSheet.create({
+    page: {
+        flexDirection: 'row',
+        backgroundColor: '#E4E4E4'
+    },
+    heading: {
+        margin: 30,
+        padding: 10,
+        fontSize: 20,
+    },
+    section: {
+        margin: 30,
+        padding: 10,
+        fontSize: 14,
+        flexGrow: 1
+    },
+});
 
 // Namen der Stepps werden hier definiert
 function getSteps(member) {
@@ -381,10 +401,13 @@ class FamilyTree extends Component {
         })
     };
 
+    // closes the popup and exports all FamilyData
     handleAbschliesseAlert = e => {
         this.setState({
             abschliessenPopupOpen: true,
         })
+
+
     };
 
     // closes "addFamilyMember-Popup" when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
@@ -444,6 +467,32 @@ class FamilyTree extends Component {
         this.setState({
             abschliessenPopupOpen: false
         });
+
+        const history: History = createHistory();
+        //const location = history.getCurrentLocation();
+
+
+        const unlisten = history.listen({
+            pathname: '/Familienanamnese',
+            search: '',
+
+            // Extra location-specific state may be kept in session
+            // storage instead of in the URL query string!
+            state: {}
+        });
+
+        history.push({
+            pathname: '/',
+            search: '',
+
+            // Extra location-specific state may be kept in session
+            // storage instead of in the URL query string!
+            state: {the: 'state'}
+        });
+        unlisten()
+
+        //TODO: fix BUG: crashes when rerouting
+
     };
 
 
@@ -1070,26 +1119,43 @@ class FamilyTree extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-
-
                         <Button id="addOther" color="primary" style={{margin: '10px', right: '120px'}}
                                 onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
-
                         <Button onClick={this.handlePopupAbschliessenClose} color="primary"
                                 style={{margin: '10px', right: '70px'}}>
                             Abbrechen
                         </Button>
 
-                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                        <PDFDownloadLink document={
+                            <Document>
+                                <Page size="A4" style={PDFstyles.page}>
+                                    <View>
+                                        <Text style={PDFstyles.heading}>Stammbaum</Text>
+                                        <Text style={PDFstyles.section}>Vorname: {localStorage.get('Vorname')}</Text>
+                                        <Text style={PDFstyles.section}>Nachname: {localStorage.get('Nachname')}</Text>
+                                        <Text
+                                            style={PDFstyles.section}>Geschlecht: {localStorage.get('me_gender')}</Text>
+                                        <Text
+                                            style={PDFstyles.section}>Stammbaum: {JSON.stringify(localStorage.get('FamilyData'))}</Text>
+                                        <Text style={PDFstyles.section}>Andere
+                                            Familienmitglieder: {JSON.stringify(localStorage.get('OtherFamilyData'))}</Text>
+                                        <Text style={PDFstyles.section}>Gelöschte
+                                            Familienmitglieder: {JSON.stringify(localStorage.get('DeletedFamilyData'))}</Text>
+                                    </View>
+                                </Page>
+                            </Document>
+                        } fileName="TestFamilienanamnese.pdf">
+
                             <Button onClick={this.handlePopupAbschliessen} color="primary"
-                                    style={{margin: '10px', right: '10px'}}>Abschliessen</Button>
-                        </NavLink>
+                                    style={{margin: '10px', right: '10px'}}>Abschliessen
+                                {({loading}) => (loading ? 'Loading document...' : '...')}
+                            </Button>
+                        </PDFDownloadLink>
 
                     </DialogActions>
                 </Dialog>
             </div>)
     }
-
 
     // markiert den "Ja" button blau sobald er angewählt wird
     colorYesButton() {
