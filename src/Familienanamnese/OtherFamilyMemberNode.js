@@ -1,25 +1,14 @@
 import React from 'react';
-import classNames from 'classnames';
 import styles from './FamilyNode.module.css';
 import "typeface-roboto";
 import localStorage from 'local-storage'
 
-import girlAvatar from '../images/001-girl.svg'
-import girlAvatarBW from '../images/001-girl-BW.svg'
-import boyAvatar from '../images/049-boy.svg'
-import boyAvatarBW from '../images/049-boy-BW.svg'
-import womanAvatar from '../images/003-woman.svg'
 import womanAvatarBW from '../images/003-woman-BW.svg'
 import womanSisterAvatar from '../images/003-woman-sister.svg'
 import womanSpouseAvatar from '../images/003-woman-spouse.svg'
-import manAvatar from '../images/028-man.svg'
 import manAvatarBW from '../images/028-man-BW.svg'
 import manBrotherAvatar from '../images/028-man-brother.svg'
 import manSpouseAvatar from '../images/028-man-spouse.svg'
-import grandmotherAvatar from '../images/047-grandmother.svg'
-import grandmotherAvatarBW from '../images/047-grandmother-BW.svg'
-import grandfatherAvatar from '../images/002-grandfather.svg'
-import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
 import WarningSign from '../images/Warning_Sign.svg'
 import BloodDrop from '../images/blood.svg'
 
@@ -34,7 +23,6 @@ import {
     createMuiTheme,
     MuiThemeProvider,
 } from "@material-ui/core/styles";
-import familyHelpers from "./FamilyData";
 
 
 const theme = createMuiTheme({

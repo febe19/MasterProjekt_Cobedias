@@ -183,15 +183,6 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                             </Typography>
                         </div>
 
-                        <div hidden={activeStep !== totalSteps() - 1} className="SozialanamneseSendButton">
-                            <Button
-                                size="medium"
-                                variant="contained"
-                                color="primary"
-                            >
-                                Daten an Arzt/Ärztin senden
-                            </Button>
-                        </div>
 
                         <div className="SozialanamneseNavigationsButton">
                             <div>

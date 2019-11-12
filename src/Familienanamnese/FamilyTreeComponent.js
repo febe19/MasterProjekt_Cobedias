@@ -34,8 +34,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
 import {Document, Page, PDFDownloadLink, StyleSheet, Text, View} from "@react-pdf/renderer";
 
-import createHistory from 'history/createBrowserHistory';
-
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -154,6 +152,7 @@ class FamilyTree extends Component {
         this.nextTutorialStep = this.nextTutorialStep.bind(this);
         this.previousTutorialStep = this.previousTutorialStep.bind(this);
         this.handlePopupAbschliessenClose = this.handlePopupAbschliessenClose.bind(this);
+        this.handlePopupZurStartseiteClose = this.handlePopupZurStartseiteClose.bind(this);
         this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
         this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
 
@@ -187,6 +186,7 @@ class FamilyTree extends Component {
             childrenOfSpouse: [],
             additionalParentOfChild: '',
             abschliessenPopupOpen: false,
+            zurStartseitePopupOpen: false,
             blutsverwandt: true,
             otherFamilyMemberGender: '',
             verwandtschaftsgrad: '',
@@ -465,34 +465,17 @@ class FamilyTree extends Component {
     //closes the "Abschliessen"-Popup, exports FamilyData and returns back to "Startseite" when button "Abschliessen" is chosen
     handlePopupAbschliessen = e => {
         this.setState({
-            abschliessenPopupOpen: false
+            abschliessenPopupOpen: false,
+            zurStartseitePopupOpen: true
         });
-
-        const history: History = createHistory();
-        //const location = history.getCurrentLocation();
+    };
 
 
-        const unlisten = history.listen({
-            pathname: '/Familienanamnese',
-            search: '',
-
-            // Extra location-specific state may be kept in session
-            // storage instead of in the URL query string!
-            state: {}
+    //closes the "ZurStartseite"-Popup when button "Nein" is chosen
+    handlePopupZurStartseiteClose = e => {
+        this.setState({
+            zurStartseitePopupOpen: false
         });
-
-        history.push({
-            pathname: '/',
-            search: '',
-
-            // Extra location-specific state may be kept in session
-            // storage instead of in the URL query string!
-            state: {the: 'state'}
-        });
-        unlisten()
-
-        //TODO: fix BUG: crashes when rerouting
-
     };
 
 
@@ -1114,15 +1097,15 @@ class FamilyTree extends Component {
                             <br></br>
                             <br></br>
                             Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
-                            "ABSCHLIESSEN", um die Familienanamnese abzuschliessen und zum Startbildschirm
+                            "DATEN HERUNTERLADEN", um die Familienanamnese abzuschliessen und zum Startbildschirm
                             zurückzukehren.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button id="addOther" color="primary" style={{margin: '10px', right: '120px'}}
+                        <Button id="addOther" color="primary" style={{margin: '10px', right: '45px'}}
                                 onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
                         <Button onClick={this.handlePopupAbschliessenClose} color="primary"
-                                style={{margin: '10px', right: '70px'}}>
+                                style={{margin: '10px', right: '25px'}}>
                             Abbrechen
                         </Button>
 
@@ -1146,12 +1129,49 @@ class FamilyTree extends Component {
                             </Document>
                         } fileName="TestFamilienanamnese.pdf">
 
-                            <Button onClick={this.handlePopupAbschliessen} color="primary"
-                                    style={{margin: '10px', right: '10px'}}>Abschliessen
-                                {({loading}) => (loading ? 'Loading document...' : '...')}
+                            <Button
+                                size="medium"
+                                variant="contained"
+                                onClick={this.handlePopupAbschliessen} color="primary"
+                                style={{margin: '10px', right: '10px'}}
+                            >
+                                Daten herunterladen
+                                {({loading}) => (loading ? 'Loading document...' : '')}
                             </Button>
+
+
                         </PDFDownloadLink>
 
+                    </DialogActions>
+                </Dialog>
+            </div>)
+    }
+
+
+    //when download is done, this popup asks user if he wants to go back to Startseite
+    showPopupZurStartseite() {
+        return (
+            <div>
+                <Dialog
+                    open={this.state.zurStartseitePopupOpen}
+                    TransitionComponent={TransitionAlertPopup}
+                    keepMounted
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
+                                 id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese schliessen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Die Familienanamnese wurde als PDF heruntergeladen. Wollen Sie nun zur Startseite
+                            zurückkehren?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handlePopupZurStartseiteClose} color="primary">Nein</Button>
+                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                            <Button onClick={this.handlePopupZurStartseiteClose} color="primary">Ja</Button>
+                        </NavLink>
                     </DialogActions>
                 </Dialog>
             </div>)
@@ -1648,6 +1668,7 @@ class FamilyTree extends Component {
                 <div>{this.showPopupCancelAlert()}</div>
                 <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
                 <div>{this.showPopupAbschliessen()}</div>
+                <div>{this.showPopupZurStartseite()}</div>
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
