@@ -135,6 +135,15 @@ const PDFstyles = StyleSheet.create({
     },
 });
 
+//only writes gender of me to PDF if the gender was set
+function getGeschlecht() {
+    if ((localStorage.get('me_gender')) && (localStorage.get('me_gender') !== '') && (localStorage.get('me_gender') !== 'null')) {
+        return (
+            <Text style={PDFstyles.section}>Geschlecht: {localStorage.get('me_gender')}</Text>
+        )
+    }
+}
+
 
 //Document which will be downloaded when clicking the blue Link. Here all Local storage variables need to be listed.
 //TODO: improve design of downloaded PDF (e.g. insert line breaks, set title...)
@@ -144,8 +153,7 @@ const CobediasDocument = () => (
             <View>
                 <Text style={PDFstyles.section}>Vorname: {localStorage.get('Vorname')}</Text>
                 <Text style={PDFstyles.section}>Nachname: {localStorage.get('Nachname')}</Text>
-                <Text style={PDFstyles.section}>Geschlecht: {localStorage.get('me_gender')}</Text>
-
+                {getGeschlecht()}
                 <Text style={PDFstyles.heading}>Berufstätigkeit</Text>
                 <Text style={PDFstyles.section}>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
                 <Text style={PDFstyles.section}>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
