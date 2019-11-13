@@ -29,6 +29,7 @@ class Berufstaetigkeit extends Component {
             gelernterBeruf: '',
             aktuellerBeruf: '',
 
+            arbeitsfaehigkeit: '',
             normalArbeitsfaehig: false,
             arbeitlos: false,
             pensioniert: false,
@@ -127,6 +128,7 @@ class Berufstaetigkeit extends Component {
         this.setState({normalArbeitsfaehig: true}, () => {
 
             // da der Button "normalArbeitsfaehig" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('arbeitsfaehigkeit', 'normal arbeitsfähig');
             localStorage.set('normalArbeitsfaehig', true);
             localStorage.set('arbeitlos', false);
             localStorage.set('pensioniert', false);
@@ -153,6 +155,7 @@ class Berufstaetigkeit extends Component {
         this.setState({arbeitlos: true}, () => {
 
             // da der Button "arbeitlos" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('arbeitsfaehigkeit', 'arbeitslos');
             localStorage.set('normalArbeitsfaehig', false);
             localStorage.set('arbeitlos', true);
             localStorage.set('pensioniert', false);
@@ -174,6 +177,7 @@ class Berufstaetigkeit extends Component {
         this.setState({pensioniert: true}, () => {
 
             // da der Button "pensioniert" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('arbeitsfaehigkeit', 'pensioniert');
             localStorage.set('normalArbeitsfaehig', false);
             localStorage.set('arbeitlos', false);
             localStorage.set('pensioniert', true);
@@ -194,6 +198,7 @@ class Berufstaetigkeit extends Component {
         this.setState({iVRente: true}, () => {
 
             // da der Button "iVRente" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('arbeitsfaehigkeit', 'IV-Rente');
             localStorage.set('normalArbeitsfaehig', false);
             localStorage.set('arbeitlos', false);
             localStorage.set('pensioniert', false);
@@ -214,6 +219,7 @@ class Berufstaetigkeit extends Component {
         this.setState({arbeitsunfaehig: true}, () => {
 
             // da der Button "arbeitsunfaehig" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('arbeitsfaehigkeit', 'arbeitsunfähig');
             localStorage.set('normalArbeitsfaehig', false);
             localStorage.set('arbeitlos', false);
             localStorage.set('pensioniert', false);
