@@ -162,6 +162,7 @@ class FamilyTree extends Component {
             FamilyDataState: familyHelpers.getFamilyData(),
             OtherFamilyMembersState: familyHelpers.getOtherFamilyData(),
             popupOpen: false,
+            allowErrors: false,
             popupCancelAlertOpen: false,
             popupDeleteFamilyMemberAlertOpen: false,
             familyMemberToBeDeleted: '',
@@ -384,6 +385,7 @@ class FamilyTree extends Component {
 
         this.setState({
             popupOpen: false,
+            allowErrors: false,
             geburtsjahr: 0,
             spitzname: '',
             vorname: '',
@@ -409,7 +411,8 @@ class FamilyTree extends Component {
     handlePopopCancelAlert = e => {
         this.setState({
             popupCancelAlertOpen: true,
-            popupOpen: false
+            popupOpen: false,
+            allowErrors: false
         })
     };
 
@@ -428,6 +431,7 @@ class FamilyTree extends Component {
         this.setState({
             popupCancelAlertOpen: false,
             popupOpen: false,
+            allowErrors: false,
             geburtsjahr: 0,
             spitzname: '',
             vorname: '',
@@ -701,7 +705,6 @@ class FamilyTree extends Component {
     //onclick Function to delete Family Member: called when alert popup to delete family member is agreed
     deleteFamilyMember = (e) => {
         //add the fm to the list of all deleted fm's
-        console.log("why am I here???");
         let DeletedFamilyMembers = this.state.DeletedFamilyMembers;
         if (this.state.familyMemberToBeDeleted.substring(0, 5) === 'other') {
             DeletedFamilyMembers.push(familyHelpers.getOtherFamilyMemberByID(this.state.familyMemberToBeDeleted));
@@ -836,8 +839,13 @@ class FamilyTree extends Component {
                 });
             }
         }
-        //Open Popup
-        this.popUpFamilyMember(e);
+        //
+        this.setState({
+            allowErrors: true,
+        }, () => {
+            //Open Popup
+            this.popUpFamilyMember(e);
+        });
     };
 
     //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
@@ -986,6 +994,7 @@ class FamilyTree extends Component {
             <div>
                 <form className={useStyles.container} noValidate autoComplete="off">
                     <TextField
+                        error={(this.state.geburtsjahr === '' || this.state.geburtsjahr === 0) && this.state.allowErrors === true}
                         id="geburtsjahr"
                         select
                         variant="outlined"
@@ -1019,6 +1028,8 @@ class FamilyTree extends Component {
                     onBlur={this.handleChangeBlur("spitzname")}
                     fullWidth
                     placeholder="Geben Sie hier den Spitznamen ein"
+                    error={this.state.spitzname === '' && this.state.allowErrors === true}
+                    helperText={(this.state.spitzname === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
                 <TextField
                     label="Vorname"
@@ -1030,6 +1041,8 @@ class FamilyTree extends Component {
                     onBlur={this.handleChangeBlur("vorname")}
                     fullWidth
                     placeholder="Geben Sie hier den Vornamen ein"
+                    error={this.state.vorname === '' && this.state.allowErrors === true}
+                    helperText={(this.state.vorname === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
                 <TextField
                     label="Nachname"
@@ -1041,6 +1054,8 @@ class FamilyTree extends Component {
                     onBlur={this.handleChangeBlur("nachname")}
                     fullWidth
                     placeholder="Geben Sie hier den Nachnamen ein"
+                    error={this.state.nachname === '' && this.state.allowErrors === true}
+                    helperText={(this.state.nachname === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
                 <div
                     hidden={this.state.currentSelectedFamilyMember === 'myMother' || this.state.currentSelectedFamilyMember === 'myFather' || this.state.currentSelectedFamilyMember.substring(0, 6) === 'spouse' || this.state.currentSelectedFamilyMember.substring(0, 9) === 'addSpouse'}>
@@ -1236,6 +1251,9 @@ class FamilyTree extends Component {
                     <Button variant="outlined" size="small" color="primary" style={styleNoButton}
                             onClick={this.handleNoButtonChange}> Nein </Button>
                 </div>
+                <div className="ErrorMessageForNotSelectedButtons">
+                    {(this.state.verstorben === '' && this.state.allowErrors === true) ? 'Bitte geben Sie an, ob dieses Familienmitglied verstorben ist!' : ''}
+                </div>
                 <div>{this.showGesundheitszustandOrTodesjahr()}</div>
             </div>
         )
@@ -1253,6 +1271,7 @@ class FamilyTree extends Component {
                         <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
+                                error={(this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors === true}
                                 id="todesjahr"
                                 select
                                 variant="outlined"
@@ -1289,6 +1308,8 @@ class FamilyTree extends Component {
                             multiline
                             rows="5"
                             placeholder="Geben Sie hier die Todesursache ein"
+                            error={this.state.todesursache === '' && this.state.allowErrors === true}
+                            helperText={(this.state.todesursache === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
                     </div>
                 )
@@ -1315,6 +1336,8 @@ class FamilyTree extends Component {
                             multiline
                             rows="8"
                             placeholder="Geben Sie hier den Gesundheitszustand ein"
+                            error={this.state.gesundheitszustand === '' && this.state.allowErrors === true}
+                            helperText={(this.state.gesundheitszustand === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
                     </div>
                 )
@@ -1505,6 +1528,9 @@ class FamilyTree extends Component {
                                 margin: '5px'
                             } : {margin: '5px'}}
                             onClick={this.handleOtherButtonChange}>Andere</Button>
+                    <div className="ErrorMessageForNotSelectedButtonsOtherFMGender">
+                        {(this.state.otherFamilyMemberGender === '' && this.state.allowErrors === true) ? 'Bitte Geschlecht wählen!' : ''}
+                    </div>
                     <TextField
                         label="Verwandtschaftsgrad"
                         margin="normal"
@@ -1515,6 +1541,8 @@ class FamilyTree extends Component {
                         onBlur={this.handleChangeBlur("verwandtschaftsgrad")}
                         fullWidth
                         placeholder="Geben Sie hier den Verwandtschaftsgrad ein"
+                        error={this.state.verwandtschaftsgrad === '' && this.state.allowErrors === true}
+                        helperText={(this.state.verwandtschaftsgrad === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                 </div>
             )
@@ -1553,7 +1581,10 @@ class FamilyTree extends Component {
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepButton
-                                    onClick={this.handleStep(index)} completed={this.state.completed[index]}>
+                                    onClick={this.handleStep(index)}
+                                    completed={this.state.completed[index]}
+                                    style={(index === this.state.activeStep) ? {textDecoration: 'underline'} : {}}
+                                >
                                     {label}
                                 </StepButton>
                             </Step>

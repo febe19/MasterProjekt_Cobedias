@@ -361,5 +361,22 @@ ul.header li a {
 }
 
 
+.ErrorMessageForNotSelectedButtons {
+    color: #f44336;
+    font-size: 12px;
+    margin: 8px 14px 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    float: left;
+}
+
+
+.ErrorMessageForNotSelectedButtonsOtherFMGender {
+    color: #f44336;
+    font-size: 12px;
+    margin: 0 14px 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+
 
 
