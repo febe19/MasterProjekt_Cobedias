@@ -137,6 +137,7 @@ class FamilyTree extends Component {
         this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
         this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
 
+
         //Define the state of this component.
         this.state = {
             FamilyDataState: familyHelpers.getFamilyData(),
@@ -170,11 +171,14 @@ class FamilyTree extends Component {
             blutsverwandt: true,
             otherFamilyMemberGender: 'male',
             verwandtschaftsgrad: '',
+            isLoaded: false,
+      wasShown: false
         };
 
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
 
+ 
 
     //Try to fetch the gender of me from the localStorage
     componentWillMount() {
@@ -184,6 +188,16 @@ class FamilyTree extends Component {
         }
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
     }
+
+    async componentDidMount() {
+        const wasShown = await JSON.parse(window.localStorage.getItem('key')) // get key
+     
+        if(wasShown === null) {
+          await JSON.parse(window.localStorage.setItem('key', '"true"'))
+        }
+     
+        this.setState({isLoaded: true, wasShown}
+        )}
 
 // zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
     getStepContent(step) {
@@ -372,6 +386,7 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             verwandtschaftsgrad: '',
             otherFamilyMemberGender: '',
+            
         });
     };
 
@@ -780,7 +795,7 @@ class FamilyTree extends Component {
     }
 
     nextTutorialStep() {
-        if (this.state.tutorialStep === 3) {
+        if (this.state.tutorialStep === 4) {
             this.setState({tutorialStep: 0});
             this.showTutorial();
         } else {
@@ -1422,14 +1437,19 @@ class FamilyTree extends Component {
         )
     }
 
+  
+
     render() {
+        const { isLoaded, wasShown } = this.state
+        if(!isLoaded) { return null }
+
+        if(!wasShown) {
         return (
             <div>
-
                 <div className="Left">
                     <p style={{margin: '3px', marginTop: '15px', marginLeft: '20px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
                     <div className="addFamilyMembersButtons"
-                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
                              boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
@@ -1494,7 +1514,7 @@ class FamilyTree extends Component {
                 <div className="Right">
                     <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
                     <div className="addOtherFamilyMembersButtons"
-                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 4) ? {
                              boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
@@ -1527,7 +1547,7 @@ class FamilyTree extends Component {
                 <div>{this.showPopupAbschliessen()}</div>
 
                 <div className="AbschliessenButton"
-                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 5) ? {
                          boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
                          zIndex: 200
                      } : {zIndex: "-100"}}>
@@ -1550,8 +1570,20 @@ class FamilyTree extends Component {
                                 margin: '3px'
                             }}>{this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
                 </div>
+                
                 <div className="Tutorial" hidden={this.state.hideTutorial}>
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
+     
+
+                        <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
+                         className="TutorialText">
+                             
+                        <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
+                            gelöscht werden 
+                        
+                        </li>
+                    </div>
+
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
                         <li>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</li>
@@ -1562,14 +1594,14 @@ class FamilyTree extends Component {
                         </li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
                          className="TutorialText">
                         <h1>Hinzufügen</h1>
                         <li>Mit diesen Buttons können Sie dem Stambaum weitere Familienmitglieder hinzufügen.</li>
                         <li>Es ist immer von Ihnen auszugehen.</li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Andere Familienmitglieder</h1>
                         <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, könne Sie
@@ -1580,7 +1612,7 @@ class FamilyTree extends Component {
                         </li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 4}
                          className="TutorialText">
                         <h1>Abschliessen</h1>
                         <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen</li>
@@ -1595,11 +1627,228 @@ class FamilyTree extends Component {
                                 style={{color: 'white', borderColor: 'white', margin: '3px'}}
                                 onClick={this.nextTutorialStep}
                         >Weiter</Button>
+                </div>
+                    <div className="TutorialButtons">
+                        <Button id="TutorialZurück" variant="outlined"
+                                style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                                onClick={this.previousTutorialStep}
+                        >Zurück</Button>
+                        <Button id="TutorialWeiter" variant="outlined"
+                                style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                                onClick={this.nextTutorialStep}
+                        >Weiter</Button>
+                </div>
+                </div>
+            </div>
+        );}
+    
+    return (
+        <div>
+            <div className="Left">
+                <p style={{margin: '3px', marginTop: '15px', marginLeft: '20px'}}>Geben Sie hier bitte alle Ihre Blutverwandte ein.</p>
+                <div className="addFamilyMembersButtons"
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
+                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         position: "relative",
+                         zIndex: 200
+                     } : {zIndex: "-100"}}>
+                    <Button id="addSister" variant="outlined" color="primary"
+                            onClick={() => this.popUpFamilyMember('addSister')} style={{margin: '3px'}}>Schwester
+                        Hinzufügen</Button>
+                    <Button id="addBrother" variant="outlined" color="primary"
+                            onClick={() => this.popUpFamilyMember('addBrother')} style={{margin: '3px'}}>Bruder
+                        Hinzufügen</Button>
+                    <Button id="addSpouse" variant="outlined" color="primary"
+                            onClick={() => this.popUpFamilyMember('addSpouse')} style={{margin: '3px'}}>
+                        {(localStorage.get('me_gender') !== null && localStorage.get('me_gender') === 'male') ? 'Partnerin hinzufügen' : 'Partner hinzufügen'}
+                    </Button>
+                    <Button id="addDaughter" variant="outlined" color="primary"
+                            onClick={() => this.popUpFamilyMember('addDaughter')} style={{margin: '3px'}}>Tochter
+                        Hinzufügen</Button>
+                    <Button id="addSon" variant="outlined" color="primary"
+                            onClick={() => this.popUpFamilyMember('addSon')} style={{margin: '3px'}}>Sohn
+                        Hinzufügen</Button>
+                </div>
+
+                <div className="BigFamilyTreeContainer"
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         position: "relative",
+                         zIndex: 200
+                     } : {zIndex: "-100"}}>
+                    <div className="FamilyTreeDiv"
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             position: "relative",
+                             zIndex: 200
+                         } : {zIndex: "-100"}}>
+
+                        <ReactFamilyTree
+                            nodes={this.state.FamilyDataState}
+                            rootId={myID}
+                            width={WIDTH}
+                            height={HEIGHT}
+                            canvasClassName={styles.tree}
+                            renderNode={(node: IFamilyExtNode) => (
+                                <FamilyNode
+                                    key={node.id}
+                                    node={node}
+                                    isRoot={node.id === myID}
+                                    deleteFunction={this.handleDeleteFamilyMemberPopup}
+                                    editFunction={this.editFamilyMember}
+                                    style={{
+                                        width: WIDTH * RESIZE,
+                                        height: HEIGHT * RESIZE,
+                                        transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                        padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
+                                    }}
+                                />
+                            )}
+                        />
                     </div>
                 </div>
             </div>
-        );
-    }
-}
 
+            <div className="Right">
+                <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
+                <div className="addOtherFamilyMembersButtons"
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 4) ? {
+                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         position: "relative",
+                         zIndex: 200
+                     } : {zIndex: "-100"}}>
+                    <Button id="addOther" variant="outlined" color="primary" style={{margin: '3px'}}
+                            onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
+                </div>
+
+                <div className="OtherFamilyDiv" hidden={familyHelpers.getHighestIndexOfOtherFM() === 0}>
+                    <div className="OtherFamilyMemberPortraitDiv">
+                        {familyHelpers.getOtherFamilyData().map(option => (
+                            <OtherFamilyMemberNode
+                                node={option}
+                                deleteFunction={this.handleDeleteFamilyMemberPopup}
+                                editFunction={this.editFamilyMember}
+                                style={{
+                                    width: WIDTH * RESIZE,
+                                    height: HEIGHT * RESIZE,
+                                    marginRight: '18px',
+                                    marginBottom: '25px',
+                                }}/>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div>{this.showPopup()}</div>
+            <div>{this.showPopupCancelAlert()}</div>
+            <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
+            <div>{this.showPopupAbschliessen()}</div>
+
+            <div className="AbschliessenButton"
+                 style={(this.state.hideTutorial === false && this.state.tutorialStep === 5) ? {
+                     boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                     zIndex: 200
+                 } : {zIndex: "-100"}}>
+                <Button id="Abbschliessen" variant="outlined" color="Primary"
+                        onClick={this.handleAbschliesseAlert}> Abschliessen</Button>
+            </div>
+
+            <div hidden={this.state.hideTutorial === false}
+                 style={{position: "absolute", bottom: "2px", right: "2px"}}>Icons made by <a
+                href="https://www.flaticon.com/authors/freepik"
+                title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
+                                                    title="Flaticon">www.flaticon.com</a></div>
+
+            <div className="HilfeButton">
+                <Button id="Hilfe" variant="outlined" onClick={this.showTutorial}
+                        color={this.state.hideTutorial === true ? "Primary" : ""}
+                        style={this.state.hideTutorial === true ? {margin: '3px'} : {
+                            color: 'white',
+                            borderColor: 'white',
+                            margin: '3px'
+                        }}>{this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
+            </div>
+            
+            <div className="Tutorial" hidden={this.state.hideTutorial}>
+
+
+
+            <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0 }
+                     className="TutorialText" >
+                         
+                    <li>Willkommen zu einem kurzen Tutorial und Einführung für den Familienstammbaum. Pro Abschitt wird eine Funktion 
+                        vorgestellt, mit der man mit der App interagieren kann. Sollten Sie erneut Hilfe brauchen, so können Sie diese unten links aufrufen.<br/> Die Vervollständigung des Stammbaums dient dazu, einen möglichst umfassenden Einblick in Einflussfaktoren auf Ihre Gesundheit zu bekommen.
+                    </li>
+                
+                </div>
+                                    
+
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
+                     className="TutorialText">
+                         
+                    <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
+                        gelöscht werden 
+                    
+                    </li>
+                </div>
+
+                <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
+                     className="TutorialText">
+                    <h1>Stammbaum</h1>
+                    <li>Hier sehen sie alle Familienmitglieder, welche Sie bereits hinzugefügt haben.</li>
+                    <li>Die Verwandschaftsverhältnisse sind über Linien dargestellt.</li>
+                    <li>Ziel ist es ein möglichst genaues Bild Ihrere Blutsverwandten zu erhalten</li>
+                    <li>Mit den blauen Buttons neben den Portraits können Familienmitglieder bearbeitet oder
+                        gelöscht werden
+                    </li>
+                </div>
+
+                <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
+                     className="TutorialText">
+                    <h1>Hinzufügen</h1>
+                    <li>Mit diesen Buttons können Sie dem Stambaum weitere Familienmitglieder hinzufügen.</li>
+                    <li>Es ist immer von Ihnen auszugehen.</li>
+                </div>
+
+                <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 4}
+                     className="TutorialText">
+                    <h1>Andere Familienmitglieder</h1>
+                    <li>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen hinzufügen können, könne Sie
+                        mit deime Knopf hinzufügen.
+                    </li>
+                    <li>Diese Familienmitgleider werden nicht im Stammbaum angezeigt, sondern direkt unterhalb
+                        dieses Knopfes.
+                    </li>
+                </div>
+
+                <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 5}
+                     className="TutorialText">
+                    <h1>Abschliessen</h1>
+                    <li>Mit diesem Buttons können Sie, sobald sie Fertig sind, die Eingabe abschliessen</li>
+                </div>
+
+                <div className="TutorialButtons">
+                    <Button id="TutorialZurück" variant="outlined"
+                            style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                            onClick={this.previousTutorialStep}
+                    >Zurück</Button>
+                    <Button id="TutorialWeiter" variant="outlined"
+                            style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                            onClick={this.nextTutorialStep}
+                    >Weiter</Button>
+            </div>
+                <div className="TutorialButtons">
+                    <Button id="TutorialZurück" variant="outlined"
+                            style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                            onClick={this.previousTutorialStep}
+                    >Zurück</Button>
+                    <Button id="TutorialWeiter" variant="outlined"
+                            style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                            onClick={this.nextTutorialStep}
+                    >Weiter</Button>
+            </div>
+            </div>
+        </div>
+    );
+}}
 export default FamilyTree;

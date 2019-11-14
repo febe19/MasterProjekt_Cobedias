@@ -45,7 +45,7 @@ class Home extends Component {
     }
   }
 
-  // 2 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen
+  // 3 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen
   applyBorder() {
     this.setState(
       state => ({ showBorder1: true, showBorder2: false, showBorder3: false }),
