@@ -31,10 +31,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import {
-    createMuiTheme,
-    MuiThemeProvider,
-} from "@material-ui/core/styles";
+import {createMuiTheme, MuiThemeProvider,} from "@material-ui/core/styles";
 import familyHelpers from "./FamilyData";
 
 
