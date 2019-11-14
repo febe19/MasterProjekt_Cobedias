@@ -115,29 +115,55 @@ class Absenden extends Component {
 
 export default Absenden;
 
+
 const PDFstyles = StyleSheet.create({
-    page: {
-        flexDirection: 'row',
-        backgroundColor: '#E4E4E4'
+    body: {
+        paddingTop: 35,
+        paddingBottom: 65,
+        paddingHorizontal: 35,
     },
-    heading: {
-        margin: 30,
-        padding: 10,
-        fontSize: 20,
+    title: {
+        fontSize: 30,
+        textAlign: 'center',
     },
-    section: {
-        margin: 30,
-        padding: 10,
+    subtitle: {
+        fontSize: 18,
+        margin: 10,
+        marginTop: 40,
+        marginLeft: 15
+    },
+    text: {
+        margin: 2,
+        marginLeft: 25,
+        fontSize: 11,
+        textAlign: 'justify',
+    },
+    header: {
         fontSize: 14,
-        flexGrow: 1
+        marginBottom: 20,
+        textAlign: 'center',
+        color: 'grey',
+    },
+    pageNumber: {
+        position: 'absolute',
+        fontSize: 12,
+        bottom: 30,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        color: 'grey',
     },
 });
+
+
+
+
 
 //only writes gender of me to PDF if the gender was set
 function getGeschlecht() {
     if ((localStorage.get('me_gender')) && (localStorage.get('me_gender') !== '') && (localStorage.get('me_gender') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>{localStorage.get('me_gender')}</Text>
+            <Text style={PDFstyles.text}>{localStorage.get('me_gender')}</Text>
         )
     }
 }
@@ -146,7 +172,7 @@ function getGeschlecht() {
 function getGelernterBeruf() {
     if ((localStorage.get('gelernterBeruf')) && (localStorage.get('gelernterBeruf') !== '') && (localStorage.get('gelernterBeruf') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
+            <Text style={PDFstyles.text}>Gelernter Beruf: {localStorage.get('gelernterBeruf')}</Text>
         )
     }
 }
@@ -155,7 +181,7 @@ function getGelernterBeruf() {
 function getAktuellerBeruf() {
     if ((localStorage.get('aktuellerBeruf')) && (localStorage.get('aktuellerBeruf') !== '') && (localStorage.get('aktuellerBeruf') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
+            <Text style={PDFstyles.text}>Aktueller Beruf: {localStorage.get('aktuellerBeruf')}</Text>
         )
     }
 }
@@ -164,7 +190,7 @@ function getAktuellerBeruf() {
 function getArbeitsfaehigkeit() {
     if ((localStorage.get('arbeitsfaehigkeit')) && (localStorage.get('arbeitsfaehigkeit') !== '') && (localStorage.get('arbeitsfaehigkeit') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitsfähigkeit: {localStorage.get('arbeitsfaehigkeit')}</Text>
+            <Text style={PDFstyles.text}>Arbeitsfähigkeit: {localStorage.get('arbeitsfaehigkeit')}</Text>
         )
     }
 }
@@ -173,7 +199,7 @@ function getArbeitsfaehigkeit() {
 function getArbeitspensum() {
     if ((localStorage.get('arbeitspensum')) && (localStorage.get('arbeitspensum') !== '') && (localStorage.get('arbeitspensum') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitspensum: {localStorage.get('arbeitspensum')}</Text>
+            <Text style={PDFstyles.text}>Arbeitspensum: {localStorage.get('arbeitspensum')}</Text>
         )
     }
 }
@@ -182,7 +208,7 @@ function getArbeitspensum() {
 function getDateArbeitslosigkeit() {
     if ((localStorage.get('dateArbeitslosigkeit')) && (localStorage.get('dateArbeitslosigkeit') !== '') && (localStorage.get('dateArbeitslosigkeit') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Datum Arbeitslosigkeit: {localStorage.get('dateArbeitslosigkeit')}</Text>
+            <Text style={PDFstyles.text}>Datum Arbeitslosigkeit: {localStorage.get('dateArbeitslosigkeit')}</Text>
         )
     }
 }
@@ -191,7 +217,7 @@ function getDateArbeitslosigkeit() {
 function getDatePensioniert() {
     if ((localStorage.get('datePensioniert')) && (localStorage.get('datePensioniert') !== '') && (localStorage.get('datePensioniert') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Datum pensioniert: {localStorage.get('datePensioniert')}</Text>
+            <Text style={PDFstyles.text}>Datum pensioniert: {localStorage.get('datePensioniert')}</Text>
         )
     }
 }
@@ -200,7 +226,7 @@ function getDatePensioniert() {
 function getDateIVRente() {
     if ((localStorage.get('dateIVRente')) && (localStorage.get('dateIVRente') !== '') && (localStorage.get('dateIVRente') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Datum IV-Rente: {localStorage.get('dateIVRente')}</Text>
+            <Text style={PDFstyles.text}>Datum IV-Rente: {localStorage.get('dateIVRente')}</Text>
         )
     }
 }
@@ -209,7 +235,7 @@ function getDateIVRente() {
 function getDateArbeitsunfaehigkeitVon() {
     if ((localStorage.get('dateArbeitsunfaehigkeitVon')) && (localStorage.get('dateArbeitsunfaehigkeitVon') !== '') && (localStorage.get('dateArbeitsunfaehigkeitVon') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitsunfähig seit: {localStorage.get('dateArbeitsunfaehigkeitVon')}</Text>
+            <Text style={PDFstyles.text}>Arbeitsunfähig seit: {localStorage.get('dateArbeitsunfaehigkeitVon')}</Text>
         )
     }
 }
@@ -218,7 +244,7 @@ function getDateArbeitsunfaehigkeitVon() {
 function getDateArbeitsunfaehigkeitBis() {
     if ((localStorage.get('dateArbeitsunfaehigkeitBis')) && (localStorage.get('dateArbeitsunfaehigkeitBis') !== '') && (localStorage.get('dateArbeitsunfaehigkeitBis') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitsunfähig bis: {localStorage.get('dateArbeitsunfaehigkeitBis')}</Text>
+            <Text style={PDFstyles.text}>Arbeitsunfähig bis: {localStorage.get('dateArbeitsunfaehigkeitBis')}</Text>
         )
     }
 }
@@ -227,7 +253,7 @@ function getDateArbeitsunfaehigkeitBis() {
 function getErkrankung() {
     if ((localStorage.get('erkrankung')) && (localStorage.get('erkrankung') !== '') && (localStorage.get('erkrankung') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Erkrankung: {localStorage.get('erkrankung')}</Text>
+            <Text style={PDFstyles.text}>Erkrankung: {localStorage.get('erkrankung')}</Text>
         )
     }
 }
@@ -236,8 +262,7 @@ function getErkrankung() {
 function getArbeitsunfaehigkeitInProzent() {
     if ((localStorage.get('arbeitsunfaehigkeitInProzent')) && (localStorage.get('arbeitsunfaehigkeitInProzent') !== '') && (localStorage.get('arbeitsunfaehigkeitInProzent') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitsunfähigkeit in
-                %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
+            <Text style={PDFstyles.text}>Arbeitsunfähigkeit in %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
         )
     }
 }
@@ -246,7 +271,7 @@ function getArbeitsunfaehigkeitInProzent() {
 function getUntauglichkeitsgrund() {
     if ((localStorage.get('untauglichkeitsGrund')) && (localStorage.get('untauglichkeitsGrund') !== '') && (localStorage.get('untauglichkeitsGrund') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Grund für Untauglichkeit: {localStorage.get('untauglichkeitsGrund')}</Text>
+            <Text style={PDFstyles.text}>Grund für Untauglichkeit: {localStorage.get('untauglichkeitsGrund')}</Text>
         )
     }
 }
@@ -255,7 +280,7 @@ function getUntauglichkeitsgrund() {
 function getWohnsituation() {
     if ((localStorage.get('wohnsituation')) && (localStorage.get('wohnsituation') !== '') && (localStorage.get('wohnsituation') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Wohnsituation: {localStorage.get('wohnsituation')}</Text>
+            <Text style={PDFstyles.text}>Wohnsituation: {localStorage.get('wohnsituation')}</Text>
         )
     }
 }
@@ -264,8 +289,7 @@ function getWohnsituation() {
 function getAndereWohnText() {
     if ((localStorage.get('andereWohnText')) && (localStorage.get('andereWohnText') !== '') && (localStorage.get('andereWohnText') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Beschreibung der "anderen
-                Wohnsituation": {localStorage.get('andereWohnText')}</Text>
+            <Text style={PDFstyles.text}>Beschreibung der "anderen Wohnsituation": {localStorage.get('andereWohnText')}</Text>
         )
     }
 }
@@ -274,7 +298,7 @@ function getAndereWohnText() {
 function getZivilstand() {
     if ((localStorage.get('zivilstand')) && (localStorage.get('zivilstand') !== '') && (localStorage.get('zivilstand') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Zivilstand: {localStorage.get('zivilstand')}</Text>
+            <Text style={PDFstyles.text}>Zivilstand: {localStorage.get('zivilstand')}</Text>
         )
     }
 }
@@ -283,8 +307,7 @@ function getZivilstand() {
 function getAndererZivilstand() {
     if ((localStorage.get('andereText')) && (localStorage.get('andereText') !== '') && (localStorage.get('andereText') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Beschreibung des "anderen
-                Zivilstands": {localStorage.get('andereText')}</Text>
+            <Text style={PDFstyles.text}>Beschreibung des "anderen Zivilstands": {localStorage.get('andereText')}</Text>
         )
     }
 }
@@ -293,8 +316,7 @@ function getAndererZivilstand() {
 function getPatVerfuegungExistiert() {
     if ((localStorage.get('patVerfuegungExistiert')) && (localStorage.get('patVerfuegungExistiert') !== '') && (localStorage.get('patVerfuegungExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Patientenverfügung
-                existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
+            <Text style={PDFstyles.text}>Patientenverfügung existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
         )
     }
 }
@@ -303,8 +325,7 @@ function getPatVerfuegungExistiert() {
 function getPatVerfuegungBei() {
     if ((localStorage.get('patVerfuegungBei')) && (localStorage.get('patVerfuegungBei') !== '') && (localStorage.get('patVerfuegungBei') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Patientenverfügung hinterlegt
-                bei: {localStorage.get('patVerfuegungBei')}</Text>
+            <Text style={PDFstyles.text}>Patientenverfügung hinterlegt bei: {localStorage.get('patVerfuegungBei')}</Text>
         )
     }
 }
@@ -313,8 +334,7 @@ function getPatVerfuegungBei() {
 function getVorsorgeauftragExistiert() {
     if ((localStorage.get('vorsorgeauftragExistiert')) && (localStorage.get('vorsorgeauftragExistiert') !== '') && (localStorage.get('vorsorgeauftragExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Vorsorgeauftrag
-                existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
+            <Text style={PDFstyles.text}>Vorsorgeauftrag existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
         )
     }
 }
@@ -323,8 +343,7 @@ function getVorsorgeauftragExistiert() {
 function getVorsorgeauftragBei() {
     if ((localStorage.get('vorsorgeauftragBei')) && (localStorage.get('vorsorgeauftragBei') !== '') && (localStorage.get('vorsorgeauftragBei') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Vorsorgeauftrag hinterlegt
-                bei: {localStorage.get('vorsorgeauftragBei')}</Text>
+            <Text style={PDFstyles.text}>Vorsorgeauftrag hinterlegt bei: {localStorage.get('vorsorgeauftragBei')}</Text>
         )
     }
 }
@@ -334,11 +353,11 @@ function getVorsorgeauftragBei() {
 //TODO: improve design of downloaded PDF (e.g. insert line breaks, set title...)
 const CobediasDocument = () => (
     <Document>
-        <Page size="A4" style={PDFstyles.page}>
+        <Page size="A4" style={PDFstyles.body}>
             <View>
-                <Text style={PDFstyles.section}>Nachname, Vorname
-                    (Geschlecht): {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()})</Text>
-                <Text style={PDFstyles.heading}>Berufstätigkeit</Text>
+                <Text style={PDFstyles.header}>~ {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()}) ~</Text>
+                <Text style={PDFstyles.title}>Sozialanamnese</Text>
+                <Text style={PDFstyles.subtitle}>Berufstätigkeit</Text>
                 {getGelernterBeruf()}
                 {getAktuellerBeruf()}
                 {getArbeitsfaehigkeit()}
@@ -351,29 +370,28 @@ const CobediasDocument = () => (
                 {getErkrankung()}
                 {getArbeitsunfaehigkeitInProzent()}
 
-                <Text style={PDFstyles.heading}>Hobbies</Text>
-                <Text style={PDFstyles.section}>Hobbies: {localStorage.get('hobbies')}</Text>
+                <Text style={PDFstyles.subtitle}>Hobbies</Text>
+                <Text style={PDFstyles.text}>{localStorage.get('hobbies')}</Text>
 
-                <Text style={PDFstyles.heading}>Militärdienst</Text>
-                <Text style={PDFstyles.section}>Militärdienst wurde
-                    gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
+                <Text style={PDFstyles.subtitle}>Militärdienst</Text>
+                <Text style={PDFstyles.text}>Militärdienst wurde gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
                 {getUntauglichkeitsgrund()}
 
-                <Text style={PDFstyles.heading}>Wohnsituation</Text>
+                <Text style={PDFstyles.subtitle}>Wohnsituation</Text>
                 {getWohnsituation()}
                 {getAndereWohnText()}
 
-                <Text style={PDFstyles.heading}>Bezugspersonen</Text>
+                <Text style={PDFstyles.subtitle}>Bezugspersonen & Zivilstand</Text>
                 {getZivilstand()}
                 {getAndererZivilstand()}
-                <Text style={PDFstyles.section}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>
+                <Text style={PDFstyles.text}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>
                 {getPatVerfuegungExistiert()}
                 {getPatVerfuegungBei()}
                 {getVorsorgeauftragExistiert()}
                 {getVorsorgeauftragBei()}
 
-                <Text style={PDFstyles.heading}>Bemerkungen</Text>
-                <Text style={PDFstyles.section}>Bemerkungen: {localStorage.get('bemerkungen')}</Text>
+                <Text style={PDFstyles.subtitle}>Bemerkungen</Text>
+                <Text style={PDFstyles.text}>{localStorage.get('bemerkungen')}</Text>
 
             </View>
         </Page>
