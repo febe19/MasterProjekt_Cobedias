@@ -85,16 +85,14 @@ class Absenden extends Component {
                         haben. Alle Schritte sollten mit einem Häkchen markiert sein. Ist dies nicht der Fall, so kehren
                         Sie bitte zum jeweiligen
                         Schritt zurück und ergänzen Sie dort die Angaben. Danach können Sie wieder auf den letzten
-                        Schritt klicken.</p>
+                        Schritt "Abschliessen" klicken.</p>
                     <br/>
-                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf die
-                        dafür vorgesehene Schaltfläche klicken.</p>
-                    <br/><br/><br/><br/><br/><br/><br/>
+                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf den
+                        dafür vorgesehenen Knopf klicken.</p>
 
                     <div hidden={false}>
-
-                        <PDFDownloadLink document={<CobediasDocument/>} fileName={localStorage.get('Vorname')+"_"+localStorage.get('Nachname')+"_"+"Sozialanamnese.pdf"}>
-
+                        <PDFDownloadLink document={<CobediasDocument/>}
+                                         fileName={localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Sozialanamnese.pdf"}>
                             <div className="SozialanamneseSendButton">
                                 <Button
                                     size="medium"
@@ -238,7 +236,8 @@ function getErkrankung() {
 function getArbeitsunfaehigkeitInProzent() {
     if ((localStorage.get('arbeitsunfaehigkeitInProzent')) && (localStorage.get('arbeitsunfaehigkeitInProzent') !== '') && (localStorage.get('arbeitsunfaehigkeitInProzent') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Arbeitsunfähigkeit in %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
+            <Text style={PDFstyles.section}>Arbeitsunfähigkeit in
+                %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
         )
     }
 }
@@ -265,7 +264,8 @@ function getWohnsituation() {
 function getAndereWohnText() {
     if ((localStorage.get('andereWohnText')) && (localStorage.get('andereWohnText') !== '') && (localStorage.get('andereWohnText') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Beschreibung der "anderen Wohnsituation": {localStorage.get('andereWohnText')}</Text>
+            <Text style={PDFstyles.section}>Beschreibung der "anderen
+                Wohnsituation": {localStorage.get('andereWohnText')}</Text>
         )
     }
 }
@@ -283,7 +283,8 @@ function getZivilstand() {
 function getAndererZivilstand() {
     if ((localStorage.get('andereText')) && (localStorage.get('andereText') !== '') && (localStorage.get('andereText') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Beschreibung des "anderen Zivilstands": {localStorage.get('andereText')}</Text>
+            <Text style={PDFstyles.section}>Beschreibung des "anderen
+                Zivilstands": {localStorage.get('andereText')}</Text>
         )
     }
 }
@@ -292,7 +293,8 @@ function getAndererZivilstand() {
 function getPatVerfuegungExistiert() {
     if ((localStorage.get('patVerfuegungExistiert')) && (localStorage.get('patVerfuegungExistiert') !== '') && (localStorage.get('patVerfuegungExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Patientenverfügung existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
+            <Text style={PDFstyles.section}>Patientenverfügung
+                existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
         )
     }
 }
@@ -301,7 +303,8 @@ function getPatVerfuegungExistiert() {
 function getPatVerfuegungBei() {
     if ((localStorage.get('patVerfuegungBei')) && (localStorage.get('patVerfuegungBei') !== '') && (localStorage.get('patVerfuegungBei') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Patientenverfügung hinterlegt bei: {localStorage.get('patVerfuegungBei')}</Text>
+            <Text style={PDFstyles.section}>Patientenverfügung hinterlegt
+                bei: {localStorage.get('patVerfuegungBei')}</Text>
         )
     }
 }
@@ -310,7 +313,8 @@ function getPatVerfuegungBei() {
 function getVorsorgeauftragExistiert() {
     if ((localStorage.get('vorsorgeauftragExistiert')) && (localStorage.get('vorsorgeauftragExistiert') !== '') && (localStorage.get('vorsorgeauftragExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Vorsorgeauftrag existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
+            <Text style={PDFstyles.section}>Vorsorgeauftrag
+                existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
         )
     }
 }
@@ -319,7 +323,8 @@ function getVorsorgeauftragExistiert() {
 function getVorsorgeauftragBei() {
     if ((localStorage.get('vorsorgeauftragBei')) && (localStorage.get('vorsorgeauftragBei') !== '') && (localStorage.get('vorsorgeauftragBei') !== 'null')) {
         return (
-            <Text style={PDFstyles.section}>Vorsorgeauftrag hinterlegt bei: {localStorage.get('vorsorgeauftragBei')}</Text>
+            <Text style={PDFstyles.section}>Vorsorgeauftrag hinterlegt
+                bei: {localStorage.get('vorsorgeauftragBei')}</Text>
         )
     }
 }
@@ -331,7 +336,8 @@ const CobediasDocument = () => (
     <Document>
         <Page size="A4" style={PDFstyles.page}>
             <View>
-                <Text style={PDFstyles.section}>Nachname, Vorname (Geschlecht): {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()})</Text>
+                <Text style={PDFstyles.section}>Nachname, Vorname
+                    (Geschlecht): {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()})</Text>
                 <Text style={PDFstyles.heading}>Berufstätigkeit</Text>
                 {getGelernterBeruf()}
                 {getAktuellerBeruf()}
@@ -349,7 +355,8 @@ const CobediasDocument = () => (
                 <Text style={PDFstyles.section}>Hobbies: {localStorage.get('hobbies')}</Text>
 
                 <Text style={PDFstyles.heading}>Militärdienst</Text>
-                <Text style={PDFstyles.section}>Militärdienst wurde gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
+                <Text style={PDFstyles.section}>Militärdienst wurde
+                    gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
                 {getUntauglichkeitsgrund()}
 
                 <Text style={PDFstyles.heading}>Wohnsituation</Text>

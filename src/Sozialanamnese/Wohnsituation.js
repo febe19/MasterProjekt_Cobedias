@@ -20,13 +20,13 @@ class Wohnsituation extends Component {
             wohnung: false,
             altersheim: false,
             pflegeheim: false,
-            andere: false,
+            andereWohn: false,
             andereWohnText: '',
         };
         console.log("-  " + new Date().toLocaleTimeString() + " _Wohnsituation_");
     }
 
-    //write the Change of "andere" to the state.
+    //write the Change of "andereWohn" to the state.
     handleChange = () => event => {
         this.setState({[event.target.name]: event.target.value}, () => {
 
@@ -45,11 +45,11 @@ class Wohnsituation extends Component {
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
             localStorage.set('pflegeheim', false);
-            localStorage.set('andere', false);
+            localStorage.set('andereWohn', false);
             this.setState({wohnung: false});
             this.setState({altersheim: false});
             this.setState({pflegeheim: false});
-            this.setState({andere: false});
+            this.setState({andereWohn: false});
 
             //nachdem alle "Wohnsituationen" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
             localStorage.set('WohnsituationKomplett', this.checkComponentCompleteness());
@@ -66,11 +66,11 @@ class Wohnsituation extends Component {
             localStorage.set('wohnung', true);
             localStorage.set('altersheim', false);
             localStorage.set('pflegeheim', false);
-            localStorage.set('andere', false);
+            localStorage.set('andereWohn', false);
             this.setState({haus: false});
             this.setState({altersheim: false});
             this.setState({pflegeheim: false});
-            this.setState({andere: false});
+            this.setState({andereWohn: false});
 
 
             //nachdem alle "Wohnsituationen" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
@@ -88,11 +88,11 @@ class Wohnsituation extends Component {
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', true);
             localStorage.set('pflegeheim', false);
-            localStorage.set('andere', false);
+            localStorage.set('andereWohn', false);
             this.setState({haus: false});
             this.setState({wohnung: false});
             this.setState({pflegeheim: false});
-            this.setState({andere: false});
+            this.setState({andereWohn: false});
 
             //nachdem alle "Wohnsituationen" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
             localStorage.set('WohnsituationKomplett', this.checkComponentCompleteness());
@@ -109,11 +109,11 @@ class Wohnsituation extends Component {
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
             localStorage.set('pflegeheim', true);
-            localStorage.set('andere', false);
+            localStorage.set('andereWohn', false);
             this.setState({haus: false});
             this.setState({wohnung: false});
             this.setState({altersheim: false});
-            this.setState({andere: false});
+            this.setState({andereWohn: false});
 
             //nachdem alle "Wohnsituationen" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
             localStorage.set('WohnsituationKomplett', this.checkComponentCompleteness());
@@ -122,15 +122,15 @@ class Wohnsituation extends Component {
 
     //write the Change of the "andere" Button to the state.
     handleChangeAndere = () => {
-        this.setState({andere: true}, () => {
+        this.setState({andereWohn: true}, () => {
 
-            // da der Button "andere" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            // da der Button "andereWohn" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
             localStorage.set('wohnsituation', 'Andere (weder Haus, Wohnung, Altersheim oder Pflegeheim)');
             localStorage.set('haus', false);
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
             localStorage.set('pflegeheim', false);
-            localStorage.set('andere', true);
+            localStorage.set('andereWohn', true);
             this.setState({haus: false});
             this.setState({wohnung: false});
             this.setState({altersheim: false});
@@ -166,7 +166,7 @@ class Wohnsituation extends Component {
             wohnung: localStorage.get('wohnung'),
             altersheim: localStorage.get('altersheim'),
             pflegeheim: localStorage.get('pflegeheim'),
-            andere: localStorage.get('andere'),
+            andereWohn: localStorage.get('andere'),
             andereWohnText: localStorage.get('andereWohnText'),
         });
 
@@ -178,7 +178,7 @@ class Wohnsituation extends Component {
     checkComponentCompleteness() {
         if (localStorage.get('haus') || localStorage.get('wohnung') || localStorage.get('altersheim') || localStorage.get('pflegeheim')) {
             return true;
-        } else if (localStorage.get('andere')) {
+        } else if (localStorage.get('andereWohn')) {
             if (this.state.andereWohnText == '' || this.state.andereWohnText == null) {
                 return false;
             } else {
@@ -198,7 +198,7 @@ class Wohnsituation extends Component {
         localStorage.set('wohnung', this.state.wohnung);
         localStorage.set('altersheim', this.state.altersheim);
         localStorage.set('pflegeheim', this.state.pflegeheim);
-        localStorage.set('andere', this.state.andere);
+        localStorage.set('andereWohn', this.state.andereWohn);
         localStorage.set('andereWohnText', this.state.andereWohnText);
 
         localStorage.set('WohnsituationKomplett', this.checkComponentCompleteness());
@@ -211,12 +211,11 @@ class Wohnsituation extends Component {
 
     }
 
-    // zeigt "Andere" Textbox nur an, wenn "Andere" Button ausgewählt ist
+    // zeigt "Andere" Textbox nur an, wenn "andereWohn" Button ausgewählt ist
     showAndereWohnTextbox() {
-        if (this.state.andere) {
+        if (this.state.andereWohn) {
             return (
-                <div className="WohnsituationEingeblendetesDiv">
-                    <br/>
+                <div>
                     <p>Bitte geben Sie Ihre Wohnsituation an:</p>
                     <TextField
                         label="Wohnsituation"
@@ -227,6 +226,8 @@ class Wohnsituation extends Component {
                         onChange={this.handleChange("andereWohnText")}
                         fullWidth
                         placeholder="Geben Sie hier eine alternative Wohnsituation ein"
+                        error={(this.state.andereWohnText === '' || this.state.andereWohnText === null) && this.state.allowErrors === true}
+                        helperText={((this.state.andereWohnText === '' || this.state.andereWohnText === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                 </div>
             )
@@ -242,8 +243,8 @@ class Wohnsituation extends Component {
         const styleAltersheim = (this.state.altersheim) ? {background: '#BBC2E5'} : {};
         // markiert den "Pflegeheim" button blau sobald dieser angewählt wurde
         const stylePflegeheim = (this.state.pflegeheim) ? {background: '#BBC2E5'} : {};
-        // markiert den "andere" button blau sobald dieser angewählt wurde
-        const styleAndere = (this.state.andere) ? {background: '#BBC2E5'} : {};
+        // markiert den "andereWohn" button blau sobald dieser angewählt wurde
+        const styleAndere = (this.state.andereWohn) ? {background: '#BBC2E5'} : {};
 
         return (
             <div>
@@ -279,7 +280,12 @@ class Wohnsituation extends Component {
                             </Button>
                         </div>
                     </div>
-                    <br/><br/>
+
+                    <div className="ErrorMessageForNotSelectedButtons">
+                        {(this.state.allowErrors === true && this.state.normalArbeitsfaehig !== true && this.state.arbeitlos !== true && this.state.pensioniert !== true && this.state.iVRente !== true && this.state.arbeitsunfaehig !== true) ? 'Bitte geben Sie Ihren aktuellen Arbeitszustand an!' : ''}
+                    </div>
+
+                    <br/>
                     <div>{this.showAndereWohnTextbox()}</div>
                 </div>
             </div>

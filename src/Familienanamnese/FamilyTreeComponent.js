@@ -1285,8 +1285,6 @@ class FamilyTree extends Component {
                 return (
                     <div>
                         <br/>
-                        <br/>
-                        <br/>
                         <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
@@ -1336,8 +1334,6 @@ class FamilyTree extends Component {
             } else {
                 return (
                     <div>
-                        <br/>
-                        <br/>
                         <br/>
                         <div className="Gesundheitszustand">
                             <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe

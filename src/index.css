@@ -163,10 +163,6 @@ ul.header li a {
     width: 90%;
 }
 
-.Berufeingabe {
-    margin-top: 7%;
-}
-
 
 .FamilyTreeContent {
     padding: 20px;
@@ -365,8 +361,9 @@ ul.header li a {
     color: #f44336;
     font-size: 12px;
     margin: 8px 14px 0;
+    padding-top: 8px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    float: left;
+    clear: left;
 }
 
 

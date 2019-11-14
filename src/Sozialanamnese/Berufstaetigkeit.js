@@ -48,7 +48,6 @@ class Berufstaetigkeit extends Component {
 
     //write the Change of "aktueller Beruf" / "gelernter beruf" / "Art der Erkrankung" to the state.
     handleChange = () => event => {
-        console.log("gelernter beruf check: " + this.state.gelernterBeruf);
         this.setState({[event.target.name]: event.target.value}, () => {
 
             // completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
@@ -418,10 +417,9 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
 
-                    <div className="Berufeingabe">
-                        <div>{this.showGelernterBeruf()}</div>
-                        <div>{this.showAktuellerBeruf()}</div>
-                    </div>
+                    <div>{this.showGelernterBeruf()}</div>
+                    <div>{this.showAktuellerBeruf()}</div>
+
                     <br/>
                     <p>Bitte geben Sie Ihr aktuelles Arbeitspensum an:</p>
                     <div className="ArbeitspensumSlider">
@@ -461,9 +459,8 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
 
-                    <div className="Berufeingabe">
-                        <div>{this.showGelernterBeruf()}</div>
-                    </div>
+                    <div>{this.showGelernterBeruf()}</div>
+
                     <br/>
                     <p>Bitte geben Sie an seit wann Sie arbeitslos sind:</p>
                     <div className="DatePicker">
@@ -498,9 +495,8 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
 
-                    <div className="Berufeingabe">
-                        <div>{this.showGelernterBeruf()}</div>
-                    </div>
+                    <div>{this.showGelernterBeruf()}</div>
+
                     <br/>
                     <p>Bitte geben Sie an seit wann Sie pensioniert sind:</p>
                     <div className="DatePicker">
@@ -534,9 +530,8 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
 
-                    <div className="Berufeingabe">
-                        <div>{this.showGelernterBeruf()}</div>
-                    </div>
+                    <div>{this.showGelernterBeruf()}</div>
+
                     <br/>
                     <p>Bitte geben Sie an seit wann Sie eine IV-Rente beziehen:</p>
                     <div className="DatePicker">
@@ -570,10 +565,8 @@ class Berufstaetigkeit extends Component {
             return (
                 <div className="ArbeitszustandEingeblendetesDiv">
 
-                    <div className="Berufeingabe">
-                        <div>{this.showGelernterBeruf()}</div>
-                        <div>{this.showAktuellerBeruf()}</div>
-                    </div>
+                    <div>{this.showGelernterBeruf()}</div>
+                    <div>{this.showAktuellerBeruf()}</div>
 
                     <br/>
                     <p>Bitte geben Sie die Art Ihrer Arbeitsunfähigkeit an:</p>
@@ -720,6 +713,9 @@ class Berufstaetigkeit extends Component {
                                 krankheits-halber arbeitsunfähig
                             </Button>
                         </div>
+                    </div>
+                    <div className="ErrorMessageForNotSelectedButtons">
+                        {(this.state.allowErrors === true && this.state.normalArbeitsfaehig !== true && this.state.arbeitlos !== true && this.state.pensioniert !== true && this.state.iVRente !== true && this.state.arbeitsunfaehig !== true) ? 'Bitte geben Sie Ihren aktuellen Arbeitszustand an!' : ''}
                     </div>
 
                 </div>

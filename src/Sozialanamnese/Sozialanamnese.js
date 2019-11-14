@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 // Namen der Stepps werden hier definiert
 function getSteps() {
-    return ["Berufstätigkeit", "Hobbies", "Militärdienst", "Wohnsituation", "Bezugspersonen", "Bemerkungen", "Absenden"];
+    return ["Berufstätigkeit", "Hobbies", "Militärdienst", "Wohnsituation", "Bezugspersonen", "Bemerkungen", "Abschliessen"];
 }
 
 // prüft ob ein spezifischer Component "complete" ist
@@ -178,7 +178,9 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepButton
-                                    onClick={handleStep(index)} completed={completed[index]}>
+                                    onClick={handleStep(index)} completed={completed[index]}
+                                    style={(index === activeStep) ? {textDecoration: 'underline'} : {}}
+                                >
                                     {label}
                                 </StepButton>
                             </Step>

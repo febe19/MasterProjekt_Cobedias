@@ -86,6 +86,8 @@ class Bemerkungen extends Component {
                     onChange={this.handleChange("bemerkungen")}
                     fullWidth
                     placeholder="Geben Sie hier allfällige Bemerkungen ein."
+                    error={(this.state.bemerkungen === '' || this.state.bemerkungen === null) && this.state.allowErrors === true}
+                    helperText={((this.state.bemerkungen === '' || this.state.bemerkungen === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
 
             </div>
