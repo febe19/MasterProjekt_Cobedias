@@ -58,6 +58,13 @@ class Home extends Component {
         if (localStorage.get("FamilyData") === null) {
             localStorage.set("FamilyData", []);
         }
+
+        if (localStorage.get("TutorialDone") === null) {
+            localStorage.set("TutorialDone", false);
+        }
+
+        console.log("Tutorial Done --> "+ localStorage.get("TutorialDone"));
+
     }
 
     // 2 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen
@@ -95,8 +102,6 @@ class Home extends Component {
 
     //Try to fetch the gender of me from the localStorage
     componentWillMount() {
-        console.log("willmount");
-        console.log(localStorage.get("me_gender"));
         if (localStorage.get("me_gender")) {
             if (localStorage.get("me_gender") === "male") {
                 this.setState({

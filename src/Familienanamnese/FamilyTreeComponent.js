@@ -202,6 +202,17 @@ class FamilyTree extends Component {
             familyHelpers.setGenderOfMe(me_gender);
         }
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
+
+        if (localStorage.get("TutorialDone") === false) {
+            console.log("Tutorial Done --> "+ localStorage.get("TutorialDone") + " -- hideTutorial "+ this.state.hideTutorial);
+            this.setState({
+                hideTutorial: false,
+                tutorialStep: 0
+            });
+
+            console.log("Tutorial Done --> "+ localStorage.get("TutorialDone") + " -- hideTutorial "+ this.state.hideTutorial);
+        }
+
     }
 
 // zeigt Component des jeweiligen Stepps und ermöglicht so navigation zu einem spezifischen Stepp
@@ -837,8 +848,10 @@ class FamilyTree extends Component {
     showTutorial() {
         this.setState({
             hideTutorial: !this.state.hideTutorial,
-            tuorialStep: 0
+            tutorialStep: 0,
         });
+        localStorage.set("TutorialDone", true);
+        console.log("hideTutorial: "+this.state.hideTutorial);
     }
 
     nextTutorialStep() {
@@ -1127,13 +1140,14 @@ class FamilyTree extends Component {
                                     </View>
                                 </Page>
                             </Document>
-                        } fileName="TestFamilienanamnese.pdf">
+                        } fileName={localStorage.get('Vorname')+"_"+localStorage.get('Nachname')+"_"+"Familienanamnese.pdf"}>
 
                             <Button
                                 size="medium"
                                 variant="contained"
                                 onClick={this.handlePopupAbschliessen} color="primary"
-                                style={{margin: '10px', right: '10px'}}
+                                style={{margin: '10px', right: '10px', textDecoration: "none"}}
+
                             >
                                 Daten herunterladen
                                 {({loading}) => (loading ? 'Loading document...' : '')}
@@ -1713,10 +1727,10 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Familienmitglieder hinzufügen</h1>
-                        <li style={{fontSize: "24px"}}>Mit diesen Buttons können Sie dem Stambaum weitere
+                        <li style={{fontSize: "22px"}}>Mit diesen Buttons können Sie dem Stambaum weitere
                             Familienmitglieder hinzufügen.
                         </li>
-                        <li style={{fontSize: "24px"}}>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind
+                        <li style={{fontSize: "22px"}}>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind
                             immer Sie selbst.
                         </li>
                     </div>
@@ -1724,7 +1738,7 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
                          className="TutorialText">
                         <h1>Andere Familienmitglieder hinzufügen</h1>
-                        <li style={{fontSize: "24px"}}>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen
+                        <li style={{fontSize: "22px"}}>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen
                             hinzufügen können, können Sie mit diesem Knopf hinzufügen.
                         </li>
                         <li style={{fontSize: "24px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
@@ -1735,7 +1749,7 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Familienanamnese abschliessen</h1>
-                        <li style={{fontSize: "24px"}}>Mit diesem Button können Sie, sobald Sie alle Familienmitglieder
+                        <li style={{fontSize: "22px"}}>Mit diesem Button können Sie, sobald Sie alle Familienmitglieder
                             erfasst haben, die Eingabe abschliessen.
                         </li>
                     </div>

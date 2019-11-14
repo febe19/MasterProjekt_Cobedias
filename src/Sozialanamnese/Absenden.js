@@ -93,7 +93,7 @@ class Absenden extends Component {
 
                     <div hidden={false}>
 
-                        <PDFDownloadLink document={<CobediasDocument/>} fileName="TestSozialanamnese.pdf">
+                        <PDFDownloadLink document={<CobediasDocument/>} fileName={localStorage.get('Vorname')+"_"+localStorage.get('Nachname')+"_"+"Sozialanamnese.pdf"}>
 
                             <div className="SozialanamneseSendButton">
                                 <Button
