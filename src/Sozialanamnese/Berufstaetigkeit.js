@@ -7,10 +7,7 @@ import Slider from '@material-ui/core/Slider';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
 
 
 class Berufstaetigkeit extends Component {
@@ -43,7 +40,7 @@ class Berufstaetigkeit extends Component {
             dateArbeitsunfaehigkeitVon: null,
             dateArbeitsunfaehigkeitBis: null,
             erkrankung: '',
-            arbeitsunfaehigkeitInProzent: 0,
+            arbeitsunfaehigkeitInProzent: 100,
 
         };
         console.log("-  " + new Date().toLocaleTimeString() + " _Berufstätigkeiten_");
@@ -51,6 +48,7 @@ class Berufstaetigkeit extends Component {
 
     //write the Change of "aktueller Beruf" / "gelernter beruf" / "Art der Erkrankung" to the state.
     handleChange = () => event => {
+        console.log("gelernter beruf check: " + this.state.gelernterBeruf);
         this.setState({[event.target.name]: event.target.value}, () => {
 
             // completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
@@ -230,10 +228,10 @@ class Berufstaetigkeit extends Component {
             this.setState({pensioniert: false});
             this.setState({iVRente: false});
             /*  falls der User "arbeitsunfähig" zum ersten Mal anwählt und den Slider nicht verschiebt so bleibt
-                der state auf null. Dieser Fall wird in der folgenden IF-Schleife abgefangen, sodass die 0% in den
+                der state auf null. Dieser Fall wird in der folgenden IF-Schleife abgefangen, sodass die 100% in den
                 localstorage geschrieben werden.  */
             if (this.state.arbeitsunfaehigkeitInProzent == null) {
-                localStorage.set('arbeitsunfaehigkeitInProzent', 0);
+                localStorage.set('arbeitsunfaehigkeitInProzent', 100);
             }
 
             //nachdem alle "Arbeitszustände" geupdated sind, wird der Completeness-Check durchgeführt und in den localstorage geschrieben
@@ -283,12 +281,30 @@ class Berufstaetigkeit extends Component {
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
     }
 
+    //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(0) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+    }
+
     // completeness der Textfelder (aktueller resp. gelernter Beruf) und der Arbeitszustand-Buttons wird überprüft
     // Diese Funktion prüft, ob einer der Arbeitszustands-Buttons ausgewählt ist. Je nachdem welcher Button ausgewählt
     // ist, wird zusätzlich geprüft, ob die weiteren eingeblendeten Elemente befüllt sind
     checkComponentCompleteness() {
         if (localStorage.get('normalArbeitsfaehig')) {
-            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null) {
+            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || (this.state.arbeitspensum !== null && this.state.arbeitspensum === 0)) {
                 return false;
             } else {
                 //default Pensum von 100% ist sehr gut möglich, aus diesem Grund wird hier nicht extra geprüft, ob der Slider verschoben wurde
@@ -314,7 +330,7 @@ class Berufstaetigkeit extends Component {
             }
         } else if (localStorage.get('arbeitsunfaehig')) {
             // prüft, ob das Feld "Art der Erkrankung" ausgefüllt wurde, ob ein "Von" und ein "Bis" Date angegeben wurden und ob aktueller resp. gelernter Beruf ausgefüllt wurden.
-            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || this.state.arbeitsunfaehigkeitInProzent == 0 || this.state.arbeitsunfaehigkeitInProzent == null) {
+            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || (this.state.arbeitsunfaehigkeitInProzent !== null && this.state.arbeitsunfaehigkeitInProzent === 0)) {
                 return false;
             } else {
                 return true;
@@ -351,6 +367,13 @@ class Berufstaetigkeit extends Component {
         }
 
         localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(0) === -1) {
+            previousVisitedSteps.push(0);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     //Show Textfield "Gelernter Beruf"
@@ -365,6 +388,8 @@ class Berufstaetigkeit extends Component {
                 onChange={this.handleChange("gelernterBeruf")}
                 fullWidth
                 placeholder="Geben Sie hier Ihren gelernten Beruf ein"
+                error={(this.state.gelernterBeruf === '' || this.state.gelernterBeruf === null) && this.state.allowErrors === true}
+                helperText={((this.state.gelernterBeruf === '' || this.state.gelernterBeruf === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
             />
         )
     }
@@ -381,6 +406,8 @@ class Berufstaetigkeit extends Component {
                 onChange={this.handleChange("aktuellerBeruf")}
                 fullWidth
                 placeholder="Geben Sie hier Ihren aktuellen Beruf ein"
+                error={(this.state.aktuellerBeruf === '' || this.state.aktuellerBeruf === null) && this.state.allowErrors === true}
+                helperText={((this.state.aktuellerBeruf === '' || this.state.aktuellerBeruf === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
             />
         )
     }
@@ -395,7 +422,7 @@ class Berufstaetigkeit extends Component {
                         <div>{this.showGelernterBeruf()}</div>
                         <div>{this.showAktuellerBeruf()}</div>
                     </div>
-                    <br />
+                    <br/>
                     <p>Bitte geben Sie Ihr aktuelles Arbeitspensum an:</p>
                     <div className="ArbeitspensumSlider">
                         <Typography id="discrete-slider-always" gutterBottom>
@@ -417,6 +444,12 @@ class Berufstaetigkeit extends Component {
                             valueLabelDisplay="on"
                         />
                     </div>
+
+
+                    <div className="ErrorMessageForNotSelectedButtons">
+                        {(this.state.arbeitspensum !== null && this.state.arbeitspensum === 0) ? 'Wenn ihr Arbeitspensum 0% ist, wählen sie oben bitte "Arbeitslos".' : ''}
+                    </div>
+
                 </div>
             )
         }
@@ -431,12 +464,14 @@ class Berufstaetigkeit extends Component {
                     <div className="Berufeingabe">
                         <div>{this.showGelernterBeruf()}</div>
                     </div>
-
+                    <br/>
                     <p>Bitte geben Sie an seit wann Sie arbeitslos sind:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
+                                    error={this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true}
+                                    helperText={(this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
                                     format="dd/MM/yyyy"
                                     margin="normal"
@@ -466,12 +501,14 @@ class Berufstaetigkeit extends Component {
                     <div className="Berufeingabe">
                         <div>{this.showGelernterBeruf()}</div>
                     </div>
-
+                    <br/>
                     <p>Bitte geben Sie an seit wann Sie pensioniert sind:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
+                                    error={this.state.datePensioniert === null && this.state.allowErrors === true}
+                                    helperText={(this.state.datePensioniert === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
                                     format="dd/MM/yyyy"
                                     margin="normal"
@@ -500,12 +537,14 @@ class Berufstaetigkeit extends Component {
                     <div className="Berufeingabe">
                         <div>{this.showGelernterBeruf()}</div>
                     </div>
-
+                    <br/>
                     <p>Bitte geben Sie an seit wann Sie eine IV-Rente beziehen:</p>
                     <div className="DatePicker">
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
+                                    error={this.state.dateIVRente === null && this.state.allowErrors === true}
+                                    helperText={(this.state.dateIVRente === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
                                     format="dd/MM/yyyy"
                                     margin="normal"
@@ -536,7 +575,7 @@ class Berufstaetigkeit extends Component {
                         <div>{this.showAktuellerBeruf()}</div>
                     </div>
 
-                    <br />
+                    <br/>
                     <p>Bitte geben Sie die Art Ihrer Arbeitsunfähigkeit an:</p>
                     <TextField
                         label="Art der Erkrankung"
@@ -547,6 +586,8 @@ class Berufstaetigkeit extends Component {
                         onChange={this.handleChange("erkrankung")}
                         fullWidth
                         placeholder="Geben Sie hier die Art Ihrer Erkrankung ein"
+                        error={(this.state.erkrankung === '' || this.state.erkrankung === null) && this.state.allowErrors === true}
+                        helperText={((this.state.erkrankung === '' || this.state.erkrankung === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                     <div className="ArbeitszustandEingeblendetesDiv">
                         <p>Bitte geben Sie den Zeitraum an, in welchem Sie arbeitsunfähig sind:</p>
@@ -554,6 +595,8 @@ class Berufstaetigkeit extends Component {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid>
                                     <KeyboardDatePicker
+                                        error={this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true}
+                                        helperText={(this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                         disableToolbar
                                         format="dd/MM/yyyy"
                                         margin="normal"
@@ -573,6 +616,8 @@ class Berufstaetigkeit extends Component {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid>
                                     <KeyboardDatePicker
+                                        error={this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true}
+                                        helperText={(this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                         disableToolbar
                                         format="dd/MM/yyyy"
                                         margin="normal"
@@ -596,7 +641,7 @@ class Berufstaetigkeit extends Component {
                         <Typography id="discrete-slider-always" gutterBottom>
                         </Typography>
                         <Slider
-                            defaultValue={0}
+                            defaultValue={100}
                             name="arbeitsunfaehigkeitInProzent"
                             value={this.state.arbeitsunfaehigkeitInProzent}
                             onChange={(event, value) => this.handleChangeSliderArbeitsunfaehigkeit(event, value)}
@@ -611,6 +656,9 @@ class Berufstaetigkeit extends Component {
                             ]}
                             valueLabelDisplay="on"
                         />
+                    </div>
+                    <div className="ErrorMessageForNotSelectedButtons">
+                        {(this.state.arbeitsunfaehigkeitInProzent !== null && this.state.arbeitsunfaehigkeitInProzent === 0) ? 'Wenn ihre Arbeitsunfähigkeit 0% ist, so wählen sie bitte nicht "krankheitshalber arbeitsunfähig".' : ''}
                     </div>
                 </div>)
         }
@@ -631,7 +679,7 @@ class Berufstaetigkeit extends Component {
         return (
             <div>
                 <h2>Berufstätigkeit</h2>
-                <br />
+                <br/>
                 <div>
 
                     <div className="Berufstaetigkeit">
@@ -641,35 +689,35 @@ class Berufstaetigkeit extends Component {
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleNormalArbeitsfaehig}
                                     onClick={this.handleChangeNormalArbeitsfaehig}>
-                                    normal arbeitsfähig
+                                normal arbeitsfähig
                             </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleArbeitlos}
                                     onClick={this.handleChangeArbeitslos}>
-                                    arbeitslos
+                                arbeitslos
                             </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={stylePensioniert}
                                     onClick={this.handleChangePensioniert}>
-                                    pensioniert
+                                pensioniert
                             </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleIVRente}
                                     onClick={this.handleChangeIVRente}>
-                                    IV-Rente
+                                IV-Rente
                             </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleArbeitsunfaehig}
                                     onClick={this.handleChangeArbeitsunfaehig}>
-                                    krankheits-halber arbeitsunfähig
+                                krankheits-halber arbeitsunfähig
                             </Button>
                         </div>
                     </div>

@@ -152,12 +152,22 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
             <div className="Titel">
                 <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Sozialanamnese</h1>
 
-                <NavLink exact to="/" style={{"text-decoration":"none"}}>
-                    <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Startseite</Button>
+                <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                    <Button variant="outlined" style={{
+                        float: 'right',
+                        marginRight: '5%',
+                        color: 'white',
+                        borderColor: 'white'
+                    }}>Startseite</Button>
                 </NavLink>
 
-                <NavLink exact to="/Familienanamnese" style={{"text-decoration":"none"}}>
-                    <Button variant="outlined" style={{float: 'right', marginRight: '1%', color: 'white', borderColor: 'white'}}>Familienanamnese</Button>
+                <NavLink exact to="/Familienanamnese" style={{"text-decoration": "none"}}>
+                    <Button variant="outlined" style={{
+                        float: 'right',
+                        marginRight: '1%',
+                        color: 'white',
+                        borderColor: 'white'
+                    }}>Familienanamnese</Button>
                 </NavLink>
 
             </div>

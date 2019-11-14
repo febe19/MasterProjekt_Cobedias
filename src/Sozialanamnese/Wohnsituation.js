@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -142,6 +142,24 @@ class Wohnsituation extends Component {
     };
 
     //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(3) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+    }
+
+    //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
             haus: localStorage.get('haus'),
@@ -184,6 +202,13 @@ class Wohnsituation extends Component {
         localStorage.set('andereWohnText', this.state.andereWohnText);
 
         localStorage.set('WohnsituationKomplett', this.checkComponentCompleteness());
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(3) === -1) {
+            previousVisitedSteps.push(3);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     // zeigt "Andere" Textbox nur an, wenn "Andere" Button ausgewählt ist
@@ -191,7 +216,7 @@ class Wohnsituation extends Component {
         if (this.state.andere) {
             return (
                 <div className="WohnsituationEingeblendetesDiv">
-                    <br />
+                    <br/>
                     <p>Bitte geben Sie Ihre Wohnsituation an:</p>
                     <TextField
                         label="Wohnsituation"
@@ -223,7 +248,7 @@ class Wohnsituation extends Component {
         return (
             <div>
                 <h2>Wohnsituation</h2>
-                <br />
+                <br/>
                 <div>
                     <div className="Berufstaetigkeit">
                         <div>Bitte wählen Sie Ihre aktuelle Wohnsituation:
@@ -254,7 +279,7 @@ class Wohnsituation extends Component {
                             </Button>
                         </div>
                     </div>
-                    <br /><br />
+                    <br/><br/>
                     <div>{this.showAndereWohnTextbox()}</div>
                 </div>
             </div>

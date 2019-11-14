@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
 
@@ -51,6 +49,24 @@ class Militaerdienst extends Component {
     };
 
     //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(2) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+    }
+
+    //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
             untauglichkeitsGrund: localStorage.get('untauglichkeitsGrund'),
@@ -73,6 +89,13 @@ class Militaerdienst extends Component {
         localStorage.set('MilitaerdienstKomplett', this.checkComponentCompleteness());
         localStorage.set('militaerdienstGemacht', this.state.militaerdienstGemacht);
         localStorage.set('untauglichkeitsGrund', this.state.untauglichkeitsGrund);
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(2) === -1) {
+            previousVisitedSteps.push(2);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     // markiert den "Ja" button blau sobald er (zum ersten Mal) angewählt wurde
@@ -114,7 +137,7 @@ class Militaerdienst extends Component {
         return (
             <div>
                 <h2>Militärdienst</h2>
-                <br />
+                <br/>
                 <p>Haben Sie Militärdienst geleistet?</p>
                 <div className="MilitaerdienstButtons">
                     <Button variant="outlined" size="small" color="primary"
@@ -123,6 +146,9 @@ class Militaerdienst extends Component {
                 <div className="MilitaerdienstButtons">
                     <Button variant="outlined" size="small" color="primary" style={styleNoButton}
                             onClick={this.handleNoButtonChange}> Nein </Button>
+                </div>
+                <div className="ErrorMessageForNotSelectedButtons">
+                    {(this.state.militaerdienstGemacht === null || (this.state.militaerdienstGemacht !== true && this.state.militaerdienstGemacht !== false)) ? 'Bitte geben Sie an, ob sie Militärdienst geleistet haben.' : ''}
                 </div>
                 <div>{this.showUntauglichkeit()}</div>
             </div>

@@ -32,7 +32,7 @@ import {NavLink} from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
-import {Document, Page, PDFDownloadLink, StyleSheet, Text, View, Image} from "@react-pdf/renderer";
+import {Document, Page, PDFDownloadLink, StyleSheet, Text, View} from "@react-pdf/renderer";
 
 import domtoimage from 'dom-to-image';
 
@@ -1002,6 +1002,11 @@ class FamilyTree extends Component {
         this.setState({...this.state, [name]: event.target.checked});
     };
 
+    checkIfError() {
+        console.log("checking error...");
+        return (this.state.spitzname === '' && this.state.allowErrors === true);
+    }
+
     // step content of "Angaben"
     showAngaben() {
         return (
@@ -1042,7 +1047,7 @@ class FamilyTree extends Component {
                     onBlur={this.handleChangeBlur("spitzname")}
                     fullWidth
                     placeholder="Geben Sie hier den Spitznamen ein"
-                    error={this.state.spitzname === '' && this.state.allowErrors === true}
+                    error={this.checkIfError()}
                     helperText={(this.state.spitzname === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
                 <TextField
