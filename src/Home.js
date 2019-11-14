@@ -24,13 +24,13 @@ const theme = createMuiTheme({
 // Umrandungen für Bilder
 const Borderstyles = {
     border: {
-        border: "2px solid red",
+        border: "4px solid rgba(255, 0, 0, 0.6)",
         borderRadius: "10px 10px",
         margin: "5px",
         padding: "5px"
     },
     noBorder: {
-        border: "2px solid rgba(0, 0, 0, 0.2)",
+        border: "4px solid rgba(0, 0, 0, 0.2)",
         borderRadius: "10px 10px",
         margin: "5px",
         padding: "5px"
@@ -44,15 +44,17 @@ class Home extends Component {
         this.deleteLocalStorage = this.deleteLocalStorage.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.checkDisabledButtons = this.checkDisabledButtons.bind(this);
-        this.applyBorder = this.applyBorder.bind(this);
+        this.applyBorder1 = this.applyBorder1.bind(this);
         this.applyBorder2 = this.applyBorder2.bind(this);
+        this.applyBorder3 = this.applyBorder3.bind(this);
 
         this.state = {
             Vorname: "",
             Nachname: "",
             disableButtons: true,
             showBorder1: false,
-            showBorder2: false
+            showBorder2: false,
+            showBorder3: false,
         };
 
         if (localStorage.get("FamilyData") === null) {
@@ -62,19 +64,17 @@ class Home extends Component {
         if (localStorage.get("TutorialDone") === null) {
             localStorage.set("TutorialDone", false);
         }
-
-        console.log("Tutorial Done --> "+ localStorage.get("TutorialDone"));
-
     }
 
     // 2 gleiche Funktionen, um Umrandungen für gender-picture hinzuzufügen
-    applyBorder() {
+    applyBorder1() {
         this.setState(
-            state => ({showBorder1: true, showBorder2: false}),
+            state => ({showBorder1: true, showBorder2: false, showBorder3: false}),
             () => {
                 localStorage.set("me_gender", "male");
                 localStorage.set("showBorder1", this.state.showBorder1);
                 localStorage.set("showBorder2", this.state.showBorder2);
+                localStorage.set("showBorder3", this.state.showBorder3);
                 this.checkDisabledButtons();
             }
         );
@@ -82,11 +82,25 @@ class Home extends Component {
 
     applyBorder2() {
         this.setState(
-            state => ({showBorder2: true, showBorder1: false}),
+            state => ({showBorder2: true, showBorder1: false, showBorder3: false}),
             () => {
                 localStorage.set("me_gender", "female");
                 localStorage.set("showBorder1", this.state.showBorder1);
                 localStorage.set("showBorder2", this.state.showBorder2);
+                localStorage.set("showBorder3", this.state.showBorder3);
+                this.checkDisabledButtons();
+            }
+        );
+    }
+
+    applyBorder3() {
+        this.setState(
+            state => ({showBorder3: true, showBorder1: false, showBorder2: false}),
+            () => {
+                localStorage.set("me_gender", "other");
+                localStorage.set("showBorder1", this.state.showBorder1);
+                localStorage.set("showBorder2", this.state.showBorder2);
+                localStorage.set("showBorder3", this.state.showBorder3);
                 this.checkDisabledButtons();
             }
         );
@@ -106,13 +120,23 @@ class Home extends Component {
             if (localStorage.get("me_gender") === "male") {
                 this.setState({
                     showBorder1: true,
-                    showBorder2: false
+                    showBorder2: false,
+                    showBorder3: false
                 });
             }
             if (localStorage.get("me_gender") === "female") {
                 this.setState({
                     showBorder1: false,
-                    showBorder2: true
+                    showBorder2: true,
+                    showBorder3: false
+                });
+            }
+
+            if (localStorage.get("me_gender") === "other") {
+                this.setState({
+                    showBorder1: false,
+                    showBorder2: false,
+                    showBorder3: true
                 });
             }
         }
@@ -141,6 +165,7 @@ class Home extends Component {
             localStorage.set("Nachname", this.state.Nachname);
             localStorage.set("showBorder1", this.state.showBorder1);
             localStorage.set("showBorder2", this.state.showBorder2);
+            localStorage.set("showBorder3", this.state.showBorder3);
             this.checkDisabledButtons();
         });
     };
@@ -151,8 +176,8 @@ class Home extends Component {
             this.state.Vorname === null ||
             this.state.Nachname === "" ||
             this.state.Nachname === null ||
-            (this.state.showBorder1 === false && this.state.showBorder2 === false) ||
-            (this.state.showBorder1 === true && this.state.showBorder2 === true)
+            (this.state.showBorder1 === false && this.state.showBorder2 === false && this.state.showBorder3 === false) ||
+            (this.state.showBorder1 === true && this.state.showBorder2 === true && this.state.showBorder3 === true)
         ) {
             this.setState({
                 disableButtons: true
@@ -276,7 +301,7 @@ class Home extends Component {
                                 value={this.state.showBorder1}
                                 onChange={this.handleChange("showBorder1")}
                                 src={require("./images/028-man.svg")}
-                                onClick={this.applyBorder}
+                                onClick={this.applyBorder1}
                                 style={
                                     this.state.showBorder1
                                         ? Borderstyles.border
@@ -301,6 +326,22 @@ class Home extends Component {
                             />
                             <p className="genderSelection">Frau</p>
                         </div>
+                      <div className="genderSelectionDiv">
+                        <img
+                            height="91px"
+                            width="91px"
+                            value={this.state.showBorder3}
+                            onChange={this.handleChange("showBorder3")}
+                            src={require("./images/OtherIcon.svg")}
+                            onClick={this.applyBorder3}
+                            style={
+                              this.state.showBorder3
+                                  ? Borderstyles.border
+                                  : Borderstyles.noBorder
+                            }
+                        />
+                        <p className="genderSelection">Andere</p>
+                      </div>
                     </div>
 
                     <div style={{clear: "both"}}>

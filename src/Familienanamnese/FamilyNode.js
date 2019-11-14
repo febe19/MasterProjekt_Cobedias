@@ -22,6 +22,7 @@ import grandfatherAvatar from '../images/002-grandfather.svg'
 import grandfatherAvatarBW from '../images/002-grandfather-BW.svg'
 import WarningSign from '../images/Warning_Sign.svg'
 import BloodDrop from '../images/blood.svg'
+import OtherIcon from '../images/OtherIcon.svg'
 
 
 import Fab from '@material-ui/core/Fab';
@@ -104,6 +105,8 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         if (node.id === 'me') {
             if (node.gender === 'female') {
                 return womanAvatar;
+            } else if (node.gender === 'other') {
+                return OtherIcon;
             } else {
                 return manAvatar;
             }
