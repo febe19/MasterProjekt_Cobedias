@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
-import {Button, MuiThemeProvider, createMuiTheme} from "@material-ui/core";
+import {Button, createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
@@ -326,22 +326,22 @@ class Home extends Component {
                             />
                             <p className="genderSelection">Frau</p>
                         </div>
-                      <div className="genderSelectionDiv">
-                        <img
-                            height="91px"
-                            width="91px"
-                            value={this.state.showBorder3}
-                            onChange={this.handleChange("showBorder3")}
-                            src={require("./images/OtherIcon.svg")}
-                            onClick={this.applyBorder3}
-                            style={
-                              this.state.showBorder3
-                                  ? Borderstyles.border
-                                  : Borderstyles.noBorder
-                            }
-                        />
-                        <p className="genderSelection">Andere</p>
-                      </div>
+                        <div className="genderSelectionDiv">
+                            <img
+                                height="91px"
+                                width="91px"
+                                value={this.state.showBorder3}
+                                onChange={this.handleChange("showBorder3")}
+                                src={require("./images/OtherIcon.svg")}
+                                onClick={this.applyBorder3}
+                                style={
+                                    this.state.showBorder3
+                                        ? Borderstyles.border
+                                        : Borderstyles.noBorder
+                                }
+                            />
+                            <p className="genderSelection">Andere</p>
+                        </div>
                     </div>
 
                     <div style={{clear: "both"}}>
