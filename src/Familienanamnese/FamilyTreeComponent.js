@@ -155,6 +155,7 @@ class FamilyTree extends Component {
         this.handlePopupZurStartseiteClose = this.handlePopupZurStartseiteClose.bind(this);
         this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
         this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
+        this.handleOtherButtonChange = this.handleOtherButtonChange.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -502,6 +503,14 @@ class FamilyTree extends Component {
     handleWeiblichButtonChange = () => {
         this.setState({
             otherFamilyMemberGender: 'female',
+        }, () => {
+            this.updateStepCompleteness(this.state.activeStep);
+        });
+    };
+
+    handleOtherButtonChange = () => {
+        this.setState({
+            otherFamilyMemberGender: 'other',
         }, () => {
             this.updateStepCompleteness(this.state.activeStep);
         });
@@ -1490,6 +1499,12 @@ class FamilyTree extends Component {
                                 margin: '5px'
                             } : {margin: '5px'}}
                             onClick={this.handleWeiblichButtonChange}>Weiblich</Button>
+                    <Button variant="outlined" size="small" color="primary"
+                            style={this.state.otherFamilyMemberGender === 'other' ? {
+                                background: '#BBC2E5',
+                                margin: '5px'
+                            } : {margin: '5px'}}
+                            onClick={this.handleOtherButtonChange}>Andere</Button>
                     <TextField
                         label="Verwandtschaftsgrad"
                         margin="normal"

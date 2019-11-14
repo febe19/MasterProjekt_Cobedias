@@ -11,7 +11,8 @@ import manBrotherAvatar from '../images/028-man-brother.svg'
 import manSpouseAvatar from '../images/028-man-spouse.svg'
 import WarningSign from '../images/Warning_Sign.svg'
 import BloodDrop from '../images/blood.svg'
-
+import OtherIcon from '../images/OtherIconDiffColor.svg'
+import OtherIconBW from '../images/OtherIcon-BW.svg'
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -83,6 +84,12 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
                 return womanSisterAvatar;
             } else {
                 return womanSpouseAvatar;
+            }
+        } else if (node.gender === 'other') {
+            if (node.verstorben === true) {
+                return OtherIconBW;
+            } else {
+                return OtherIcon;
             }
         } else {
             if (node.verstorben === true) {
