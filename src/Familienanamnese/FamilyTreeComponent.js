@@ -204,13 +204,13 @@ class FamilyTree extends Component {
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
 
         if (localStorage.get("TutorialDone") === false) {
-            console.log("Tutorial Done --> "+ localStorage.get("TutorialDone") + " -- hideTutorial "+ this.state.hideTutorial);
+            console.log("Tutorial Done --> " + localStorage.get("TutorialDone") + " -- hideTutorial " + this.state.hideTutorial);
             this.setState({
                 hideTutorial: false,
                 tutorialStep: 0
             });
 
-            console.log("Tutorial Done --> "+ localStorage.get("TutorialDone") + " -- hideTutorial "+ this.state.hideTutorial);
+            console.log("Tutorial Done --> " + localStorage.get("TutorialDone") + " -- hideTutorial " + this.state.hideTutorial);
         }
 
     }
@@ -851,7 +851,7 @@ class FamilyTree extends Component {
             tutorialStep: 0,
         });
         localStorage.set("TutorialDone", true);
-        console.log("hideTutorial: "+this.state.hideTutorial);
+        console.log("hideTutorial: " + this.state.hideTutorial);
     }
 
     nextTutorialStep() {
@@ -1140,7 +1140,8 @@ class FamilyTree extends Component {
                                     </View>
                                 </Page>
                             </Document>
-                        } fileName={localStorage.get('Vorname')+"_"+localStorage.get('Nachname')+"_"+"Familienanamnese.pdf"}>
+                        }
+                                         fileName={localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Familienanamnese.pdf"}>
 
                             <Button
                                 size="medium"
@@ -1712,14 +1713,14 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
-                        <li style={{fontSize: "24px"}}>Hier sehen sie alle Familienmitglieder, welche Sie bereits
+                        <li style={{fontSize: "22px"}}>Hier sehen sie alle Familienmitglieder, welche Sie bereits
                             hinzugefügt haben.
                         </li>
-                        <li style={{fontSize: "24px"}}>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
-                        <li style={{fontSize: "24px"}}>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten
+                        <li style={{fontSize: "22px"}}>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
+                        <li style={{fontSize: "22px"}}>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten
                             Familienmitglieder zu erhalten.
                         </li>
-                        <li style={{fontSize: "24px"}}>Mit den blauen Buttons neben den Portraits können
+                        <li style={{fontSize: "22px"}}>Mit den blauen Buttons neben den Portraits können
                             Familienmitglieder bearbeitet oder gelöscht werden.
                         </li>
                     </div>
@@ -1741,7 +1742,7 @@ class FamilyTree extends Component {
                         <li style={{fontSize: "22px"}}>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen
                             hinzufügen können, können Sie mit diesem Knopf hinzufügen.
                         </li>
-                        <li style={{fontSize: "24px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
+                        <li style={{fontSize: "22px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
                             sondern direkt unterhalb dieses Knopfes.
                         </li>
                     </div>
@@ -1756,13 +1757,14 @@ class FamilyTree extends Component {
 
                     <div className="TutorialButtons">
                         <Button id="TutorialZurück" variant="outlined"
-                                style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                                style={{color: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
                                 onClick={this.previousTutorialStep}
-                        >Zurück</Button>
+                        >{this.state.tutorialStep === 0 ? 'Abbrechen' : 'Zurück'}</Button>
                         <Button id="TutorialWeiter" variant="outlined"
-                                style={{color: 'white', borderColor: 'white', margin: '3px'}}
+                                style={{color: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
                                 onClick={this.nextTutorialStep}
-                        >Weiter</Button>
+                        >{this.state.tutorialStep === 3 ? 'Fertig' : 'Weiter'}
+                        </Button>
                     </div>
                 </div>
             </div>
