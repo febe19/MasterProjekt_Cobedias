@@ -32,7 +32,9 @@ import {NavLink} from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
-import {Document, Page, PDFDownloadLink, StyleSheet, Text, View} from "@react-pdf/renderer";
+import {Document, Page, PDFDownloadLink, StyleSheet, Text, View, Image} from "@react-pdf/renderer";
+
+import domtoimage from 'dom-to-image';
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -108,6 +110,10 @@ const PDFstyles = StyleSheet.create({
         padding: 10,
         fontSize: 14,
         flexGrow: 1
+    },
+    image: {
+        marginVertical: 15,
+        marginHorizontal: 100,
     },
 });
 
@@ -205,13 +211,10 @@ class FamilyTree extends Component {
         this.setState({FamilyDataState: familyHelpers.getFamilyData()});
 
         if (localStorage.get("TutorialDone") === false) {
-            console.log("Tutorial Done --> " + localStorage.get("TutorialDone") + " -- hideTutorial " + this.state.hideTutorial);
             this.setState({
                 hideTutorial: false,
                 tutorialStep: 0
             });
-
-            console.log("Tutorial Done --> " + localStorage.get("TutorialDone") + " -- hideTutorial " + this.state.hideTutorial);
         }
 
     }
@@ -480,7 +483,18 @@ class FamilyTree extends Component {
             abschliessenPopupOpen: false,
             zurStartseitePopupOpen: true
         });
+        this.getFamilyTreePNG();
     };
+
+    getFamilyTreePNG() {
+        return domtoimage.toPng(document.getElementById('FamilyTreeID'))
+            .then(function (dataUrl) {
+                var link = document.createElement('a');
+                link.download = localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Stammbaum.png";
+                link.href = dataUrl;
+                link.click();
+            });
+    }
 
 
     //closes the "ZurStartseite"-Popup when button "Nein" is chosen
@@ -1631,7 +1645,7 @@ class FamilyTree extends Component {
                              position: "relative",
                              zIndex: 200
                          } : {zIndex: "-100"}}>
-                        <div className="FamilyTreeDiv"
+                        <div className="FamilyTreeDiv" id="FamilyTreeID"
                              style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
                                  boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
                                  position: "relative",
