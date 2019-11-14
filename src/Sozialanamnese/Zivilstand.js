@@ -32,6 +32,7 @@ class Zivilstand extends Component {
 
         //Define the state of this component.
         this.state = {
+            zivilstand: '',
             ledig: false,
             verheiratet: false,
             verwitwet: false,
@@ -41,10 +42,12 @@ class Zivilstand extends Component {
 
             nahePersonen: '',
 
+            patVerfuegungExistiert: '',
             patVerfuegungJa: false,
             patVerfuegungNein: false,
             patVerfuegungBei: '',
 
+            vorsorgeauftragExistiert: '',
             vorsorgeauftragJa: false,
             vorsorgeauftragNein: false,
             vorsorgeauftragBei: '',
@@ -67,6 +70,7 @@ class Zivilstand extends Component {
         this.setState({ledig: true}, () => {
 
             // da der Button "ledig" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('zivilstand', 'ledig');
             localStorage.set('ledig', true);
             localStorage.set('verheiratet', false);
             localStorage.set('verwitwet', false);
@@ -87,6 +91,7 @@ class Zivilstand extends Component {
         this.setState({verheiratet: true}, () => {
 
             // da der Button "verheiratet" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('zivilstand', 'verheiratet');
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', true);
             localStorage.set('verwitwet', false);
@@ -108,6 +113,7 @@ class Zivilstand extends Component {
         this.setState({verwitwet: true}, () => {
 
             // da der Button "verwitwet" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('zivilstand', 'verwitwet');
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', false);
             localStorage.set('verwitwet', true);
@@ -128,6 +134,7 @@ class Zivilstand extends Component {
         this.setState({geschieden: true}, () => {
 
             // da der Button "geschieden" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('zivilstand', 'geschieden');
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', false);
             localStorage.set('verwitwet', false);
@@ -148,6 +155,7 @@ class Zivilstand extends Component {
         this.setState({andere: true}, () => {
 
             // da der Button "andere" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('zivilstand', 'andere (nicht ledig, verheiratet, verwitwet oder geschieden');
             localStorage.set('ledig', false);
             localStorage.set('verheiratet', false);
             localStorage.set('verwitwet', false);
@@ -168,6 +176,7 @@ class Zivilstand extends Component {
         this.setState({patVerfuegungJa: true}, () => {
 
             // da der Button "Ja" ausgewählt wurde, wir dieser auf true gesetzt. "Nein" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('patVerfuegungExistiert', 'Ja');
             localStorage.set('patVerfuegungJa', true);
             localStorage.set('patVerfuegungNein', false);
             this.setState({patVerfuegungNein: false});
@@ -182,6 +191,7 @@ class Zivilstand extends Component {
         this.setState({patVerfuegungNein: true}, () => {
 
             // da der Button "Nein" ausgewählt wurde, wir dieser auf true gesetzt. "Ja" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('patVerfuegungExistiert', 'Nein');
             localStorage.set('patVerfuegungJa', false);
             localStorage.set('patVerfuegungNein', true);
             this.setState({patVerfuegungJa: false});
@@ -196,6 +206,7 @@ class Zivilstand extends Component {
         this.setState({vorsorgeauftragJa: true}, () => {
 
             // da der Button "Ja" ausgewählt wurde, wir dieser auf true gesetzt. "Nein" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('vorsorgeauftragExistiert', 'Ja');
             localStorage.set('vorsorgeauftragJa', true);
             localStorage.set('vorsorgeauftragNein', false);
             this.setState({vorsorgeauftragNein: false});
@@ -210,6 +221,7 @@ class Zivilstand extends Component {
         this.setState({vorsorgeauftragNein: true}, () => {
 
             // da der Button "Nein" ausgewählt wurde, wir dieser auf true gesetzt. "Ja" wird auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('vorsorgeauftragExistiert', 'Nein');
             localStorage.set('vorsorgeauftragJa', false);
             localStorage.set('vorsorgeauftragNein', true);
             this.setState({vorsorgeauftragJa: false});

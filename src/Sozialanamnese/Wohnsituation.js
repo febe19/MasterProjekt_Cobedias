@@ -15,6 +15,7 @@ class Wohnsituation extends Component {
 
         //Define the state of this component.
         this.state = {
+            wohnsituation: '',
             haus: false,
             wohnung: false,
             altersheim: false,
@@ -39,6 +40,7 @@ class Wohnsituation extends Component {
         this.setState({haus: true}, () => {
 
             // da der Button "Haus" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('wohnsituation', 'Haus');
             localStorage.set('haus', true);
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
@@ -59,6 +61,7 @@ class Wohnsituation extends Component {
         this.setState({wohnung: true}, () => {
 
             // da der Button "Wohnung" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('wohnsituation', 'Wohnung');
             localStorage.set('haus', false);
             localStorage.set('wohnung', true);
             localStorage.set('altersheim', false);
@@ -80,6 +83,7 @@ class Wohnsituation extends Component {
         this.setState({altersheim: true}, () => {
 
             // da der Button "Altersheim" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('wohnsituation', 'Altersheim');
             localStorage.set('haus', false);
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', true);
@@ -100,6 +104,7 @@ class Wohnsituation extends Component {
         this.setState({pflegeheim: true}, () => {
 
             // da der Button "Pflegeheim" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('wohnsituation', 'Pflegeheim');
             localStorage.set('haus', false);
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
@@ -120,6 +125,7 @@ class Wohnsituation extends Component {
         this.setState({andere: true}, () => {
 
             // da der Button "andere" ausgewählt wurde, wir dieser auf true gesetzt. Alle anderen werden auf false gesetzt (sowohl im State als auch im Localstorage).
+            localStorage.set('wohnsituation', 'Andere (weder Haus, Wohnung, Altersheim oder Pflegeheim)');
             localStorage.set('haus', false);
             localStorage.set('wohnung', false);
             localStorage.set('altersheim', false);
