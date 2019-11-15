@@ -871,7 +871,7 @@ class FamilyTree extends Component {
         let name = '';
         let degree = '';
 
-        console.log("this.state.currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
+        //console.log("this.state.currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
 
         if (this.state.currentSelectedFamilyMember !== '') {
             if (this.state.currentSelectedFamilyMember.substring(0, 3) !== 'add') {
@@ -976,7 +976,6 @@ class FamilyTree extends Component {
     };
 
     checkIfError() {
-        console.log("checking error...");
         return (this.state.spitzname === '' && this.state.allowErrors === true);
     }
 
@@ -1126,7 +1125,7 @@ class FamilyTree extends Component {
                             <br></br>
                             <br></br>
                             Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
-                            "Definitv Abschliessen", um die Familienanamnese abzuschliessen.
+                            "DEFINITIV ABSCHLIESSEN", um die Familienanamnese abzuschliessen.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -1139,7 +1138,7 @@ class FamilyTree extends Component {
 
                         <NavLink exact to="/FamilienanamneseAbschliessen" style={{"text-decoration": "none"}}>
                             <Button variant="outlined" color="primary" onClick={this.getFamilyTreePNG}
-                                    style={{margin: '10px', right: '10px', textDecoration: "none"}}>Definitv
+                                    style={{margin: '10px', right: '10px', textDecoration: "none"}}>Definitiv
                                 Abschliessen</Button>
                         </NavLink>
 
