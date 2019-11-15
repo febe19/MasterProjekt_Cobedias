@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
 
@@ -16,7 +14,7 @@ class Militaerdienst extends Component {
 
         //Define the state of this component.
         this.state = {
-            militaerdienstGemacht: true,
+            militaerdienstGemacht: false,
             MilitaerdienstKomplett: false,
             untauglichkeitsGrund: ''
         };
@@ -25,23 +23,19 @@ class Militaerdienst extends Component {
 
     //write the Change of the Yes Button to the state.
     handleYesButtonChange = () => {
-        this.setState({militaerdienstGemacht: true}, () => {
-
+        this.setState({MilitaerdienstKomplett: true, militaerdienstGemacht: true}, () => {
             // Completeness aller Textfelder wird überprüft, sobald sich ein Input ändert
             localStorage.set('MilitaerdienstKomplett', true);
             localStorage.set('militaerdienstGemacht', true);
-            this.setState({MilitaerdienstKomplett: true});
         });
     };
 
     //write the Change of the No Button to the state.
     handleNoButtonChange = () => {
-        this.setState({militaerdienstGemacht: false}, () => {
-
+        this.setState({MilitaerdienstKomplett: true, militaerdienstGemacht: false}, () => {
             // completeness aller textfelder wird überprüft, sobald sich ein input ändert
             localStorage.set('MilitaerdienstKomplett', true);
             localStorage.set('militaerdienstGemacht', false);
-            this.setState({MilitaerdienstKomplett: true});
         });
     };
 
@@ -51,38 +45,73 @@ class Militaerdienst extends Component {
     };
 
     //Try to fetch the already inserted values from the localStorage
-    componentDidMount() {
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(2) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+
+        if (localStorage.get('MilitaerdienstKomplett')) {
+            this.setState({
+                MilitaerdienstKomplett: localStorage.get('MilitaerdienstKomplett'),
+            });
+        }
+        if (localStorage.get('untauglichkeitsGrund')) {
+            this.setState({
+                untauglichkeitsGrund: localStorage.get('untauglichkeitsGrund'),
+            });
+        }
+
         this.setState({
-            untauglichkeitsGrund: localStorage.get('untauglichkeitsGrund'),
             militaerdienstGemacht: localStorage.get('militaerdienstGemacht'),
         });
-        localStorage.set('MilitaerdienstKomplett', this.checkComponentCompleteness());
     }
+
 
     // Completeness der Textfelder wird überprüft
     checkComponentCompleteness() {
-        if (localStorage.get('MilitaerdienstKomplett') === null) {
-            return false;
+        if (this.state.militaerdienstGemacht === true || this.state.militaerdienstGemacht === false) {
+            return true;
         } else {
-            return localStorage.get('MilitaerdienstKomplett')
+            return false
         }
     }
 
     //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
-        localStorage.set('MilitaerdienstKomplett', this.checkComponentCompleteness());
         localStorage.set('militaerdienstGemacht', this.state.militaerdienstGemacht);
         localStorage.set('untauglichkeitsGrund', this.state.untauglichkeitsGrund);
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(2) === -1) {
+            previousVisitedSteps.push(2);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     // markiert den "Ja" button blau sobald er (zum ersten Mal) angewählt wurde
     colorYesButton() {
-        return (this.state.militaerdienstGemacht && localStorage.get('MilitaerdienstKomplett'))
+        if (this.state.MilitaerdienstKomplett === true && this.state.militaerdienstGemacht === true) {
+            return true
+        }
     }
 
     // markiert den "Nein" button blau sobald er (zum ersten Mal) angewählt wurde
     colorNoButton() {
-        return (!this.state.militaerdienstGemacht && localStorage.get('MilitaerdienstKomplett'))
+        if (this.state.MilitaerdienstKomplett === true && this.state.militaerdienstGemacht === false) {
+            return true
+        }
     }
 
     // zeigt "Grund für Untauglichkeit" Textbox nur an, wenn "Nein" Button ausgewählt ist
@@ -102,6 +131,8 @@ class Militaerdienst extends Component {
                         value={this.state.untauglichkeitsGrund}
                         placeholder="Geben Sie hier den Grund Ihrer Dienstuntauglichkeit ein"
                         onChange={this.handleChange("untauglichkeitsGrund")}
+                        error={(this.state.untauglichkeitsGrund === '' || this.state.untauglichkeitsGrund === null) && this.state.allowErrors === true}
+                        helperText={'Falls Sie nicht untauglich sind, so lassen Sie dieses Feld bitte leer!'}
                     />
                 </div>)
         }
@@ -114,7 +145,7 @@ class Militaerdienst extends Component {
         return (
             <div>
                 <h2>Militärdienst</h2>
-                <br />
+                <br/>
                 <p>Haben Sie Militärdienst geleistet?</p>
                 <div className="MilitaerdienstButtons">
                     <Button variant="outlined" size="small" color="primary"
@@ -123,6 +154,9 @@ class Militaerdienst extends Component {
                 <div className="MilitaerdienstButtons">
                     <Button variant="outlined" size="small" color="primary" style={styleNoButton}
                             onClick={this.handleNoButtonChange}> Nein </Button>
+                </div>
+                <div className="ErrorMessageForNotSelectedButtons">
+                    {((this.state.militaerdienstGemacht === null || (this.state.militaerdienstGemacht !== true && this.state.militaerdienstGemacht !== false)) && this.state.allowErrors === true) ? 'Bitte geben Sie an, ob sie Militärdienst geleistet haben.' : ''}
                 </div>
                 <div>{this.showUntauglichkeit()}</div>
             </div>

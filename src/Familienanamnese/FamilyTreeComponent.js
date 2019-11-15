@@ -471,6 +471,7 @@ class FamilyTree extends Component {
         });
     };
 
+
     //write the Change of the Verstorben=Yes Button to the state.
     handleYesButtonChange = () => {
         this.setState({
@@ -974,6 +975,11 @@ class FamilyTree extends Component {
         this.setState({...this.state, [name]: event.target.checked});
     };
 
+    checkIfError() {
+        console.log("checking error...");
+        return (this.state.spitzname === '' && this.state.allowErrors === true);
+    }
+
     // step content of "Angaben"
     showAngaben() {
         return (
@@ -1014,7 +1020,7 @@ class FamilyTree extends Component {
                     onBlur={this.handleChangeBlur("spitzname")}
                     fullWidth
                     placeholder="Geben Sie hier den Spitznamen ein"
-                    error={this.state.spitzname === '' && this.state.allowErrors === true}
+                    error={this.checkIfError()}
                     helperText={(this.state.spitzname === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
                 <TextField
@@ -1142,6 +1148,7 @@ class FamilyTree extends Component {
             </div>)
     }
 
+
     //when download is done, this popup asks user if he wants to go back to Startseite
     showPopupZurStartseite() {
         return (
@@ -1221,8 +1228,6 @@ class FamilyTree extends Component {
                 return (
                     <div>
                         <br/>
-                        <br/>
-                        <br/>
                         <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
@@ -1272,8 +1277,6 @@ class FamilyTree extends Component {
             } else {
                 return (
                     <div>
-                        <br/>
-                        <br/>
                         <br/>
                         <div className="Gesundheitszustand">
                             <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe

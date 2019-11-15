@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 // Namen der Stepps werden hier definiert
 function getSteps() {
-    return ["Berufstätigkeit", "Hobbies", "Militärdienst", "Wohnsituation", "Bezugspersonen", "Bemerkungen", "Absenden"];
+    return ["Berufstätigkeit", "Hobbies", "Militärdienst", "Wohnsituation", "Bezugspersonen", "Bemerkungen", "Abschliessen"];
 }
 
 // prüft ob ein spezifischer Component "complete" ist
@@ -152,12 +152,22 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
             <div className="Titel">
                 <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Sozialanamnese</h1>
 
-                <NavLink exact to="/" style={{"text-decoration":"none"}}>
-                    <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Startseite</Button>
+                <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                    <Button variant="outlined" style={{
+                        float: 'right',
+                        marginRight: '5%',
+                        color: 'white',
+                        borderColor: 'white'
+                    }}>Startseite</Button>
                 </NavLink>
 
-                <NavLink exact to="/Familienanamnese" style={{"text-decoration":"none"}}>
-                    <Button variant="outlined" style={{float: 'right', marginRight: '1%', color: 'white', borderColor: 'white'}}>Familienanamnese</Button>
+                <NavLink exact to="/Familienanamnese" style={{"text-decoration": "none"}}>
+                    <Button variant="outlined" style={{
+                        float: 'right',
+                        marginRight: '1%',
+                        color: 'white',
+                        borderColor: 'white'
+                    }}>Familienanamnese</Button>
                 </NavLink>
 
             </div>
@@ -168,7 +178,9 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepButton
-                                    onClick={handleStep(index)} completed={completed[index]}>
+                                    onClick={handleStep(index)} completed={completed[index]}
+                                    style={(index === activeStep) ? {textDecoration: 'underline'} : {}}
+                                >
                                     {label}
                                 </StepButton>
                             </Step>

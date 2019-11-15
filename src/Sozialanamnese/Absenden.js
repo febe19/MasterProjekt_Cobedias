@@ -85,16 +85,14 @@ class Absenden extends Component {
                         haben. Alle Schritte sollten mit einem Häkchen markiert sein. Ist dies nicht der Fall, so kehren
                         Sie bitte zum jeweiligen
                         Schritt zurück und ergänzen Sie dort die Angaben. Danach können Sie wieder auf den letzten
-                        Schritt klicken.</p>
+                        Schritt "Abschliessen" klicken.</p>
                     <br/>
-                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf die
-                        dafür vorgesehene Schaltfläche klicken.</p>
-                    <br/><br/><br/><br/><br/><br/><br/>
+                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf den
+                        dafür vorgesehenen Knopf klicken.</p>
 
                     <div hidden={false}>
-
-                        <PDFDownloadLink document={<CobediasDocument/>} fileName={localStorage.get('Vorname')+"_"+localStorage.get('Nachname')+"_"+"Sozialanamnese.pdf"}>
-
+                        <PDFDownloadLink document={<CobediasDocument/>}
+                                         fileName={localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Sozialanamnese.pdf"}>
                             <div className="SozialanamneseSendButton">
                                 <Button
                                     size="medium"

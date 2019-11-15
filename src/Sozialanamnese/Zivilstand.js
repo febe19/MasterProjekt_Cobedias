@@ -2,15 +2,7 @@ import React, {Component} from "react";
 import TextField from '@material-ui/core/TextField';
 import localStorage from 'local-storage'
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
 import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 
 class Zivilstand extends Component {
@@ -232,6 +224,24 @@ class Zivilstand extends Component {
     };
 
     //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(4) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+    }
+
+    //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
             ledig: localStorage.get('ledig'),
@@ -270,27 +280,27 @@ class Zivilstand extends Component {
                 counter++;
             }
         }
-        if (this.state.nahePersonen == '' || this.state.nahePersonen == null){
+        if (this.state.nahePersonen == '' || this.state.nahePersonen == null) {
             return false;
         } else {
             counter++;
         }
-        if (localStorage.get('patVerfuegungJa')){
-            if (this.state.patVerfuegungBei == '' || this.state.patVerfuegungBei == null){
+        if (localStorage.get('patVerfuegungJa')) {
+            if (this.state.patVerfuegungBei == '' || this.state.patVerfuegungBei == null) {
                 return false;
             } else {
                 counter++;
             }
-        } else if (localStorage.get('patVerfuegungNein')){
+        } else if (localStorage.get('patVerfuegungNein')) {
             counter++;
         }
-        if (localStorage.get('vorsorgeauftragJa')){
-            if (localStorage.get('vorsorgeauftragBei') == '' || localStorage.get('vorsorgeauftragBei') == null){
+        if (localStorage.get('vorsorgeauftragJa')) {
+            if (localStorage.get('vorsorgeauftragBei') == '' || localStorage.get('vorsorgeauftragBei') == null) {
                 return false;
             } else {
                 counter++;
             }
-        } else if (localStorage.get('vorsorgeauftragNein')){
+        } else if (localStorage.get('vorsorgeauftragNein')) {
             counter++;
         }
         if (counter == 4) {
@@ -323,6 +333,13 @@ class Zivilstand extends Component {
         localStorage.set('vorsorgeauftragBei', this.state.vorsorgeauftragBei);
 
         localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(4) === -1) {
+            previousVisitedSteps.push(4);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     // zeigt "Andere" Textbox nur an, wenn "Andere" Button ausgewählt ist
@@ -330,7 +347,7 @@ class Zivilstand extends Component {
         if (this.state.andere) {
             return (
                 <div className="ZivilstandEingeblendetesDiv">
-                    <br />
+                    <br/>
                     <p>Bitte geben Sie Ihren Zivilstand an:</p>
                     <TextField
                         label="Zivilstand"
@@ -341,6 +358,8 @@ class Zivilstand extends Component {
                         onChange={this.handleChange("andereText")}
                         fullWidth
                         placeholder="Geben Sie hier einen alternativen Zivilstand ein"
+                        error={(this.state.andereText === '' || this.state.andereText === null) && this.state.allowErrors === true}
+                        helperText={((this.state.andereText === '' || this.state.andereText === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                 </div>
             )
@@ -352,7 +371,7 @@ class Zivilstand extends Component {
         if (this.state.patVerfuegungJa) {
             return (
                 <div className="PatVerfuegungEingeblendetesDiv">
-                    <br />
+                    <br/>
                     <p>Bei wem ist die Patientenverfügung hinterlegt?</p>
                     <TextField
                         label="Patientenverfügung bei"
@@ -362,7 +381,9 @@ class Zivilstand extends Component {
                         value={this.state.patVerfuegungBei}
                         onChange={this.handleChange("patVerfuegungBei")}
                         fullWidth
-                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei der die Patientenverfügung hinterlegt ist."
+                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei welcher die Patientenverfügung hinterlegt ist."
+                        error={(this.state.patVerfuegungBei === '' || this.state.patVerfuegungBei === null) && this.state.allowErrors === true}
+                        helperText={((this.state.patVerfuegungBei === '' || this.state.patVerfuegungBei === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                 </div>
             )
@@ -374,9 +395,7 @@ class Zivilstand extends Component {
         if (this.state.vorsorgeauftragJa) {
             return (
                 <div className="VorsorgeauftragEingeblendetesDiv">
-                    <br />
-                    <br />
-                    <br />
+                    <br/>
                     <p>Bei wem ist der Vorsorgeauftrag hinterlegt?</p>
                     <TextField
                         label="Vorsorgeauftrag bei"
@@ -386,7 +405,9 @@ class Zivilstand extends Component {
                         value={this.state.vorsorgeauftragBei}
                         onChange={this.handleChange("vorsorgeauftragBei")}
                         fullWidth
-                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei der der Vorsorgeauftrag hinterlegt ist."
+                        placeholder="Bitte geben Sie hier den Namen der Person ein, bei welcher der Vorsorgeauftrag hinterlegt ist."
+                        error={(this.state.vorsorgeauftragBei === '' || this.state.vorsorgeauftragBei === null) && this.state.allowErrors === true}
+                        helperText={((this.state.vorsorgeauftragBei === '' || this.state.vorsorgeauftragBei === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                     />
                 </div>
             )
@@ -416,7 +437,7 @@ class Zivilstand extends Component {
         return (
             <div>
                 <h2>Bezugspersonen</h2>
-                <br />
+                <br/>
                 <div>
                     <div className="Berufstaetigkeit">
                         <div>Bitte wählen Sie Ihren aktuellen Zivilstand:
@@ -428,7 +449,8 @@ class Zivilstand extends Component {
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
-                                    style={styleVerheiratet} onClick={this.handleChangeVerheiratet}>Verheiratet, Partnerschaft
+                                    style={styleVerheiratet} onClick={this.handleChangeVerheiratet}>Verheiratet,
+                                Partnerschaft
                             </Button>
                         </div>
                         <div className="BerufstaetigkeitButtons">
@@ -447,12 +469,14 @@ class Zivilstand extends Component {
                             </Button>
                         </div>
                     </div>
-                    <br /><br />
+                    <div className="ErrorMessageForNotSelectedButtons">
+                        {(this.state.allowErrors === true && this.state.ledig !== true && this.state.verheiratet !== true && this.state.verwitwet !== true && this.state.geschieden !== true && this.state.andere !== true) ? 'Bitte geben Sie Ihren aktuellen Zivilstand an!' : ''}
+                    </div>
                     <div>{this.showAndereTextbox()}</div>
                 </div>
                 <div>
                     <div className={"Berufstaetigkeit"}>
-                        <br />
+                        <br/>
                         <div>Bitte geben Sie eine oder mehrere Ihnen nahestehende Person(en) an:</div>
                         <div>
                             <TextField
@@ -467,6 +491,8 @@ class Zivilstand extends Component {
                                 onChange={this.handleChange("nahePersonen")}
                                 fullWidth
                                 placeholder="Name(n) der Ihnen nahestehenden Person(en)"
+                                error={(this.state.nahePersonen === '' || this.state.nahePersonen === null) && this.state.allowErrors === true}
+                                helperText={((this.state.nahePersonen === '' || this.state.nahePersonen === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                             />
 
                         </div>
@@ -474,7 +500,7 @@ class Zivilstand extends Component {
                 </div>
                 <div>
                     <div className="Berufstaetigkeit">
-                        <br />
+                        <br/>
                         <div>Ist eine Patientenverfügung vorhanden?
                         </div>
                         <div className="BerufstaetigkeitButtons">
@@ -487,25 +513,29 @@ class Zivilstand extends Component {
                                     style={stylePatVerfuegungNein} onClick={this.handleChangePatVerfuegungNein}>Nein
                             </Button>
                         </div>
-                        <br /><br />
+                        <div className="ErrorMessageForNotSelectedButtons">
+                            {(this.state.allowErrors === true && this.state.patVerfuegungJa !== true && this.state.patVerfuegungNein !== true) ? 'Bitte geben Sie an, ob eine Patientenverfügung vorhanden ist!' : ''}
+                        </div>
                     </div>
                 </div>
                 <div>{this.showPatVerfuegungBeiTextbox()}</div>
                 <div>
                     <div className="Berufstaetigkeit">
-                        <br />
+                        <br/>
                         <div>Ist ein Vorsorgeauftrag vorhanden?
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleVorsorgeauftragJa} onClick={this.handleChangeVorsorgeauftragJa}>Ja
                             </Button>
-
                         </div>
                         <div className="BerufstaetigkeitButtons">
                             <Button variant="outlined" size="small" color="primary"
                                     style={styleVorsorgeauftragNein} onClick={this.handleChangeVorsorgeauftragNein}>Nein
                             </Button>
+                        </div>
+                        <div className="ErrorMessageForNotSelectedButtons">
+                            {(this.state.allowErrors === true && this.state.vorsorgeauftragJa !== true && this.state.vorsorgeauftragNein !== true) ? 'Bitte geben Sie an, ob ein Vorsorgeauftrag vorhanden ist!' : ''}
                         </div>
                         <div>{this.showVorsorgeauftragBeiTextbox()}</div>
                     </div>

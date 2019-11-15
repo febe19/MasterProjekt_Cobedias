@@ -63,7 +63,11 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
         } else if (node.vorname && node.vorname !== '') {
             return node.vorname;
         } else if (node.id === 'me') {
-            return localStorage.get("Vorname");
+            if (localStorage.get("Vorname") === null) {
+                return node.id;
+            } else {
+                return localStorage.get("Vorname");
+            }
         } else {
             return getDisplayNameByID(node);
         }
@@ -207,7 +211,7 @@ function FamilyNode({node, isRoot, deleteFunction, editFunction, style}) {
 
     // checks if the displayed name should be italic or bold
     function shouldDisplayNameBeIalic(name) {
-        if (name.substring(0, 4) === 'Kind' || name.substring(0, 11) === 'Geschwister' || name.substring(0, 7) === 'Partner' || name.substring(0, 5) === 'Vater' || name.substring(0, 6) === 'Mutter') {
+        if (name !== null && (name.substring(0, 4) === 'Kind' || name.substring(0, 11) === 'Geschwister' || name.substring(0, 7) === 'Partner' || name.substring(0, 5) === 'Vater' || name.substring(0, 6) === 'Mutter')) {
             return true;
         } else {
             return false;

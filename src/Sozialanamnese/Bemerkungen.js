@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import localStorage from "local-storage";
 import TextField from "@material-ui/core/TextField";
 
@@ -24,6 +24,24 @@ class Bemerkungen extends Component {
     };
 
     //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(5) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+    }
+
+    //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
         this.setState({
             bemerkungen: localStorage.get('bemerkungen')
@@ -39,15 +57,23 @@ class Bemerkungen extends Component {
     //Write everything to the localState when the Component unmounts.
     componentWillUnmount() {
         localStorage.set('bemerkungen', this.state.bemerkungen);
-        localStorage.set('BemerkungenKomplett', this.checkComponentCompleteness())
+        localStorage.set('BemerkungenKomplett', this.checkComponentCompleteness());
+
+        let previousVisitedSteps = localStorage.get('VisitedSteps');
+        if (previousVisitedSteps.indexOf(5) === -1) {
+            previousVisitedSteps.push(5);
+            localStorage.set('VisitedSteps', previousVisitedSteps);
+        }
+
     }
 
     render() {
         return (
             <div>
                 <h2>Bemerkungen</h2>
-                <br />
-                <p>Falls Sie noch abschliessende Bemerkungen haben, geben Sie diese bitte hier ein. Ansonsten lassen Sie das Feld einfach leer und klicken Sie "Weiter".</p>
+                <br/>
+                <p>Falls Sie noch abschliessende Bemerkungen haben, geben Sie diese bitte hier ein. Ansonsten lassen Sie
+                    das Feld einfach leer und klicken Sie "Weiter".</p>
                 <TextField
                     id="outlined-multiline-static"
                     label="Bemerkungen"
@@ -60,6 +86,8 @@ class Bemerkungen extends Component {
                     onChange={this.handleChange("bemerkungen")}
                     fullWidth
                     placeholder="Geben Sie hier allfällige Bemerkungen ein."
+                    error={(this.state.bemerkungen === '' || this.state.bemerkungen === null) && this.state.allowErrors === true}
+                    helperText={((this.state.bemerkungen === '' || this.state.bemerkungen === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                 />
 
             </div>
