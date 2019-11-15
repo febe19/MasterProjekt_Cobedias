@@ -359,7 +359,8 @@ const CobediasDocument = () => (
             <View>
                 <Text style={PDFstyles.header}>~ {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()}) ~</Text>
                 <Text style={PDFstyles.title}>Sozialanamnese</Text>
-                <Text style={PDFstyles.subtitle}>Berufstätigkeit</Text>
+
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Berufstätigkeit</Text>
                 {getGelernterBeruf()}
                 {getAktuellerBeruf()}
                 {getArbeitsfaehigkeit()}
@@ -372,18 +373,18 @@ const CobediasDocument = () => (
                 {getErkrankung()}
                 {getArbeitsunfaehigkeitInProzent()}
 
-                <Text style={PDFstyles.subtitle}>Hobbies</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Hobbies</Text>
                 <Text style={PDFstyles.text}>{localStorage.get('hobbies')}</Text>
 
-                <Text style={PDFstyles.subtitle}>Militärdienst</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Militärdienst</Text>
                 <Text style={PDFstyles.text}>Militärdienst wurde gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
                 {getUntauglichkeitsgrund()}
 
-                <Text style={PDFstyles.subtitle}>Wohnsituation</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Wohnsituation</Text>
                 {getWohnsituation()}
                 {getAndereWohnText()}
 
-                <Text style={PDFstyles.subtitle}>Bezugspersonen & Zivilstand</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Bezugspersonen & Zivilstand</Text>
                 {getZivilstand()}
                 {getAndererZivilstand()}
                 <Text style={PDFstyles.text}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>
@@ -392,7 +393,7 @@ const CobediasDocument = () => (
                 {getVorsorgeauftragExistiert()}
                 {getVorsorgeauftragBei()}
 
-                <Text style={PDFstyles.subtitle}>Bemerkungen</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Bemerkungen</Text>
                 <Text style={PDFstyles.text}>{localStorage.get('bemerkungen')}</Text>
 
             </View>
