@@ -32,7 +32,6 @@ import {NavLink} from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
-import {Document, Page, PDFDownloadLink, StyleSheet, Text, View, Image} from "@react-pdf/renderer";
 
 import domtoimage from 'dom-to-image';
 
@@ -65,7 +64,6 @@ const classes = makeStyles(theme => ({
     }
 }));
 
-
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
@@ -93,29 +91,6 @@ for (var i = 2019; i >= 1919; i--) {
     };
     yearsDropdown.push(dict);
 }
-
-//styles to export PDF
-const PDFstyles = StyleSheet.create({
-    page: {
-        flexDirection: 'row',
-        backgroundColor: '#E4E4E4'
-    },
-    heading: {
-        margin: 30,
-        padding: 10,
-        fontSize: 20,
-    },
-    section: {
-        margin: 30,
-        padding: 10,
-        fontSize: 14,
-        flexGrow: 1
-    },
-    image: {
-        marginVertical: 15,
-        marginHorizontal: 100,
-    },
-});
 
 // Namen der Stepps werden hier definiert
 function getSteps(member) {
@@ -158,10 +133,12 @@ class FamilyTree extends Component {
         this.nextTutorialStep = this.nextTutorialStep.bind(this);
         this.previousTutorialStep = this.previousTutorialStep.bind(this);
         this.handlePopupAbschliessenClose = this.handlePopupAbschliessenClose.bind(this);
+        this.handlePopupAbschliessen = this.handlePopupAbschliessen.bind(this);
         this.handlePopupZurStartseiteClose = this.handlePopupZurStartseiteClose.bind(this);
         this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
         this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
         this.handleOtherButtonChange = this.handleOtherButtonChange.bind(this);
+        this.getFamilyTreePNG = this.getFamilyTreePNG.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -424,8 +401,6 @@ class FamilyTree extends Component {
         this.setState({
             abschliessenPopupOpen: true,
         })
-
-
     };
 
     // closes "addFamilyMember-Popup" when adding new family member is canceled with button "abbrechen" && then alert popup is agreed
@@ -487,19 +462,7 @@ class FamilyTree extends Component {
             abschliessenPopupOpen: false,
             zurStartseitePopupOpen: true
         });
-        this.getFamilyTreePNG();
     };
-
-    getFamilyTreePNG() {
-        return domtoimage.toPng(document.getElementById('FamilyTreeID'))
-            .then(function (dataUrl) {
-                var link = document.createElement('a');
-                link.download = localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Stammbaum.png";
-                link.href = dataUrl;
-                link.click();
-            });
-    }
-
 
     //closes the "ZurStartseite"-Popup when button "Nein" is chosen
     handlePopupZurStartseiteClose = e => {
@@ -507,7 +470,6 @@ class FamilyTree extends Component {
             zurStartseitePopupOpen: false
         });
     };
-
 
     //write the Change of the Verstorben=Yes Button to the state.
     handleYesButtonChange = () => {
@@ -968,6 +930,16 @@ class FamilyTree extends Component {
             </div>)
     }
 
+    getFamilyTreePNG() {
+        return domtoimage.toPng(document.getElementById('FamilyTreeID'))
+            .then(function (dataUrl) {
+                var link = document.createElement('a');
+                link.download = localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Stammbaum.png";
+                link.href = dataUrl;
+                link.click();
+            });
+    }
+
     //Show Popup,if state == true
     showPopupCancelAlert() {
         return (
@@ -1148,8 +1120,7 @@ class FamilyTree extends Component {
                             <br></br>
                             <br></br>
                             Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
-                            "DATEN HERUNTERLADEN", um die Familienanamnese abzuschliessen und zum Startbildschirm
-                            zurückzukehren.
+                            "Definitv Abschliessen", um die Familienanamnese abzuschliessen.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -1160,46 +1131,16 @@ class FamilyTree extends Component {
                             Abbrechen
                         </Button>
 
-                        <PDFDownloadLink document={
-                            <Document>
-                                <Page size="A4" style={PDFstyles.page}>
-                                    <View>
-                                        <Text style={PDFstyles.heading}>Stammbaum</Text>
-                                        <Text style={PDFstyles.section}>Vorname: {localStorage.get('Vorname')}</Text>
-                                        <Text style={PDFstyles.section}>Nachname: {localStorage.get('Nachname')}</Text>
-                                        <Text
-                                            style={PDFstyles.section}>Geschlecht: {localStorage.get('me_gender')}</Text>
-                                        <Text
-                                            style={PDFstyles.section}>Stammbaum: {JSON.stringify(localStorage.get('FamilyData'))}</Text>
-                                        <Text style={PDFstyles.section}>Andere
-                                            Familienmitglieder: {JSON.stringify(localStorage.get('OtherFamilyData'))}</Text>
-                                        <Text style={PDFstyles.section}>Gelöschte
-                                            Familienmitglieder: {JSON.stringify(localStorage.get('DeletedFamilyData'))}</Text>
-                                    </View>
-                                </Page>
-                            </Document>
-                        }
-                                         fileName={localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Familienanamnese.pdf"}>
-
-                            <Button
-                                size="medium"
-                                variant="contained"
-                                onClick={this.handlePopupAbschliessen} color="primary"
-                                style={{margin: '10px', right: '10px', textDecoration: "none"}}
-
-                            >
-                                Daten herunterladen
-                                {({loading}) => (loading ? 'Loading document...' : '')}
-                            </Button>
-
-
-                        </PDFDownloadLink>
+                        <NavLink exact to="/FamilienanamneseAbschliessen" style={{"text-decoration": "none"}}>
+                            <Button variant="outlined" color="primary" onClick={this.getFamilyTreePNG}
+                                    style={{margin: '10px', right: '10px', textDecoration: "none"}}>Definitv
+                                Abschliessen</Button>
+                        </NavLink>
 
                     </DialogActions>
                 </Dialog>
             </div>)
     }
-
 
     //when download is done, this popup asks user if he wants to go back to Startseite
     showPopupZurStartseite() {

@@ -5,6 +5,7 @@ import "typeface-roboto";
 import Home from "./Home";
 import Sozialanamnese from "./Sozialanamnese/Sozialanamnese";
 import Stammbaum from "./Familienanamnese/Stammbaum";
+import Abschliessen from "./Familienanamnese/Abschliessen";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route path="/Familienanamnese" component={Stammbaum}/>
+                    <Route path="/FamilienanamneseAbschliessen" component={Abschliessen}/>
                     <Route path="/Sozialanamnese" component={Sozialanamnese}/>
                     <Route exact path="*" component={Home}/>
                 </Switch>

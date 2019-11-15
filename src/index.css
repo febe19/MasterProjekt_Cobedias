@@ -104,6 +104,14 @@ ul.header li a {
     margin: 0 auto;
 }
 
+.FamilienanamneseDatenHerunterladen {
+    position: fixed;
+    left: 50%;
+    top: 200px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
 .MilitaerdienstButtons {
     margin-right: 15px;
     margin-top: 18px;

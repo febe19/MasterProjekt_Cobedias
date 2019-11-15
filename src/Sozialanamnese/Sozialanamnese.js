@@ -62,7 +62,7 @@ function componentCompleted(step) {
             console.log("-  " + new Date().toLocaleTimeString() + " _Absenden_ Fertig");
             return localStorage.get('AbsendenKomplett');
         default:
-            console.log("case default")
+            console.log("case default");
             return false;
     }
 }
