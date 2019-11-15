@@ -20,10 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import {
-    createMuiTheme,
-    MuiThemeProvider,
-} from "@material-ui/core/styles";
+import {createMuiTheme, MuiThemeProvider,} from "@material-ui/core/styles";
 
 
 const theme = createMuiTheme({
@@ -85,13 +82,7 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
             } else {
                 return womanSpouseAvatar;
             }
-        } else if (node.gender === 'other') {
-            if (node.verstorben === true) {
-                return OtherIconBW;
-            } else {
-                return OtherIcon;
-            }
-        } else {
+        } else if (node.gender === 'male') {
             if (node.verstorben === true) {
                 return manAvatarBW;
             } else if (node.blutsverwandt === true) {
@@ -99,8 +90,13 @@ function OtherFamilyMemberNode({node, deleteFunction, editFunction, style}) {
             } else {
                 return manSpouseAvatar;
             }
+        } else {
+            if (node.verstorben === true) {
+                return OtherIconBW;
+            } else {
+                return OtherIcon;
+            }
         }
-        //TODO: if no gender is chosen, take "neutral" avatar (the same as we use when choosing the gender of me in the Startseite)
     }
 
 

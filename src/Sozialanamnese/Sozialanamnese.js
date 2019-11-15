@@ -114,9 +114,6 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
             const newCompleted = completed;
             newCompleted[step] = false;
             setCompleted(newCompleted);
-            // TODO: Enable alert (evtl. mit zwei Buttons --> möchten Sie wirklich weiter? Ja/Nein)
-            // TODO: Alert-Vorgehen überdenken: nur einfacher Alert oder unterschiedlicher Alert für jeden Case?
-            // TODO: Sollen nicht ausgefüllte textfelder rot markiert werden?
             //alert("Nicht alle Felder ausgefüllt!");
         }
     }

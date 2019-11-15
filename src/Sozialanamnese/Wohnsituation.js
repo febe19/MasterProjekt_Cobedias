@@ -185,7 +185,6 @@ class Wohnsituation extends Component {
                 return true;
             }
         } else { //not sure if this else is needed
-            // TODO: Find a way so that this alert is only executed when needed (e.g. when "Zurück" / "Weiter" Button is clicked. Otherwise the alert pops up every time anything changes on the page (Given that no Berufstätigkeit is selected yet).
             //alert("Achtung: Ein Feld wurde nicht ausgewählt.")
             return false;
         }

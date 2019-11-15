@@ -156,9 +156,6 @@ const PDFstyles = StyleSheet.create({
 });
 
 
-
-
-
 //only writes gender of me to PDF if the gender was set
 function getGeschlecht() {
     if ((localStorage.get('me_gender')) && (localStorage.get('me_gender') !== '') && (localStorage.get('me_gender') !== 'null')) {
@@ -262,7 +259,8 @@ function getErkrankung() {
 function getArbeitsunfaehigkeitInProzent() {
     if ((localStorage.get('arbeitsunfaehigkeitInProzent')) && (localStorage.get('arbeitsunfaehigkeitInProzent') !== '') && (localStorage.get('arbeitsunfaehigkeitInProzent') !== 'null')) {
         return (
-            <Text style={PDFstyles.text}>Arbeitsunfähigkeit in %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
+            <Text style={PDFstyles.text}>Arbeitsunfähigkeit in
+                %: {localStorage.get('arbeitsunfaehigkeitInProzent')}</Text>
         )
     }
 }
@@ -289,7 +287,8 @@ function getWohnsituation() {
 function getAndereWohnText() {
     if ((localStorage.get('andereWohnText')) && (localStorage.get('andereWohnText') !== '') && (localStorage.get('andereWohnText') !== 'null')) {
         return (
-            <Text style={PDFstyles.text}>Beschreibung der "anderen Wohnsituation": {localStorage.get('andereWohnText')}</Text>
+            <Text style={PDFstyles.text}>Beschreibung der "anderen
+                Wohnsituation": {localStorage.get('andereWohnText')}</Text>
         )
     }
 }
@@ -316,7 +315,8 @@ function getAndererZivilstand() {
 function getPatVerfuegungExistiert() {
     if ((localStorage.get('patVerfuegungExistiert')) && (localStorage.get('patVerfuegungExistiert') !== '') && (localStorage.get('patVerfuegungExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.text}>Patientenverfügung existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
+            <Text style={PDFstyles.text}>Patientenverfügung
+                existiert: {localStorage.get('patVerfuegungExistiert')}</Text>
         )
     }
 }
@@ -325,7 +325,8 @@ function getPatVerfuegungExistiert() {
 function getPatVerfuegungBei() {
     if ((localStorage.get('patVerfuegungBei')) && (localStorage.get('patVerfuegungBei') !== '') && (localStorage.get('patVerfuegungBei') !== 'null')) {
         return (
-            <Text style={PDFstyles.text}>Patientenverfügung hinterlegt bei: {localStorage.get('patVerfuegungBei')}</Text>
+            <Text style={PDFstyles.text}>Patientenverfügung hinterlegt
+                bei: {localStorage.get('patVerfuegungBei')}</Text>
         )
     }
 }
@@ -334,7 +335,8 @@ function getPatVerfuegungBei() {
 function getVorsorgeauftragExistiert() {
     if ((localStorage.get('vorsorgeauftragExistiert')) && (localStorage.get('vorsorgeauftragExistiert') !== '') && (localStorage.get('vorsorgeauftragExistiert') !== 'null')) {
         return (
-            <Text style={PDFstyles.text}>Vorsorgeauftrag existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
+            <Text style={PDFstyles.text}>Vorsorgeauftrag
+                existiert: {localStorage.get('vorsorgeauftragExistiert')}</Text>
         )
     }
 }
@@ -350,15 +352,17 @@ function getVorsorgeauftragBei() {
 
 
 //Document which will be downloaded when clicking the blue Link. Here all Local storage variables need to be listed.
-//TODO: improve design of downloaded PDF (e.g. insert line breaks, set title...)
 const CobediasDocument = () => (
     <Document>
         <Page size="A4" style={PDFstyles.body}>
             <View>
-                <Text style={PDFstyles.header}>~ {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()}) ~</Text>
+                <Text
+                    style={PDFstyles.header}>~ {localStorage.get('Nachname')}, {localStorage.get('Vorname')} ({getGeschlecht()})
+                    ~</Text>
                 <Text style={PDFstyles.title}>Sozialanamnese</Text>
 
-                <Text style={PDFstyles.subtitle}>============================================{"\n"}Berufstätigkeit</Text>
+                <Text
+                    style={PDFstyles.subtitle}>============================================{"\n"}Berufstätigkeit</Text>
                 {getGelernterBeruf()}
                 {getAktuellerBeruf()}
                 {getArbeitsfaehigkeit()}
@@ -375,14 +379,16 @@ const CobediasDocument = () => (
                 <Text style={PDFstyles.text}>{localStorage.get('hobbies')}</Text>
 
                 <Text style={PDFstyles.subtitle}>============================================{"\n"}Militärdienst</Text>
-                <Text style={PDFstyles.text}>Militärdienst wurde gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
+                <Text style={PDFstyles.text}>Militärdienst wurde
+                    gemacht: {String(localStorage.get('militaerdienstGemacht'))}</Text>
                 {getUntauglichkeitsgrund()}
 
                 <Text style={PDFstyles.subtitle}>============================================{"\n"}Wohnsituation</Text>
                 {getWohnsituation()}
                 {getAndereWohnText()}
 
-                <Text style={PDFstyles.subtitle}>============================================{"\n"}Bezugspersonen & Zivilstand</Text>
+                <Text style={PDFstyles.subtitle}>============================================{"\n"}Bezugspersonen &
+                    Zivilstand</Text>
                 {getZivilstand()}
                 {getAndererZivilstand()}
                 <Text style={PDFstyles.text}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>

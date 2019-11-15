@@ -602,8 +602,6 @@ class FamilyTree extends Component {
             }
         }
 
-        // TODO: choose gender of spouse
-
         if (me.gender === 'female') {
             familyHelpers.addFamilyMember("spouse" + familyHelpers.getHighestIndexOfFM('spouse', this.state.DeletedFamilyMembers), "male", [], [], [{
                 "id": "me"
@@ -825,13 +823,15 @@ class FamilyTree extends Component {
         });
     };
 
-    //TODO: Write Family Data into local Storage such that a refresh will not loose all data.
-
     // popup to add a new family member
     popUpFamilyMember = (fm) => {
         console.log("__PopUp for Family Member: " + fm);
         this.setState({
-            abschliessenPopupOpen: false, activeStep: 0, popupOpen: true, currentSelectedFamilyMember: fm
+            abschliessenPopupOpen: false,
+            activeStep: 0,
+            popupOpen: true,
+            currentSelectedFamilyMember: fm,
+            blutsverwandt: true
         }, () => {
             this.updateStepCompleteness(0);
             this.updateStepCompleteness(1);
@@ -1113,7 +1113,7 @@ class FamilyTree extends Component {
                             Falls es noch Familienmitglieder gibt, welche mit einem roten Ausrufezeichen (!) markiert
                             sind, so ergänzen Sie für diejenigen Familienmitglieder bitte alle fehlenden Angaben.
                             <br></br>
-                            Wählen Sie dafür den Button "ABBRECHEN" und editieren sie die Familienmitglieder dann, indem
+                            Wählen Sie dafür den Knopf "ABBRECHEN" und editieren sie die Familienmitglieder dann, indem
                             sie auf das Stiftsymbol klicken.
                             <br></br>
                             <br></br>
@@ -1122,7 +1122,7 @@ class FamilyTree extends Component {
                             Krankheit an.
                             <br></br>
                             Falls diese Familienmitglieder nicht links im Stammbaum abgebildet werden können, so
-                            benützen Sie bitte den Button "ANDERE HINZUFÜGEN".
+                            benützen Sie bitte den Knopf "ANDERE HINZUFÜGEN".
                             <br></br>
                             <br></br>
                             Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
@@ -1749,12 +1749,17 @@ class FamilyTree extends Component {
                         <li style={{fontSize: "22px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
                             sondern direkt unterhalb dieses Knopfes.
                         </li>
+                        <li style={{fontSize: "22px"}}>Grundsätzlich müssen nur blutsverwandte Familienmitglieder
+                            hinzugefügt werden. Wenn sie jedoch ein weiter entfert verwandtes <br/><span
+                                style={{marginLeft: '30px'}}>Familienmitglied haben, welches an einer vererbbaren Krankheit leidet, so geben Sie dieses bitte trotzedm an. Entfernen Sie für solche</span><br/><span
+                                style={{marginLeft: '30px'}}>Familienmitglieder bitte das Häckchen "Diese Person ist blutsverwandt mit mir".</span>
+                        </li>
                     </div>
 
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Familienanamnese abschliessen</h1>
-                        <li style={{fontSize: "22px"}}>Mit diesem Button können Sie, sobald Sie alle Familienmitglieder
+                        <li style={{fontSize: "22px"}}>Mit diesem Knopf können Sie, sobald Sie alle Familienmitglieder
                             erfasst haben, die Eingabe abschliessen.
                         </li>
                     </div>
