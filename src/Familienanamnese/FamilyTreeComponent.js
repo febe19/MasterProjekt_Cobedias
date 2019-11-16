@@ -931,16 +931,6 @@ class FamilyTree extends Component {
             </div>)
     }
 
-    getFamilyTreePNG() {
-        return domtoimage.toPng(document.getElementById('FamilyTreeID'))
-            .then(function (dataUrl) {
-                var link = document.createElement('a');
-                link.download = localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Stammbaum.png";
-                link.href = dataUrl;
-                link.click();
-            });
-    }
-
     //Show Popup,if state == true
     showPopupCancelAlert() {
         return (

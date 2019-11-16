@@ -13,10 +13,18 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Slide from "@material-ui/core/Slide";
 import domtoimage from "dom-to-image";
+import ReactFamilyTree from "react-family-tree";
+import {IFamilyExtNode} from "relatives-tree";
+import FamilyNode from "./FamilyNode";
 
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
+
+const myID = 'me';
+const WIDTH = 150;
+const HEIGHT = 150;
+const RESIZE = 0.7;
 
 const PDFstyles = StyleSheet.create({
     body: {
@@ -74,6 +82,18 @@ export class Abschliessen extends Component {
         this.setState({
             faZurStartseitePopupOpen: true
         });
+
+        setTimeout( function () {
+            document.getElementById('FamilyTreeID').style.opacity = 1;
+            domtoimage.toPng(document.getElementById('FamilyTreeID'))
+                .then(function (dataUrl) {
+                    var link = document.createElement('a');
+                    link.download = localStorage.get('Vorname') + "_" + localStorage.get('Nachname') + "_" + "Stammbaum.png";
+                    link.href = dataUrl;
+                    link.click();
+                    document.getElementById('FamilyTreeID').style.opacity = 0;
+                });
+        },1000);
     };
 
     handlePopupAbschliessenClose = e => {
@@ -166,7 +186,6 @@ export class Abschliessen extends Component {
                                 borderColor: 'white'
                             }}>Startseite</Button>
                         </NavLink>
-
                         <NavLink exact to="/Sozialanamnese" style={{"text-decoration": "none"}}>
                             <Button variant="outlined" style={{
                                 float: 'right',
@@ -175,6 +194,30 @@ export class Abschliessen extends Component {
                                 borderColor: 'white'
                             }}>Sozialanamnese</Button>
                         </NavLink>
+                    </div>
+
+                    <div style={{opacity: '0'}} id="FamilyTreeID">
+
+                        <ReactFamilyTree
+                            nodes={familyHelpers.getFamilyData()}
+                            rootId={myID}
+                            width={WIDTH}
+                            height={HEIGHT}
+                            canvasClassName={styles.tree}
+                            renderNode={(node: IFamilyExtNode) => (
+                                <FamilyNode
+                                    key={node.id}
+                                    node={node}
+                                    isRoot={node.id === myID}
+                                    style={{
+                                        width: WIDTH * RESIZE,
+                                        height: HEIGHT * RESIZE,
+                                        transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                        padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
+                                    }}
+                                />
+                            )}
+                        />
                     </div>
 
                     <div>{this.showPopupAbschliessen()}</div>
@@ -223,7 +266,7 @@ export class Abschliessen extends Component {
                                     {familyHelpers.getOtherFamilyData().map(member => (
                                         <Text style={PDFstyles.text}>
                                             ========================================================================
-                                            {"\n"}{member.id/*this.getName(member)*/} -- {/*this.getVerwandtschaftsgrad(member)*/} {"\n"}
+                                            {"\n"}{this.getName(member)} -- {this.getVerwandtschaftsgrad(member)} {"\n"}
                                             ___________________________________________________________________________
                                             {"\n"}Spitzname: {member.spitzname} {"\n"}
                                             Vorname: {member.vorname} {"\n"}
