@@ -182,7 +182,7 @@ ul.header li a {
 }
 
 .FamilyTreeStepContent {
-    max-height: calc(100vh - 320px);
+    max-height: calc(100vh - 400px);
     overflow-y: scroll;
     padding: 10px;
 }

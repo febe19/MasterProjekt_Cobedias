@@ -195,29 +195,30 @@ export class Abschliessen extends Component {
                             }}>Sozialanamnese</Button>
                         </NavLink>
                     </div>
+                    <div style={{opacity: '0'}}>
+                        <div style={{opacity: '0'}} id="FamilyTreeID">
 
-                    <div style={{opacity: '0', display: 'none'}} id="FamilyTreeID">
-
-                        <ReactFamilyTree
-                            nodes={familyHelpers.getFamilyData()}
-                            rootId={myID}
-                            width={WIDTH}
-                            height={HEIGHT}
-                            canvasClassName={styles.tree}
-                            renderNode={(node: IFamilyExtNode) => (
-                                <FamilyNode
-                                    key={node.id}
-                                    node={node}
-                                    isRoot={node.id === myID}
-                                    style={{
-                                        width: WIDTH * RESIZE,
-                                        height: HEIGHT * RESIZE,
-                                        transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
-                                        padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
-                                    }}
-                                />
-                            )}
-                        />
+                            <ReactFamilyTree
+                                nodes={familyHelpers.getFamilyData()}
+                                rootId={myID}
+                                width={WIDTH}
+                                height={HEIGHT}
+                                canvasClassName={styles.tree}
+                                renderNode={(node: IFamilyExtNode) => (
+                                    <FamilyNode
+                                        key={node.id}
+                                        node={node}
+                                        isRoot={node.id === myID}
+                                        style={{
+                                            width: WIDTH * RESIZE,
+                                            height: HEIGHT * RESIZE,
+                                            transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                                            padding: `${WIDTH * ((1 - RESIZE) / 2)}px`,
+                                        }}
+                                    />
+                                )}
+                            />
+                        </div>
                     </div>
 
                     <div>{this.showPopupAbschliessen()}</div>
