@@ -138,7 +138,6 @@ class FamilyTree extends Component {
         this.handleWeiblichButtonChange = this.handleWeiblichButtonChange.bind(this);
         this.handleMaenlichButtonChange = this.handleMaenlichButtonChange.bind(this);
         this.handleOtherButtonChange = this.handleOtherButtonChange.bind(this);
-        this.getFamilyTreePNG = this.getFamilyTreePNG.bind(this);
 
         //Define the state of this component.
         this.state = {
@@ -1127,7 +1126,7 @@ class FamilyTree extends Component {
                         </Button>
 
                         <NavLink exact to="/FamilienanamneseAbschliessen" style={{"text-decoration": "none"}}>
-                            <Button variant="outlined" color="primary" onClick={this.getFamilyTreePNG}
+                            <Button variant="outlined" color="primary"
                                     style={{margin: '10px', right: '10px', textDecoration: "none"}}>Definitiv
                                 Abschliessen</Button>
                         </NavLink>

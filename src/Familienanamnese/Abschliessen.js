@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 import localStorage from "local-storage";
 import familyHelpers from "./FamilyData";
 
-import {Document, Page, PDFDownloadLink, StyleSheet, Text, View, Image} from "@react-pdf/renderer";
+import {Document, Page, PDFDownloadLink, StyleSheet, Text} from "@react-pdf/renderer";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -83,7 +83,7 @@ export class Abschliessen extends Component {
             faZurStartseitePopupOpen: true
         });
 
-        setTimeout( function () {
+        setTimeout(function () {
             document.getElementById('FamilyTreeID').style.opacity = 1;
             domtoimage.toPng(document.getElementById('FamilyTreeID'))
                 .then(function (dataUrl) {
@@ -93,7 +93,7 @@ export class Abschliessen extends Component {
                     link.click();
                     document.getElementById('FamilyTreeID').style.opacity = 0;
                 });
-        },1000);
+        }, 1000);
     };
 
     handlePopupAbschliessenClose = e => {
@@ -196,7 +196,7 @@ export class Abschliessen extends Component {
                         </NavLink>
                     </div>
 
-                    <div style={{opacity: '0'}} id="FamilyTreeID">
+                    <div style={{opacity: '0', display: 'none'}} id="FamilyTreeID">
 
                         <ReactFamilyTree
                             nodes={familyHelpers.getFamilyData()}
