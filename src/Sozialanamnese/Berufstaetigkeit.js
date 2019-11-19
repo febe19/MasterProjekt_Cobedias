@@ -469,11 +469,11 @@ class Berufstaetigkeit extends Component {
                                     error={this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true}
                                     helperText={(this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
-                                    format="dd/MM/yyyy"
+                                    format="dd. mm. yyyy"
                                     margin="normal"
                                     id="dateArbeitslosigkeit"
                                     name="dateArbeitslosigkeit"
-                                    label="Datum auswählen"
+                                    label="Datum wählen (TT.MM.JJJJ)"
                                     value={this.state.dateArbeitslosigkeit}
                                     onChange={this.handleChangeArbeitlosigkeitDate("dateArbeitslosigkeit")}
                                     KeyboardButtonProps={{
@@ -505,7 +505,7 @@ class Berufstaetigkeit extends Component {
                                     error={this.state.datePensioniert === null && this.state.allowErrors === true}
                                     helperText={(this.state.datePensioniert === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
-                                    format="dd/MM/yyyy"
+                                    format="dd. mm. yyyy"
                                     margin="normal"
                                     id="datePensioniert"
                                     name="datePensioniert"
@@ -540,7 +540,7 @@ class Berufstaetigkeit extends Component {
                                     error={this.state.dateIVRente === null && this.state.allowErrors === true}
                                     helperText={(this.state.dateIVRente === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                     disableToolbar
-                                    format="dd/MM/yyyy"
+                                    format="dd. mm. yyyy"
                                     margin="normal"
                                     id="dateIVRente"
                                     name="dateIVRente"
@@ -590,7 +590,7 @@ class Berufstaetigkeit extends Component {
                                         error={this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true}
                                         helperText={(this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                         disableToolbar
-                                        format="dd/MM/yyyy"
+                                        format="dd. mm. yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitVon"
                                         name="dateArbeitsunfaehigkeitVon"
@@ -611,7 +611,7 @@ class Berufstaetigkeit extends Component {
                                         error={this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true}
                                         helperText={(this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
                                         disableToolbar
-                                        format="dd/MM/yyyy"
+                                        format="dd. mm. yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitBis"
                                         name="dateArbeitsunfaehigkeitBis"

@@ -200,6 +200,7 @@ class Home extends Component {
                     color="Primary"
                     disabled={this.state.disableButtons}
                     variant="contained"
+                    style={{margin: '10px'}}
                 >
                   Sozialanamnese
                 </Button>
@@ -213,6 +214,7 @@ class Home extends Component {
                     color="Primary"
                     disabled={this.state.disableButtons}
                     variant="contained"
+                    style={{margin: '10px'}}
                 >
                     Sozialanamnese
                 </Button>
@@ -231,6 +233,7 @@ class Home extends Component {
                   color="Primary"
                   disabled={this.state.disableButtons}
                   variant="contained"
+                  style={{margin: '10px'}}
               >
                 Familienanamnese
               </Button>
@@ -244,6 +247,7 @@ class Home extends Component {
                     color="Primary"
                     disabled={this.state.disableButtons}
                     variant="contained"
+                    style={{margin: '10px'}}
                 >
                     Familienanamnese
                 </Button>
@@ -381,13 +385,6 @@ class Home extends Component {
                             {this.getFamilienanamneseButton()}
                         </NavLink>
                     </div>
-
-                    <Button
-                        style={{position: "absolute", bottom: "10px"}}
-                        onClick={this.deleteLocalStorage}
-                    >
-                        Clear Local Storage
-                    </Button>
                 </div>
             </div>
         );

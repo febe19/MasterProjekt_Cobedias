@@ -80,14 +80,13 @@ class Absenden extends Component {
                 <div>
                     <p>Vielen Dank für das Ausfüllen der Sozialanamnese!</p>
                     <br/>
-                    <p>Bitte überprüfen Sie anhand der Fortschrittsanzeige am oberen Bildschirmrand, ob Sie alle
-                        Abschnitte vollständig ausgefüllt
-                        haben. Alle Schritte sollten mit einem Häkchen markiert sein. Ist dies nicht der Fall, so kehren
-                        Sie bitte zum jeweiligen
-                        Schritt zurück und ergänzen Sie dort die Angaben. Danach können Sie wieder auf den letzten
-                        Schritt "Abschliessen" klicken.</p>
+                    <p>Bitte <b>überprüfen Sie anhand der Fortschrittsanzeige</b> am oberen Bildschirmrand, ob Sie <b>alle
+                        Abschnitte vollständig ausgefüllt</b> haben. Alle Schritte sollten mit einem Häkchen markiert
+                        sein. Ist dies nicht der Fall, so kehren Sie bitte zum jeweiligen Schritt zurück und ergänzen
+                        Sie dort die Angaben. Danach können Sie wieder auf den letzten Schritt "Abschliessen" klicken.
+                    </p>
                     <br/>
-                    <p>Sind alle Abschnitte vollständig, so laden Sie die Daten bitte herunter, indem Sie unten auf den
+                    <p>Sind alle Abschnitte vollständig, so <b>laden Sie die Daten bitte herunter</b>, indem Sie unten auf den
                         dafür vorgesehenen Knopf klicken.</p>
 
                     <div hidden={false}>

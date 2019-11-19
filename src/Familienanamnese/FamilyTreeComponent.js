@@ -848,7 +848,7 @@ class FamilyTree extends Component {
     }
 
     nextTutorialStep() {
-        if (this.state.tutorialStep === 3) {
+        if (this.state.tutorialStep === 4) {
             this.setState({tutorialStep: 0});
             this.showTutorial();
         } else {
@@ -1245,7 +1245,8 @@ class FamilyTree extends Component {
                         />
 
                         <div className="Gesundheitszustand">
-                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand des ausgewählten Familinmitglieds zu Lebzeiten an:<br/>Dies kann z.Bsp.
+                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand des ausgewählten Familinmitglieds zu
+                                Lebzeiten an:<br/>Dies kann z.Bsp.
                                 Gesund oder
                                 die Angabe von Krankheiten sein. </p>
                         </div>
@@ -1271,7 +1272,8 @@ class FamilyTree extends Component {
                     <div>
                         <br/>
                         <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie den Gesundheitszustand des ausgewählten Familienmitglieds an:<br/>Dies kann z.Bsp. Gesund oder die Angabe
+                            <p>Bitte geben Sie den Gesundheitszustand des ausgewählten Familienmitglieds an:<br/>Dies
+                                kann z.Bsp. Gesund oder die Angabe
                                 von Krankheiten sein. </p>
                         </div>
                         <TextField
@@ -1326,7 +1328,10 @@ class FamilyTree extends Component {
                     {children.map(option => (
                         <Button id={option.id} variant="outlined" color="primary"
                                 onClick={() => this.choseChildrenForSpouse(option.id)}
-                                style={(this.state.childrenOfSpouse.includes(option.id)) ? {background: '#BBC2E5'} : {}}>{option.name}</Button>
+                                style={(this.state.childrenOfSpouse.includes(option.id)) ? {
+                                    background: '#BBC2E5',
+                                    margin: '2px'
+                                } : {margin: '2px'}}>{option.name}</Button>
                     ))}
                 </div>
             )
@@ -1377,7 +1382,10 @@ class FamilyTree extends Component {
                     {spouses.map(option => (
                         <Button id={option.id} variant="outlined" color="primary"
                                 onClick={() => this.choseParentForChildren(option.id)}
-                                style={(this.state.additionalParentOfChild === option.id) ? {background: '#BBC2E5'} : {}}>{option.name}</Button>
+                                style={(this.state.additionalParentOfChild === option.id) ? {
+                                    background: '#BBC2E5',
+                                    margin: '2px'
+                                } : {margin: '2px'}}>{option.name}</Button>
                     ))}
                 </div>
             )
@@ -1583,7 +1591,7 @@ class FamilyTree extends Component {
                     <p style={{margin: '3px', marginTop: '15px', marginLeft: '20px'}}>Geben Sie hier bitte alle Ihre
                         Blutsverwandten an.</p>
                     <div className="addFamilyMembersButtons"
-                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {
                              boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
@@ -1607,13 +1615,13 @@ class FamilyTree extends Component {
                     </div>
 
                     <div className="BigFamilyTreeContainer"
-                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
                              boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
                          } : {zIndex: "-100"}}>
                         <div className="FamilyTreeDiv" id="FamilyTreeID"
-                             style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                             style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
                                  boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                                  position: "relative",
                                  zIndex: 200
@@ -1648,7 +1656,7 @@ class FamilyTree extends Component {
                 <div className="Right">
                     <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
                     <div className="addOtherFamilyMembersButtons"
-                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {
+                         style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
                              boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
@@ -1681,7 +1689,7 @@ class FamilyTree extends Component {
                 <div>{this.showPopupAbschliessen()}</div>
 
                 <div className="AbschliessenButton"
-                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 4) ? {
                          boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                          zIndex: 200
                      } : {zIndex: "-100"}}>
@@ -1690,40 +1698,67 @@ class FamilyTree extends Component {
                 </div>
 
                 <div hidden={this.state.hideTutorial === false}
-                     style={{position: "absolute", bottom: "2px", right: "2px"}}>Icons made by <a
-                    href="https://www.flaticon.com/authors/freepik"
-                    title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
-                                                        title="Flaticon">www.flaticon.com</a></div>
+                     style={{
+                         position: "absolute",
+                         bottom: "2px",
+                         right: "2px",
+                         color: "lightgrey",
+                         fontFamily: "Roboto",
+                         fontSize: '8px'
+                     }}>Icons made by Freepik from www.flaticon.com
+                </div>
 
-                <div className="HilfeButton">
+                <div className="HilfeButton"
+                     style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
+                         boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
+                         zIndex: 200
+                     } : {}}>
                     <Button id="Hilfe" variant="outlined" onClick={this.showTutorial}
-                            color={this.state.hideTutorial === true ? "Primary" : ""}
-                            style={this.state.hideTutorial === true ? {margin: '3px'} : {
+                            color={(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? "Primary" : ""}
+                            style={(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? {margin: '3px'} : {
                                 color: 'white',
                                 borderColor: 'white',
                                 margin: '3px'
-                            }}>{this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
+                            }}>{(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
                 </div>
                 <div className="Tutorial" hidden={this.state.hideTutorial}>
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
+                         className="TutorialText">
+                        <h1>Hilfe</h1>
+                        <li style={{fontSize: "22px"}}>Sie sind hier im Hilfemenü.</li>
+                        <li style={{fontSize: "22px"}}>Hier wird Ihnen erklärt, wie die Familienanamnese bearbeitet
+                            wird.
+                        </li>
+                        <li style={{fontSize: "22px"}}>Bearbeiten können Sie den Stambaum erst nach Abschluss dieser
+                            Erklärung.
+                        </li>
+                        <li style={{fontSize: "22px"}}>Die Hilfe kann immer mit dem Knopf unten links aufgerufen
+                            werden.
+                        </li>
+                        <li style={{fontSize: "22px"}}>Mit dem Knopf 'Weiter' kommen Sie zur nächsten Erklärung.</li>
+                    </div>
+
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Stammbaum</h1>
                         <li style={{fontSize: "22px"}}>Hier sehen sie alle Familienmitglieder, welche Sie bereits
                             hinzugefügt haben.
                         </li>
-                        <li style={{fontSize: "22px"}}>Die Verwandschaftsverhältnisse sind mit Linien dargestellt.</li>
-                        <li style={{fontSize: "22px"}}>Ziel ist es, ein möglichst genaues Bild Ihrere blutsverwandten
+                        <li style={{fontSize: "22px"}}>Ziel ist es, ein möglichst genaues Bild Ihrer blutsverwandten
                             Familienmitglieder zu erhalten.
                         </li>
-                        <li style={{fontSize: "22px"}}>Mit den blauen Buttons neben den Portraits können
+                        <li style={{fontSize: "22px"}}>Mit den blauen Knöpfen neben den Portraits können
                             Familienmitglieder bearbeitet oder gelöscht werden.
+                        </li>
+                        <li style={{fontSize: "22px"}}>Nach Abschluss der Einleitung bearbeiten Sie bitte zuerst Mutter
+                            & Vater.
                         </li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
                          className="TutorialText">
                         <h1>Familienmitglieder hinzufügen</h1>
-                        <li style={{fontSize: "22px"}}>Mit diesen Buttons können Sie dem Stammbaum weitere
+                        <li style={{fontSize: "22px"}}>Mit diesen Knöpfen können Sie dem Stammbaum weitere
                             Familienmitglieder hinzufügen.
                         </li>
                         <li style={{fontSize: "22px"}}>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind
@@ -1731,23 +1766,21 @@ class FamilyTree extends Component {
                         </li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 2}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
                          className="TutorialText">
                         <h1>Andere Familienmitglieder hinzufügen</h1>
                         <li style={{fontSize: "22px"}}>Familienmitglieder, welche Sie nicht mit den vorherigen Knöpfen
                             hinzufügen können, können Sie mit diesem Knopf hinzufügen.
                         </li>
-                        <li style={{fontSize: "22px"}}>Diese Familienmitglieder werden nicht im Stammbaum angezeigt,
-                            sondern direkt unterhalb dieses Knopfes.
-                        </li>
                         <li style={{fontSize: "22px"}}>Grundsätzlich müssen nur blutsverwandte Familienmitglieder
-                            hinzugefügt werden. Wenn sie jedoch ein weiter entferntes verwandtes <br/><span
-                                style={{marginLeft: '30px'}}>Familienmitglied haben, welches an einer vererbbaren Krankheit leidet, so geben Sie dieses bitte trotzdem an. Entfernen Sie für solche</span><br/><span
-                                style={{marginLeft: '30px'}}>Familienmitglieder bitte das Häckchen "Diese Person ist blutsverwandt mit mir".</span>
+                            hinzugefügt werden.
+                        </li>
+                        <li style={{fontSize: "22px"}}>Aus medizinischer Sicht sind blutsverwandte Personen mit
+                            vererbbaren Krankheiten am wichtigsten.
                         </li>
                     </div>
 
-                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 3}
+                    <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 4}
                          className="TutorialText">
                         <h1>Familienanamnese abschliessen</h1>
                         <li style={{fontSize: "22px"}}>Mit diesem Knopf können Sie, sobald Sie alle Familienmitglieder
@@ -1763,7 +1796,7 @@ class FamilyTree extends Component {
                         <Button id="TutorialWeiter" variant="outlined"
                                 style={{color: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
                                 onClick={this.nextTutorialStep}
-                        >{this.state.tutorialStep === 3 ? 'Fertig' : 'Weiter'}
+                        >{this.state.tutorialStep === 4 ? 'Fertig' : 'Weiter'}
                         </Button>
                     </div>
                 </div>

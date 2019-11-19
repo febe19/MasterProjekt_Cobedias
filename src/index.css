@@ -64,6 +64,7 @@ ul.header li a {
     left: 50%;
     transform: translate(-50%, 0%);
     margin: 5px;
+    margin-top: 30px;
 }
 
 .StepContent {
@@ -182,7 +183,7 @@ ul.header li a {
 }
 
 .FamilyTreeStepContent {
-    max-height: calc(100vh - 400px);
+    max-height: calc(100vh - 350px);
     overflow-y: scroll;
     padding: 10px;
 }
@@ -206,7 +207,7 @@ ul.header li a {
     float: left;
     position: fixed;
     left: 50%;
-    bottom: 7%;
+    bottom: 3%;
     transform: translate(-50%, -50%);
     margin: 0 auto;
 }
@@ -276,11 +277,11 @@ ul.header li a {
 }
 
 .HilfeButton {
-    width: 100px;
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 15px;
+    left: 15px;
     z-index: 10000;
+    padding: 5px;
 }
 
 .AbschliessenButton {
