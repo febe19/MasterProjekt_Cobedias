@@ -873,8 +873,13 @@ class FamilyTree extends Component {
         //console.log("this.state.currentSelectedFamilyMember: " + this.state.currentSelectedFamilyMember);
 
         if (this.state.currentSelectedFamilyMember !== '') {
+            console.log("-- -- Other FamilyMember selected: " + this.state.currentSelectedFamilyMember);
             if (this.state.currentSelectedFamilyMember.substring(0, 3) !== 'add') {
                 let fm = familyHelpers.getFamilyMemberByID(this.state.currentSelectedFamilyMember);
+                console.log("-- -- fm: " + fm);
+                if (!fm) {
+                    fm = familyHelpers.getOtherFamilyMemberByID(this.state.currentSelectedFamilyMember);
+                }
 
                 if (fm.spitzname !== '') {
                     name = fm.spitzname;
@@ -883,16 +888,22 @@ class FamilyTree extends Component {
                 }
 
                 if (this.state.currentSelectedFamilyMember === 'myMother') {
-                    degree = 'Ihre Mutter';
+                    degree = 'Ihrer Mutter';
                     name = "";
                 } else if (this.state.currentSelectedFamilyMember === 'myFather') {
-                    degree = 'Ihr Vater';
+                    degree = 'Ihrem Vater';
                     name = '';
                 } else if (this.state.currentSelectedFamilyMember.substring(0, 5) === 'child') {
                     if (fm.gender === 'female') {
                         degree = "Ihrer Tochter";
                     } else {
                         degree = "Ihrem Sohn";
+                    }
+                } else if (this.state.currentSelectedFamilyMember.substring(0, 5) === 'other') {
+                    if (name !== '') {
+                        degree = '';
+                    } else {
+                        degree = "einem anderen Familienmitglied";
                     }
                 } else if (this.state.currentSelectedFamilyMember.substring(0, 6) === 'spouse') {
                     if (fm.gender === 'female') {
@@ -1232,7 +1243,8 @@ class FamilyTree extends Component {
                         />
 
                         <div className="Gesundheitszustand">
-                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand zu Lebzeiten an:<br/>Dies kann z.Bsp. Gesund oder
+                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand zu Lebzeiten an:<br/>Dies kann z.Bsp.
+                                Gesund oder
                                 die Angabe von Krankheiten sein. </p>
                         </div>
                         <TextField
