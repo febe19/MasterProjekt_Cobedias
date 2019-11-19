@@ -265,7 +265,7 @@ class Home extends Component {
                         testen.
                     </h2>
                     <p>
-                        Bitte geben Sie hier unten Ihren Vorname sowie Ihren Nachname ein.{" "}
+                        Bitte geben Sie hier unten Ihren Vornamen sowie Ihren Nachnamen ein.{" "}
                     </p>
 
                     <div>

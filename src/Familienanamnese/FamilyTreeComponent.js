@@ -1116,7 +1116,7 @@ class FamilyTree extends Component {
                             sie auf das Stiftsymbol klicken.
                             <br></br>
                             <br></br>
-                            Falls Sie weitere noch nicht erfasst blutsverwandte Familienmitglieder haben, welche an
+                            Falls Sie weitere noch nicht erfasste blutsverwandte Familienmitglieder haben, welche an
                             einer Krankheit leiden, so erfassen Sie diese bitte noch und geben Sie die entsprechende
                             Krankheit an.
                             <br></br>
@@ -1198,7 +1198,7 @@ class FamilyTree extends Component {
                 return (
                     <div>
                         <br/>
-                        <p>Bitte geben Sie das Todesjahr und die Todesursache an:</p>
+                        <p>Bitte geben Sie das Todesjahr und die Todesursache des ausgewählten Familinmitglieds an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
                                 error={(this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors === true}
@@ -1243,7 +1243,7 @@ class FamilyTree extends Component {
                         />
 
                         <div className="Gesundheitszustand">
-                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand zu Lebzeiten an:<br/>Dies kann z.Bsp.
+                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand des ausgewählten Familinmitglieds zu Lebzeiten an:<br/>Dies kann z.Bsp.
                                 Gesund oder
                                 die Angabe von Krankheiten sein. </p>
                         </div>
@@ -1258,7 +1258,7 @@ class FamilyTree extends Component {
                             fullWidth
                             multiline
                             rows="8"
-                            placeholder="Geben Sie hier den Gesundheitszustand zu Lebzeiten ein"
+                            placeholder="Geben Sie hier den Gesundheitszustand des ausgewählten Familienmitglieds zu Lebzeiten ein"
                             error={this.state.gesundheitszustand === '' && this.state.allowErrors === true}
                             helperText={(this.state.gesundheitszustand === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
@@ -1269,7 +1269,7 @@ class FamilyTree extends Component {
                     <div>
                         <br/>
                         <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie den Gesundheitszustand an:<br/>Dies kann z.Bsp. Gesund oder die Angabe
+                            <p>Bitte geben Sie den Gesundheitszustand des ausgewählten Familienmitglieds an:<br/>Dies kann z.Bsp. Gesund oder die Angabe
                                 von Krankheiten sein. </p>
                         </div>
                         <TextField
@@ -1320,7 +1320,7 @@ class FamilyTree extends Component {
 
             return (
                 <div>
-                    <p>Bitte wählen Sie die Kinder:</p>
+                    <p>Bitte wählen Sie die gemeinsamen Kinder aus:</p>
                     {children.map(option => (
                         <Button id={option.id} variant="outlined" color="primary"
                                 onClick={() => this.choseChildrenForSpouse(option.id)}
@@ -1579,7 +1579,7 @@ class FamilyTree extends Component {
 
                 <div className="Left">
                     <p style={{margin: '3px', marginTop: '15px', marginLeft: '20px'}}>Geben Sie hier bitte alle Ihre
-                        Blutverwandte ein.</p>
+                        Blutsverwandten an.</p>
                     <div className="addFamilyMembersButtons"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
                              boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
@@ -1721,7 +1721,7 @@ class FamilyTree extends Component {
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 1}
                          className="TutorialText">
                         <h1>Familienmitglieder hinzufügen</h1>
-                        <li style={{fontSize: "22px"}}>Mit diesen Buttons können Sie dem Stambaum weitere
+                        <li style={{fontSize: "22px"}}>Mit diesen Buttons können Sie dem Stammbaum weitere
                             Familienmitglieder hinzufügen.
                         </li>
                         <li style={{fontSize: "22px"}}>Ausgangspunkt für das Hinzufügen weiterer Familienmitglieder sind
@@ -1739,8 +1739,8 @@ class FamilyTree extends Component {
                             sondern direkt unterhalb dieses Knopfes.
                         </li>
                         <li style={{fontSize: "22px"}}>Grundsätzlich müssen nur blutsverwandte Familienmitglieder
-                            hinzugefügt werden. Wenn sie jedoch ein weiter entfert verwandtes <br/><span
-                                style={{marginLeft: '30px'}}>Familienmitglied haben, welches an einer vererbbaren Krankheit leidet, so geben Sie dieses bitte trotzedm an. Entfernen Sie für solche</span><br/><span
+                            hinzugefügt werden. Wenn sie jedoch ein weiter entferntes verwandtes <br/><span
+                                style={{marginLeft: '30px'}}>Familienmitglied haben, welches an einer vererbbaren Krankheit leidet, so geben Sie dieses bitte trotzdem an. Entfernen Sie für solche</span><br/><span
                                 style={{marginLeft: '30px'}}>Familienmitglieder bitte das Häckchen "Diese Person ist blutsverwandt mit mir".</span>
                         </li>
                     </div>
