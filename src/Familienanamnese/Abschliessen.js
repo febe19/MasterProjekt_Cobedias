@@ -251,11 +251,11 @@ export class Abschliessen extends Component {
                                             Nachname: {member.nachname} {"\n"}
                                             Geschlecht: {member.gender} {"\n"}
                                             Geburtsjahr: {member.geburtsjahr} {"\n"}
-                                            Verstorben: {member.verstorben} {"\n"}
+                                            Verstorben: {member.verstorben ? 'JA' : 'NEIN'} {"\n"}
                                             Todesjahr: {member.todesjahr} {"\n"}
                                             Todesursache: {member.todesursache} {"\n"}
                                             Gesundheitszustand: {member.gesundheitszustand} {"\n"}
-                                            Blutsverwandt: {member.blutsverwandt} {"\n"}
+                                            Blutsverwandt: {member.blutsverwandt ? 'JA': 'NEIN'} {"\n"}
                                             {"\n"}{"\n"}
                                         </Text>
                                     ))}
@@ -274,11 +274,11 @@ export class Abschliessen extends Component {
                                             Nachname: {member.nachname} {"\n"}
                                             Geschlecht: {member.gender} {"\n"}
                                             Geburtsjahr: {member.geburtsjahr} {"\n"}
-                                            Verstorben: {member.verstorben} {"\n"}
+                                            Verstorben: {member.verstorben ? 'JA' : 'NEIN'} {"\n"}
                                             Todesjahr: {member.todesjahr} {"\n"}
                                             Todesursache: {member.todesursache} {"\n"}
                                             Gesundheitszustand: {member.gesundheitszustand} {"\n"}
-                                            Blutsverwandt: {member.blutsverwandt} {"\n"}
+                                            Blutsverwandt: {member.blutsverwandt ? 'JA' : 'NEIN'} {"\n"}
                                             {"\n"}{"\n"}
                                         </Text>
                                     ))}
