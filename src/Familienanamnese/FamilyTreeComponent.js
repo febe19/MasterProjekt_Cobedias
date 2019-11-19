@@ -1198,8 +1198,6 @@ class FamilyTree extends Component {
             if (this.state.verstorben) {
                 return (
                     <div>
-                        <br/>
-                        <p>Bitte geben Sie das Todesjahr und die Todesursache des ausgewählten Familinmitglieds an:</p>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
                                 error={(this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors === true}
@@ -1243,13 +1241,6 @@ class FamilyTree extends Component {
                             error={this.state.todesursache === '' && this.state.allowErrors === true}
                             helperText={(this.state.todesursache === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
-
-                        <div className="Gesundheitszustand">
-                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand des ausgewählten Familinmitglieds zu
-                                Lebzeiten an:<br/>Dies kann z.Bsp.
-                                Gesund oder
-                                die Angabe von Krankheiten sein. </p>
-                        </div>
                         <TextField
                             label="Gesundheitszustand"
                             margin="normal"
@@ -1270,12 +1261,6 @@ class FamilyTree extends Component {
             } else {
                 return (
                     <div>
-                        <br/>
-                        <div className="Gesundheitszustand">
-                            <p>Bitte geben Sie den Gesundheitszustand des ausgewählten Familienmitglieds an:<br/>Dies
-                                kann z.Bsp. Gesund oder die Angabe
-                                von Krankheiten sein. </p>
-                        </div>
                         <TextField
                             label="Gesundheitszustand"
                             margin="normal"
