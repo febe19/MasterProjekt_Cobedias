@@ -1136,36 +1136,6 @@ class FamilyTree extends Component {
             </div>)
     }
 
-
-    //when download is done, this popup asks user if he wants to go back to Startseite
-    showPopupZurStartseite() {
-        return (
-            <div>
-                <Dialog
-                    open={this.state.zurStartseitePopupOpen}
-                    TransitionComponent={TransitionAlertPopup}
-                    keepMounted
-                    aria-labelledby="alert-dialog-slide-title"
-                    aria-describedby="alert-dialog-slide-description"
-                >
-                    <DialogTitle style={{background: '#EC4622', color: 'white'}}
-                                 id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese schliessen?"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
-                            Die Familienanamnese wurde als PDF heruntergeladen. Wollen Sie nun zur Startseite
-                            zurückkehren?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handlePopupZurStartseiteClose} color="primary">Nein</Button>
-                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
-                            <Button onClick={this.handlePopupZurStartseiteClose} color="primary">Ja</Button>
-                        </NavLink>
-                    </DialogActions>
-                </Dialog>
-            </div>)
-    }
-
     // markiert den "Ja" button blau sobald er angewählt wird
     colorYesButton() {
         if (this.state.verstorben === '') {
@@ -1211,6 +1181,7 @@ class FamilyTree extends Component {
 
     // depending on if verstorben=YES/NO this function displays the apropriate stepper content
     showGesundheitszustandOrTodesjahr() {
+        console.log("Show Gesundheitszustand und todesjahr");
         if (this.state.verstorben !== '') {
             if (this.state.verstorben) {
                 return (
@@ -1259,9 +1230,28 @@ class FamilyTree extends Component {
                             error={this.state.todesursache === '' && this.state.allowErrors === true}
                             helperText={(this.state.todesursache === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
+
+                        <div className="Gesundheitszustand">
+                            <p><br/><br/>Bitte geben Sie den Gesundheitszustand zu Lebzeiten an:<br/>Dies kann z.Bsp. Gesund oder
+                                die Angabe von Krankheiten sein. </p>
+                        </div>
+                        <TextField
+                            label="Gesundheitszustand"
+                            margin="normal"
+                            variant="outlined"
+                            name="gesundheitszustand"
+                            value={this.state.gesundheitszustand}
+                            onChange={this.handleChange("gesundheitszustand")}
+                            onBlur={this.handleChangeBlur("gesundheitszustand")}
+                            fullWidth
+                            multiline
+                            rows="8"
+                            placeholder="Geben Sie hier den Gesundheitszustand zu Lebzeiten ein"
+                            error={this.state.gesundheitszustand === '' && this.state.allowErrors === true}
+                            helperText={(this.state.gesundheitszustand === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
+                        />
                     </div>
                 )
-
             } else {
                 return (
                     <div>
@@ -1675,7 +1665,6 @@ class FamilyTree extends Component {
                 <div>{this.showPopupCancelAlert()}</div>
                 <div>{this.showPopupDeleteFamilyMemberAlert()}</div>
                 <div>{this.showPopupAbschliessen()}</div>
-                <div>{this.showPopupZurStartseite()}</div>
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {

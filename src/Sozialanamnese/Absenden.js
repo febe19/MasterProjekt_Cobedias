@@ -58,7 +58,7 @@ class Absenden extends Component {
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
                                  id="alert-dialog-slide-title">{"Wollen Sie die Sozialanamnese schliessen?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
                             Die Sozialanamnese wurde als PDF heruntergeladen. Wollen Sie nun zur Startseite
                             zurückkehren?
                         </DialogContentText>
