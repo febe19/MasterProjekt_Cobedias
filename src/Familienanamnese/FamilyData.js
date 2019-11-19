@@ -197,6 +197,12 @@ const familyHelpers = {
     },
 
     editOtherExistingFamiliyMember: function (id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
+
+        if (!verstorben) {
+            todesjahr = '';
+            todesursache = '';
+        }
+
         for (let i = 0; i < otherFamilyData.length; i++) {
             if (otherFamilyData[i].id === id) {
                 otherFamilyData[i].gender = gender;
@@ -278,6 +284,11 @@ const familyHelpers = {
                 newChildren = oldChildren;
             }
 
+            if (!verstorben) {
+                todesjahr = '';
+                todesursache = '';
+            }
+
             //Create new entry for member
             myFamilyData.push(
                 {
@@ -305,6 +316,12 @@ const familyHelpers = {
     },
 
     addOtherFamilyMember: function (id, gender, geburtsjahr, spitzname, vorname, nachname, verstorben, todesjahr, todesursache, gesundheitszustand, blutsverwandt, verwadtschaftsgrad) {
+
+        if (!verstorben) {
+            todesjahr = '';
+            todesursache = '';
+        }
+
         otherFamilyData.push(
             {
                 "id": id,
@@ -404,6 +421,10 @@ const familyHelpers = {
                 }
             }
 
+            if (!verstorben) {
+                todesjahr = '';
+                todesursache = '';
+            }
 
             //Push Data to familyData.
             myFamilyData.push(

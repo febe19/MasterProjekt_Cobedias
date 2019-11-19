@@ -988,6 +988,7 @@ class FamilyTree extends Component {
                         error={(this.state.geburtsjahr === '' || this.state.geburtsjahr === 0) && this.state.allowErrors === true}
                         id="geburtsjahr"
                         select
+                        fullWidth
                         variant="outlined"
                         label="Geburtsjahr"
                         className={classes.textField}
@@ -1204,6 +1205,7 @@ class FamilyTree extends Component {
                                 error={(this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors === true}
                                 id="todesjahr"
                                 select
+                                fullWidth
                                 variant="outlined"
                                 label="Todesjahr"
                                 className={classes.textField}
