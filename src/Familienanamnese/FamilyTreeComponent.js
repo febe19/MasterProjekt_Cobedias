@@ -1580,7 +1580,7 @@ class FamilyTree extends Component {
                         Blutverwandte ein.</p>
                     <div className="addFamilyMembersButtons"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 1) ? {
-                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
                          } : {zIndex: "-100"}}>
@@ -1604,13 +1604,13 @@ class FamilyTree extends Component {
 
                     <div className="BigFamilyTreeContainer"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
-                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
                          } : {zIndex: "-100"}}>
                         <div className="FamilyTreeDiv" id="FamilyTreeID"
                              style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) ? {
-                                 boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                                 boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                                  position: "relative",
                                  zIndex: 200
                              } : {zIndex: "-100"}}>
@@ -1645,7 +1645,7 @@ class FamilyTree extends Component {
                     <p style={{margin: '3px', marginTop: '15px'}}>Andere Personen</p>
                     <div className="addOtherFamilyMembersButtons"
                          style={(this.state.hideTutorial === false && this.state.tutorialStep === 2) ? {
-                             boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                             boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                              position: "relative",
                              zIndex: 200
                          } : {zIndex: "-100"}}>
@@ -1679,7 +1679,7 @@ class FamilyTree extends Component {
 
                 <div className="AbschliessenButton"
                      style={(this.state.hideTutorial === false && this.state.tutorialStep === 3) ? {
-                         boxShadow: "0 0 0 1600px rgba(0,0,0,0.87)",
+                         boxShadow: "0 0 0 16000px rgba(0,0,0,0.87)",
                          zIndex: 200
                      } : {zIndex: "-100"}}>
                     <Button id="Abbschliessen" variant="outlined" color="Primary"
