@@ -944,7 +944,7 @@ class FamilyTree extends Component {
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
                                  id="alert-dialog-slide-title">{"Wollen Sie wirklich abbrechen?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
                             Wenn Sie abbrechen, werden Ihre Daten nicht gespeichert!
                         </DialogContentText>
                     </DialogContent>
@@ -1070,7 +1070,7 @@ class FamilyTree extends Component {
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
                                  id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglied wirklich löschen?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
                             Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
                             rückgängig gemacht werden.
                         </DialogContentText>
@@ -1097,7 +1097,7 @@ class FamilyTree extends Component {
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
                             Falls es noch Familienmitglieder gibt, welche mit einem roten Ausrufezeichen (!) markiert
                             sind, so ergänzen Sie für diejenigen Familienmitglieder bitte alle fehlenden Angaben.
                             <br></br>
@@ -1151,7 +1151,7 @@ class FamilyTree extends Component {
                     <DialogTitle style={{background: '#EC4622', color: 'white'}}
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese schliessen?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
                             Die Familienanamnese wurde als PDF heruntergeladen. Wollen Sie nun zur Startseite
                             zurückkehren?
                         </DialogContentText>
