@@ -298,20 +298,13 @@ class FamilyTree extends Component {
         this.updateStepCompleteness(this.state.activeStep);
     };
 
-    //write the Change of "geburtsjahr" and so on to the state.
-    handleChangeGeburtsjahr = () => event => {
-        this.setState({
-            geburtsjahr: event.target.value,
-        }, () => {
-            console.log("geburtsjahr --> event.target.value: " + event.target.value);
-            this.setState({yearsDropdownTodesjahr: this.setYearsDropdownTodesjahr(event.target.value)})
-        })
-    };
-
-    //OnBlur function which checks the completeness and updates stepper-checks when "geburtsjahr" is changed
-    handleChangeGeburtsjahrBlur = () => event => {
-        this.updateStepCompleteness(this.state.activeStep);
-
+    //write the Change of "todesjahr" and so on to the state.
+    handleChangeTodesjahr = () => event => {
+        this.setState({todesjahr: event.target.value}, () => {
+            //checks the completeness and updates stepper-checks when "todesjahr" is changed
+            // here we do not use an onBlur statehandler as it is nice for the user if he directly sees the check when a correct "todesjahr" is chosen
+            this.updateStepCompleteness(this.state.activeStep);
+        });
     };
 
 
