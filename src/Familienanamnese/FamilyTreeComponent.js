@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
 // creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
 const yearsDropdown = [];
 
-for (var i = 2019; i >= 1919; i--) {
+for (var i = 2019; i >= 1880; i--) {
     const dict = {
         value: i,
     };
@@ -1084,8 +1084,7 @@ class FamilyTree extends Component {
                                  id="alert-dialog-slide-title">{"Wollen Sie dieses Familienmitglied wirklich löschen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
-                            Wählen Sie "Ja", um das Familienmitglied zu löschen. Achtung, diese Aktion kann nicht
-                            rückgängig gemacht werden.
+                            Wählen Sie "Ja", um das Familienmitglied zu löschen.
                         </DialogContentText>
                         <div>{this.showVerwandschaftParents()}</div>
                     </DialogContent>
