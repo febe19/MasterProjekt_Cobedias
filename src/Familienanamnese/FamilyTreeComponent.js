@@ -383,6 +383,7 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             verwandtschaftsgrad: '',
             otherFamilyMemberGender: '',
+            blutsverwandt: true,
         });
     };
 
@@ -427,6 +428,7 @@ class FamilyTree extends Component {
             currentSelectedFamilyMember: '',
             verwandtschaftsgrad: '',
             otherFamilyMemberGender: '',
+            blutsverwandt: true,
         });
     };
 
