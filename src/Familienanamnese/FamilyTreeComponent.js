@@ -33,8 +33,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import OtherFamilyMemberNode from "./OtherFamilyMemberNode";
 
-import domtoimage from 'dom-to-image';
-
 const TransitionAlertPopup = React.forwardRef(function TransitionAlertPopup(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -174,6 +172,7 @@ class FamilyTree extends Component {
             blutsverwandt: true,
             otherFamilyMemberGender: '',
             verwandtschaftsgrad: '',
+            yearsDropdownTodesjahr: yearsDropdown,
         };
         console.log("Starting Family Data: \n" + JSON.stringify(familyHelpers.getFamilyData()));
     }
@@ -303,6 +302,9 @@ class FamilyTree extends Component {
     handleChangeGeburtsjahr = () => event => {
         this.setState({
             geburtsjahr: event.target.value,
+        }, () => {
+            console.log("geburtsjahr --> event.target.value: " + event.target.value);
+            this.setState({yearsDropdownTodesjahr: this.setYearsDropdownTodesjahr(event.target.value)})
         })
     };
 
@@ -384,6 +386,7 @@ class FamilyTree extends Component {
             verwandtschaftsgrad: '',
             otherFamilyMemberGender: '',
             blutsverwandt: true,
+            yearsDropdownTodesjahr: yearsDropdown,
         });
     };
 
@@ -429,6 +432,7 @@ class FamilyTree extends Component {
             verwandtschaftsgrad: '',
             otherFamilyMemberGender: '',
             blutsverwandt: true,
+            yearsDropdownTodesjahr: yearsDropdown,
         });
     };
 
@@ -530,7 +534,7 @@ class FamilyTree extends Component {
         if (this.state.verstorben === '') {
             return false;
         } else if (this.state.verstorben === true) {
-            if (this.state.todesjahr !== 0 && this.state.todesjahr !== '' && this.state.todesursache !== '') {
+            if (this.state.todesursache !== '' && this.state.todesjahr !== 0 && this.state.todesjahr !== '' && (this.state.geburtsjahr === '' || this.state.geburtsjahr === 0 || (this.state.geburtsjahr <= this.state.todesjahr))) {
                 return true;
             } else {
                 return false;
@@ -781,6 +785,8 @@ class FamilyTree extends Component {
                 verwandschaftKomplett: true,
                 verwandtschaftsgrad: familyHelpers.getOtherFamilyMemberByID(e).verwandtschaftsgrad,
                 otherFamilyMemberGender: familyHelpers.getOtherFamilyMemberByID(e).gender,
+            }, () => {
+                this.setState({yearsDropdownTodesjahr: this.setYearsDropdownTodesjahr(this.state.geburtsjahr)})
             });
         } else {
             this.setState({
@@ -794,6 +800,8 @@ class FamilyTree extends Component {
                 gesundheitszustand: familyHelpers.getFamilyMemberByID(e).gesundheitszustand,
                 blutsverwandt: familyHelpers.getFamilyMemberByID(e).blutsverwandt,
                 verwandschaftKomplett: true
+            }, () => {
+                this.setState({yearsDropdownTodesjahr: this.setYearsDropdownTodesjahr(this.state.geburtsjahr)})
             });
 
             //check if child (which you want to edit) has 2 parents. If yes: set "additionalParentOfChild" = id of the second parent of the child (which has t be the spouse)
@@ -1191,6 +1199,40 @@ class FamilyTree extends Component {
         )
     }
 
+    // sets the years which are visible in the dropdown for the "Todesjahr"
+    setYearsDropdownTodesjahr(earliestPossibleYear) {
+        // creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
+        console.log("check1: " + earliestPossibleYear);
+
+        if (earliestPossibleYear !== '' && earliestPossibleYear !== 0) {
+            //console.log("check2: "+earliestPossibleYear);
+            console.log("check2: " + earliestPossibleYear);
+
+
+            const yearsDropdownTodesjahr = [];
+
+            // add all the possible Years --> the "geburtsjahr" is the earliest possible year
+            for (var i = 2019; i >= earliestPossibleYear; i--) {
+                const dict = {
+                    value: i,
+                };
+                yearsDropdownTodesjahr.push(dict);
+            }
+
+            //if "todesjahr" is already set and it is lower than the "geburtsjahr", add it to the dropdown so that it is not removed
+            if (this.state.todesjahr !== '' && this.state.todesjahr !== 0 && this.state.geburtsjahr > this.state.todesjahr) {
+                const dictTodesjahr = {
+                    value: this.state.todesjahr,
+                };
+                yearsDropdownTodesjahr.push(dictTodesjahr);
+            }
+
+            return yearsDropdownTodesjahr
+        } else {
+            return yearsDropdown
+        }
+    }
+
     // depending on if verstorben=YES/NO this function displays the apropriate stepper content
     showGesundheitszustandOrTodesjahr() {
         console.log("Show Gesundheitszustand und todesjahr");
@@ -1200,7 +1242,8 @@ class FamilyTree extends Component {
                     <div>
                         <form className={useStyles.container} noValidate autoComplete="off">
                             <TextField
-                                error={(this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors === true}
+                                error={((this.state.todesjahr === '' || this.state.todesjahr === 0) && this.state.allowErrors) || (this.state.todesjahr !== '' && this.state.todesjahr !== 0 && this.state.geburtsjahr !== '' && this.state.geburtsjahr !== 0 && this.state.geburtsjahr > this.state.todesjahr) === true}
+                                helperText={(this.state.todesjahr !== '' && this.state.todesjahr !== 0 && this.state.geburtsjahr !== '' && this.state.geburtsjahr !== 0 && this.state.geburtsjahr > this.state.todesjahr) ? 'Das Todesjahr darf nicht vor dem Geburtsjahr liegen!' : 'Todesjahr wählen'}
                                 id="todesjahr"
                                 select
                                 fullWidth
@@ -1215,11 +1258,17 @@ class FamilyTree extends Component {
                                         className: classes.menu,
                                     },
                                 }}
-                                helperText="Todesjahr wählen"
                                 margin="normal"
                             >
-                                {yearsDropdown.map(option => (
-                                    <MenuItem key={option.value} value={option.value}>
+                                {(this.state.yearsDropdownTodesjahr).map(option => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        style={(this.state.todesjahr !== '' && this.state.todesjahr !== 0 && this.state.geburtsjahr !== '' && this.state.geburtsjahr !== 0 && this.state.geburtsjahr > option.value) ? {
+                                            color: 'red',
+                                            textDecoration: 'underline'
+                                        } : {}}
+                                    >
                                         {option.value}
                                     </MenuItem>
                                 ))}
@@ -1699,12 +1748,12 @@ class FamilyTree extends Component {
                          zIndex: 200
                      } : {}}>
                     <Button id="Hilfe" variant="outlined" onClick={this.showTutorial}
-                            color={(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? "Primary" : ""}
-                            style={(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? {margin: '3px'} : {
+                            color={(this.state.hideTutorial === false && this.state.tutorialStep === 0) || this.state.hideTutorial === true ? "Primary" : ""}
+                            style={(this.state.hideTutorial === false && this.state.tutorialStep === 0) || this.state.hideTutorial === true ? {margin: '3px'} : {
                                 color: 'white',
                                 borderColor: 'white',
                                 margin: '3px'
-                            }}>{(this.state.hideTutorial === false && this.state.tutorialStep === 0 )|| this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
+                            }}>{(this.state.hideTutorial === false && this.state.tutorialStep === 0) || this.state.hideTutorial === true ? 'Hilfe' : 'Schliessen'}</Button>
                 </div>
                 <div className="Tutorial" hidden={this.state.hideTutorial}>
                     <div hidden={this.state.hideTutorial === false && this.state.tutorialStep !== 0}
