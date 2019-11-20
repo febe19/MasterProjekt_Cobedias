@@ -75,10 +75,26 @@ class Berufstaetigkeit extends Component {
         });
     };
 
+    // this function checks if an input is a date and if yes, if it also a correct date
+    checkIfDateIsValid(d) {
+        if (Object.prototype.toString.call(d) === "[object Date]") {
+            // it is a date
+            if (isNaN(d.getTime())) {  // d.valueOf() could also work
+                // date is not valid
+                return ('Datum ist nicht im Format TT. MM. YYYY!')
+            } else {
+                // date is valid
+                return true
+            }
+        } else {
+            // It is not a date
+            return ('Datum fehlt!')
+        }
+    }
+
     //write the Change of "IV Rente date picker" to the state.
     handleChangeIVRenteDate = () => event => {
         this.setState({["dateIVRente"]: event}, () => {
-
             // completeness aller textfelder wird überprüft, sobald sich ein input ändert
             localStorage.set('dateIVRente', this.state.dateIVRente);
             localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
@@ -466,8 +482,8 @@ class Berufstaetigkeit extends Component {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
-                                    error={this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true}
-                                    helperText={(this.state.dateArbeitslosigkeit === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
+                                    error={(this.state.dateArbeitslosigkeit === null || (this.checkIfDateIsValid(this.state.dateArbeitslosigkeit) !== true)) && this.state.allowErrors === true}
+                                    helperText={(this.checkIfDateIsValid(this.state.dateArbeitslosigkeit) === true) ? '' : this.checkIfDateIsValid(this.state.dateArbeitslosigkeit)}
                                     disableToolbar
                                     format="dd. mm. yyyy"
                                     margin="normal"
@@ -479,6 +495,7 @@ class Berufstaetigkeit extends Component {
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
+                                    style={{width: '30vw'}}
                                 />
                             </Grid>
                         </MuiPickersUtilsProvider>
@@ -502,19 +519,20 @@ class Berufstaetigkeit extends Component {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
-                                    error={this.state.datePensioniert === null && this.state.allowErrors === true}
-                                    helperText={(this.state.datePensioniert === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
+                                    error={(this.state.datePensioniert === null || (this.checkIfDateIsValid(this.state.datePensioniert) !== true)) && this.state.allowErrors === true}
+                                    helperText={(this.checkIfDateIsValid(this.state.datePensioniert) === true) ? '' : this.checkIfDateIsValid(this.state.datePensioniert)}
                                     disableToolbar
                                     format="dd. mm. yyyy"
                                     margin="normal"
                                     id="datePensioniert"
                                     name="datePensioniert"
-                                    label="Datum auswählen"
+                                    label="Datum wählen (TT.MM.JJJJ)"
                                     value={this.state.datePensioniert}
                                     onChange={this.handleChangePensioniertDate("datePensioniert")}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
+                                    style={{width: '30vw'}}
                                 />
                             </Grid>
                         </MuiPickersUtilsProvider>
@@ -537,19 +555,20 @@ class Berufstaetigkeit extends Component {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid>
                                 <KeyboardDatePicker
-                                    error={this.state.dateIVRente === null && this.state.allowErrors === true}
-                                    helperText={(this.state.dateIVRente === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
+                                    error={(this.state.dateIVRente === null || (this.checkIfDateIsValid(this.state.dateIVRente) !== true)) && this.state.allowErrors === true}
+                                    helperText={(this.checkIfDateIsValid(this.state.dateIVRente) === true) ? '' : this.checkIfDateIsValid(this.state.dateIVRente)}
                                     disableToolbar
                                     format="dd. mm. yyyy"
                                     margin="normal"
                                     id="dateIVRente"
                                     name="dateIVRente"
-                                    label="Datum auswählen"
+                                    label="Datum wählen (TT.MM.JJJJ)"
                                     value={this.state.dateIVRente}
                                     onChange={this.handleChangeIVRenteDate("dateIVRente")}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
+                                    style={{width: '30vw'}}
                                 />
                             </Grid>
                         </MuiPickersUtilsProvider>
@@ -587,19 +606,20 @@ class Berufstaetigkeit extends Component {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid>
                                     <KeyboardDatePicker
-                                        error={this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true}
-                                        helperText={(this.state.dateArbeitsunfaehigkeitVon === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
+                                        error={(this.state.dateArbeitsunfaehigkeitVon === null || (this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitVon) !== true)) && this.state.allowErrors === true}
+                                        helperText={(this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitVon) === true) ? '' : this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitVon)}
                                         disableToolbar
                                         format="dd. mm. yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitVon"
                                         name="dateArbeitsunfaehigkeitVon"
-                                        label="Von: "
+                                        label="Von: (TT.MM.JJJJ)"
                                         value={this.state.dateArbeitsunfaehigkeitVon}
                                         onChange={this.handleChangeArbeitsunfaehigkeitVonDate("dateArbeitsunfaehigkeitVon")}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
                                         }}
+                                        style={{width: '30vw'}}
                                     />
                                 </Grid>
                             </MuiPickersUtilsProvider>
@@ -608,19 +628,20 @@ class Berufstaetigkeit extends Component {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid>
                                     <KeyboardDatePicker
-                                        error={this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true}
-                                        helperText={(this.state.dateArbeitsunfaehigkeitBis === null && this.state.allowErrors === true) ? 'Datum fehlt!' : ''}
+                                        error={(this.state.dateArbeitsunfaehigkeitBis === null || (this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitBis) !== true)) && this.state.allowErrors === true}
+                                        helperText={(this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitBis) === true) ? '' : this.checkIfDateIsValid(this.state.dateArbeitsunfaehigkeitBis)}
                                         disableToolbar
                                         format="dd. mm. yyyy"
                                         margin="normal"
                                         id="dateArbeitsunfaehigkeitBis"
                                         name="dateArbeitsunfaehigkeitBis"
-                                        label="Bis:"
+                                        label="Bis: (TT.MM.JJJJ)"
                                         value={this.state.dateArbeitsunfaehigkeitBis}
                                         onChange={this.handleChangeArbeitsunfaehigkeitBisDate("dateArbeitsunfaehigkeitBis")}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
                                         }}
+                                        style={{width: '30vw'}}
                                     />
                                 </Grid>
                             </MuiPickersUtilsProvider>
