@@ -829,8 +829,7 @@ class FamilyTree extends Component {
             abschliessenPopupOpen: false,
             activeStep: 0,
             popupOpen: true,
-            currentSelectedFamilyMember: fm,
-            blutsverwandt: true
+            currentSelectedFamilyMember: fm
         }, () => {
             this.updateStepCompleteness(0);
             this.updateStepCompleteness(1);
