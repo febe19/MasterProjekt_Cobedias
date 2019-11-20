@@ -290,21 +290,30 @@ class FamilyTree extends Component {
 
     //write the Change of "todesjahr" and so on to the state.
     handleChangeTodesjahr = () => event => {
-        this.setState({todesjahr: event.target.value});
-    };
-
-    //OnBlur function which checks the completeness and updates stepper-checks when "todesjahr" is changed
-    handleChangeTodesjahrBlur = () => event => {
-        this.updateStepCompleteness(this.state.activeStep);
-    };
-
-    //write the Change of "todesjahr" and so on to the state.
-    handleChangeTodesjahr = () => event => {
         this.setState({todesjahr: event.target.value}, () => {
             //checks the completeness and updates stepper-checks when "todesjahr" is changed
             // here we do not use an onBlur statehandler as it is nice for the user if he directly sees the check when a correct "todesjahr" is chosen
             this.updateStepCompleteness(this.state.activeStep);
         });
+    };
+
+
+    //write the Change of "geburtsjahr" and so on to the state.
+    handleChangeGeburtsjahr = () => event => {
+        this.setState({
+            geburtsjahr: event.target.value,
+        }, () => {
+            console.log("geburtsjahr --> event.target.value: " + event.target.value);
+            this.setState({yearsDropdownTodesjahr: this.setYearsDropdownTodesjahr(event.target.value)})
+        })
+    };
+
+    //OnBlur function which checks the completeness and updates stepper-checks when "geburtsjahr" is changed
+    handleChangeGeburtsjahrBlur = () => event => {
+        this.updateStepCompleteness(this.state.activeStep);
+        //this makes sure that if the new geburtsjahr is below the existing todesjahr the completeness check for "zustand" is done which means that "zustand" cannot be complete anymore until a valid todesjahr is entered
+        this.updateStepCompleteness(1);
+
     };
 
 
@@ -527,7 +536,7 @@ class FamilyTree extends Component {
         if (this.state.verstorben === '') {
             return false;
         } else if (this.state.verstorben === true) {
-            if (this.state.todesursache !== '' && this.state.todesjahr !== 0 && this.state.todesjahr !== '' && (this.state.geburtsjahr === '' || this.state.geburtsjahr === 0 || (this.state.geburtsjahr <= this.state.todesjahr))) {
+            if (this.state.gesundheitszustand !== '' && this.state.todesursache !== '' && this.state.todesjahr !== 0 && this.state.todesjahr !== '' && (this.state.geburtsjahr === '' || this.state.geburtsjahr === 0 || (this.state.geburtsjahr <= this.state.todesjahr))) {
                 return true;
             } else {
                 return false;
@@ -1192,15 +1201,12 @@ class FamilyTree extends Component {
         )
     }
 
-    // sets the years which are visible in the dropdown for the "Todesjahr"
+    // this function is called when the state of this.state.geburtsjahr is changed and sets the years which are visible in the dropdown for the "Todesjahr"
     setYearsDropdownTodesjahr(earliestPossibleYear) {
         // creates all the year which can be chosen in the dropdowns "Geburtsjahr" / "Todesjahr"
-        console.log("check1: " + earliestPossibleYear);
+        // earliestPossibleYear corresponds to this.state.geburtsjahr
 
         if (earliestPossibleYear !== '' && earliestPossibleYear !== 0) {
-            //console.log("check2: "+earliestPossibleYear);
-            console.log("check2: " + earliestPossibleYear);
-
 
             const yearsDropdownTodesjahr = [];
 
@@ -1219,8 +1225,8 @@ class FamilyTree extends Component {
                 };
                 yearsDropdownTodesjahr.push(dictTodesjahr);
             }
-
             return yearsDropdownTodesjahr
+
         } else {
             return yearsDropdown
         }
@@ -1228,7 +1234,6 @@ class FamilyTree extends Component {
 
     // depending on if verstorben=YES/NO this function displays the apropriate stepper content
     showGesundheitszustandOrTodesjahr() {
-        console.log("Show Gesundheitszustand und todesjahr");
         if (this.state.verstorben !== '') {
             if (this.state.verstorben) {
                 return (
@@ -1245,7 +1250,6 @@ class FamilyTree extends Component {
                                 className={classes.textField}
                                 value={this.state.todesjahr}
                                 onChange={this.handleChangeTodesjahr("todesjahr")}
-                                onBlur={this.handleChangeTodesjahrBlur("todesjahr")}
                                 SelectProps={{
                                     MenuProps: {
                                         className: classes.menu,
