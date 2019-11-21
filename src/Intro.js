@@ -27,15 +27,10 @@ export class Intro extends Component {
                             Untersuche heissen "Sozialanamnese" sowie "Familienanamnese" und sind Teil der Cobedias
                             Untersuchung von Prof. Dr. Barbara Biedermann.</p>
                         <br/>
-                        <h3>Einige wichtige Punkte:</h3>
+                        <h3>Einige wichtige Hinweise:</h3>
                         <ul>
                             <li>Bitte beide Untersuche ausfüllen.</li>
-                            <li>Daten bitte möglichst Wahrheitsgetreu angeben.</li>
-                            <li>Heute haben Sie maximal ungefähr 35 Minuten Zeit, wenn Sie früher fertig sind, können
-                                Sie sich bei uns melden.
-                            </li>
-                            <li>Für Fragen bezüglich der Bedienung des Prototyps stehen wir Ihnen leider nicht zu Verfügung.</li>
-                            <li>Falls Etwas abstürzen würde, können Sie sich natürlich gerne melden.</li>
+                            <li>Daten bitte möglichst wahrheitsgetreu angeben.</li>
                             <li>Wenn beide Anamnesen abgeschlossen werden, wird je ein PDF-Dokument heruntergeladen.</li>
                         </ul>
                     </div>

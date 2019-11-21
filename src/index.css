@@ -306,8 +306,8 @@ ul.header li a {
 
 .HilfeButton {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 12px;
+    left: 10px;
     z-index: 10000;
     padding: 5px;
 }
@@ -335,7 +335,7 @@ ul.header li a {
 }
 
 .OtherFamilyDiv {
-    margin: 11px 5px auto;
+    margin: 11px 20px 0 4px;
     padding: 5px;
     border: 2px solid #ddd;
     border-radius: 5px;
@@ -348,6 +348,7 @@ ul.header li a {
     width: 84%;
     height: 100%;
     float: left;
+    margin-left: 5px;
 }
 
 .BigFamilyTreeContainer {
