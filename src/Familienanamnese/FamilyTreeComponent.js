@@ -937,7 +937,7 @@ class FamilyTree extends Component {
         return degree + " " + name;
     }
 
-    //Show Popup,if state == true
+    //Show Popup,if state === true
     showPopup() {
         return (
             <div>
@@ -952,7 +952,7 @@ class FamilyTree extends Component {
             </div>)
     }
 
-    //Show Popup,if state == true
+    //Show Popup,if state === true
     showPopupCancelAlert() {
         return (
             <div>
@@ -1079,7 +1079,7 @@ class FamilyTree extends Component {
     }
 
 
-    //Show Popup,if state == true
+    //Show Popup,if state === true
     showPopupDeleteFamilyMemberAlert() {
         return (
             <div>

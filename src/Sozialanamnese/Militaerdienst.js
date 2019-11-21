@@ -116,7 +116,7 @@ class Militaerdienst extends Component {
 
     // zeigt "Grund für Untauglichkeit" Textbox nur an, wenn "Nein" Button ausgewählt ist
     showUntauglichkeit() {
-        if (this.state.militaerdienstGemacht == false) {
+        if (this.state.militaerdienstGemacht === false) {
             return (
                 <div>
                     <TextField

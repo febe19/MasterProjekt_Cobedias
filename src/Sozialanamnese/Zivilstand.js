@@ -267,26 +267,26 @@ class Zivilstand extends Component {
 
     // Completeness des Textfelds (nahestehende Personen) und der Zivilstand-, Patientenverfuegung- und
     // Vorsorgeauftrag-Buttons wird überprüft. Je nachdem welcher Button ausgewählt ist, wird zusätzlich geprüft,
-    // ob die weiteren eingeblendeten Elemente befüllt sind. Insgesamt muessen 4 Buttons bzw. Buttons + Felder gewaehlt/ausgefuellt sein -> check counter == 4
+    // ob die weiteren eingeblendeten Elemente befüllt sind. Insgesamt muessen 4 Buttons bzw. Buttons + Felder gewaehlt/ausgefuellt sein -> check counter === 4
     checkComponentCompleteness() {
         let counter;
         counter = 0;
         if (localStorage.get('ledig') || localStorage.get('verheiratet') || localStorage.get('verwitwet') || localStorage.get('geschieden')) {
             counter++;
         } else if (localStorage.get('andere')) {
-            if (this.state.andereText == '' || this.state.andereText == null) {
+            if (this.state.andereText === '' || this.state.andereText === null) {
                 return false;
             } else {
                 counter++;
             }
         }
-        if (this.state.nahePersonen == '' || this.state.nahePersonen == null) {
+        if (this.state.nahePersonen === '' || this.state.nahePersonen === null) {
             return false;
         } else {
             counter++;
         }
         if (localStorage.get('patVerfuegungJa')) {
-            if (this.state.patVerfuegungBei == '' || this.state.patVerfuegungBei == null) {
+            if (this.state.patVerfuegungBei === '' || this.state.patVerfuegungBei === null) {
                 return false;
             } else {
                 counter++;
@@ -295,7 +295,7 @@ class Zivilstand extends Component {
             counter++;
         }
         if (localStorage.get('vorsorgeauftragJa')) {
-            if (localStorage.get('vorsorgeauftragBei') == '' || localStorage.get('vorsorgeauftragBei') == null) {
+            if (localStorage.get('vorsorgeauftragBei') === '' || localStorage.get('vorsorgeauftragBei') === null) {
                 return false;
             } else {
                 counter++;
@@ -303,7 +303,7 @@ class Zivilstand extends Component {
         } else if (localStorage.get('vorsorgeauftragNein')) {
             counter++;
         }
-        if (counter == 4) {
+        if (counter === 4) {
             return true;
         } else { //not sure if this else is needed
             //alert("Achtung: Ein Feld wurde nicht ausgewählt.")

@@ -154,7 +154,7 @@ class Berufstaetigkeit extends Component {
             /* falls der User "normal arbeitsfähig" zum ersten Mal anwählt und den slider nicht verschiebt
                (weil er bspw. den defaultvon 100% belassen will) so bleibt der state auf null. Dieser Fall wird in der
                folgenden IF-Schleife abgefangen, sodass die 100% in den localstorage geschrieben werden.  */
-            if (this.state.arbeitspensum == null) {
+            if (this.state.arbeitspensum === null) {
                 localStorage.set('arbeitspensum', 100);
             }
 
@@ -245,7 +245,7 @@ class Berufstaetigkeit extends Component {
             /*  falls der User "arbeitsunfähig" zum ersten Mal anwählt und den Slider nicht verschiebt so bleibt
                 der state auf null. Dieser Fall wird in der folgenden IF-Schleife abgefangen, sodass die 100% in den
                 localstorage geschrieben werden.  */
-            if (this.state.arbeitsunfaehigkeitInProzent == null) {
+            if (this.state.arbeitsunfaehigkeitInProzent === null) {
                 localStorage.set('arbeitsunfaehigkeitInProzent', 100);
             }
 
@@ -319,33 +319,33 @@ class Berufstaetigkeit extends Component {
     // ist, wird zusätzlich geprüft, ob die weiteren eingeblendeten Elemente befüllt sind
     checkComponentCompleteness() {
         if (localStorage.get('normalArbeitsfaehig')) {
-            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || (this.state.arbeitspensum !== null && this.state.arbeitspensum === 0)) {
+            if (this.state.gelernterBeruf === '' || this.state.aktuellerBeruf === '' || this.state.gelernterBeruf === null || this.state.aktuellerBeruf === null || (this.state.arbeitspensum !== null && this.state.arbeitspensum === 0)) {
                 return false;
             } else {
                 //default Pensum von 100% ist sehr gut möglich, aus diesem Grund wird hier nicht extra geprüft, ob der Slider verschoben wurde
                 return true;
             }
         } else if (localStorage.get('arbeitlos')) {
-            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('dateArbeitslosigkeit') == null || new Date(localStorage.get('dateArbeitslosigkeit')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitslosigkeit')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
+            if (this.state.gelernterBeruf === '' || this.state.gelernterBeruf === null || localStorage.get('dateArbeitslosigkeit') === null || new Date(localStorage.get('dateArbeitslosigkeit')) === "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitslosigkeit')) === "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('pensioniert')) {
-            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('datePensioniert') == null || new Date(localStorage.get('datePensioniert')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('datePensioniert')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
+            if (this.state.gelernterBeruf === '' || this.state.gelernterBeruf === null || localStorage.get('datePensioniert') === null || new Date(localStorage.get('datePensioniert')) === "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('datePensioniert')) === "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('iVRente')) {
-            if (this.state.gelernterBeruf == '' || this.state.gelernterBeruf == null || localStorage.get('dateIVRente') == null || new Date(localStorage.get('dateIVRente')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateIVRente')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
+            if (this.state.gelernterBeruf === '' || this.state.gelernterBeruf === null || localStorage.get('dateIVRente') === null || new Date(localStorage.get('dateIVRente')) === "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateIVRente')) === "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)") {
                 return false;
             } else {
                 return true;
             }
         } else if (localStorage.get('arbeitsunfaehig')) {
             // prüft, ob das Feld "Art der Erkrankung" ausgefüllt wurde, ob ein "Von" und ein "Bis" Date angegeben wurden und ob aktueller resp. gelernter Beruf ausgefüllt wurden.
-            if (this.state.gelernterBeruf == '' || this.state.aktuellerBeruf == '' || this.state.gelernterBeruf == null || this.state.aktuellerBeruf == null || this.state.erkrankung == '' || this.state.erkrankung == null || localStorage.get('dateArbeitsunfaehigkeitVon') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') == null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) == "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || (this.state.arbeitsunfaehigkeitInProzent !== null && this.state.arbeitsunfaehigkeitInProzent === 0)) {
+            if (this.state.gelernterBeruf === '' || this.state.aktuellerBeruf === '' || this.state.gelernterBeruf === null || this.state.aktuellerBeruf === null || this.state.erkrankung === '' || this.state.erkrankung === null || localStorage.get('dateArbeitsunfaehigkeitVon') === null || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) === "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitVon')) === "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || localStorage.get('dateArbeitsunfaehigkeitBis') === null || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) === "Fri Nov 01 2019 01:01:01 GMT+0100 (Mitteleuropäische Normalzeit)" || new Date(localStorage.get('dateArbeitsunfaehigkeitBis')) === "Thu Jan 01 1970 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit)" || (this.state.arbeitsunfaehigkeitInProzent !== null && this.state.arbeitsunfaehigkeitInProzent === 0)) {
                 return false;
             } else {
                 return true;

@@ -179,7 +179,7 @@ class Wohnsituation extends Component {
         if (localStorage.get('haus') || localStorage.get('wohnung') || localStorage.get('altersheim') || localStorage.get('pflegeheim')) {
             return true;
         } else if (localStorage.get('andereWohn')) {
-            if (this.state.andereWohnText == '' || this.state.andereWohnText == null) {
+            if (this.state.andereWohnText === '' || this.state.andereWohnText === null) {
                 return false;
             } else {
                 return true;
