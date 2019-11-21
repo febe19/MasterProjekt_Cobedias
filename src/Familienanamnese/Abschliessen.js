@@ -279,6 +279,7 @@ export class Abschliessen extends Component {
                                             Todesursache: {member.todesursache} {"\n"}
                                             Gesundheitszustand: {member.gesundheitszustand} {"\n"}
                                             Blutsverwandt: {member.blutsverwandt ? 'JA' : 'NEIN'} {"\n"}
+                                            Verwandtschaftsgrad: {member.verwandtschaftsgrad} {"\n"}
                                             {"\n"}{"\n"}
                                         </Text>
                                     ))}
