@@ -260,14 +260,10 @@ class Home extends Component {
         return (
             <div>
                 <div className="Titel">
-                    <h1>Cobedias 2.0 - Willkommen</h1>
+                    <h1>Cobedias 2.0 - Home</h1>
                 </div>
 
                 <div className="ChangingContent">
-                    <h2>
-                        Vielen Dank, dass Sie sich Zeit nehmen, unseren Prototypen zu
-                        testen.
-                    </h2>
                     <p>
                         Bitte geben Sie hier unten Ihren Vornamen sowie Ihren Nachnamen ein.{" "}
                     </p>

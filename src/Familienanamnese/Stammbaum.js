@@ -22,8 +22,8 @@ export class Stammbaum extends Component {
                     <div className="Titel">
                         <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Familienanamnese</h1>
 
-                        <NavLink exact to="/" style={{"text-decoration":"none"}}>
-                            <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Startseite</Button>
+                        <NavLink exact to="/Home" style={{"text-decoration":"none"}}>
+                            <Button variant="outlined" style={{float: 'right', marginRight: '5%', color: 'white', borderColor: 'white'}}>Home</Button>
                         </NavLink>
 
                         <NavLink exact to="/Sozialanamnese" style={{"text-decoration":"none"}}>
