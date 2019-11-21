@@ -1120,28 +1120,18 @@ class FamilyTree extends Component {
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
-                            Falls es noch Familienmitglieder gibt, welche mit einem roten Ausrufezeichen (!) markiert
-                            sind, so ergänzen Sie für diejenigen Familienmitglieder bitte alle fehlenden Angaben.
-                            <br></br>
+                            Falls es noch Familienmitglieder gibt, welche mit einem <b>roten Ausrufezeichen</b> (<b>!</b>) markiert sind, so ergänzen Sie für diejenigen
+                            Familienmitglieder bitte alle fehlenden Angaben.
+                            <br/>
                             Wählen Sie dafür den Knopf "ABBRECHEN" und editieren sie die Familienmitglieder dann, indem
                             sie auf das Stiftsymbol klicken.
-                            <br></br>
-                            <br></br>
-                            Falls Sie weitere noch nicht erfasste blutsverwandte Familienmitglieder haben, welche an
-                            einer Krankheit leiden, so erfassen Sie diese bitte noch und geben Sie die entsprechende
-                            Krankheit an.
-                            <br></br>
-                            Falls diese Familienmitglieder nicht links im Stammbaum abgebildet werden können, so
-                            benützen Sie bitte den Knopf "ANDERE HINZUFÜGEN".
-                            <br></br>
-                            <br></br>
-                            Falls Sie alle blutsverwandten Familienmitglieder erfasst haben, so wählen Sie
+                            <br/>
+                            <br/>
+                            Falls Sie <b>alle blutsverwandten Familienmitglieder</b> erfasst haben, so wählen Sie
                             "DEFINITIV ABSCHLIESSEN", um die Familienanamnese abzuschliessen.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button id="addOther" color="primary" style={{margin: '10px', right: '45px'}}
-                                onClick={() => this.popUpFamilyMember('addOther')}>Andere Hinzufügen</Button>
                         <Button onClick={this.handlePopupAbschliessenClose} color="primary"
                                 style={{margin: '10px', right: '25px'}}>
                             Abbrechen

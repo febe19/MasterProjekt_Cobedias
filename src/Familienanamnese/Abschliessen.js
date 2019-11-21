@@ -163,7 +163,7 @@ export class Abschliessen extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handlePopupAbschliessenClose} color="primary">Nein</Button>
-                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                        <NavLink exact to="/Home" style={{"text-decoration": "none"}}>
                             <Button onClick={this.handlePopupAbschliessenClose} color="primary">Ja</Button>
                         </NavLink>
                     </DialogActions>
@@ -178,13 +178,13 @@ export class Abschliessen extends Component {
                     <div className="Titel">
                         <h1 style={{display: 'inline-block'}}>Cobedias 2.0 - Familienanamnese</h1>
 
-                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                        <NavLink exact to="/Home" style={{"text-decoration": "none"}}>
                             <Button variant="outlined" style={{
                                 float: 'right',
                                 marginRight: '5%',
                                 color: 'white',
                                 borderColor: 'white'
-                            }}>Startseite</Button>
+                            }}>Home</Button>
                         </NavLink>
                         <NavLink exact to="/Sozialanamnese" style={{"text-decoration": "none"}}>
                             <Button variant="outlined" style={{
@@ -279,6 +279,7 @@ export class Abschliessen extends Component {
                                             Todesursache: {member.todesursache} {"\n"}
                                             Gesundheitszustand: {member.gesundheitszustand} {"\n"}
                                             Blutsverwandt: {member.blutsverwandt ? 'JA' : 'NEIN'} {"\n"}
+                                            Verwandtschaftsgrad: {member.verwandtschaftsgrad} {"\n"}
                                             {"\n"}{"\n"}
                                         </Text>
                                     ))}

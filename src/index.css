@@ -5,7 +5,7 @@ body {
     margin: 0;
 }
 
-h1, h2, p, ul, li {
+h1, h2, h3, p, ul, li {
     font-family: Roboto;
     margin: 0;
 }
@@ -181,8 +181,13 @@ ul.header li a {
     width: 15px;
 }
 
+::-webkit-scrollbar:horizontal {
+    height: 15px;
+}
+
 ::-webkit-scrollbar-thumb {
-    border: 1px solid white; /* should match background, can't be transparent */
+    border: 1px solid white;
+    border-radius:8px 8px 8px 8px;
     background-color: rgba(0, 0, 0, .5);
 }
 
@@ -195,27 +200,35 @@ ul.header li a {
 }
 
 ::-webkit-scrollbar-button:vertical:decrement {
-    background-color: white;
-    height: 17px;
-    border-style: solid;
-    border-width: 0 7px 14px 7px;
-    border-color: transparent transparent rgba(0, 0, 0, .5) transparent;
-}
-
-::-webkit-scrollbar-button:vertical:decrement:hover {
-    border-color: transparent transparent rgba(0, 0, 0, .7) transparent;
+    border-radius: 8px 8px 0 0;
+    height: 15px;
+    background-size: contain;
+    background: rgba(0, 0, 0, 0.09) url(images/ArrowTriangle-Up.svg) no-repeat center center;
+    background-size: 12px 12px;
 }
 
 ::-webkit-scrollbar-button:vertical:increment {
-    background-color: white;
-    height: 17px;
-    border-style: solid;
-    border-width: 14px 7px 0 7px;
-    border-color: rgba(0, 0, 0, .5) transparent transparent transparent;
+    border-radius: 0 0 8px 8px;
+    height: 15px;
+    background-size: contain;
+    background: rgba(0, 0, 0, 0.09) url(images/ArrowTriangle-Down.svg) no-repeat center center;
+    background-size: 12px 12px;
 }
 
-::-webkit-scrollbar-button:vertical:increment:hover {
-    border-color: rgba(0, 0, 0, .7) transparent transparent transparent;
+::-webkit-scrollbar-button:horizontal:decrement {
+    border-radius: 8px 0 0 8px;
+    width: 15px;
+    background-size: contain;
+    background: rgba(0, 0, 0, 0.09) url(images/ArrowTriangle-Left.svg) no-repeat center center;
+    background-size: 12px 12px;
+}
+
+::-webkit-scrollbar-button:horizontal:increment {
+    border-radius:0 8px 8px 0;
+    width: 15px;
+    background-size: contain;
+    background: rgba(0, 0, 0, 0.09) url(images/ArrowTriangle-Right.svg) no-repeat center center;
+    background-size: 12px 12px;
 }
 
 .FamilyTreeNavigationsButton {
@@ -293,8 +306,8 @@ ul.header li a {
 
 .HilfeButton {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 12px;
+    left: 10px;
     z-index: 10000;
     padding: 5px;
 }
@@ -322,7 +335,7 @@ ul.header li a {
 }
 
 .OtherFamilyDiv {
-    margin: 11px 5px auto;
+    margin: 11px 20px 0 4px;
     padding: 5px;
     border: 2px solid #ddd;
     border-radius: 5px;
@@ -335,6 +348,7 @@ ul.header li a {
     width: 84%;
     height: 100%;
     float: left;
+    margin-left: 5px;
 }
 
 .BigFamilyTreeContainer {

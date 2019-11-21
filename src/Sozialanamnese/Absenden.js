@@ -65,7 +65,7 @@ class Absenden extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handlePopupAbschliessenClose} color="primary">Nein</Button>
-                        <NavLink exact to="/" style={{"text-decoration": "none"}}>
+                        <NavLink exact to="/Home" style={{"text-decoration": "none"}}>
                             <Button onClick={this.handlePopupAbschliessenClose} color="primary">Ja</Button>
                         </NavLink>
                     </DialogActions>
