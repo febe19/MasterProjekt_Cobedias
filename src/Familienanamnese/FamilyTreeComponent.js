@@ -524,7 +524,7 @@ class FamilyTree extends Component {
 
     // Completeness der Textfelder im step Angaben wird überprüft
     checkAngabenCompleteness() {
-        if (this.state.geburtsjahr !== 0 && this.state.spitzname !== '' && this.state.vorname !== '') {
+        if (this.state.geburtsjahr !== 0 && (this.state.spitzname !== '' || this.state.vorname !== '')) {
             return true;
         } else {
             return false;
@@ -1120,7 +1120,8 @@ class FamilyTree extends Component {
                                  id="alert-dialog-slide-title">{"Wollen Sie die Familienanamnese wirklich abschliessen?"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description" style={{color: "black"}}>
-                            Falls es noch Familienmitglieder gibt, welche mit einem <b>roten Ausrufezeichen</b> (<b>!</b>) markiert sind, so ergänzen Sie für diejenigen
+                            Falls es noch Familienmitglieder gibt, welche mit einem <b>roten
+                            Ausrufezeichen</b> (<b>!</b>) markiert sind, so ergänzen Sie für diejenigen
                             Familienmitglieder bitte alle fehlenden Angaben.
                             <br/>
                             Wählen Sie dafür den Knopf "ABBRECHEN" und editieren sie die Familienmitglieder dann, indem
