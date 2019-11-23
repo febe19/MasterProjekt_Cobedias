@@ -39,6 +39,9 @@ class Hobbies extends Component {
                 allowErrors: false,
             });
         }
+        this.setState({
+            hobbies: localStorage.get('hobbies')
+        });
     }
 
     //Try to fetch the already inserted values fro the localStorage

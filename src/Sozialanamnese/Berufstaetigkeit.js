@@ -261,6 +261,26 @@ class Berufstaetigkeit extends Component {
 
     //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
+        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
+    }
+
+    //Try to fetch the already inserted values from the localStorage
+    componentWillMount() {
+
+        if (!(localStorage.get('VisitedSteps'))) {
+            localStorage.set('VisitedSteps', [])
+        }
+
+        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(0) !== -1) {
+            this.setState({
+                allowErrors: true,
+            });
+        } else {
+            this.setState({
+                allowErrors: false,
+            });
+        }
+
         this.setState({
             gelernterBeruf: localStorage.get('gelernterBeruf'),
             aktuellerBeruf: localStorage.get('aktuellerBeruf'),
@@ -296,25 +316,6 @@ class Berufstaetigkeit extends Component {
         if (localStorage.get('dateArbeitsunfaehigkeitBis') !== null) {
             this.setState({
                 dateArbeitsunfaehigkeitBis: localStorage.get('dateArbeitsunfaehigkeitBis'),
-            });
-        }
-        localStorage.set('BerufstaetigkeitKomplett', this.checkComponentCompleteness());
-    }
-
-    //Try to fetch the already inserted values from the localStorage
-    componentWillMount() {
-
-        if (!(localStorage.get('VisitedSteps'))) {
-            localStorage.set('VisitedSteps', [])
-        }
-
-        if (localStorage.get('VisitedSteps') !== null && localStorage.get('VisitedSteps').indexOf(0) !== -1) {
-            this.setState({
-                allowErrors: true,
-            });
-        } else {
-            this.setState({
-                allowErrors: false,
             });
         }
     }

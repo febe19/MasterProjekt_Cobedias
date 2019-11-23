@@ -239,10 +239,7 @@ class Zivilstand extends Component {
                 allowErrors: false,
             });
         }
-    }
 
-    //Try to fetch the already inserted values from the localStorage
-    componentDidMount() {
         this.setState({
             ledig: localStorage.get('ledig'),
             verheiratet: localStorage.get('verheiratet'),
@@ -261,7 +258,10 @@ class Zivilstand extends Component {
             vorsorgeauftragNein: localStorage.get('vorsorgeauftragNein'),
             vorsorgeauftragBei: localStorage.get('vorsorgeauftragBei'),
         });
+    }
 
+    //Try to fetch the already inserted values from the localStorage
+    componentDidMount() {
         localStorage.set('ZivilstandKomplett', this.checkComponentCompleteness());
     }
 

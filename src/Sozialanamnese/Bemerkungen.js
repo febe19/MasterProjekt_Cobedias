@@ -39,13 +39,13 @@ class Bemerkungen extends Component {
                 allowErrors: false,
             });
         }
+        this.setState({
+            bemerkungen: localStorage.get('bemerkungen')
+        });
     }
 
     //Try to fetch the already inserted values from the localStorage
     componentDidMount() {
-        this.setState({
-            bemerkungen: localStorage.get('bemerkungen')
-        });
         localStorage.set('BemerkungenKomplett', this.checkComponentCompleteness());
     }
 
