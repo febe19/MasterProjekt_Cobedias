@@ -1811,12 +1811,12 @@ class FamilyTree extends Component {
                     </div>
 
                     <div className="TutorialButtons">
-                        <Button id="TutorialZurück" variant="outlined"
+                        <Button id="TutorialZurück" variant="outlined" size="large"
                                 style={{color: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
                                 onClick={this.previousTutorialStep}
                         >{this.state.tutorialStep === 0 ? 'Abbrechen' : 'Zurück'}</Button>
-                        <Button id="TutorialWeiter" variant="outlined"
-                                style={{color: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
+                        <Button id="TutorialWeiter" variant="outlined" size="large"
+                                style={{color: 'black', backgroundColor: 'white', borderColor: 'white', margin: '3px', width: '100px'}}
                                 onClick={this.nextTutorialStep}
                         >{this.state.tutorialStep === 4 ? 'Fertig' : 'Weiter'}
                         </Button>
