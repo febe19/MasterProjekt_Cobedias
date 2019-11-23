@@ -87,8 +87,13 @@ class Berufstaetigkeit extends Component {
                 return true
             }
         } else {
-            // It is not a date
-            return ('Datum fehlt!')
+            if (Object.prototype.toString.call(d) === "[object Date]" || Object.prototype.toString.call(d) === "[object String]") {
+                // date is valid
+                return true
+            } else {
+                // It is not a date
+                return ('Datum fehlt!')
+            }
         }
     }
 
