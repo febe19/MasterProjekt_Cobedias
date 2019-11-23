@@ -1279,7 +1279,7 @@ class FamilyTree extends Component {
                             helperText={(this.state.todesursache === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
                         <TextField
-                            label="Gesundheitszustand"
+                            label="Durchlebte schwerwiegende Krankheiten"
                             margin="normal"
                             variant="outlined"
                             name="gesundheitszustand"
@@ -1289,7 +1289,7 @@ class FamilyTree extends Component {
                             fullWidth
                             multiline
                             rows="8"
-                            placeholder="Geben Sie hier den Gesundheitszustand des ausgewählten Familienmitglieds zu Lebzeiten ein"
+                            placeholder="Geben Sie hier durchlebte schwerwiegende Krankheiten des ausgewählten Familienmitglieds ein"
                             error={this.state.gesundheitszustand === '' && this.state.allowErrors === true}
                             helperText={(this.state.gesundheitszustand === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />
@@ -1299,7 +1299,7 @@ class FamilyTree extends Component {
                 return (
                     <div>
                         <TextField
-                            label="Gesundheitszustand"
+                            label="Durchlebte/aktuelle schwerwiegende Krankheiten"
                             margin="normal"
                             variant="outlined"
                             name="gesundheitszustand"
@@ -1309,7 +1309,7 @@ class FamilyTree extends Component {
                             fullWidth
                             multiline
                             rows="8"
-                            placeholder="Geben Sie hier den Gesundheitszustand ein"
+                            placeholder="Geben Sie hier durchlebte und/oder aktuelle schwerwiegende Krankheiten des ausgewählten Familienmitglieds ein"
                             error={this.state.gesundheitszustand === '' && this.state.allowErrors === true}
                             helperText={(this.state.gesundheitszustand === '' && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                         />

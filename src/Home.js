@@ -62,7 +62,7 @@ class Home extends Component {
         }
 
         if (localStorage.get("TutorialDone") === null) {
-            localStorage.set("TutorialDone", false);
+            localStorage.set("TutorialDone", true);
         }
     }
 

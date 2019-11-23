@@ -254,7 +254,7 @@ export class Abschliessen extends Component {
                                             Verstorben: {member.verstorben ? 'JA' : 'NEIN'} {"\n"}
                                             Todesjahr: {member.todesjahr} {"\n"}
                                             Todesursache: {member.todesursache} {"\n"}
-                                            Gesundheitszustand: {member.gesundheitszustand} {"\n"}
+                                            Durchlebte/aktuelle schwerwiegende Krankheiten: {member.gesundheitszustand} {"\n"}
                                             Blutsverwandt: {member.blutsverwandt ? 'JA': 'NEIN'} {"\n"}
                                             {"\n"}{"\n"}
                                         </Text>
@@ -277,7 +277,7 @@ export class Abschliessen extends Component {
                                             Verstorben: {member.verstorben ? 'JA' : 'NEIN'} {"\n"}
                                             Todesjahr: {member.todesjahr} {"\n"}
                                             Todesursache: {member.todesursache} {"\n"}
-                                            Gesundheitszustand: {member.gesundheitszustand} {"\n"}
+                                            Durchlebte/aktuelle schwerwiegende Krankheiten: {member.gesundheitszustand} {"\n"}
                                             Blutsverwandt: {member.blutsverwandt ? 'JA' : 'NEIN'} {"\n"}
                                             Verwandtschaftsgrad: {member.verwandtschaftsgrad} {"\n"}
                                             {"\n"}{"\n"}

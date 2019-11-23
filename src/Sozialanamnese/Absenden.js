@@ -390,7 +390,7 @@ const CobediasDocument = () => (
                     Zivilstand</Text>
                 {getZivilstand()}
                 {getAndererZivilstand()}
-                <Text style={PDFstyles.text}>Nahestehende Person(en): {localStorage.get('nahePersonen')}</Text>
+                <Text style={PDFstyles.text}>Notfallkontakte: {localStorage.get('nahePersonen')}</Text>
                 {getPatVerfuegungExistiert()}
                 {getPatVerfuegungBei()}
                 {getVorsorgeauftragExistiert()}

@@ -476,11 +476,11 @@ class Zivilstand extends Component {
                 <div>
                     <div className={"Berufstaetigkeit"}>
                         <br/>
-                        <div>Bitte geben Sie eine oder mehrere Ihnen nahestehende Person(en) an:</div>
+                        <div>Bitte geben Sie eine oder mehrere Person(en) an, welche in einer Notfallsituation kontaktiert werden sollte(n):</div>
                         <div>
                             <TextField
                                 id="outlined-multiline-static"
-                                label="Nahestehende Person(en)"
+                                label="Notfallkontakt(e)"
                                 multiline
                                 rows="1"
                                 margin="normal"
@@ -489,7 +489,7 @@ class Zivilstand extends Component {
                                 name="nahePersonen"
                                 onChange={this.handleChange("nahePersonen")}
                                 fullWidth
-                                placeholder="Name(n) der Ihnen nahestehenden Person(en)"
+                                placeholder="Name(n) der Person(en) welche in einer Notfallsituation kontaktiert werden sollten"
                                 error={(this.state.nahePersonen === '' || this.state.nahePersonen === null) && this.state.allowErrors === true}
                                 helperText={((this.state.nahePersonen === '' || this.state.nahePersonen === null) && this.state.allowErrors === true) ? 'Leeres Feld!' : ''}
                             />
