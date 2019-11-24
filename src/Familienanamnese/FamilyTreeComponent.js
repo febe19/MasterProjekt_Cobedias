@@ -1751,7 +1751,7 @@ class FamilyTree extends Component {
                         <li style={{fontSize: "22px"}}>Hier wird Ihnen erklärt, wie die Familienanamnese bearbeitet
                             wird.
                         </li>
-                        <li style={{fontSize: "22px"}}>Bearbeiten können Sie den Stambaum erst nach Abschluss dieser
+                        <li style={{fontSize: "22px"}}>Bearbeiten können Sie den Stammbaum erst nach Abschluss dieser
                             Erklärung.
                         </li>
                         <li style={{fontSize: "22px"}}>Die Hilfe kann immer mit dem Knopf unten links aufgerufen
